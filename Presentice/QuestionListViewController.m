@@ -112,6 +112,7 @@
             NSMutableDictionary *file = [NSMutableDictionary dictionary];
             file[@"fileName"] = [NSString stringWithFormat:@"%@",[[videos objectAtIndex:x] objectForKey:@"videoURL"]];
             file[@"fileURL"] = url;
+            file[@"userName"] = @"Need to add userName";
             [questionList addObject:file];
         }
         [self.tableView reloadData];
@@ -155,6 +156,7 @@
         QuestionViewController *destViewController = segue.destinationViewController;
         destViewController.fileName = [questionList objectAtIndex:indexPath.row][@"fileName"];
         destViewController.movieURL = [questionList objectAtIndex:indexPath.row][@"fileURL"];
+        destViewController.userName = [questionList objectAtIndex:indexPath.row][@"userName"];
     }
 }
 

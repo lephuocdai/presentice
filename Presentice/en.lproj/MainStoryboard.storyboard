@@ -101,7 +101,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R1O-sx-2nD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2683" y="2445"/>
+            <point key="canvasLocation" x="2683" y="2615"/>
         </scene>
         <!--Main View Controller - Main View Controller-->
         <scene sceneID="5">
@@ -510,7 +510,7 @@
                         <viewControllerLayoutGuide type="top" id="LUA-92-caF"/>
                         <viewControllerLayoutGuide type="bottom" id="hAr-HW-mW6"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="CMK-De-ahE" customClass="Question">
+                    <view key="view" contentMode="scaleToFill" id="CMK-De-ahE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -520,12 +520,20 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="userName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nwm-bp-Pav">
+                                <rect key="frame" x="20" y="51" width="280" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Detail View" id="Gkj-iv-WjB"/>
                     <connections>
                         <outlet property="fileLabel" destination="TeM-ua-17Y" id="fkM-MW-Mjh"/>
+                        <outlet property="userLabel" destination="Nwm-bp-Pav" id="uMQ-QS-8Yd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YYf-bf-lSn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -579,7 +587,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bJR-Ra-PG8" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2683" y="1748"/>
+            <point key="canvasLocation" x="2683" y="1820"/>
         </scene>
         <!--My Answer View Controller - Detail View-->
         <scene sceneID="fmF-SU-Vof">
@@ -609,7 +617,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jdJ-X4-mGz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3207" y="1748"/>
+            <point key="canvasLocation" x="3207" y="1820"/>
         </scene>
     </scenes>
     <resources>

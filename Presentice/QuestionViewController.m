@@ -16,6 +16,9 @@
 
 @synthesize fileLabel;
 @synthesize fileName;
+@synthesize userLabel;
+@synthesize userName;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -27,8 +30,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     fileLabel.text = fileName;
+    userLabel.text = userName;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,7 +43,7 @@
     self.movieController = [[MPMoviePlayerController alloc] init];
     
     [self.movieController setContentURL:self.movieURL];
-    [self.movieController.view setFrame:CGRectMake(0, 60, 320, 300)];
+    [self.movieController.view setFrame:CGRectMake(0, 100, 320, 340)];
     [self.view addSubview:self.movieController.view];
     
     // Using the Movie Player Notifications
