@@ -68,4 +68,8 @@
 }
 
 
+- (IBAction)takeAnswer:(id)sender {
+}
+
+
 @end

@@ -14,6 +14,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *fileLabel;
 @property (strong, nonatomic) IBOutlet UILabel *userLabel;
 
+- (IBAction)takeAnswer:(id)sender;
+
+
 @property (strong, nonatomic) NSString *fileName;
 @property (strong, nonatomic) NSString *userName;
 @property (copy, nonatomic)NSURL *movieURL;
