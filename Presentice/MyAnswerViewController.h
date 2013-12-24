@@ -1,5 +1,5 @@
 //
-//  QuestionViewController.h
+//  MyAnswerViewController.h
 //  Presentice
 //
 //  Created by レー フックダイ on 12/24/13.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface QuestionViewController : UIViewController
+@interface MyAnswerViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UILabel *fileLabel;
 @property (strong, nonatomic) NSString *fileName;

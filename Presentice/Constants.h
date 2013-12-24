@@ -47,6 +47,7 @@
 #pragma Table Video
 #define kVideoClassKey @"Video"
 #define kVideoTypeKey @"type"
+#define kVideoUserKey @"user"
 
 @interface Constants : NSObject
 

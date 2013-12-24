@@ -16,8 +16,7 @@
 
 @implementation SidebarViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
+- (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
@@ -25,40 +24,35 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     self.tableView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
 
-    _menuItems = @[@"title", @"stream", @"share", @"setting", @"questionList", @"newsFeed", @"message", @"notification"];
+    _menuItems = @[@"title", @"stream", @"share", @"setting", @"questionList", @"myList", @"message", @"notification"];
     
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     return [self.menuItems count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *CellIdentifier = [self.menuItems objectAtIndex:indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
@@ -81,6 +75,14 @@
     } else if ([segue.identifier isEqualToString:@"showStream"]) {
         
     } else if ([segue.identifier isEqualToString:@"showQuestionList"]){
+        NSLog(@"show Question List");
+        
+    } else if ([segue.identifier isEqualToString:@"showMyList"]) {
+        NSLog(@"show My List");
+        
+    } else if ([segue.identifier isEqualToString:@"message"]) {
+        
+    } else if ([segue.identifier isEqualToString:@"notification"]) {
         
     }
     

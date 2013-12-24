@@ -1,23 +1,23 @@
 //
-//  QuestionViewController.m
+//  MyAnswerViewController.m
 //  Presentice
 //
 //  Created by レー フックダイ on 12/24/13.
 //  Copyright (c) 2013 Appcoda. All rights reserved.
 //
 
-#import "QuestionViewController.h"
+#import "MyAnswerViewController.h"
 
-@interface QuestionViewController ()
+@interface MyAnswerViewController ()
 
 @end
 
-@implementation QuestionViewController
+@implementation MyAnswerViewController
 
 @synthesize fileLabel;
 @synthesize fileName;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization

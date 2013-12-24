@@ -1,19 +1,19 @@
 //
-//  QuestionListViewController.m
+//  MyListViewController.m
 //  Presentice
 //
-//  Created by PhuongNQ on 12/23/13.
+//  Created by レー フックダイ on 12/24/13.
 //  Copyright (c) 2013 Appcoda. All rights reserved.
 //
 
-#import "QuestionListViewController.h"
+#import "MyListViewController.h"
 
-@interface QuestionListViewController ()
+@interface MyListViewController ()
 
 @end
 
-@implementation QuestionListViewController {
-    NSMutableArray *questionList;
+@implementation MyListViewController {
+    NSMutableArray *myList;
     AmazonS3Client *s3Client;
 }
 
@@ -27,7 +27,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _sidebarButton.target = self.revealViewController;
+	_sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
     
     // Set the gesture
@@ -41,9 +41,10 @@
  * override function
  * load table for each time load view
  */
-- (void) viewWillAppear:(BOOL)animated {
-    questionList = [[NSMutableArray alloc] init];
-    [self queryQuestionList];
+
+- (void) viewDidAppear:(BOOL)animated {
+    myList = [[NSMutableArray alloc] init];
+    [self queryMyList];
     [self.tableView reloadData];
 }
 
@@ -51,6 +52,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
@@ -80,7 +82,7 @@
  * param: bucket name
  * param: Parse Video object (JSON)
  **/
-- (void) s3DirectoryListing: (NSString *) bucketName :(NSArray *) videos{
+-(void) s3DirectoryListing: (NSString *) bucketName :(NSArray *) videos{
     // Init connection with S3Client
     s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
     @try {
@@ -112,7 +114,7 @@
             NSMutableDictionary *file = [NSMutableDictionary dictionary];
             file[@"fileName"] = [NSString stringWithFormat:@"%@",[[videos objectAtIndex:x] objectForKey:@"videoURL"]];
             file[@"fileURL"] = url;
-            [questionList addObject:file];
+            [myList addObject:file];
         }
         [self.tableView reloadData];
     }
@@ -127,7 +129,7 @@
  * number of rows of table
  */
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [questionList count];
+    return [myList count];
 }
 
 /**
@@ -135,12 +137,12 @@
  * build table view
  */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *fileListIdentifier = @"questionListIdentifier";
+    static NSString *fileListIdentifier = @"myListIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:fileListIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:fileListIdentifier];
     }
-    cell.textLabel.text = [questionList objectAtIndex:indexPath.row][@"fileName"];
+    cell.textLabel.text = [myList objectAtIndex:indexPath.row][@"fileName"];
     return cell;
 }
 
@@ -150,11 +152,11 @@
  * pass video name, video url
  */
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showQuestionDetail"]) {
+    if ([segue.identifier isEqualToString:@"showAnswerDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        QuestionViewController *destViewController = segue.destinationViewController;
-        destViewController.fileName = [questionList objectAtIndex:indexPath.row][@"fileName"];
-        destViewController.movieURL = [questionList objectAtIndex:indexPath.row][@"fileURL"];
+        MyAnswerViewController *destViewController = segue.destinationViewController;
+        destViewController.fileName = [myList objectAtIndex:indexPath.row][@"fileName"];
+        destViewController.movieURL = [myList objectAtIndex:indexPath.row][@"fileURL"];
     }
 }
 
@@ -163,17 +165,21 @@
  * query question videos
  * question video means Video.type = question
  **/
-- (void) queryQuestionList {
-    PFQuery *questionListQuery = [PFQuery queryWithClassName:kVideoClassKey];
-    [questionListQuery whereKey:kVideoTypeKey equalTo:@"question"];
-    [questionListQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+- (void) queryMyList {
+    
+    PFQuery *myListQuery = [PFQuery queryWithClassName:kVideoClassKey];
+    [myListQuery whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
+    
+//    NSLog([PFUser currentUser]);
+    [myListQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            //load videos from S3 with list of name from database
-            [ self s3DirectoryListing:[Constants transferManagerBucket] :objects];
+            // Load videos from S3 with list of name from database
+            [self s3DirectoryListing:[Constants transferManagerBucket] :objects];
         } else {
-            NSLog(@"error");
+            NSLog(@"Load myList error");
         }
     }];
-    
 }
+
+
 @end
