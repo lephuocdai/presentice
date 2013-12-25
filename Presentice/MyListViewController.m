@@ -45,7 +45,6 @@
 - (void) viewDidAppear:(BOOL)animated {
     myList = [[NSMutableArray alloc] init];
     [self queryMyList];
-    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -169,8 +168,7 @@
     
     PFQuery *myListQuery = [PFQuery queryWithClassName:kVideoClassKey];
     [myListQuery whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
-    
-//    NSLog([PFUser currentUser]);
+    NSLog(@"current user: %@", [PFUser currentUser].email);
     [myListQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             // Load videos from S3 with list of name from database
