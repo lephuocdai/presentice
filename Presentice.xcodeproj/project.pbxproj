@@ -679,7 +679,11 @@
 		F4EECF32177C99F400778578 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "/Users/lephuocdai/Dropbox/Presentice/dev/Presentice/**";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/Presentice/**",
+					"$(SRCROOT)/External/**",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Presentice/Presentice-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -696,7 +700,11 @@
 		F4EECF33177C99F400778578 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "/Users/lephuocdai/Dropbox/Presentice/dev/Presentice/**";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/Presentice/**",
+					"$(SRCROOT)/External/**",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Presentice/Presentice-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
