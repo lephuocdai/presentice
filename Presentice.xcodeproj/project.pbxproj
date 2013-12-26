@@ -439,12 +439,12 @@
 			isa = PBXGroup;
 			children = (
 				F4EECF29177C99F400778578 /* MainStoryboard.storyboard */,
-				F00006A3186BA96200E69027 /* Notification */,
-				F00006A2186BA95A00E69027 /* Message */,
-				F09EBCD218691D91009C2BC9 /* Setting */,
 				A73D5A1118653BD700087F27 /* Login */,
-				F0718CBF185ACE8B009014A0 /* Share */,
 				F0718CBE185ACE41009014A0 /* Stream */,
+				F0718CBF185ACE8B009014A0 /* Share */,
+				F00006A2186BA95A00E69027 /* Message */,
+				F00006A3186BA96200E69027 /* Notification */,
+				F09EBCD218691D91009C2BC9 /* Setting */,
 				F4EECF18177C99F400778578 /* Supporting Files */,
 			);
 			path = Presentice;

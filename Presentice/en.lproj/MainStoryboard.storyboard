@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
-        <!--Setting View Controller-->
+        <!--Setting View Controller - Setting-->
         <scene sceneID="35X-ST-BRw">
             <objects>
                 <viewController storyboardIdentifier="StoryBoard_Setting" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tiA-fo-4jg" customClass="SettingViewController" sceneMemberID="viewController">
@@ -30,7 +30,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="gfA-bW-XrT">
+                    <navigationItem key="navigationItem" title="Setting" id="gfA-bW-XrT">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="mXk-4A-iOH"/>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
@@ -42,7 +42,7 @@
             </objects>
             <point key="canvasLocation" x="1323" y="269"/>
         </scene>
-        <!--Share View Controller-->
+        <!--Share View Controller - Share-->
         <scene sceneID="gbA-tY-N7d">
             <objects>
                 <viewController id="CZq-aJ-KAU" customClass="ShareViewController" sceneMemberID="viewController">
@@ -97,7 +97,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="bxK-GB-bvd">
+                    <navigationItem key="navigationItem" title="Share" id="bxK-GB-bvd">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="6UH-BZ-60q"/>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
@@ -147,7 +147,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Presentation List" id="iSV-ns-u3y">
+                    <navigationItem key="navigationItem" title="News Feed" id="iSV-ns-u3y">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="4DU-rm-gHC"/>
                     </navigationItem>
                     <connections>
@@ -189,7 +189,7 @@
             </objects>
             <point key="canvasLocation" x="3095" y="-39"/>
         </scene>
-        <!--Login View Controller-->
+        <!--Login View Controller - Login-->
         <scene sceneID="y9c-x9-gVr">
             <objects>
                 <viewController storyboardIdentifier="Storyboard_Login" useStoryboardIdentifierAsRestorationIdentifier="YES" id="B1c-Gu-Hqa" customClass="LoginViewController" sceneMemberID="viewController">
@@ -215,7 +215,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="7XT-NV-mbO"/>
+                    <navigationItem key="navigationItem" title="Login" id="7XT-NV-mbO"/>
                     <connections>
                         <outlet property="btnFBLogin" destination="qek-De-G98" id="GPt-vk-neF"/>
                     </connections>
@@ -503,7 +503,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Presentation List" id="Ay9-9P-BO5">
+                    <navigationItem key="navigationItem" title="Question List" id="Ay9-9P-BO5">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="kQi-q5-WKd"/>
                     </navigationItem>
                     <connections>
@@ -600,7 +600,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="myList" id="HJy-lf-O1T">
+                    <navigationItem key="navigationItem" title="My List" id="HJy-lf-O1T">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="XrW-CO-mIY"/>
                     </navigationItem>
                     <connections>
@@ -679,7 +679,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="myList" id="Ifc-d1-pQ2">
+                    <navigationItem key="navigationItem" title="Message List" id="Ifc-d1-pQ2">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="Y5z-jP-3si"/>
                     </navigationItem>
                     <connections>
@@ -747,7 +747,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="myList" id="ddh-nh-Sui">
+                    <navigationItem key="navigationItem" title="Notification List" id="ddh-nh-Sui">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" id="GPc-yv-hdL"/>
                     </navigationItem>
                     <connections>

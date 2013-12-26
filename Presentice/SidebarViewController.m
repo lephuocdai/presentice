@@ -80,9 +80,9 @@
     } else if ([segue.identifier isEqualToString:@"showMyList"]) {
         NSLog(@"show My List");
         
-    } else if ([segue.identifier isEqualToString:@"message"]) {
+    } else if ([segue.identifier isEqualToString:@"showMessageList"]) {
         
-    } else if ([segue.identifier isEqualToString:@"notification"]) {
+    } else if ([segue.identifier isEqualToString:@"showNotificationList"]) {
         
     }
     

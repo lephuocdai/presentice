@@ -13,7 +13,8 @@
 #import "SettingViewController.h"
 #import "QuestionListViewController.h"
 #import "MyListViewController.h"
-
+#import "MessageListViewController.h"
+#import "NotificationListViewController.h"
 
 @interface SidebarViewController : UITableViewController
 
