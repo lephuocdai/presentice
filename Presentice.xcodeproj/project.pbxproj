@@ -30,6 +30,10 @@
 		A78E9D5C185DA16B00ACCC54 /* TTTTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = A78E9D59185DA16B00ACCC54 /* TTTTimeIntervalFormatter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A7E995A51867D197009E48CA /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E995A41867D197009E48CA /* RegisterViewController.m */; };
 		A7E995A8186860D4009E48CA /* QuestionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E995A7186860D4009E48CA /* QuestionListViewController.m */; };
+		F00006A6186BA98C00E69027 /* MessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F00006A5186BA98C00E69027 /* MessageListViewController.m */; };
+		F00006A9186BA9AC00E69027 /* MessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F00006A8186BA9AC00E69027 /* MessageDetailViewController.m */; };
+		F00006AD186BAA1800E69027 /* NotificationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F00006AC186BAA1800E69027 /* NotificationListViewController.m */; };
+		F00006B0186BAA2900E69027 /* NotificationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F00006AF186BAA2900E69027 /* NotificationDetailViewController.m */; };
 		F0718CB0185ABF23009014A0 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0718CAF185ABF23009014A0 /* SWRevealViewController.m */; };
 		F0718CB6185AC168009014A0 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F0718CB1185AC168009014A0 /* icon.png */; };
 		F0718CB7185AC168009014A0 /* record.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F0718CB2185AC168009014A0 /* record.jpeg */; };
@@ -116,6 +120,14 @@
 		A7E995A41867D197009E48CA /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		A7E995A6186860D3009E48CA /* QuestionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionListViewController.h; sourceTree = "<group>"; };
 		A7E995A7186860D4009E48CA /* QuestionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionListViewController.m; sourceTree = "<group>"; };
+		F00006A4186BA98C00E69027 /* MessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListViewController.h; sourceTree = "<group>"; };
+		F00006A5186BA98C00E69027 /* MessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListViewController.m; sourceTree = "<group>"; };
+		F00006A7186BA9AC00E69027 /* MessageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDetailViewController.h; sourceTree = "<group>"; };
+		F00006A8186BA9AC00E69027 /* MessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDetailViewController.m; sourceTree = "<group>"; };
+		F00006AB186BAA1800E69027 /* NotificationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationListViewController.h; sourceTree = "<group>"; };
+		F00006AC186BAA1800E69027 /* NotificationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationListViewController.m; sourceTree = "<group>"; };
+		F00006AE186BAA2900E69027 /* NotificationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationDetailViewController.h; sourceTree = "<group>"; };
+		F00006AF186BAA2900E69027 /* NotificationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationDetailViewController.m; sourceTree = "<group>"; };
 		F0718CAE185ABF23009014A0 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		F0718CAF185ABF23009014A0 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		F0718CB1185AC168009014A0 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
@@ -277,6 +289,28 @@
 			path = External/TTTTimeIntervalFormatter;
 			sourceTree = "<group>";
 		};
+		F00006A2186BA95A00E69027 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				F00006A4186BA98C00E69027 /* MessageListViewController.h */,
+				F00006A5186BA98C00E69027 /* MessageListViewController.m */,
+				F00006A7186BA9AC00E69027 /* MessageDetailViewController.h */,
+				F00006A8186BA9AC00E69027 /* MessageDetailViewController.m */,
+			);
+			name = Message;
+			sourceTree = "<group>";
+		};
+		F00006A3186BA96200E69027 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				F00006AB186BAA1800E69027 /* NotificationListViewController.h */,
+				F00006AC186BAA1800E69027 /* NotificationListViewController.m */,
+				F00006AE186BAA2900E69027 /* NotificationDetailViewController.h */,
+				F00006AF186BAA2900E69027 /* NotificationDetailViewController.m */,
+			);
+			name = Notification;
+			sourceTree = "<group>";
+		};
 		F0718CBE185ACE41009014A0 /* Stream */ = {
 			isa = PBXGroup;
 			children = (
@@ -404,12 +438,13 @@
 		F4EECF17177C99F400778578 /* Presentice */ = {
 			isa = PBXGroup;
 			children = (
-				F09EBCD218691D91009C2BC9 /* Setting */,
 				F4EECF29177C99F400778578 /* MainStoryboard.storyboard */,
+				F00006A3186BA96200E69027 /* Notification */,
+				F00006A2186BA95A00E69027 /* Message */,
+				F09EBCD218691D91009C2BC9 /* Setting */,
 				A73D5A1118653BD700087F27 /* Login */,
 				F0718CBF185ACE8B009014A0 /* Share */,
 				F0718CBE185ACE41009014A0 /* Stream */,
-				F4EECF34177C9A1E00778578 /* Library */,
 				F4EECF18177C99F400778578 /* Supporting Files */,
 			);
 			path = Presentice;
@@ -418,6 +453,7 @@
 		F4EECF18177C99F400778578 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F4EECF34177C9A1E00778578 /* Library */,
 				F4EECF19177C99F400778578 /* Presentice-Info.plist */,
 				F4EECF1A177C99F400778578 /* InfoPlist.strings */,
 				F4EECF1D177C99F400778578 /* main.m */,
@@ -568,9 +604,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0718CB0185ABF23009014A0 /* SWRevealViewController.m in Sources */,
+				F00006A6186BA98C00E69027 /* MessageListViewController.m in Sources */,
 				A78E9D5C185DA16B00ACCC54 /* TTTTimeIntervalFormatter.m in Sources */,
+				F00006A9186BA9AC00E69027 /* MessageDetailViewController.m in Sources */,
 				A73D5A1418653BF700087F27 /* LoginViewController.m in Sources */,
 				F4EECF1E177C99F400778578 /* main.m in Sources */,
+				F00006AD186BAA1800E69027 /* NotificationListViewController.m in Sources */,
 				A7E995A8186860D4009E48CA /* QuestionListViewController.m in Sources */,
 				F4EECF22177C99F400778578 /* AppDelegate.m in Sources */,
 				F09EBCE718694911009C2BC9 /* MyAnswerViewController.m in Sources */,
@@ -580,6 +619,7 @@
 				F4EECF2E177C99F400778578 /* MainViewController.m in Sources */,
 				F09EBCCE18691A8C009C2BC9 /* QuestionViewController.m in Sources */,
 				F4EECF4A177DF87700778578 /* SidebarViewController.m in Sources */,
+				F00006B0186BAA2900E69027 /* NotificationDetailViewController.m in Sources */,
 				A78E9D5A185DA16B00ACCC54 /* MBProgressHUD.m in Sources */,
 				A7E995A51867D197009E48CA /* RegisterViewController.m in Sources */,
 				F4EECF6E177FD51400778578 /* ShareViewController.m in Sources */,
