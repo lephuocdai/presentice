@@ -44,10 +44,41 @@
 
 #pragma constants of Parse Table
 
+#define kObjectIdKey @"objectId"
+#define kCreatedAtKey @"createdAt"
+#define kUpdatedAtKey @"updatedAt"
+#define kACLKey @"ACL"
+
+#pragma Table User
+#define kUserClassKey @"User"
+#define kUserNameKey @"username"
+#define kUserPasswordKey @"password"
+#define kUserAuthDataKey @"authData"
+#define kEmailKey @"email"
+#define kEmailVerifiedKey @"emailVerified"
+#define kUserTypeKey @"type"
+#define kUserActivatedKey @"activated"
+#define kUserDisplayNameKey @"displayName"
+#define kUserFacebookIdKey @"facebookId"
+#define kUserProfileKey @"profile"
+
 #pragma Table Video
 #define kVideoClassKey @"Video"
+#define kVideoURLKey @"videoURL"
+#define kVideoThumbnailURLKey @"thumbnailURL"
 #define kVideoTypeKey @"type"
-#define kVideoUserKey @"user"
+#define kVideoNameKey @"videoName"
+#define kVideoUserKey @"user"   // Pointer to the user that posted this video
+#define kVideoAsAReplyTo @"asAReplyTo"  // Pointer to the questionVideo that this answerVideo is replying to
+
+#pragma Table Activity
+#define kActivityFromUserKey @"fromUser"
+#define kActivityToUserKey @"toUser"    //
+#define kActivityTypeKey @"type"    // Ex: "view", "review", "comment"
+#define kActivityContentKey @"content"  // The detail content if available
+#define kActivityVideoKey @"video"  // Pointer to the video that this activity was taken on
+
+
 
 @interface Constants : NSObject
 

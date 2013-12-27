@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 
+#import "PostAnswerViewController.h"
+
 @interface QuestionViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UILabel *fileLabel;
@@ -21,5 +23,7 @@
 @property (strong, nonatomic) NSString *userName;
 @property (copy, nonatomic)NSURL *movieURL;
 @property (strong, nonatomic)MPMoviePlayerController *movieController;
+
+@property (strong, nonatomic) PFObject *questionVideo;
 
 @end

@@ -1,14 +1,14 @@
 //
-//  MapViewController.m
-//  SidebarDemo
+//  PostAnswerViewController.m
+//  Presentice
 //
-//  Created by Simon on 30/6/13.
+//  Created by レー フックダイ on 12/27/13.
 //  Copyright (c) 2013 Appcoda. All rights reserved.
 //
 
-#import "ShareViewController.h"
+#import "PostAnswerViewController.h"
 
-@interface ShareViewController ()
+@interface PostAnswerViewController ()
 
 @property (nonatomic, strong) S3TransferOperation *uploadDidRecord;
 @property (nonatomic, strong) S3TransferOperation *uploadFromLibrary;
@@ -16,7 +16,7 @@
 
 @end
 
-@implementation ShareViewController {
+@implementation PostAnswerViewController {
     NSString *uploadFilename;
     bool isUploadFromLibrary;
     NSString *recordedVideoPath;
@@ -30,19 +30,10 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Change button color
-    //_sidebarButton.tintColor = [UIColor colorWithWhite:0.96f alpha:0.2f];
-    
-    // Set the side bar button action. When it's tapped, it'll show up the sidebar.
-    _sidebarButton.target = self.revealViewController;
-    _sidebarButton.action = @selector(revealToggle:);
-    
-    // Set the gesture
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    NSLog(@"In Post Answer View: \n  %@",self.questionVideo);
     
     // Initiate S3 bucket access
     if(self.tm == nil){
@@ -178,11 +169,13 @@
     }
     NSLog(@"upload file url: %@", response);
     
+    
     // Register to Parser DB
     PFObject *newVideo = [PFObject objectWithClassName:kVideoClassKey];
     [newVideo setObject:[PFUser currentUser] forKey:kVideoUserKey];
     [newVideo setObject:uploadFilename forKey:kVideoURLKey];
-    [newVideo setObject:@"question" forKey:kVideoTypeKey];
+    [newVideo setObject:@"answer" forKey:kVideoTypeKey];
+    [newVideo setObject:self.questionVideo forKey:kVideoAsAReplyTo];
     [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         NSLog(@"saved to Parse");
     }];
@@ -249,7 +242,7 @@
         [alert show];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Video Saved"
-                                                        message:@"Saved To Photo Album! Upload Question to Server?"
+                                                        message:@"Saved To Photo Album! Upload Answer to Server?"
                                                        delegate:self
                                               cancelButtonTitle:@"NO"
                                               otherButtonTitles:@"YES", nil];
@@ -277,5 +270,6 @@
         }
     }
 }
+
 
 @end

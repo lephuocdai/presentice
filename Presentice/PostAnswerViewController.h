@@ -1,13 +1,12 @@
 //
-//  MapViewController.h
-//  SidebarDemo
+//  PostAnswerViewController.h
+//  Presentice
 //
-//  Created by Simon on 30/6/13.
+//  Created by レー フックダイ on 12/27/13.
 //  Copyright (c) 2013 Appcoda. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "SWRevealViewController.h"
 
 #import <AWSRuntime/AWSRuntime.h>
 #import <AWSS3/AWSS3.h>
@@ -18,9 +17,7 @@
 
 #import <Parse/Parse.h>
 
-@interface ShareViewController : UIViewController <UINavigationControllerDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
-
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
+@interface PostAnswerViewController : UIViewController <UINavigationControllerDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong) S3TransferManager *tm;
 
@@ -28,8 +25,11 @@
 - (IBAction)record:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *putObjectTextField;
 
+@property (strong, nonatomic) PFObject *questionVideo;
+
 // This file may not be used
 @property (weak, nonatomic) IBOutlet UITextField *multipartObjectTextField;
+
 
 - (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;

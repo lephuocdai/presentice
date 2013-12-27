@@ -32,6 +32,8 @@
     [super viewDidLoad];
     fileLabel.text = fileName;
     userLabel.text = userName;
+
+    NSLog(@"In Question View: \n %@", self.questionVideo);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,7 +71,23 @@
 
 
 - (IBAction)takeAnswer:(id)sender {
+    
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+//    PostAnswerViewController *destViewController = (PostAnswerViewController *) [storyboard instantiateViewControllerWithIdentifier:@"Storyboard_PostAnswer"];
+    
+    PostAnswerViewController *destViewController = [[PostAnswerViewController alloc] initWithNibName:nil bundle:nil];
+    
+    destViewController.questionVideo = self.questionVideo;
+    [self presentViewController:destViewController animated:YES completion:nil];
+    
+    NSLog(@"In Question List takeAnswer View: \n  %@",destViewController.questionVideo);
+    //[self.navigationController pushViewController:destViewController animated:YES];
 }
 
+/**
+ * segue for table cell
+ * click to direct to video play view
+ * pass video name, video url
+ */
 
 @end
