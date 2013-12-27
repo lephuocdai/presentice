@@ -68,7 +68,7 @@
 }
 
 
-- (IBAction)takeAnswer:(id)sender {}
+- (IBAction)takeAnswer:(id)sender { }
 
 /**
  * segue for takeAnswer button

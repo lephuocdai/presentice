@@ -113,11 +113,13 @@
             NSMutableDictionary *file = [NSMutableDictionary dictionary];
             file[@"fileName"] = [NSString stringWithFormat:@"%@",[[videos objectAtIndex:x] objectForKey:@"videoURL"]];
             file[@"fileURL"] = url;
-            file[@"userName"] = @"Need to add userName";
             
-            PFObject *questionVideo = [PFObject objectWithClassName:kVideoClassKey];
-            questionVideo = [videos objectAtIndex:x];
+            PFObject *questionVideo = [videos objectAtIndex:x];                 // Get video from
+            PFUser *postedUser = [questionVideo objectForKey:kVideoUserKey];    // Get the postedUser
+            
             file[@"questionVideo"] = [questionVideo objectId];
+            file[@"userName"] = [postedUser objectForKey:kUserDisplayNameKey];
+            
             [questionList addObject:file];
             
         }
@@ -147,9 +149,21 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:fileListIdentifier];
     }
-//    cell.textLabel.text = [questionList objectAtIndex:indexPath.row][@"fileName"];
     
-    cell.textLabel.text = [[questionList objectAtIndex:indexPath.row] objectForKey:@"fileName"];
+//    cell.textLabel.text = [[questionList objectAtIndex:indexPath.row] objectForKey:@"fileName"];
+    
+    // Configure the cell
+    UILabel *postedUser = (UILabel *)[cell viewWithTag:100];
+    postedUser.text = [[questionList objectAtIndex:indexPath.row] objectForKey:@"userName"];
+    
+    UILabel *postedTime = (UILabel *)[cell viewWithTag:101];
+    postedTime.text = [[questionList objectAtIndex:indexPath.row] objectForKey:@"fileName"];
+    
+    UILabel *isTakenAnswer = (UILabel *)[cell viewWithTag:102];
+    isTakenAnswer.text = @"need to check if currentUser'd taken or not yet";
+//    BOOL *isTaken = false;
+//    PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
+    
     return cell;
 }
 
@@ -176,6 +190,7 @@
  **/
 - (void) queryQuestionList {
     PFQuery *questionListQuery = [PFQuery queryWithClassName:kVideoClassKey];
+    [questionListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
     [questionListQuery whereKey:kVideoTypeKey equalTo:@"question"];
     [questionListQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
@@ -185,6 +200,5 @@
             NSLog(@"error");
         }
     }];
-    
 }
 @end
