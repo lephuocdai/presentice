@@ -11,7 +11,7 @@
 
 #import "PostAnswerViewController.h"
 
-@interface QuestionViewController : UIViewController
+@interface QuestionViewController : UIViewController <UINavigationBarDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel *fileLabel;
 @property (strong, nonatomic) IBOutlet UILabel *userLabel;
@@ -24,6 +24,6 @@
 @property (copy, nonatomic)NSURL *movieURL;
 @property (strong, nonatomic)MPMoviePlayerController *movieController;
 
-@property (strong, nonatomic) PFObject *questionVideo;
+@property (weak, nonatomic) NSString *questionVideoId;
 
 @end

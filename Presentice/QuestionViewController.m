@@ -20,7 +20,7 @@
 @synthesize userName;
 
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -32,8 +32,6 @@
     [super viewDidLoad];
     fileLabel.text = fileName;
     userLabel.text = userName;
-
-    NSLog(@"In Question View: \n %@", self.questionVideo);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,24 +68,19 @@
 }
 
 
-- (IBAction)takeAnswer:(id)sender {
-    
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-//    PostAnswerViewController *destViewController = (PostAnswerViewController *) [storyboard instantiateViewControllerWithIdentifier:@"Storyboard_PostAnswer"];
-    
-    PostAnswerViewController *destViewController = [[PostAnswerViewController alloc] initWithNibName:nil bundle:nil];
-    
-    destViewController.questionVideo = self.questionVideo;
-    [self presentViewController:destViewController animated:YES completion:nil];
-    
-    NSLog(@"In Question List takeAnswer View: \n  %@",destViewController.questionVideo);
-    //[self.navigationController pushViewController:destViewController animated:YES];
-}
+- (IBAction)takeAnswer:(id)sender {}
 
 /**
- * segue for table cell
- * click to direct to video play view
- * pass video name, video url
+ * segue for takeAnswer button
+ * click to direct to video upload/record view
+ * pass questionVideoId
  */
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showPostAnswer"]) {
+        PostAnswerViewController *destViewController = segue.destinationViewController;
+        destViewController.questionVideoId = self.questionVideoId;
+    }
+}
 
 @end

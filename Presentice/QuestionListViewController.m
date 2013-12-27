@@ -117,8 +117,7 @@
             
             PFObject *questionVideo = [PFObject objectWithClassName:kVideoClassKey];
             questionVideo = [videos objectAtIndex:x];
-            file[@"questionVideo"] = questionVideo;
-            
+            file[@"questionVideo"] = [questionVideo objectId];
             [questionList addObject:file];
             
         }
@@ -166,8 +165,7 @@
         destViewController.fileName = [questionList objectAtIndex:indexPath.row][@"fileName"];
         destViewController.movieURL = [questionList objectAtIndex:indexPath.row][@"fileURL"];
         destViewController.userName = [questionList objectAtIndex:indexPath.row][@"userName"];
-        destViewController.questionVideo = [questionList objectAtIndex:indexPath.row][@"questionVideo"];
-        NSLog(@"In Question List View: \n  %@",destViewController.questionVideo);
+        destViewController.questionVideoId = [questionList objectAtIndex:indexPath.row][@"questionVideo"];
     }
 }
 

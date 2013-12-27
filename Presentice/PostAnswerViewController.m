@@ -33,8 +33,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSLog(@"In Post Answer View: \n  %@",self.questionVideo);
-    
     // Initiate S3 bucket access
     if(self.tm == nil){
         if(![ACCESS_KEY_ID isEqualToString:@"CHANGE ME"]){
@@ -175,7 +173,8 @@
     [newVideo setObject:[PFUser currentUser] forKey:kVideoUserKey];
     [newVideo setObject:uploadFilename forKey:kVideoURLKey];
     [newVideo setObject:@"answer" forKey:kVideoTypeKey];
-    [newVideo setObject:self.questionVideo forKey:kVideoAsAReplyTo];
+    NSLog(@"%@", [[PFQuery queryWithClassName:kVideoClassKey] getObjectWithId:self.questionVideoId]);
+    [newVideo setObject:[[PFQuery queryWithClassName:kVideoClassKey] getObjectWithId:self.questionVideoId] forKey:kVideoAsAReplyTo];
     [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         NSLog(@"saved to Parse");
     }];
