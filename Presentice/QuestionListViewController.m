@@ -85,7 +85,6 @@
     // Init connection with S3Client
     s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
     @try {
-        NSLog(@"videos number: %d", [videos count]);
         // Add each filename to fileList
         for (int x = 0; x < [videos count]; x++) {
             
@@ -119,6 +118,9 @@
             
             file[@"questionVideo"] = [questionVideo objectId];
             file[@"userName"] = [postedUser objectForKey:kUserDisplayNameKey];
+            
+            file[@"videoObj"] = questionVideo;
+            //file[@"answeredLabel"] = [self alreadyAnswerQuestion:questionVideo] ?  @"Already Answered" : @"Not Answered Yet";
             
             [questionList addObject:file];
             
@@ -160,9 +162,23 @@
     postedTime.text = [[questionList objectAtIndex:indexPath.row] objectForKey:@"fileName"];
     
     UILabel *isTakenAnswer = (UILabel *)[cell viewWithTag:102];
-    isTakenAnswer.text = @"need to check if currentUser'd taken or not yet";
-//    BOOL *isTaken = false;
-//    PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        PFObject *questionObj = [[questionList objectAtIndex:indexPath.row] objectForKey:@"videoObj"];
+        NSLog(@"questionObj: %@", questionObj);
+        PFQuery *myAnswer = [PFQuery queryWithClassName:kVideoClassKey];
+        [myAnswer includeKey:kVideoUserKey];
+        [myAnswer whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
+        [myAnswer whereKey:kVideoAsAReplyTo equalTo:questionObj];
+        [myAnswer findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            NSLog(@"queryResponse: %@", objects);
+                if(!error && objects.count != 0){
+                        isTakenAnswer.text = @"Already Answered";
+                } else {
+                    isTakenAnswer.text = @"Not Answered Yet";
+                }
+            }];
+    });
     
     return cell;
 }
@@ -201,4 +217,5 @@
         }
     }];
 }
+
 @end
