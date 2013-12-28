@@ -7,7 +7,7 @@
 //
 
 #import "RegisterViewController.h"
-
+NSDictionary<FBGraphUser>  *fbInfo;
 @interface RegisterViewController ()
 
 @end
@@ -52,8 +52,19 @@
 	}
 }
 
+/**
+* load data from facebook
+* input automatically to input fields
+**/
 -(void) loadDataFromFB {
-    self.tbEmail.text = self.email;
+    [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if(!error){
+            fbInfo = (NSDictionary<FBGraphUser> *)result;
+            self.emailField.text = [fbInfo objectForKey:@"email"];
+            
+        }
+        
+    }];
 }
 
 - (IBAction)didClickRegisterButton:(id)sender {
@@ -69,6 +80,10 @@
     newUser.username = self.emailField.text;
     newUser.password = self.passwordField.text;
     newUser.email = self.emailField.text;
+    [newUser setObject:[NSNumber numberWithBool:NO] forKey:kUserActivatedKey];
+    [newUser setObject:fbInfo.id forKey:kUserFacebookIdKey];
+    [newUser setObject:fbInfo.name forKey:kUserDisplayNameKey];
+    [newUser setObject:fbInfo forKey:kUserProfileKey];
     
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {

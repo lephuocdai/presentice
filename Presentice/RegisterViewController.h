@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "Constants.h"
 
 @interface RegisterViewController : UIViewController<UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *tbEmail;
