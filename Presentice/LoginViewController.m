@@ -8,6 +8,8 @@
 
 #import "LoginViewController.h"
 
+NSDictionary<FBGraphUser> *me;
+
 @interface LoginViewController ()
 
 @end
@@ -79,10 +81,65 @@
 }
 
 - (IBAction)didPressLoginButton:(id)sender {
-    [self loginFB];
+    NSString *username = self.tbUsername.text;
+    NSString *password = self.tbPassword.text;
+    
+    [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error) {
+        if(!error){
+            NSLog(@"login succeeded!");
+        } else {
+            NSLog(@"login fail");
+        }
+    }];
+}
+
+- (IBAction)didPressRegisterButton:(id)sender {
+    // Set permissions required from the facebook user account
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location", @"email"];
+    
+    // Login PFUser using facebook
+    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
+        if (!user) {
+            if (!error) {
+                NSLog(@"Uh oh. The user cancelled the Facebook login.");
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error" message:@"Uh oh. The user cancelled the Facebook login." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
+                [alert show];
+            } else {
+                NSLog(@"Uh oh. An error occurred: %@", error);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error" message:[error description] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
+                [alert show];
+            }
+        } else {
+            if (user.isNew) {
+                NSLog(@"User with facebook signed up and logged in!");
+            } else {
+                NSLog(@"User with facebook logged in!");
+            }
+            [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                if(!error){
+                    me = (NSDictionary<FBGraphUser> *)result;
+                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+                    RegisterViewController *destViewController = (RegisterViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RegisterViewController"];
+                    destViewController.email = [me objectForKey:@"email"];
+                    [self.navigationController pushViewController:destViewController animated:YES];
+                }
+            }];
+        }
+    }];
 }
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     //show navigator
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
+/**
+* end of editing
+* dissmis input keyboard
+**/
+- (void)touchesEnded: (NSSet *)touches withEvent: (UIEvent *)event {
+	for (UIView* view in self.view.subviews) {
+		if ([view isKindOfClass:[UITextField class]])
+			[view resignFirstResponder];
+	}
 }
 @end
