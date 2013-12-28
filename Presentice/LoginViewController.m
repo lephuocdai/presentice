@@ -8,8 +8,6 @@
 
 #import "LoginViewController.h"
 
-NSDictionary<FBGraphUser> *me;
-
 @interface LoginViewController ()
 
 @end
@@ -81,21 +79,31 @@ NSDictionary<FBGraphUser> *me;
 }
 
 - (IBAction)didPressLoginButton:(id)sender {
+    //start loading hub
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     NSString *username = self.tbUsername.text;
     NSString *password = self.tbPassword.text;
-    
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error) {
         if(!error){
             NSLog(@"login succeeded!");
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+            RegisterViewController *destViewController = (RegisterViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
+            [self.navigationController pushViewController:destViewController animated:YES];
+            //show navigator
+            [self.navigationController setNavigationBarHidden:NO animated:YES];
         } else {
-            NSLog(@"login fail");
+            UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Please check your login username and password!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
+            [errorAlert show];
         }
+        //dismiss hub
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
 
 - (IBAction)didPressRegisterButton:(id)sender {
     // Set permissions required from the facebook user account
-    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location", @"email"];
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
     
    //start loading hub
    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -113,29 +121,16 @@ NSDictionary<FBGraphUser> *me;
                 [alert show];
             }
         } else {
-            if (user.isNew) {
-                NSLog(@"User with facebook signed up and logged in!");
-            } else {
-                NSLog(@"User with facebook logged in!");
-            }
-            
-            [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                if(!error){
-                    me = (NSDictionary<FBGraphUser> *)result;
-                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-                    RegisterViewController *destViewController = (RegisterViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RegisterViewController"];
-                    destViewController.email = [me objectForKey:@"email"];
-                    [self.navigationController pushViewController:destViewController animated:YES];
-                }
-                //dismiss hub
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-            }];
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+            RegisterViewController *destViewController = (RegisterViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RegisterViewController"];
+            [self.navigationController pushViewController:destViewController animated:YES];
         }
+        //dismiss hub
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+        //unlink facebook
+        [PFUser logOut];
     }];
-}
-- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    //show navigator
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 /**

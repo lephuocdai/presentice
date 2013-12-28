@@ -105,7 +105,7 @@
         <!--Main View Controller - Main View Controller-->
         <scene sceneID="5">
             <objects>
-                <viewController storyboardIdentifier="StoryBoard_Main" title="Main View Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="2" customClass="MainViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" title="Main View Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="2" customClass="MainViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -116,7 +116,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="fileListIdentifier" rowHeight="60" id="akT-el-Olf">
-                                        <rect key="frame" x="0.0" y="119" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="55" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="232" tableViewCell="akT-el-Olf" id="QU2-Dm-ANQ">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="59"/>
@@ -281,7 +281,6 @@
                                 </state>
                                 <connections>
                                     <action selector="didPressLoginButton:" destination="B1c-Gu-Hqa" eventType="touchUpInside" id="Pr2-9O-d55"/>
-                                    <segue destination="2" kind="push" identifier="toMainView" id="OP8-kV-dl6"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" id="22G-i6-ncS">
@@ -972,6 +971,5 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="hTC-QJ-FLQ"/>
-        <segue reference="OP8-kV-dl6"/>
     </inferredMetricsTieBreakers>
 </document>
