@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
-@interface RegisterViewController : UIViewController
+@interface RegisterViewController : UIViewController<UIAlertViewDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *tbEmail;
+- (IBAction)didClickRegisterButton:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UITextField *emailField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordField;
+@property (weak, nonatomic) IBOutlet UITextField *confirmPasswordField;
+
+@property NSString *email;
 @end

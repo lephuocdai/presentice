@@ -9,10 +9,17 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import "MainViewController.h"
+#import "RegisterViewController.h"
 
 
 @interface LoginViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UITextField *tbUsername;
+@property (weak, nonatomic) IBOutlet UITextField *tbPassword;
+@property (weak, nonatomic) IBOutlet UIButton *btnRegister;
 @property (weak, nonatomic) IBOutlet UIButton *btnFBLogin;
+
 - (IBAction)didPressLoginButton:(id)sender;
+- (IBAction)didPressRegisterButton:(id)sender;
 
 @end
