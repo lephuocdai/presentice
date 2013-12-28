@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "MainViewController.h"
 #import "RegisterViewController.h"
+#import "MBProgressHUD.h"
 
 
 @interface LoginViewController : UIViewController

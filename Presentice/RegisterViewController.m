@@ -26,7 +26,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
+    
+    //show navigation
+	[self.navigationController setNavigationBarHidden:NO animated:YES];
+    
     //input data form facebook to text box
     [self loadDataFromFB];
     
