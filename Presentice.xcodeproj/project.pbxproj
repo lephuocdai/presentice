@@ -694,7 +694,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"/Users/phuongnq/startup/github/iOSsample/Presentice/External/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -723,7 +723,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"/Users/phuongnq/startup/github/iOSsample/Presentice/External/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -746,7 +746,7 @@
 					"/Users/phuongnq/startup/github/iOSsample/Presentice/**",
 				);
 				INFOPLIST_FILE = "Presentice/Presentice-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = Presentice;
 				WRAPPER_EXTENSION = app;
 			};
@@ -768,7 +768,7 @@
 					"/Users/phuongnq/startup/github/iOSsample/Presentice/**",
 				);
 				INFOPLIST_FILE = "Presentice/Presentice-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = Presentice;
 				WRAPPER_EXTENSION = app;
 			};
