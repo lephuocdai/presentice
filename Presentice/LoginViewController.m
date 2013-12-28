@@ -27,16 +27,16 @@ NSDictionary<FBGraphUser> *me;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //hide navigator if in login view
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    
     //if user already login, redirect to MainViewController
 	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]){
         [self performSegueWithIdentifier:@"toMainView" sender:self];
 
     }
 }
-
+- (void) viewWillAppear:(BOOL)animated {
+    //hide navigator if in login view
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -97,6 +97,9 @@ NSDictionary<FBGraphUser> *me;
     // Set permissions required from the facebook user account
     NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location", @"email"];
     
+   //start loading hub
+   [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     // Login PFUser using facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
         if (!user) {
@@ -115,6 +118,7 @@ NSDictionary<FBGraphUser> *me;
             } else {
                 NSLog(@"User with facebook logged in!");
             }
+            
             [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
                 if(!error){
                     me = (NSDictionary<FBGraphUser> *)result;
@@ -123,6 +127,8 @@ NSDictionary<FBGraphUser> *me;
                     destViewController.email = [me objectForKey:@"email"];
                     [self.navigationController pushViewController:destViewController animated:YES];
                 }
+                //dismiss hub
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
             }];
         }
     }];
