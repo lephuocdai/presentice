@@ -161,14 +161,14 @@
 
 #pragma Parse query
 /**
- * query question videos
- * question video means Video.type = question
+ * query myList videos
+ * myList video means Video.type = answer && User = current user
  **/
 - (void) queryMyList {
     
     PFQuery *myListQuery = [PFQuery queryWithClassName:kVideoClassKey];
     [myListQuery whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
-    NSLog(@"current user: %@", [PFUser currentUser].email);
+    [myListQuery whereKey:kVideoTypeKey equalTo:@"answer"]; //only get list of answers
     [myListQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             // Load videos from S3 with list of name from database
