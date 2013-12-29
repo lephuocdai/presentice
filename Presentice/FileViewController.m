@@ -68,4 +68,15 @@
     self.movieController = nil;
 }
 
+/**
+ * segue for table cell
+ * click to direct to video play view
+ * pass video name, video url
+ */
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"toReviewView"]) {
+        ReviewViewController *destViewController = segue.destinationViewController;
+        destViewController.videoObj = self.videoObj;
+    }
+}
 @end
