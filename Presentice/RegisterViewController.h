@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import "LoginViewController.h"
+#import "Validate.h"
 
 @interface RegisterViewController : UIViewController<UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *tbEmail;

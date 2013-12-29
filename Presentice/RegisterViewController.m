@@ -69,9 +69,23 @@ NSDictionary<FBGraphUser>  *fbInfo;
 
 - (IBAction)didClickRegisterButton:(id)sender {
     
+    //check email
+    if(![Validate NSStringIsValidEmail:self.emailField.text]){
+        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Error" message:@"Email Invalid. Please check input email again!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
+        [errorAlert show];
+        return;
+    }
+    
+    //check password
+    if(![Validate NSSTringISValidPassword:self.passwordField.text]){
+        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Error" message:@"Password Invalid. Password must be more than 5 digits!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
+        [errorAlert show];
+        return;
+    }
+    
     //check password
     if(![self.passwordField.text isEqualToString:self.confirmPasswordField.text]){
-        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Error" message:@"Password not matched. Please check inputed password again!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
+        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Error" message:@"Password not matched. Please check input password again!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
         [errorAlert show];
         return;
     }
