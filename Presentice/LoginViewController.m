@@ -90,7 +90,6 @@
     NSString *password = self.tbPassword.text;
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error) {
         if(!error){
-            NSLog(@"login succeeded!");
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
             MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
             [self.navigationController pushViewController:destViewController animated:YES];
@@ -130,14 +129,19 @@
                 if(!error){
                     //get email from facebook
                     NSDictionary<FBGraphUser> *me = (NSDictionary<FBGraphUser> *)result;
+                    NSLog(@"%@", me);
                     NSString *email = [me objectForKey:@"email"];
-                    NSLog(@"email: %@", email);
-                    
+                    NSString *facebookId = [me objectForKey:@"id"];
                     //query User with email
                     PFQuery *queryUser = [PFUser query];
-                    [queryUser whereKey:kUserNameKey equalTo:email];
+                    
+                    if(email != nil && ![email isEqual:@""]){
+                        [queryUser whereKey:kUserNameKey equalTo:email];
+                    } else {
+                        [queryUser whereKey:kUserFacebookIdKey equalTo:facebookId];
+                    }
                     [queryUser findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                        //if email already registered, redirect to main view
+                        //if email/facebookId already registered, redirect to main view
                         if (!error && [objects count] != 0) {
                             //redirect using storyboard
                             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
