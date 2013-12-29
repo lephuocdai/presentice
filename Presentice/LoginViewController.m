@@ -88,7 +88,7 @@
         if(!error){
             NSLog(@"login succeeded!");
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-            RegisterViewController *destViewController = (RegisterViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
+            MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
             [self.navigationController pushViewController:destViewController animated:YES];
             //show navigator
             [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -121,15 +121,43 @@
                 [alert show];
             }
         } else {
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-            RegisterViewController *destViewController = (RegisterViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RegisterViewController"];
-            [self.navigationController pushViewController:destViewController animated:YES];
+            // check if user already registered with facebook
+            [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                if(!error){
+                    //get email from facebook
+                    NSDictionary<FBGraphUser> *me = (NSDictionary<FBGraphUser> *)result;
+                    NSString *email = [me objectForKey:@"email"];
+                    
+                    //query User with email
+                    PFQuery *queryUser = [PFUser query];
+                    [queryUser whereKey:kUserNameKey equalTo:email];
+                    [queryUser findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                        //if email already registered, redirect to main view
+                        if (!error && [objects count] != 0) {
+                            //redirect using storyboard
+                            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+                            MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
+                            [self.navigationController pushViewController:destViewController animated:YES];
+                            //show navigator
+                            [self.navigationController setNavigationBarHidden:NO animated:YES];
+                            
+                        } else {
+                            //redirecto to register screen using storyboard
+                            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+                            RegisterViewController *destViewController = (RegisterViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RegisterViewController"];
+                            [self.navigationController pushViewController:destViewController animated:YES];
+                            
+                            //unlink facebook
+                            [PFUser logOut];
+                        }
+                    }];
+                    
+                }
+            }];
+            
         }
         //dismiss hub
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
-        //unlink facebook
-        [PFUser logOut];
     }];
 }
 
