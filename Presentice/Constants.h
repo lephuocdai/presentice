@@ -78,6 +78,15 @@
 #define kActivityContentKey @"content"  // The detail content if available
 #define kActivityVideoKey @"video"  // Pointer to the video that this activity was taken on
 
+#define kReviewClassKey @"Review"
+#define kReviewFromUserKey @"fromUser"
+#define kReviewToUserKey @"toUser"
+#define kReviewTargetVideoKey @"targetVideo"
+#define kReviewContentKey @"content"
+#define kReviewCommentKey @"comment"
+
+#define REVIEW_MAX_VALUE 5
+#define REVIEW_MIN_VALUE 1
 
 
 @interface Constants : NSObject

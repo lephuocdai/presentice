@@ -22,6 +22,8 @@
     AmazonS3Client *s3Client;
 }
 
+#pragma UIViewController
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     
@@ -35,11 +37,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     fileList = [[NSMutableArray alloc] init];
-    // List files from S3 Bucket: specify bucket name
-    [self s3DirectoryListing:[Constants transferManagerBucket]];
-    [self.tableView reloadData];
-}
+    [self queryVideoList];
 
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 #pragma mark - AmazonServiceRequestDelegate
 
 -(void)request:(AmazonServiceRequest *)request didReceiveResponse:(NSURLResponse *)response {
@@ -59,17 +64,17 @@
     NSLog(@"didFailWithServiceException called: %@", exception);
 }
 
--(void) s3DirectoryListing: (NSString *) bucketName {
+/**
+ * list all file of a bucket and push to table
+ * param: bucket name
+ * param: Parse Video object (JSON)
+ **/
+- (void) s3DirectoryListing: (NSString *) bucketName :(NSArray *) videos{
     // Init connection with S3Client
     s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
     @try {
-        // Get file list
-        S3ListObjectsRequest *req = [[S3ListObjectsRequest alloc] initWithName:bucketName];
-        S3ListObjectsResponse *res = [s3Client listObjects:req];
-        NSMutableArray* objectSummaries = res.listObjectsResult.objectSummaries;
-        
         // Add each filename to fileList
-        for (int x = 0; x < [objectSummaries count]; x++) {
+        for (int x = 0; x < [videos count]; x++) {
             
             // Set the content type so that the browser will treat the URL as an image.
             S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
@@ -77,9 +82,14 @@
             
             // Request a pre-signed URL to picture that has been uplaoded.
             S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
-            gpsur.key     = [NSString stringWithFormat:@"%@",[objectSummaries objectAtIndex:x]];
+            
+            //video name
+            gpsur.key     = [NSString stringWithFormat:@"%@",[[videos objectAtIndex:x] objectForKey:@"videoURL"]];
+            //bucket name
             gpsur.bucket  = bucketName;
+            
             gpsur.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600]; // Added an hour's worth of seconds to the current time.
+            
             gpsur.responseHeaderOverrides = override;
             
             // Get the URL
@@ -88,15 +98,28 @@
             
             // Add new file to fileList
             NSMutableDictionary *file = [NSMutableDictionary dictionary];
-            file[@"fileName"] = [NSString stringWithFormat:@"%@",[objectSummaries objectAtIndex:x]];
+            file[@"fileName"] = [NSString stringWithFormat:@"%@",[[videos objectAtIndex:x] objectForKey:@"videoURL"]];
             file[@"fileURL"] = url;
+            
+            PFObject *questionVideo = [videos objectAtIndex:x];                 // Get video from
+            PFUser *postedUser = [questionVideo objectForKey:kVideoUserKey];    // Get the postedUser
+            
+            file[@"questionVideo"] = [questionVideo objectId];
+            file[@"userName"] = [postedUser objectForKey:kUserDisplayNameKey];
+            
+            file[@"videoObj"] = questionVideo;
+            //file[@"answeredLabel"] = [self alreadyAnswerQuestion:questionVideo] ?  @"Already Answered" : @"Not Answered Yet";
+            
             [fileList addObject:file];
+            
         }
+        [self.tableView reloadData];
     }
     @catch (NSException *exception) {
         NSLog(@"Cannot list S3 %@",exception);
     }
 }
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
@@ -122,14 +145,28 @@
         FileViewController *destViewController = segue.destinationViewController;
         destViewController.fileName = [fileList objectAtIndex:indexPath.row][@"fileName"];
         destViewController.movieURL = [fileList objectAtIndex:indexPath.row][@"fileURL"];
+        destViewController.videoObj = [fileList objectAtIndex:indexPath.row][@"videoObj"];
     }
 }
 
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
+
+#pragma Parse query
+/**
+ * query question videos
+ * question video means Video.type = question
+ **/
+- (void) queryVideoList {
+    PFQuery *videoList = [PFQuery queryWithClassName:kVideoClassKey];
+    [videoList includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
+    [videoList findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            //load videos from S3 with list of name from database
+            [ self s3DirectoryListing:[Constants transferManagerBucket] :objects];
+        } else {
+            NSLog(@"error");
+        }
+    }];
+}
 @end

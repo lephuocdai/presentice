@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A72C52C2186FF56D00DE8BEC /* Validate.m in Sources */ = {isa = PBXBuildFile; fileRef = A72C52C1186FF56D00DE8BEC /* Validate.m */; };
+		A72C52C518700B1B00DE8BEC /* ReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A72C52C418700B1A00DE8BEC /* ReviewViewController.m */; };
 		A73D5A1418653BF700087F27 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A73D5A1318653BF700087F27 /* LoginViewController.m */; };
 		A78E9D31185D99D900ACCC54 /* FacebookSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A78E9D2E185D99D900ACCC54 /* FacebookSDKResources.bundle */; };
 		A78E9D32185D99D900ACCC54 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78E9D2F185D99D900ACCC54 /* FacebookSDK.framework */; };
@@ -97,6 +98,8 @@
 /* Begin PBXFileReference section */
 		A72C52C0186FF56D00DE8BEC /* Validate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Validate.h; sourceTree = "<group>"; };
 		A72C52C1186FF56D00DE8BEC /* Validate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Validate.m; sourceTree = "<group>"; };
+		A72C52C318700B1A00DE8BEC /* ReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewViewController.h; sourceTree = "<group>"; };
+		A72C52C418700B1A00DE8BEC /* ReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewViewController.m; sourceTree = "<group>"; };
 		A73D5A1218653BF700087F27 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		A73D5A1318653BF700087F27 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		A78E9D2E185D99D900ACCC54 /* FacebookSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKResources.bundle; path = External/FacebookSDKResources.bundle; sourceTree = "<group>"; };
@@ -396,6 +399,8 @@
 				F4EECF2D177C99F400778578 /* MainViewController.m */,
 				F0718CC0185ACEB1009014A0 /* FileViewController.h */,
 				F0718CC1185ACEB1009014A0 /* FileViewController.m */,
+				A72C52C318700B1A00DE8BEC /* ReviewViewController.h */,
+				A72C52C418700B1A00DE8BEC /* ReviewViewController.m */,
 			);
 			name = NewsFeed;
 			sourceTree = "<group>";
@@ -644,6 +649,7 @@
 				F0718CC2185ACEB1009014A0 /* FileViewController.m in Sources */,
 				F0718CBD185ACE27009014A0 /* Constants.m in Sources */,
 				F4EECF2E177C99F400778578 /* MainViewController.m in Sources */,
+				A72C52C518700B1B00DE8BEC /* ReviewViewController.m in Sources */,
 				A72C52C2186FF56D00DE8BEC /* Validate.m in Sources */,
 				F09EBCCE18691A8C009C2BC9 /* QuestionViewController.m in Sources */,
 				F4EECF4A177DF87700778578 /* SidebarViewController.m in Sources */,
