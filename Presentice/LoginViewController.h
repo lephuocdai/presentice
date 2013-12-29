@@ -12,6 +12,8 @@
 #import "RegisterViewController.h"
 #import "MBProgressHUD.h"
 
+#import "Constants.h"
+
 
 @interface LoginViewController : UIViewController
 
