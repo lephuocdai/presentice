@@ -76,7 +76,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
         return;
     }
     
-    PFUser *newUser = [PFUser user];
+    PFUser *newUser = [PFUser currentUser];
     newUser.username = self.emailField.text;
     newUser.password = self.passwordField.text;
     newUser.email = self.emailField.text;
@@ -85,12 +85,12 @@ NSDictionary<FBGraphUser>  *fbInfo;
     [newUser setObject:fbInfo.name forKey:kUserDisplayNameKey];
     [newUser setObject:fbInfo forKey:kUserProfileKey];
     
-    [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    [newUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             NSLog(@"register succeed!");
             
             //show succeeded alert
-            UIAlertView *succeedAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Succeeded" message:@"Click OK to go to login screen" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            UIAlertView *succeedAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Succeeded" message:@"Click OK to go to main screen" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             [succeedAlert show];
             
             } else {
@@ -108,7 +108,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
 // redirect to Login View Controller
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    RegisterViewController *destViewController = (RegisterViewController *)[storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
     [self.navigationController pushViewController:destViewController animated:YES];
 
 }
