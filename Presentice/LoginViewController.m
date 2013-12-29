@@ -27,8 +27,12 @@
     
     //if user already login, redirect to MainViewController
 	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]){
-        [self redirectToScreen:@"MainViewController"];
-
+        //[self redirectToScreen:@"MainViewController"];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
+        [self.navigationController pushViewController:destViewController animated:YES];
+        //show navigator
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
 }
 - (void) viewWillAppear:(BOOL)animated {
@@ -147,18 +151,15 @@
                             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
                             RegisterViewController *destViewController = (RegisterViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RegisterViewController"];
                             [self.navigationController pushViewController:destViewController animated:YES];
-                            
-                            //unlink facebook
-                            [PFUser logOut];
                         }
+                        //dismiss hub
+                        [MBProgressHUD hideHUDForView:self.view animated:YES];
                     }];
                     
                 }
             }];
             
         }
-        //dismiss hub
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
 
