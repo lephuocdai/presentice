@@ -27,7 +27,7 @@
     
     //if user already login, redirect to MainViewController
 	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]){
-        [self performSegueWithIdentifier:@"toMainView" sender:self];
+        [self redirectToScreen:@"MainViewController"];
 
     }
 }
@@ -127,6 +127,7 @@
                     //get email from facebook
                     NSDictionary<FBGraphUser> *me = (NSDictionary<FBGraphUser> *)result;
                     NSString *email = [me objectForKey:@"email"];
+                    NSLog(@"email: %@", email);
                     
                     //query User with email
                     PFQuery *queryUser = [PFUser query];
@@ -170,5 +171,14 @@
 		if ([view isKindOfClass:[UITextField class]])
 			[view resignFirstResponder];
 	}
+}
+
+- (void) redirectToScreen:(NSString *) screenId {
+    //redirect using storyboard
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:screenId];
+    [self.navigationController pushViewController:destViewController animated:YES];
+    //show navigator
+
 }
 @end
