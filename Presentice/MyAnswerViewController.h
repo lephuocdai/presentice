@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import <Parse/Parse.h>
 
-@interface MyAnswerViewController : UIViewController
+#import "Constants.h"
 
-@property (strong, nonatomic) IBOutlet UILabel *fileLabel;
+@interface MyAnswerViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
 @property (strong, nonatomic) NSString *fileName;
 @property (copy, nonatomic)NSURL *movieURL;
 @property (strong, nonatomic)MPMoviePlayerController *movieController;
+@property (weak, nonatomic) IBOutlet UIView *videoView;
+@property (weak, nonatomic) IBOutlet UITableView *videoInfoTable;
+
+@property (strong, nonatomic) PFObject *videoObj;
 
 @end
