@@ -113,6 +113,7 @@
             NSMutableDictionary *file = [NSMutableDictionary dictionary];
             file[@"fileName"] = [NSString stringWithFormat:@"%@",[[videos objectAtIndex:x] objectForKey:@"videoURL"]];
             file[@"fileURL"] = url;
+            file[@"videoObj"] = [videos objectAtIndex:x]; //PFObject Video
             [myList addObject:file];
         }
         [self.tableView reloadData];
@@ -156,6 +157,7 @@
         MyAnswerViewController *destViewController = segue.destinationViewController;
         destViewController.fileName = [myList objectAtIndex:indexPath.row][@"fileName"];
         destViewController.movieURL = [myList objectAtIndex:indexPath.row][@"fileURL"];
+        destViewController.videoObj = [myList objectAtIndex:indexPath.row][@"videoObj"];
     }
 }
 
