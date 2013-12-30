@@ -43,6 +43,9 @@
  */
 
 - (void) viewDidAppear:(BOOL)animated {
+    //start loading hub
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     myList = [[NSMutableArray alloc] init];
     [self queryMyList];
 }
@@ -117,6 +120,8 @@
             [myList addObject:file];
         }
         [self.tableView reloadData];
+        //dismiss hub
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
     @catch (NSException *exception) {
         NSLog(@"Cannot list S3 %@",exception);

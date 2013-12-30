@@ -34,9 +34,6 @@
 {
     [super viewDidLoad];
     
-    // Change button color
-    //_sidebarButton.tintColor = [UIColor colorWithWhite:0.96f alpha:0.2f];
-    
     // Set the side bar button action. When it's tapped, it'll show up the sidebar.
     _sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
@@ -44,6 +41,38 @@
     // Set the gesture
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
+    //set up amazon connection in background
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self setupAmazonS3];
+    });
+    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)upload:(id)sender {
+    isUploadFromLibrary = true;
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.mediaTypes = [NSArray arrayWithObject:(NSString *)kUTTypeMovie];
+    
+    [self presentViewController:picker animated:YES completion:NULL];
+}
+
+- (IBAction)record:(id)sender {
+    [self startCameraControllerFromViewController:self usingDelegate:self];
+}
+
+/**
+* set up bucket of amazon s3
+* create bucket if not existed
+**/
+- (void) setupAmazonS3 {
     // Initiate S3 bucket access
     if(self.tm == nil){
         if(![ACCESS_KEY_ID isEqualToString:@"CHANGE ME"]){
@@ -79,29 +108,7 @@
             [message show];
         }
     }
-    
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)upload:(id)sender {
-    isUploadFromLibrary = true;
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-    picker.allowsEditing = YES;
-    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    picker.mediaTypes = [NSArray arrayWithObject:(NSString *)kUTTypeMovie];
-    
-    [self presentViewController:picker animated:YES completion:NULL];
-}
-
-- (IBAction)record:(id)sender {
-    [self startCameraControllerFromViewController:self usingDelegate:self];
-}
-
 #pragma mark - Image Picker Controller delegate methods
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (isUploadFromLibrary) {  //upload file from Library
@@ -141,7 +148,6 @@
                                                     @selector(video:didFinishSavingWithError:contextInfo:), nil);
             }
             recordedVideoPath = moviePath;
-            // NSLog(moviePath);
         }
     }
 }
