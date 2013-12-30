@@ -11,6 +11,7 @@
 #import <Parse/Parse.h>
 
 #import "Constants.h"
+#import "VideoInfoCell.h"
 
 @interface MyAnswerViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
