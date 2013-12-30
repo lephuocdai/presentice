@@ -32,7 +32,6 @@
 		A78E9D5B185DA16B00ACCC54 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = A78E9D56185DA16B00ACCC54 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A78E9D5C185DA16B00ACCC54 /* TTTTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = A78E9D59185DA16B00ACCC54 /* TTTTimeIntervalFormatter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A7E995A51867D197009E48CA /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E995A41867D197009E48CA /* RegisterViewController.m */; };
-		A7E995A8186860D4009E48CA /* QuestionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E995A7186860D4009E48CA /* QuestionListViewController.m */; };
 		F00006A6186BA98C00E69027 /* MessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F00006A5186BA98C00E69027 /* MessageListViewController.m */; };
 		F00006A9186BA9AC00E69027 /* MessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F00006A8186BA9AC00E69027 /* MessageDetailViewController.m */; };
 		F00006AD186BAA1800E69027 /* NotificationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F00006AC186BAA1800E69027 /* NotificationListViewController.m */; };
@@ -62,6 +61,7 @@
 		F09EBCCE18691A8C009C2BC9 /* QuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F09EBCCD18691A8C009C2BC9 /* QuestionViewController.m */; };
 		F09EBCE4186948CA009C2BC9 /* MyListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F09EBCE3186948CA009C2BC9 /* MyListViewController.m */; };
 		F09EBCE718694911009C2BC9 /* MyAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F09EBCE618694911009C2BC9 /* MyAnswerViewController.m */; };
+		F0A5A74A1871D9DF004E24A3 /* QuestionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0A5A7491871D9DF004E24A3 /* QuestionListViewController.m */; };
 		F4EECF12177C99F400778578 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF11177C99F400778578 /* UIKit.framework */; };
 		F4EECF14177C99F400778578 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF13177C99F400778578 /* Foundation.framework */; };
 		F4EECF16177C99F400778578 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF15177C99F400778578 /* CoreGraphics.framework */; };
@@ -130,8 +130,6 @@
 		A78E9D59185DA16B00ACCC54 /* TTTTimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTTimeIntervalFormatter.m; sourceTree = "<group>"; };
 		A7E995A31867D196009E48CA /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		A7E995A41867D197009E48CA /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
-		A7E995A6186860D3009E48CA /* QuestionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionListViewController.h; sourceTree = "<group>"; };
-		A7E995A7186860D4009E48CA /* QuestionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionListViewController.m; sourceTree = "<group>"; };
 		F00006A4186BA98C00E69027 /* MessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListViewController.h; sourceTree = "<group>"; };
 		F00006A5186BA98C00E69027 /* MessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListViewController.m; sourceTree = "<group>"; };
 		F00006A7186BA9AC00E69027 /* MessageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDetailViewController.h; sourceTree = "<group>"; };
@@ -173,6 +171,8 @@
 		F09EBCE3186948CA009C2BC9 /* MyListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListViewController.m; sourceTree = "<group>"; };
 		F09EBCE518694911009C2BC9 /* MyAnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnswerViewController.h; sourceTree = "<group>"; };
 		F09EBCE618694911009C2BC9 /* MyAnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnswerViewController.m; sourceTree = "<group>"; };
+		F0A5A7481871D9DF004E24A3 /* QuestionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionListViewController.h; sourceTree = "<group>"; };
+		F0A5A7491871D9DF004E24A3 /* QuestionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionListViewController.m; sourceTree = "<group>"; };
 		F4EECF0E177C99F400778578 /* Presentice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Presentice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4EECF11177C99F400778578 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F4EECF13177C99F400778578 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -371,8 +371,8 @@
 		F09EBCD018691D0C009C2BC9 /* Question */ = {
 			isa = PBXGroup;
 			children = (
-				A7E995A6186860D3009E48CA /* QuestionListViewController.h */,
-				A7E995A7186860D4009E48CA /* QuestionListViewController.m */,
+				F0A5A7481871D9DF004E24A3 /* QuestionListViewController.h */,
+				F0A5A7491871D9DF004E24A3 /* QuestionListViewController.m */,
 				F09EBCCC18691A8C009C2BC9 /* QuestionViewController.h */,
 				F09EBCCD18691A8C009C2BC9 /* QuestionViewController.m */,
 			);
@@ -643,11 +643,11 @@
 				F00006A6186BA98C00E69027 /* MessageListViewController.m in Sources */,
 				A78E9D5C185DA16B00ACCC54 /* TTTTimeIntervalFormatter.m in Sources */,
 				F00006A9186BA9AC00E69027 /* MessageDetailViewController.m in Sources */,
+				F0A5A74A1871D9DF004E24A3 /* QuestionListViewController.m in Sources */,
 				F00006B5186D3BB600E69027 /* PostAnswerViewController.m in Sources */,
 				A73D5A1418653BF700087F27 /* LoginViewController.m in Sources */,
 				F4EECF1E177C99F400778578 /* main.m in Sources */,
 				F00006AD186BAA1800E69027 /* NotificationListViewController.m in Sources */,
-				A7E995A8186860D4009E48CA /* QuestionListViewController.m in Sources */,
 				F4EECF22177C99F400778578 /* AppDelegate.m in Sources */,
 				F09EBCE718694911009C2BC9 /* MyAnswerViewController.m in Sources */,
 				A78E9D5B185DA16B00ACCC54 /* Reachability.m in Sources */,
