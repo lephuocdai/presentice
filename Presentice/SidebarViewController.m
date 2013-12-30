@@ -31,7 +31,7 @@
     self.tableView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
 
-    _menuItems = @[@"title", @"stream", @"share", @"setting", @"questionList", @"myList", @"message", @"notification"];
+    _menuItems = @[@"title", @"stream", @"questionList", @"myList", @"message", @"notification", @"share", @"setting"];
     
 }
 
