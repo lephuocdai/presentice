@@ -42,9 +42,11 @@
  * load table for each time load view
  */
 - (void) viewWillAppear:(BOOL)animated {
+    //start loading hub
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     questionList = [[NSMutableArray alloc] init];
     [self queryQuestionList];
-    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -126,6 +128,8 @@
             
         }
         [self.tableView reloadData];
+        //dismiss hub
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
     @catch (NSException *exception) {
         NSLog(@"Cannot list S3 %@",exception);
