@@ -86,6 +86,11 @@
                                                object:nil];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (void)refreshTable:(NSNotification *) notification {
     // Reload the recipes
     [self loadObjects];
@@ -102,17 +107,17 @@
 }
 
 - (PFQuery *)queryForTable {
-    PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
-    [query includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
-    [query whereKey:kVideoTypeKey equalTo:@"question"];
+    PFQuery *questionListQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [questionListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
+    [questionListQuery whereKey:kVideoTypeKey equalTo:@"question"];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
     if ([self.objects count] == 0) {
-        query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        questionListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
-    [query orderByAscending:kUpdatedAtKey];
-    return query;
+    [questionListQuery orderByAscending:kUpdatedAtKey];
+    return questionListQuery;
 }
 // Override to customize the look of a cell representing an object. The default is to display
 // a UITableViewCellStyleDefault style cell with the label being the first key in the object.
@@ -171,10 +176,6 @@
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 #pragma Amazon implemented methods
 
 /**

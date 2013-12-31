@@ -36,7 +36,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xpc-aD-cqJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="427" y="245"/>
+            <point key="canvasLocation" x="395" y="396"/>
         </scene>
         <!--Share View Controller - Share-->
         <scene sceneID="gbA-tY-N7d">
@@ -100,7 +100,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R1O-sx-2nD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-427" y="1968"/>
+            <point key="canvasLocation" x="-51" y="1968"/>
         </scene>
         <!--Main View Controller - Main View Controller-->
         <scene sceneID="5">
@@ -450,7 +450,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mdp-30-Of8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="923" y="-883"/>
+            <point key="canvasLocation" x="-543" y="607"/>
         </scene>
         <!--Login View Controller - Login-->
         <scene sceneID="y9c-x9-gVr">
@@ -537,7 +537,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CWr-gd-eFj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="937" y="-63"/>
+            <point key="canvasLocation" x="851" y="-485"/>
         </scene>
         <!--Sidebar View Controller - Sidebar-->
         <scene sceneID="8EI-Ei-zax">
@@ -634,7 +634,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="0UU-8c-iza" kind="custom" identifier="showMyList" customClass="SWRevealViewControllerSegue" id="iSp-EO-kSO"/>
+                                    <segue destination="pdo-2c-UBU" kind="custom" identifier="showMyList" customClass="SWRevealViewControllerSegue" id="oI6-eB-5ua"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="message" id="uvz-Jy-jV4">
@@ -739,7 +739,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pan-AZ-D0k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-51" y="1175"/>
+            <point key="canvasLocation" x="-51" y="1139"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="5Z6-ag-ZQ1">
@@ -775,7 +775,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C4c-d4-88L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-663" y="623"/>
+            <point key="canvasLocation" x="-543" y="-63"/>
         </scene>
         <!--Question View Controller - Detail View-->
         <scene sceneID="T7p-Xr-CUu">
@@ -880,58 +880,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wmR-bm-9IE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2752" y="612"/>
-        </scene>
-        <!--My List View Controller - My List View Controller-->
-        <scene sceneID="hgf-zC-KWk">
-            <objects>
-                <viewController storyboardIdentifier="StoryBoard_MyList" title="My List View Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="0UU-8c-iza" customClass="MyListViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="AWF-4l-Ulc">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="503" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="45" sectionHeaderHeight="10" sectionFooterHeight="10" id="Pqx-RF-O4x">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="myListIdentifier" rowHeight="60" id="GpA-bN-Dew">
-                                        <rect key="frame" x="0.0" y="55" width="320" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="232" tableViewCell="GpA-bN-Dew" id="eVT-U3-Zpy">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="59"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="XNd-kZ-IEI" kind="push" identifier="showAnswerDetail" id="dt9-1j-PIq"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="0UU-8c-iza" id="P89-tB-UwI"/>
-                                    <outlet property="delegate" destination="0UU-8c-iza" id="voB-Ph-Xqv"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="My List" id="HJy-lf-O1T">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="XrW-CO-mIY"/>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="sidebarButton" destination="XrW-CO-mIY" id="ROU-YU-XoQ"/>
-                        <outlet property="tableView" destination="Pqx-RF-O4x" id="uH7-ni-bnE"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bJR-Ra-PG8" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1703" y="1936"/>
+            <point key="canvasLocation" x="2661" y="612"/>
         </scene>
         <!--My Answer View Controller - Detail View-->
         <scene sceneID="fmF-SU-Vof">
             <objects>
                 <viewController id="XNd-kZ-IEI" customClass="MyAnswerViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="j2e-U1-i4v" userLabel="MyAnswer" customClass="Question">
+                    <view key="view" contentMode="scaleToFill" id="j2e-U1-i4v" userLabel="MyAnswer">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -979,12 +934,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jdJ-X4-mGz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2199" y="1936"/>
+            <point key="canvasLocation" x="2647" y="1272"/>
         </scene>
-        <!--Question List View Controller - Question List-->
+        <!--Question List View Controller - Quetion List View Controller-->
         <scene sceneID="6G1-b7-LEF">
             <objects>
-                <tableViewController id="pEw-m6-w8R" customClass="QuestionListViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="StoryBoard_QuestionList" title="Quetion List View Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pEw-m6-w8R" customClass="QuestionListViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" sectionHeaderHeight="22" sectionFooterHeight="22" id="GTT-jO-aKP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1040,7 +995,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8GA-kt-Dqk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1703" y="895"/>
+            <point key="canvasLocation" x="1703" y="612"/>
         </scene>
         <!--Message List View Controller - Message List View Controller-->
         <scene sceneID="erv-qR-2pO">
@@ -1085,7 +1040,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nwz-Mh-1Jr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1703" y="2668"/>
+            <point key="canvasLocation" x="2199" y="1942"/>
         </scene>
         <!--Message Detail View Controller - Detail View-->
         <scene sceneID="BWX-YI-SyW">
@@ -1100,7 +1055,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KHc-5Q-71c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2199" y="2668"/>
+            <point key="canvasLocation" x="2647" y="1942"/>
         </scene>
         <!--Notification List View Controller - Notification List View Controller-->
         <scene sceneID="jFa-7p-wzt">
@@ -1160,7 +1115,68 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ATX-ee-VEM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="923" y="1968"/>
+            <point key="canvasLocation" x="851" y="1968"/>
+        </scene>
+        <!--My List View Controller - My List View Controller-->
+        <scene sceneID="eAv-OV-hV9">
+            <objects>
+                <tableViewController storyboardIdentifier="StoryBoard_MyList" title="My List View Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pdo-2c-UBU" customClass="MyListViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" sectionHeaderHeight="22" sectionFooterHeight="22" id="LDZ-W6-EQ0">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="myListIdentifier" rowHeight="120" id="AEG-tf-mb3">
+                                <rect key="frame" x="0.0" y="22" width="320" height="120"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AEG-tf-mb3" id="euI-4g-Ulh">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="119"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="postedUser" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="27M-jT-98b">
+                                            <rect key="frame" x="20" y="20" width="247" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="postedTime" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="78P-xx-d9f">
+                                            <rect key="frame" x="20" y="49" width="247" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="reviewedStatus" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PNm-or-8qK">
+                                            <rect key="frame" x="20" y="78" width="247" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="XNd-kZ-IEI" kind="push" identifier="showAnswerDetail" id="c2g-ux-75V"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="pdo-2c-UBU" id="ZlY-Ea-aG7"/>
+                            <outlet property="delegate" destination="pdo-2c-UBU" id="Ezy-qn-CwY"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Question List" id="KC7-D0-XL9">
+                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="e0G-r9-NCs"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="sidebarButton" destination="e0G-r9-NCs" id="DmV-ig-OSu"/>
+                        <outlet property="tableView" destination="LDZ-W6-EQ0" id="u61-dr-bPK"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="r0j-Ur-Iez" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2199" y="1272"/>
         </scene>
     </scenes>
     <resources>

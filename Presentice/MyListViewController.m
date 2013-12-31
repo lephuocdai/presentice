@@ -2,8 +2,8 @@
 //  MyListViewController.m
 //  Presentice
 //
-//  Created by レー フックダイ on 12/24/13.
-//  Copyright (c) 2013 Appcoda. All rights reserved.
+//  Created by レー フックダイ on 12/31/13.
+//  Copyright (c) 2013 Presentice. All rights reserved.
 //
 
 #import "MyListViewController.h"
@@ -13,7 +13,6 @@
 @end
 
 @implementation MyListViewController {
-    NSMutableArray *myList;
     AmazonS3Client *s3Client;
 }
 
@@ -25,9 +24,33 @@
     return self;
 }
 
+- (id)initWithCoder:(NSCoder *)aCoder {
+    self = [super initWithCoder:aCoder];
+    if (self) {
+        // Custom the table
+        
+        // The className to query on
+        self.parseClassName = kVideoClassKey;
+        
+        // The key of the PFObject to display in the label of the default cell style
+        self.textKey = kVideoURLKey;
+        
+        // Whether the built-in pull-to-refresh is enabled
+        self.pullToRefreshEnabled = YES;
+        
+        // Whether the built-in pagination is enabled
+        self.paginationEnabled = YES;
+        
+        // The number of objects to show per page
+        self.objectsPerPage = 10;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-	_sidebarButton.target = self.revealViewController;
+    // Set the side bar button action. When it's tapped, it'll show up the sidebar.
+    _sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
     
     // Set the gesture
@@ -35,19 +58,12 @@
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-}
-
-/**
- * override function
- * load table for each time load view
- */
-
-- (void) viewDidAppear:(BOOL)animated {
-    //start loading hub
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    myList = [[NSMutableArray alloc] init];
-    [self queryMyList];
+    // Set refreshTable notification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshTable:)
+                                                 name:@"refreshTable"
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,136 +71,126 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)refreshTable:(NSNotification *) notification {
+    // Reload the recipes
+    [self loadObjects];
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
-#pragma mark - AmazonServiceRequestDelegate
 
--(void)request:(AmazonServiceRequest *)request didReceiveResponse:(NSURLResponse *)response {
+- (PFQuery *)queryForTable {
+    PFQuery *myListQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [myListQuery whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
+    [myListQuery whereKey:kVideoTypeKey equalTo:@"answer"]; //only get list of answers
+    
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    if ([self.objects count] == 0) {
+        myListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    }
+    [myListQuery orderByAscending:kUpdatedAtKey];
+    return myListQuery;
 }
 
-- (void)request:(AmazonServiceRequest *)request didReceiveData:(NSData *)data {
+// Override to customize the look of a cell representing an object. The default is to display
+// a UITableViewCellStyleDefault style cell with the label being the first key in the object.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    static NSString *simpleTableIdentifier = @"myListIdentifier";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    }
+    
+    // Configure the cell
+    UILabel *postedUser = (UILabel *)[cell viewWithTag:100];
+    //postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
+    postedUser.text = [[PFUser currentUser] objectForKey:kUserDisplayNameKey];
+    
+    UILabel *postedTime = (UILabel *)[cell viewWithTag:101];
+    postedTime.text = [object objectForKey:kVideoURLKey];
+    
+    UILabel *isTakenAnswer = (UILabel *)[cell viewWithTag:102];
+    
+    // Need a better way to check answeredStatus
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        PFQuery *myAnswer = [PFQuery queryWithClassName:kReviewClassKey];
+        [myAnswer includeKey:kReviewFromUserKey];
+        [myAnswer includeKey:kReviewTargetVideoKey];
+        [myAnswer whereKey:kReviewTargetVideoKey equalTo:object];
+        [myAnswer findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if(!error && objects.count != 0){
+                isTakenAnswer.text = [NSString stringWithFormat:@"%d review", objects.count] ;
+            } else {
+                isTakenAnswer.text = @"Not Reviewed Yet";
+            }
+        }];
+    });
+    return cell;
 }
 
--(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response {
+- (void) objectsDidLoad:(NSError *)error {
+    [super objectsDidLoad:error];
+    NSLog(@"error: %@", [error localizedDescription]);
 }
 
--(void)request:(AmazonServiceRequest *)request didFailWithError:(NSError *)error {
-    NSLog(@"didFailWithError called: %@", error);
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSLog(@"HERE %@", self.objects);
+    //[self s3DirectoryListing:[Constants transferManagerBucket] :self.objects];
+    if ([segue.identifier isEqualToString:@"showAnswerDetail"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        MyAnswerViewController *destViewController = segue.destinationViewController;
+        
+        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        NSLog(@"sent object = %@", object);
+        destViewController.fileName = [object objectForKey:kVideoURLKey];
+        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
+//        destViewController.userName = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
+        destViewController.videoObj = object;
+    }
 }
-
--(void)request:(AmazonServiceRequest *)request didFailWithServiceException:(NSException *)exception {
-    NSLog(@"didFailWithServiceException called: %@", exception);
-}
-
-#pragma Amazon implemented methods
 
 /**
- * list all file of a bucket and push to table
+ * get the URL from S3
  * param: bucket name
  * param: Parse Video object (JSON)
+ * This one is the modified one of the commented-out above
  **/
--(void) s3DirectoryListing: (NSString *) bucketName :(NSArray *) videos{
+
+- (NSURL*)s3URL: (NSString*)bucketName :(PFObject*)object {
     // Init connection with S3Client
     s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
     @try {
-        NSLog(@"videos number: %d", [videos count]);
-        // Add each filename to fileList
-        for (int x = 0; x < [videos count]; x++) {
-            
-            // Set the content type so that the browser will treat the URL as an image.
-            S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
-            override.contentType = @" ";
-            
-            // Request a pre-signed URL to picture that has been uplaoded.
-            S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
-            
-            //video name
-            gpsur.key     = [NSString stringWithFormat:@"%@",[[videos objectAtIndex:x] objectForKey:@"videoURL"]];
-            //bucket name
-            gpsur.bucket  = bucketName;
-            
-            gpsur.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600]; // Added an hour's worth of seconds to the current time.
-            
-            gpsur.responseHeaderOverrides = override;
-            
-            // Get the URL
-            NSError *error;
-            NSURL *url = [s3Client getPreSignedURL:gpsur error:&error];
-            
-            // Add new file to fileList
-            NSMutableDictionary *file = [NSMutableDictionary dictionary];
-            file[@"fileName"] = [NSString stringWithFormat:@"%@",[[videos objectAtIndex:x] objectForKey:@"videoURL"]];
-            file[@"fileURL"] = url;
-            file[@"videoObj"] = [videos objectAtIndex:x]; //PFObject Video
-            [myList addObject:file];
-        }
-        [self.tableView reloadData];
-        //dismiss hub
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        // Set the content type so that the browser will treat the URL as an image.
+        S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
+        override.contentType = @" ";
+        // Request a pre-signed URL to picture that has been uplaoded.
+        S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
+        // Video name
+        gpsur.key = [NSString stringWithFormat:@"%@", [object objectForKey:kVideoURLKey]];
+        //bucket name
+        gpsur.bucket  = bucketName;
+        // Added an hour's worth of seconds to the current time.
+        gpsur.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600];
+        
+        gpsur.responseHeaderOverrides = override;
+        
+        // Get the URL
+        NSError *error;
+        NSURL *url = [s3Client getPreSignedURL:gpsur error:&error];
+        return url;
     }
     @catch (NSException *exception) {
         NSLog(@"Cannot list S3 %@",exception);
     }
 }
-
-#pragma table methods
-/**
- * delegage method
- * number of rows of table
- */
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [myList count];
-}
-
-/**
- * delegate method
- * build table view
- */
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *fileListIdentifier = @"myListIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:fileListIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:fileListIdentifier];
-    }
-    cell.textLabel.text = [myList objectAtIndex:indexPath.row][@"fileName"];
-    return cell;
-}
-
-/**
- * segue for table cell
- * click to direct to video play view
- * pass video name, video url
- */
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showAnswerDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        MyAnswerViewController *destViewController = segue.destinationViewController;
-        destViewController.fileName = [myList objectAtIndex:indexPath.row][@"fileName"];
-        destViewController.movieURL = [myList objectAtIndex:indexPath.row][@"fileURL"];
-        destViewController.videoObj = [myList objectAtIndex:indexPath.row][@"videoObj"];
-    }
-}
-
-#pragma Parse query
-/**
- * query myList videos
- * myList video means Video.type = answer && User = current user
- **/
-- (void) queryMyList {
-    
-    PFQuery *myListQuery = [PFQuery queryWithClassName:kVideoClassKey];
-    [myListQuery whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
-    [myListQuery whereKey:kVideoTypeKey equalTo:@"answer"]; //only get list of answers
-    [myListQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            // Load videos from S3 with list of name from database
-            [self s3DirectoryListing:[Constants transferManagerBucket] :objects];
-        } else {
-            NSLog(@"Load myList error");
-        }
-    }];
-}
-
 
 @end

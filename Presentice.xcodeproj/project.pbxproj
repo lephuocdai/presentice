@@ -59,9 +59,9 @@
 		F09EBCC918672BF9009C2BC9 /* newsFeed.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F09EBCC818672BF9009C2BC9 /* newsFeed.jpeg */; };
 		F09EBCCB18672CC3009C2BC9 /* notification.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F09EBCCA18672CC3009C2BC9 /* notification.jpeg */; };
 		F09EBCCE18691A8C009C2BC9 /* QuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F09EBCCD18691A8C009C2BC9 /* QuestionViewController.m */; };
-		F09EBCE4186948CA009C2BC9 /* MyListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F09EBCE3186948CA009C2BC9 /* MyListViewController.m */; };
 		F09EBCE718694911009C2BC9 /* MyAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F09EBCE618694911009C2BC9 /* MyAnswerViewController.m */; };
 		F0A5A74A1871D9DF004E24A3 /* QuestionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0A5A7491871D9DF004E24A3 /* QuestionListViewController.m */; };
+		F0A5A74D187276CD004E24A3 /* MyListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0A5A74C187276CD004E24A3 /* MyListViewController.m */; };
 		F4EECF12177C99F400778578 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF11177C99F400778578 /* UIKit.framework */; };
 		F4EECF14177C99F400778578 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF13177C99F400778578 /* Foundation.framework */; };
 		F4EECF16177C99F400778578 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF15177C99F400778578 /* CoreGraphics.framework */; };
@@ -167,12 +167,12 @@
 		F09EBCCC18691A8C009C2BC9 /* QuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionViewController.h; sourceTree = "<group>"; };
 		F09EBCCD18691A8C009C2BC9 /* QuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionViewController.m; sourceTree = "<group>"; };
 		F09EBCE118694164009C2BC9 /* SettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
-		F09EBCE2186948CA009C2BC9 /* MyListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListViewController.h; sourceTree = "<group>"; };
-		F09EBCE3186948CA009C2BC9 /* MyListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListViewController.m; sourceTree = "<group>"; };
 		F09EBCE518694911009C2BC9 /* MyAnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnswerViewController.h; sourceTree = "<group>"; };
 		F09EBCE618694911009C2BC9 /* MyAnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnswerViewController.m; sourceTree = "<group>"; };
 		F0A5A7481871D9DF004E24A3 /* QuestionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionListViewController.h; sourceTree = "<group>"; };
 		F0A5A7491871D9DF004E24A3 /* QuestionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionListViewController.m; sourceTree = "<group>"; };
+		F0A5A74B187276CD004E24A3 /* MyListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListViewController.h; sourceTree = "<group>"; };
+		F0A5A74C187276CD004E24A3 /* MyListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyListViewController.m; sourceTree = "<group>"; };
 		F4EECF0E177C99F400778578 /* Presentice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Presentice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4EECF11177C99F400778578 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F4EECF13177C99F400778578 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -358,8 +358,8 @@
 		F09EBCCF18691CF6009C2BC9 /* MyList */ = {
 			isa = PBXGroup;
 			children = (
-				F09EBCE2186948CA009C2BC9 /* MyListViewController.h */,
-				F09EBCE3186948CA009C2BC9 /* MyListViewController.m */,
+				F0A5A74B187276CD004E24A3 /* MyListViewController.h */,
+				F0A5A74C187276CD004E24A3 /* MyListViewController.m */,
 				F09EBCE518694911009C2BC9 /* MyAnswerViewController.h */,
 				F09EBCE618694911009C2BC9 /* MyAnswerViewController.m */,
 				A72524CB18713B7900671AB6 /* VideoInfoCell.h */,
@@ -657,6 +657,7 @@
 				F4EECF2E177C99F400778578 /* MainViewController.m in Sources */,
 				A72C52C518700B1B00DE8BEC /* ReviewViewController.m in Sources */,
 				A72C52C2186FF56D00DE8BEC /* Validate.m in Sources */,
+				F0A5A74D187276CD004E24A3 /* MyListViewController.m in Sources */,
 				F09EBCCE18691A8C009C2BC9 /* QuestionViewController.m in Sources */,
 				F4EECF4A177DF87700778578 /* SidebarViewController.m in Sources */,
 				F00006B0186BAA2900E69027 /* NotificationDetailViewController.m in Sources */,
@@ -664,7 +665,6 @@
 				A7E995A51867D197009E48CA /* RegisterViewController.m in Sources */,
 				F4EECF6E177FD51400778578 /* ShareViewController.m in Sources */,
 				F4EECF75177FF90600778578 /* SettingViewController.m in Sources */,
-				F09EBCE4186948CA009C2BC9 /* MyListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

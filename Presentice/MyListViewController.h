@@ -2,8 +2,8 @@
 //  MyListViewController.h
 //  Presentice
 //
-//  Created by レー フックダイ on 12/24/13.
-//  Copyright (c) 2013 Appcoda. All rights reserved.
+//  Created by レー フックダイ on 12/31/13.
+//  Copyright (c) 2013 Presentice. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -17,7 +17,7 @@
 #import "MBProgressHUD.h"
 #import <Parse/Parse.h>
 
-@interface MyListViewController : UIViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface MyListViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
