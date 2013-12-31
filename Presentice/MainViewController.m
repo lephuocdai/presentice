@@ -129,8 +129,9 @@
 
     
     //postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-    if ([[PFUser currentUser] isEqual:[object objectForKey:kVideoUserKey]]) {
-        postedUser.text = [NSString stringWithFormat:@"Me: %@", [PFUser currentUser]];
+//    NSLog(@"%d : %hhd", [[PFUser currentUser] isEqual:[object objectForKey:kVideoUserKey]]);
+    if ([[[PFUser currentUser] objectId] isEqual: [[object objectForKey:kVideoUserKey] objectId]]) {
+        postedUser.text = [NSString stringWithFormat:@"Me: %@", [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
         if ([videoType.text isEqualToString:@"question"] ) {
             // Need a better way to check answeredStatus
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
