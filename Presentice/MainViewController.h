@@ -1,9 +1,9 @@
 //
-//  ViewController.h
-//  SidebarDemo
+//  MainViewController.h
+//  Presentice
 //
-//  Created by Simon on 28/6/13.
-//  Copyright (c) 2013 Appcoda. All rights reserved.
+//  Created by レー フックダイ on 12/31/13.
+//  Copyright (c) 2013 Presentice. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -18,9 +18,9 @@
 
 #import <Parse/Parse.h>
 
-@interface MainViewController : UIViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface MainViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end

@@ -16,6 +16,7 @@
 #import "Constants.h"
 
 #import <Parse/Parse.h>
+#import "MBProgressHUD.h"
 
 @interface QuestionListViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
 

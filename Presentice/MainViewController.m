@@ -1,31 +1,58 @@
 //
-//  ViewController.m
-//  SidebarDemo
+//  MainViewController.m
+//  Presentice
 //
-//  Created by Simon on 28/6/13.
-//  Copyright (c) 2013 Appcoda. All rights reserved.
+//  Created by レー フックダイ on 12/31/13.
+//  Copyright (c) 2013 Presentice. All rights reserved.
 //
 
 #import "MainViewController.h"
 
 @interface MainViewController ()
 
-@property (nonatomic, strong) S3TransferOperation *downloadFileOperation;
-@property (nonatomic) double totalBytesWritten;
-@property (nonatomic) long long expectedTotalBytes;
-@property (nonatomic) NSString * filePath;
-
 @end
 
 @implementation MainViewController {
-    NSMutableArray *fileList;
     AmazonS3Client *s3Client;
 }
 
-#pragma UIViewController
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
 
-- (void)viewDidLoad{
+- (id)initWithCoder:(NSCoder *)aCoder {
+    self = [super initWithCoder:aCoder];
+    if (self) {
+        // Custom the table
+        
+        // The className to query on
+        self.parseClassName = kVideoClassKey;
+        
+        // The key of the PFObject to display in the label of the default cell style
+        self.textKey = kVideoURLKey;
+        
+        // Whether the built-in pull-to-refresh is enabled
+        self.pullToRefreshEnabled = YES;
+        
+        // Whether the built-in pagination is enabled
+        self.paginationEnabled = YES;
+        
+        // The number of objects to show per page
+        self.objectsPerPage = 10;
+    }
+    return self;
+}
+
+- (void)viewDidLoad {
+    
     [super viewDidLoad];
+    
+    // Start loading HUD
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     // Set the side bar button action. When it's tapped, it'll show up the sidebar.
     _sidebarButton.target = self.revealViewController;
@@ -33,93 +60,199 @@
     
     // Set the gesture
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    //start loading hub
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    fileList = [[NSMutableArray alloc] init];
-    [self queryVideoList];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    // Set refreshTable notification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshTable:)
+                                                 name:@"refreshTable"
+                                               object:nil];
 
 }
-- (void)didReceiveMemoryWarning
-{
+
+- (void)viewDidAppear:(BOOL)animated {
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+}
+
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-#pragma mark - AmazonServiceRequestDelegate
 
--(void)request:(AmazonServiceRequest *)request didReceiveResponse:(NSURLResponse *)response {
+- (void)refreshTable:(NSNotification *) notification {
+    // Reload the recipes
+    [self loadObjects];
 }
 
-- (void)request:(AmazonServiceRequest *)request didReceiveData:(NSData *)data {
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
 }
 
--(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response {
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
--(void)request:(AmazonServiceRequest *)request didFailWithError:(NSError *)error {
-    NSLog(@"didFailWithError called: %@", error);
+- (PFQuery *)queryForTable {
+    PFQuery *videoListQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [videoListQuery includeKey:kVideoUserKey]; // Important: Include "user" key in this query make receiving user info easier
+    [videoListQuery includeKey:kVideoAsAReplyTo];
+    
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    if ([self.objects count] == 0) {
+        videoListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    }
+    [videoListQuery orderByAscending:kUpdatedAtKey];
+    return videoListQuery;
 }
 
--(void)request:(AmazonServiceRequest *)request didFailWithServiceException:(NSException *)exception {
-    NSLog(@"didFailWithServiceException called: %@", exception);
+// Override to customize the look of a cell representing an object. The default is to display
+// a UITableViewCellStyleDefault style cell with the label being the first key in the object.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    static NSString *simpleTableIdentifier = @"fileListIdentifier";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    }
+    
+    // Configure the cell
+    UILabel *postedUser = (UILabel *)[cell viewWithTag:100];
+    UILabel *videoType = (UILabel *)[cell viewWithTag:101];
+    UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
+    UILabel *status = (UILabel *)[cell viewWithTag:103];
+
+    
+    //postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
+    if ([[PFUser currentUser] isEqual:[object objectForKey:kVideoUserKey]]) {
+        postedUser.text = [NSString stringWithFormat:@"Me: %@", [PFUser currentUser]];
+        if ([videoType.text isEqualToString:@"question"] ) {
+            // Need a better way to check answeredStatus
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                PFQuery *answerQuery = [PFQuery queryWithClassName:kVideoClassKey];
+                [answerQuery includeKey:kVideoUserKey];
+                [answerQuery includeKey:kVideoAsAReplyTo];
+                [answerQuery whereKey:kVideoAsAReplyTo equalTo:object];
+                [answerQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    if(!error && objects.count != 0){
+                        status.text = [NSString stringWithFormat:@"%d answer to your question", objects.count];
+                    } else {
+                        status.text = @"No answer to your question";
+                    }
+                }];
+            });
+        } else if ([videoType.text isEqualToString:@"answer"]) {
+            // Need a better way to check reviewedStatus
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                PFQuery *reviewQuery = [PFQuery queryWithClassName:kReviewClassKey];
+                [reviewQuery includeKey:kReviewFromUserKey];
+                [reviewQuery includeKey:kReviewTargetVideoKey];
+                [reviewQuery whereKey:kReviewTargetVideoKey equalTo:object];
+                [reviewQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    if(!error && objects.count != 0){
+                        status.text = [NSString stringWithFormat:@"%d review", objects.count] ;
+                    } else {
+                        status.text = @"Not Reviewed Yet";
+                    }
+                }];
+            });
+        }
+    } else {
+        postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
+        if ([videoType.text isEqualToString:@"question"] ) {
+            // Need a better way to check answeredStatus
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                PFQuery *myAnswer = [PFQuery queryWithClassName:kVideoClassKey];
+                [myAnswer includeKey:kVideoUserKey];
+                [myAnswer whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
+                [myAnswer whereKey:kVideoAsAReplyTo equalTo:object];
+                [myAnswer findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    if(!error && objects.count != 0){
+                        status.text = @"Already Answered";
+                    } else {
+                        status.text = @"Not Answered Yet";
+                    }
+                }];
+            });
+        } else if ([videoType.text isEqualToString:@"answer"]) {
+            // Need a better way to check reviewedStatus
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                PFQuery *reviewQuery = [PFQuery queryWithClassName:kReviewClassKey];
+                [reviewQuery includeKey:kReviewFromUserKey];
+                [reviewQuery includeKey:kReviewTargetVideoKey];
+                [reviewQuery whereKey:kReviewTargetVideoKey equalTo:object];
+                [reviewQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    if(!error && objects.count != 0){
+                        status.text = [NSString stringWithFormat:@"%d review", objects.count] ;
+                    } else {
+                        status.text = @"Not Reviewed Yet";
+                    }
+                }];
+            });
+        }
+    }
+    
+    videoType.text = [object objectForKey:kVideoTypeKey];
+    
+    postedTime.text = [object objectForKey:kVideoURLKey];
+    
+    return cell;
+}
+
+- (void) objectsDidLoad:(NSError *)error {
+    [super objectsDidLoad:error];
+    NSLog(@"error: %@", [error localizedDescription]);
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSLog(@"HERE %@", self.objects);
+
+    if ([segue.identifier isEqualToString:@"showFileDetail"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        FileViewController *destViewController = segue.destinationViewController;
+        
+        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        NSLog(@"sent object = %@", object);
+        destViewController.fileName = [object objectForKey:kVideoURLKey];
+        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
+        destViewController.videoObj = object;
+    }
 }
 
 /**
- * list all file of a bucket and push to table
+ * get the URL from S3
  * param: bucket name
  * param: Parse Video object (JSON)
+ * This one is the modified one of the commented-out above
  **/
-- (void) s3DirectoryListing: (NSString *) bucketName :(NSArray *) videos{
+
+- (NSURL*)s3URL: (NSString*)bucketName :(PFObject*)object {
     // Init connection with S3Client
     s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
     @try {
-        // Add each filename to fileList
-        for (int x = 0; x < [videos count]; x++) {
-            
-            // Set the content type so that the browser will treat the URL as an image.
-            S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
-            override.contentType = @" ";
-            
-            // Request a pre-signed URL to picture that has been uplaoded.
-            S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
-            
-            //video name
-            gpsur.key     = [NSString stringWithFormat:@"%@",[[videos objectAtIndex:x] objectForKey:@"videoURL"]];
-            //bucket name
-            gpsur.bucket  = bucketName;
-            
-            gpsur.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600]; // Added an hour's worth of seconds to the current time.
-            
-            gpsur.responseHeaderOverrides = override;
-            
-            // Get the URL
-            NSError *error;
-            NSURL *url = [s3Client getPreSignedURL:gpsur error:&error];
-            
-            // Add new file to fileList
-            NSMutableDictionary *file = [NSMutableDictionary dictionary];
-            file[@"fileName"] = [NSString stringWithFormat:@"%@",[[videos objectAtIndex:x] objectForKey:@"videoURL"]];
-            file[@"fileURL"] = url;
-            
-            PFObject *questionVideo = [videos objectAtIndex:x];                 // Get video from
-            PFUser *postedUser = [questionVideo objectForKey:kVideoUserKey];    // Get the postedUser
-            
-            file[@"questionVideo"] = [questionVideo objectId];
-            file[@"userName"] = [postedUser objectForKey:kUserDisplayNameKey];
-            
-            file[@"videoObj"] = questionVideo;
-            //file[@"answeredLabel"] = [self alreadyAnswerQuestion:questionVideo] ?  @"Already Answered" : @"Not Answered Yet";
-            
-            [fileList addObject:file];
-            
-        }
-        [self.tableView reloadData];
+        // Set the content type so that the browser will treat the URL as an image.
+        S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
+        override.contentType = @" ";
+        // Request a pre-signed URL to picture that has been uplaoded.
+        S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
+        // Video name
+        gpsur.key = [NSString stringWithFormat:@"%@", [object objectForKey:kVideoURLKey]];
+        //bucket name
+        gpsur.bucket  = bucketName;
+        // Added an hour's worth of seconds to the current time.
+        gpsur.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600];
         
-        //dismiss hub
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        gpsur.responseHeaderOverrides = override;
+        
+        // Get the URL
+        NSError *error;
+        NSURL *url = [s3Client getPreSignedURL:gpsur error:&error];
+        return url;
     }
     @catch (NSException *exception) {
         NSLog(@"Cannot list S3 %@",exception);
@@ -127,52 +260,4 @@
 }
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [fileList count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *fileListIdentifier = @"fileListIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:fileListIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:fileListIdentifier];
-    }
-    cell.textLabel.text = [fileList objectAtIndex:indexPath.row][@"fileName"];
-    return cell;
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showFileDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        FileViewController *destViewController = segue.destinationViewController;
-        destViewController.fileName = [fileList objectAtIndex:indexPath.row][@"fileName"];
-        destViewController.movieURL = [fileList objectAtIndex:indexPath.row][@"fileURL"];
-        destViewController.videoObj = [fileList objectAtIndex:indexPath.row][@"videoObj"];
-    }
-}
-
-
-
-
-#pragma Parse query
-/**
- * query question videos
- * question video means Video.type = question
- **/
-- (void) queryVideoList {
-    PFQuery *videoList = [PFQuery queryWithClassName:kVideoClassKey];
-    [videoList includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
-    [videoList findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            //load videos from S3 with list of name from database
-            [ self s3DirectoryListing:[Constants transferManagerBucket] :objects];
-        } else {
-            NSLog(@"error");
-        }
-    }];
-}
 @end

@@ -33,6 +33,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // Start loading HUD
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     // Initiate S3 bucket access
     if(self.tm == nil){
         if(![ACCESS_KEY_ID isEqualToString:@"CHANGE ME"]){
@@ -69,6 +72,11 @@
         }
     }
     
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

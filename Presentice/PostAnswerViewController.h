@@ -16,6 +16,7 @@
 #import "Constants.h"
 
 #import <Parse/Parse.h>
+#import "MBProgressHUD.h"
 
 @interface PostAnswerViewController : UIViewController <UINavigationControllerDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
 

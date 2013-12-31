@@ -25,9 +25,13 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Start loading HUD
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    // Set the side bar button action. When it's tapped, it'll show up the sidebar.
     _sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
     
@@ -46,6 +50,11 @@
     notificationList = [[NSMutableArray alloc] init];
     [self queryNotificationList];
     [self.tableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

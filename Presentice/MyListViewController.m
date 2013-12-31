@@ -49,6 +49,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Start loading HUD
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     // Set the side bar button action. When it's tapped, it'll show up the sidebar.
     _sidebarButton.target = self.revealViewController;
     _sidebarButton.action = @selector(revealToggle:);
@@ -64,6 +68,11 @@
                                              selector:@selector(refreshTable:)
                                                  name:@"refreshTable"
                                                object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -120,13 +129,13 @@
     
     UILabel *isTakenAnswer = (UILabel *)[cell viewWithTag:102];
     
-    // Need a better way to check answeredStatus
+    // Need a better way to check reviewedStatus
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        PFQuery *myAnswer = [PFQuery queryWithClassName:kReviewClassKey];
-        [myAnswer includeKey:kReviewFromUserKey];
-        [myAnswer includeKey:kReviewTargetVideoKey];
-        [myAnswer whereKey:kReviewTargetVideoKey equalTo:object];
-        [myAnswer findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        PFQuery *reviewQuery = [PFQuery queryWithClassName:kReviewClassKey];
+        [reviewQuery includeKey:kReviewFromUserKey];
+        [reviewQuery includeKey:kReviewTargetVideoKey];
+        [reviewQuery whereKey:kReviewTargetVideoKey equalTo:object];
+        [reviewQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if(!error && objects.count != 0){
                 isTakenAnswer.text = [NSString stringWithFormat:@"%d review", objects.count] ;
             } else {
