@@ -152,7 +152,7 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSLog(@"HERE %@", self.objects);
+//    NSLog(@"HERE %@", self.objects);
     //[self s3DirectoryListing:[Constants transferManagerBucket] :self.objects];
     if ([segue.identifier isEqualToString:@"showAnswerDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];

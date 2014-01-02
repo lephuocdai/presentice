@@ -14,7 +14,7 @@
 #import "Constants.h"
 
 
-@interface ReviewViewController : UIViewController
+@interface ReviewViewController : UIViewController 
 @property (weak, nonatomic) IBOutlet UISlider *organizationPoint;
 @property (weak, nonatomic) IBOutlet UISlider *understandPoint;
 @property (weak, nonatomic) IBOutlet UISlider *appearancePoint;

@@ -51,6 +51,8 @@
     
     [super viewDidLoad];
     
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
@@ -148,20 +150,21 @@
                 }];
             });
         } else if ([videoType.text isEqualToString:@"answer"]) {
-            // Need a better way to check reviewedStatus
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                PFQuery *reviewQuery = [PFQuery queryWithClassName:kReviewClassKey];
-                [reviewQuery includeKey:kReviewFromUserKey];
-                [reviewQuery includeKey:kReviewTargetVideoKey];
-                [reviewQuery whereKey:kReviewTargetVideoKey equalTo:object];
-                [reviewQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                    if(!error && objects.count != 0){
-                        status.text = [NSString stringWithFormat:@"%d review", objects.count] ;
-                    } else {
-                        status.text = @"Not Reviewed Yet";
-                    }
-                }];
-            });
+//            // Need a better way to check reviewedStatus
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+//                PFQuery *reviewQuery = [PFQuery queryWithClassName:kReviewClassKey];
+//                [reviewQuery includeKey:kReviewFromUserKey];
+//                [reviewQuery includeKey:kReviewTargetVideoKey];
+//                [reviewQuery whereKey:kReviewTargetVideoKey equalTo:object];
+//                [reviewQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//                    if(!error && objects.count != 0){
+//                        status.text = [NSString stringWithFormat:@"%d review", objects.count] ;
+//                    } else {
+//                        status.text = @"Not Reviewed Yet";
+//                    }
+//                }];
+//            });
+            status.text = [NSString stringWithFormat:@"%d review", [[object objectForKey:kVideoReviewsKey] count]];
         }
     } else {
         postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
@@ -181,20 +184,21 @@
                 }];
             });
         } else if ([videoType.text isEqualToString:@"answer"]) {
-            // Need a better way to check reviewedStatus
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                PFQuery *reviewQuery = [PFQuery queryWithClassName:kReviewClassKey];
-                [reviewQuery includeKey:kReviewFromUserKey];
-                [reviewQuery includeKey:kReviewTargetVideoKey];
-                [reviewQuery whereKey:kReviewTargetVideoKey equalTo:object];
-                [reviewQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                    if(!error && objects.count != 0){
-                        status.text = [NSString stringWithFormat:@"%d review", objects.count] ;
-                    } else {
-                        status.text = @"Not Reviewed Yet";
-                    }
-                }];
-            });
+//            // Need a better way to check reviewedStatus
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+//                PFQuery *reviewQuery = [PFQuery queryWithClassName:kReviewClassKey];
+//                [reviewQuery includeKey:kReviewFromUserKey];
+//                [reviewQuery includeKey:kReviewTargetVideoKey];
+//                [reviewQuery whereKey:kReviewTargetVideoKey equalTo:object];
+//                [reviewQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//                    if(!error && objects.count != 0){
+//                        status.text = [NSString stringWithFormat:@"%d review", objects.count] ;
+//                    } else {
+//                        status.text = @"Not Reviewed Yet";
+//                    }
+//                }];
+//            });
+            status.text = [NSString stringWithFormat:@"%d review", [[object objectForKey:kVideoReviewsKey] count]];
         }
     }
     
@@ -211,7 +215,7 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSLog(@"HERE %@", self.objects);
+//    NSLog(@"HERE %@", self.objects);
 
     if ([segue.identifier isEqualToString:@"showFileDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];

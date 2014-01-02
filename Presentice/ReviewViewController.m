@@ -16,8 +16,7 @@ PFObject *reviewObj;
 
 @implementation ReviewViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -31,6 +30,7 @@ PFObject *reviewObj;
 	[self initDesign];
     [self initSlider];
     [self queryCurrentReview];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -108,7 +108,33 @@ PFObject *reviewObj;
         //dismiss hub
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
+    
+//    NSLog(@"reviewObj = %@", reviewObj);
+    
+    // Add this review to the reviews list of the answerVideo
+    NSMutableArray *reviews = [[NSMutableArray alloc]init];
+    if (![self.videoObj objectForKey:kVideoReviewsKey]) {
+        for (PFObject *review in [self.videoObj objectForKey:kVideoReviewsKey]) {
+            [reviews addObject:review];
+        }
+    }
+    [reviews addObject:reviewObj];
+//    NSLog(@"reviews = %@", reviews);
+    [self.videoObj setObject:reviews forKey:kVideoReviewsKey];
+    PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
+    [query whereKey:kObjectIdKey equalTo:[self.videoObj objectId]];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *answerVideo, NSError *error) {
+        if (!error) {
+            [answerVideo setObject:reviews forKey:kVideoReviewsKey];
+            [answerVideo saveInBackground];
+//            NSLog(@"answerVideo = %@", answerVideo);
+        } else {
+            // Did not find any answerVideo in server for self.videoObj
+            NSLog(@"Error: %@", error);
+        }
+    }];
 }
+
 - (void) queryCurrentReview {
     PFQuery *review = [PFQuery queryWithClassName:kReviewClassKey];
     [review whereKey:kReviewFromUserKey equalTo:[PFUser currentUser]];
