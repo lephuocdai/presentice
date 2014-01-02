@@ -103,6 +103,8 @@
     PFQuery *videoListQuery = [PFQuery queryWithClassName:self.parseClassName];
     [videoListQuery includeKey:kVideoUserKey]; // Important: Include "user" key in this query make receiving user info easier
     [videoListQuery includeKey:kVideoAsAReplyTo];
+    [videoListQuery whereKey:kVideoTypeKey equalTo:@"answer"];
+    [videoListQuery whereKey:kVideoUserKey notEqualTo:[PFUser currentUser]];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
@@ -150,20 +152,6 @@
                 }];
             });
         } else if ([videoType.text isEqualToString:@"answer"]) {
-//            // Need a better way to check reviewedStatus
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-//                PFQuery *reviewQuery = [PFQuery queryWithClassName:kReviewClassKey];
-//                [reviewQuery includeKey:kReviewFromUserKey];
-//                [reviewQuery includeKey:kReviewTargetVideoKey];
-//                [reviewQuery whereKey:kReviewTargetVideoKey equalTo:object];
-//                [reviewQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//                    if(!error && objects.count != 0){
-//                        status.text = [NSString stringWithFormat:@"%d review", objects.count] ;
-//                    } else {
-//                        status.text = @"Not Reviewed Yet";
-//                    }
-//                }];
-//            });
             status.text = [NSString stringWithFormat:@"%d review", [[object objectForKey:kVideoReviewsKey] count]];
         }
     } else {
@@ -184,20 +172,6 @@
                 }];
             });
         } else if ([videoType.text isEqualToString:@"answer"]) {
-//            // Need a better way to check reviewedStatus
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-//                PFQuery *reviewQuery = [PFQuery queryWithClassName:kReviewClassKey];
-//                [reviewQuery includeKey:kReviewFromUserKey];
-//                [reviewQuery includeKey:kReviewTargetVideoKey];
-//                [reviewQuery whereKey:kReviewTargetVideoKey equalTo:object];
-//                [reviewQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//                    if(!error && objects.count != 0){
-//                        status.text = [NSString stringWithFormat:@"%d review", objects.count] ;
-//                    } else {
-//                        status.text = @"Not Reviewed Yet";
-//                    }
-//                }];
-//            });
             status.text = [NSString stringWithFormat:@"%d review", [[object objectForKey:kVideoReviewsKey] count]];
         }
     }

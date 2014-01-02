@@ -127,22 +127,23 @@
     UILabel *postedTime = (UILabel *)[cell viewWithTag:101];
     postedTime.text = [object objectForKey:kVideoURLKey];
     
-    UILabel *isTakenAnswer = (UILabel *)[cell viewWithTag:102];
+    UILabel *reviewedStatus = (UILabel *)[cell viewWithTag:102];
     
     // Need a better way to check reviewedStatus
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        PFQuery *reviewQuery = [PFQuery queryWithClassName:kReviewClassKey];
-        [reviewQuery includeKey:kReviewFromUserKey];
-        [reviewQuery includeKey:kReviewTargetVideoKey];
-        [reviewQuery whereKey:kReviewTargetVideoKey equalTo:object];
-        [reviewQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            if(!error && objects.count != 0){
-                isTakenAnswer.text = [NSString stringWithFormat:@"%d review", objects.count] ;
-            } else {
-                isTakenAnswer.text = @"Not Reviewed Yet";
-            }
-        }];
-    });
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+//        PFQuery *reviewQuery = [PFQuery queryWithClassName:kReviewClassKey];
+//        [reviewQuery includeKey:kReviewFromUserKey];
+//        [reviewQuery includeKey:kReviewTargetVideoKey];
+//        [reviewQuery whereKey:kReviewTargetVideoKey equalTo:object];
+//        [reviewQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//            if(!error && objects.count != 0){
+//                reviewedStatus.text = [NSString stringWithFormat:@"%d review", objects.count] ;
+//            } else {
+//                reviewedStatus.text = @"Not Reviewed Yet";
+//            }
+//        }];
+//    });
+    reviewedStatus.text = [NSString stringWithFormat:@"%d review", [[object objectForKey:kVideoReviewsKey] count]];
     return cell;
 }
 
