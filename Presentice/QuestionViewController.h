@@ -26,4 +26,6 @@
 
 @property (weak, nonatomic) NSString *questionVideoId;
 
+@property (strong, nonatomic) PFObject *videoObj;
+
 @end

@@ -25,10 +25,8 @@
 - (IBAction)upload:(id)sender;
 - (IBAction)record:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *putObjectTextField;
-
 @property (weak, nonatomic) NSString *questionVideoId;
-
-//- (id)initWithQuestionVideo:(NSString *)questionVideoId;
+@property (strong, nonatomic) PFObject *questionVideoObj;
 
 // This file may not be used
 @property (weak, nonatomic) IBOutlet UITextField *multipartObjectTextField;

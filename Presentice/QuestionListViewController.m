@@ -17,32 +17,6 @@
     AmazonS3Client *s3Client;
 }
 
-/**
- * This function cause error, be careful
- - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
- 
- self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
- if (self) {
- // Custom the table
- 
- // The className to query on
- self.parseClassName = kVideoClassKey;
- 
- // The key of the PFObject to display in the label of the default cell style
- self.textKey = kVideoURLKey;
- 
- // Whether the built-in pull-to-refresh is enabled
- self.pullToRefreshEnabled = YES;
- 
- // Whether the built-in pagination is enabled
- self.paginationEnabled = YES;
- 
- // The number of objects to show per page
- self.objectsPerPage = 10;    }
- return self;
- }
-**/
-
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
     if (self) {
@@ -139,12 +113,15 @@
     
     // Configure the cell
     UILabel *postedUser = (UILabel *)[cell viewWithTag:100];
-    postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-    
     UILabel *postedTime = (UILabel *)[cell viewWithTag:101];
-    postedTime.text = [object objectForKey:kVideoURLKey];
-    
     UILabel *isTakenAnswer = (UILabel *)[cell viewWithTag:102];
+    UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
+    UILabel *answersNum = (UILabel *)[cell viewWithTag:104];
+    
+    postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
+    postedTime.text = [object objectForKey:kVideoURLKey];
+    viewsNum.text = [NSString stringWithFormat:@"view: %@",[object objectForKey:kVideoViewsKey]];
+    answersNum.text = [NSString stringWithFormat:@"answers: %@", [object objectForKey:kVideoAnswersKey]];
     
     // Need a better way to check answeredStatus
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
@@ -181,69 +158,11 @@
         destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
         destViewController.userName = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
         destViewController.questionVideoId = [object objectId];
+        destViewController.videoObj = object;
     }
 }
 
 #pragma Amazon implemented methods
-
-/**
- * list all file of a bucket and push to table
- * param: bucket name
- * param: Parse Video object (JSON)
- * We don't need this function now
-
-- (void) s3DirectoryListing: (NSString *) bucketName :(NSArray *) videos{
-    // Init connection with S3Client
-    s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
-    @try {
-        // Add each filename to fileList
-        for (int x = 0; x < [videos count]; x++) {
-
-            // Set the content type so that the browser will treat the URL as an image.
-            S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
-            override.contentType = @" ";
-
-            // Request a pre-signed URL to picture that has been uplaoded.
-            S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
-
-            //video name
-            gpsur.key     = [NSString stringWithFormat:@"%@",[[videos objectAtIndex:x] objectForKey:@"videoURL"]];
-            //bucket name
-            gpsur.bucket  = bucketName;
-
-            gpsur.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600]; // Added an hour's worth of seconds to the current time.
-
-            gpsur.responseHeaderOverrides = override;
-
-            // Get the URL
-            NSError *error;
-            NSURL *url = [s3Client getPreSignedURL:gpsur error:&error];
-
-            // Add new file to fileList
-            NSMutableDictionary *file = [NSMutableDictionary dictionary];
-            file[@"fileName"] = [NSString stringWithFormat:@"%@",[[videos objectAtIndex:x] objectForKey:@"videoURL"]];
-            file[@"fileURL"] = url;
-
-            PFObject *questionVideo = [videos objectAtIndex:x];                 // Get video from
-            PFUser *postedUser = [questionVideo objectForKey:kVideoUserKey];    // Get the postedUser
-
-            file[@"questionVideo"] = [questionVideo objectId];
-            file[@"userName"] = [postedUser objectForKey:kUserDisplayNameKey];
-
-            file[@"videoObj"] = questionVideo;
-            //file[@"answeredLabel"] = [self alreadyAnswerQuestion:questionVideo] ?  @"Already Answered" : @"Not Answered Yet";
-
-            [questionList addObject:file];
-
-        }
-        [self.tableView reloadData];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Cannot list S3 %@",exception);
-    }
-}
-**/
-
 /**
  * get the URL from S3
  * param: bucket name

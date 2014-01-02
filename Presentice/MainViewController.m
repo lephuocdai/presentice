@@ -103,6 +103,7 @@
     PFQuery *videoListQuery = [PFQuery queryWithClassName:self.parseClassName];
     [videoListQuery includeKey:kVideoUserKey]; // Important: Include "user" key in this query make receiving user info easier
     [videoListQuery includeKey:kVideoAsAReplyTo];
+    [videoListQuery includeKey:kVideoReviewsKey];
     [videoListQuery whereKey:kVideoTypeKey equalTo:@"answer"];
     [videoListQuery whereKey:kVideoUserKey notEqualTo:[PFUser currentUser]];
     
@@ -130,55 +131,33 @@
     UILabel *videoType = (UILabel *)[cell viewWithTag:101];
     UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
     UILabel *status = (UILabel *)[cell viewWithTag:103];
+    UILabel *viewsNum = (UILabel *)[cell viewWithTag:104];
 
     
     //postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
 //    NSLog(@"%d : %hhd", [[PFUser currentUser] isEqual:[object objectForKey:kVideoUserKey]]);
-    if ([[[PFUser currentUser] objectId] isEqual: [[object objectForKey:kVideoUserKey] objectId]]) {
-        postedUser.text = [NSString stringWithFormat:@"Me: %@", [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
-        if ([videoType.text isEqualToString:@"question"] ) {
-            // Need a better way to check answeredStatus
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                PFQuery *answerQuery = [PFQuery queryWithClassName:kVideoClassKey];
-                [answerQuery includeKey:kVideoUserKey];
-                [answerQuery includeKey:kVideoAsAReplyTo];
-                [answerQuery whereKey:kVideoAsAReplyTo equalTo:object];
-                [answerQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                    if(!error && objects.count != 0){
-                        status.text = [NSString stringWithFormat:@"%d answer to your question", objects.count];
-                    } else {
-                        status.text = @"No answer to your question";
-                    }
-                }];
-            });
-        } else if ([videoType.text isEqualToString:@"answer"]) {
-            status.text = [NSString stringWithFormat:@"%d review", [[object objectForKey:kVideoReviewsKey] count]];
-        }
-    } else {
-        postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-        if ([videoType.text isEqualToString:@"question"] ) {
-            // Need a better way to check answeredStatus
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                PFQuery *myAnswer = [PFQuery queryWithClassName:kVideoClassKey];
-                [myAnswer includeKey:kVideoUserKey];
-                [myAnswer whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
-                [myAnswer whereKey:kVideoAsAReplyTo equalTo:object];
-                [myAnswer findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                    if(!error && objects.count != 0){
-                        status.text = @"Already Answered";
-                    } else {
-                        status.text = @"Not Answered Yet";
-                    }
-                }];
-            });
-        } else if ([videoType.text isEqualToString:@"answer"]) {
-            status.text = [NSString stringWithFormat:@"%d review", [[object objectForKey:kVideoReviewsKey] count]];
-        }
+    postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
+    if ([videoType.text isEqualToString:@"question"] ) {
+        // Need a better way to check answeredStatus
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+            PFQuery *myAnswer = [PFQuery queryWithClassName:kVideoClassKey];
+            [myAnswer includeKey:kVideoUserKey];
+            [myAnswer whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
+            [myAnswer whereKey:kVideoAsAReplyTo equalTo:object];
+            [myAnswer findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                if(!error && objects.count != 0){
+                    status.text = @"Already Answered";
+                } else {
+                    status.text = @"Not Answered Yet";
+                }
+            }];
+        });
+    } else if ([videoType.text isEqualToString:@"answer"]) {
+        status.text = [NSString stringWithFormat:@"review: %d", [[object objectForKey:kVideoReviewsKey] count]];
     }
-    
     videoType.text = [object objectForKey:kVideoTypeKey];
-    
     postedTime.text = [object objectForKey:kVideoURLKey];
+    viewsNum.text = [NSString stringWithFormat:@"view: %@",[object objectForKey:kVideoViewsKey]];
     
     return cell;
 }

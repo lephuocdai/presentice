@@ -186,6 +186,18 @@
     [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         NSLog(@"saved to Parse");
     }];
+    
+    
+    // Increment answers
+    int viewsNum = [[self.questionVideoObj objectForKey:kVideoAnswersKey] intValue];
+    [self.questionVideoObj setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoAnswersKey];
+    PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
+    [query getObjectInBackgroundWithId:[self.questionVideoObj objectId] block:^(PFObject *object, NSError *error) {
+        [object setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoAnswersKey];
+        [object saveInBackground];
+    }];
+    [self.questionVideoObj saveInBackground];
+    NSLog(@"after videoObj = %@", self.questionVideoObj);
 }
 
 -(void)request:(AmazonServiceRequest *)request didFailWithError:(NSError *)error {

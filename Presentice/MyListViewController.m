@@ -121,29 +121,14 @@
     
     // Configure the cell
     UILabel *postedUser = (UILabel *)[cell viewWithTag:100];
-    //postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-    postedUser.text = [[PFUser currentUser] objectForKey:kUserDisplayNameKey];
-    
     UILabel *postedTime = (UILabel *)[cell viewWithTag:101];
+    UILabel *reviewsNum = (UILabel *)[cell viewWithTag:102];
+    UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
+    
+    postedUser.text = [[PFUser currentUser] objectForKey:kUserDisplayNameKey];
     postedTime.text = [object objectForKey:kVideoURLKey];
-    
-    UILabel *reviewedStatus = (UILabel *)[cell viewWithTag:102];
-    
-    // Need a better way to check reviewedStatus
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-//        PFQuery *reviewQuery = [PFQuery queryWithClassName:kReviewClassKey];
-//        [reviewQuery includeKey:kReviewFromUserKey];
-//        [reviewQuery includeKey:kReviewTargetVideoKey];
-//        [reviewQuery whereKey:kReviewTargetVideoKey equalTo:object];
-//        [reviewQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//            if(!error && objects.count != 0){
-//                reviewedStatus.text = [NSString stringWithFormat:@"%d review", objects.count] ;
-//            } else {
-//                reviewedStatus.text = @"Not Reviewed Yet";
-//            }
-//        }];
-//    });
-    reviewedStatus.text = [NSString stringWithFormat:@"%d review", [[object objectForKey:kVideoReviewsKey] count]];
+    viewsNum.text = [NSString stringWithFormat:@"view: %@",[object objectForKey:kVideoViewsKey]];
+    reviewsNum.text = [NSString stringWithFormat:@"review: %d", [[object objectForKey:kVideoReviewsKey] count]];
     return cell;
 }
 

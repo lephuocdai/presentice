@@ -54,8 +54,27 @@
     self.movieController.shouldAutoplay = YES;
     self.movieController.repeatMode = NO;
     [self.movieController prepareToPlay];
-    
     [self.movieController play];
+    
+    // Add activity
+    PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
+    [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+    [activity setObject:[self.videoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
+    [activity setObject:@"view" forKey:kActivityTypeKey];
+    [activity setObject:self.videoObj forKey:kACtivityTargetVideoKey];
+    [activity saveInBackground];
+    
+    
+    // Increment views
+    int viewsNum = [[self.videoObj objectForKey:kVideoViewsKey] intValue];
+    [self.videoObj setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
+    PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
+    [query getObjectInBackgroundWithId:[self.videoObj objectId] block:^(PFObject *object, NSError *error) {
+        [object setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
+        [object saveInBackground];
+    }];
+    [self.videoObj saveInBackground];
+    NSLog(@"after videoObj = %@", self.videoObj);
 }
 
 - (void)moviePlayBackDidFinish:(NSNotification *)notification {
@@ -80,6 +99,7 @@
     if ([segue.identifier isEqualToString:@"showPostAnswer"]) {
         PostAnswerViewController *destViewController = segue.destinationViewController;
         destViewController.questionVideoId = self.questionVideoId;
+        destViewController.questionVideoObj = self.videoObj;
     }
 }
 

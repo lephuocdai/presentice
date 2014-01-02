@@ -71,13 +71,16 @@
 #define kVideoUserKey @"user"   // Pointer to the user that posted this video
 #define kVideoAsAReplyTo @"asAReplyTo"  // Pointer to the questionVideo that this answerVideo is replying to
 #define kVideoReviewsKey @"reviews"
+#define kVideoViewsKey @"views"
+#define kVideoAnswersKey @"answers"
 
 #pragma Table Activity
+#define kActivityClassKey @"Activity"
 #define kActivityFromUserKey @"fromUser"
 #define kActivityToUserKey @"toUser"    //
 #define kActivityTypeKey @"type"    // Ex: "view", "review", "comment"
 #define kActivityContentKey @"content"  // The detail content if available
-#define kActivityVideoKey @"video"  // Pointer to the video that this activity was taken on
+#define kACtivityTargetVideoKey @"targetVideo"  // Pointer to the video that this activity was taken on
 
 #define kReviewClassKey @"Review"
 #define kReviewFromUserKey @"fromUser"
