@@ -10,7 +10,7 @@
 
 @interface SettingViewController ()
 
-@property (nonatomic, strong) NSArray *menuItems;
+@property (nonatomic, strong) NSMutableArray *menuItems;
 
 @end
 
@@ -38,8 +38,9 @@
     // Set the gesture
     [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
-//    _menuItems = @[@"userName", @"email", @"createdAt", @"points", @"university", @"country", @"prefecture", @"gender"];
-//    _menuItems = @[@"userName"];
+    // Set the menu's display
+    self.menuItems = [[NSMutableArray alloc] init];
+    [self setMenuItems];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -66,16 +67,28 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 1;
+    return [self.menuItems count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"userName";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    UILabel *userName = (UILabel *)[cell viewWithTag:101];
+    static NSString *simpleTableIdentifier = @"info";
     
-    userName.text = [[PFUser currentUser] objectForKey:kUserDisplayNameKey];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    }
+    
+    // // Configure the cell
+    
+    UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:100];
+    thumbnailImageView.image = [UIImage imageNamed:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]];
+    
+    UILabel *info = (UILabel *)[cell viewWithTag:101];
+    info.text = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"];
+    
+//    UILabel *email = (UILabel *)[cell viewWithTag:102];
+    
     return cell;
 }
 
@@ -84,4 +97,29 @@
         [PFUser logOut];
     }
 }
+
+- (void) setMenuItems {
+    
+    NSMutableDictionary *username = [[NSMutableDictionary alloc] init];
+    [username setObject:[[PFUser currentUser] objectForKey:kUserDisplayNameKey] forKey:@"info"];
+    [username setObject:@"myList.jpeg" forKey:@"image"];
+    [self.menuItems addObject:username];
+    
+    NSMutableDictionary *email = [[NSMutableDictionary alloc] init];
+    [email setObject:[[PFUser currentUser] objectForKey:kUserEmailKey] forKey:@"info"];
+    [email setObject:@"email.jpeg" forKey:@"image"];
+    [self.menuItems addObject:email];
+    
+    NSMutableDictionary *location = [[NSMutableDictionary alloc] init];
+    [location setObject:[[[[PFUser currentUser] objectForKey:kUserProfileKey] objectForKey:@"location"] objectForKey:@"name"]  forKey:@"info"];
+    [location setObject:@"map.png" forKey:@"image"];
+    [self.menuItems addObject:location];
+    
+    NSMutableDictionary *hometown = [[NSMutableDictionary alloc] init];
+    [hometown setObject:[[[[PFUser currentUser] objectForKey:kUserProfileKey] objectForKey:@"hometown"] objectForKey:@"name"]  forKey:@"info"];
+    [hometown setObject:@"map.png" forKey:@"image"];
+    [self.menuItems addObject:hometown];
+    
+}
+
 @end
