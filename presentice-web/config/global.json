@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "Presentice": {
+            "applicationId": "Q7ub1yg5A0AmDAnwnzVc2SS0X0Q4UZMefq3Kukdf", 
+            "masterKey": "vKITr6nHYrResjJtzzok6yKt6x0NTihTy9W7winI"
+        }, 
+        "_default": {
+            "link": "Presentice"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.15"
+    }
+}
