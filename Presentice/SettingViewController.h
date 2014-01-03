@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "SWRevealViewController.h"
 #import <Parse/Parse.h>
+#import "MBProgressHUD.h"
+#import "Constants.h"
 
-@interface SettingViewController : UIViewController
+@interface SettingViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (strong, nonatomic) NSString *photoFilename;
 @end
