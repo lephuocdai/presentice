@@ -9,12 +9,22 @@ var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 
+//Parse API
 var Parse = require('parse').Parse;
+
+//S3 API
+var AWS = require('aws-sdk'); 
+var s3 = new AWS.S3(); 
 
 var app = express();
 
+//helper for template
+var helpers = require('express-helpers');
+helpers(app);
+
 // all environments
 app.set('port', process.env.PORT || 5000);
+//app.set('port', 8080);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.favicon());
@@ -46,7 +56,30 @@ app.get('/login', function(req, res) {
 
 //home page
 app.get('/home', function(req, res){
-        res.render('home');
+     Parse.initialize("Q7ub1yg5A0AmDAnwnzVc2SS0X0Q4UZMefq3Kukdf", "dpqGmdW8VDtxsBwJ93hOWQqekd9M4OQwc8flxhmI");
+          var Video = Parse.Object.extend("Video");
+          var query = new Parse.Query(Video);
+          query.equalTo("type", "answer");
+          query.equalTo("visibility","open");
+          query.find({
+                    success: function(results) {
+                      var videos = new Array();
+                      for(var i = 0; i < results.length; i++){
+                        var params = {Bucket: 's3-transfer-manager-bucket-akiaibf67u5imhub2kdq', Key: results[i].get("videoURL")};
+                        s3.getSignedUrl('getObject', params, function (err, url) {
+                          var obj = {};
+                          obj["name"] = results[i].get("videoName");
+                          obj["url"] = url;
+                          videos.push(obj);
+                        });
+                      }
+                       console.log(videos); 
+                       res.render('home', {videoList: videos});
+                    },
+                    error: function(error) {
+                      //todo?
+                    }
+          });
 });
 
 //logout request
@@ -60,17 +93,6 @@ app.get('/logout', function(req, res){
 //main page
 app.get('/', function(req, res){
 	res.render('index');
-	// Parse.initialize("Q7ub1yg5A0AmDAnwnzVc2SS0X0Q4UZMefq3Kukdf", "dpqGmdW8VDtxsBwJ93hOWQqekd9M4OQwc8flxhmI");
- //         var Video = Parse.Object.extend("Video");
- //         var query = new Parse.Query(Video);
- //         query.find({
- //                   success: function(results) {
- //                           res.render('index', {message: results});
- //                   },
- //                   error: function(error) {
- //                     res.render('index', {message: error});
- //                   }
- //         });
 });
 
 //login succeed
