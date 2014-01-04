@@ -19,6 +19,11 @@ app.get('/login', function(req, res) {
   res.render('login', { message: 'todo: implement login function' });
 });
 
+//home page
+app.get('/home', function(req, res){
+	res.render('home');
+});
+
 //logout request
 app.get('/logout', function(req, res){
 	if(Parse.User.current()){

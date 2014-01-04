@@ -48,7 +48,7 @@
   		var password = document.loginForm.password.value;
   		Parse.User.logIn(username, password, {
   			success: function(user) {
-  				window.location.href = '/';
+  				window.location.href = '/home';
   			},
   			error: function(user, error) {
   				console.log(error);
