@@ -11,27 +11,27 @@
 
 #import "PostAnswerViewController.h"
 
-@interface QuestionViewController : UIViewController <UINavigationBarDelegate>
+@interface QuestionViewController : UIViewController <UINavigationControllerDelegate, UINavigationBarDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
 
+
+// For display questionVideo
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
-
-//@property (strong, nonatomic) IBOutlet UIView *movieDisplay;
 @property (strong, nonatomic) IBOutlet UILabel *fileLabel;
 @property (strong, nonatomic) IBOutlet UILabel *userLabel;
-
-- (IBAction)takeAnswer:(id)sender;
-
-
-@property (strong, nonatomic) NSString *fileName;
-@property (strong, nonatomic) NSString *userName;
 @property (copy, nonatomic)NSURL *movieURL;
-
+@property (strong, nonatomic) PFObject *questionVideoObj;
 @property (strong, nonatomic)MPMoviePlayerController *movieController;
 
+// For taking answerVideo
+- (IBAction)takeAnswer:(id)sender;
+@property (weak, nonatomic) IBOutlet UITextField *putObjectTextField;
+@property (nonatomic, strong) S3TransferManager *tm;
+- (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
+- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
+@property (strong, nonatomic) NSString *answerVideoName;
+@property (strong, nonatomic) NSString *answerVideoVisibility;
 
-
-@property (weak, nonatomic) NSString *questionVideoId;
-
-@property (strong, nonatomic) PFObject *videoObj;
+// This file may not be used
+@property (weak, nonatomic) IBOutlet UITextField *multipartObjectTextField;
 
 @end

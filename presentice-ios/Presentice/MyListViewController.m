@@ -124,11 +124,13 @@
     UILabel *postedTime = (UILabel *)[cell viewWithTag:101];
     UILabel *reviewsNum = (UILabel *)[cell viewWithTag:102];
     UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
+    UILabel *visibility = (UILabel *)[cell viewWithTag:104];
     
     postedUser.text = [[PFUser currentUser] objectForKey:kUserDisplayNameKey];
     postedTime.text = [object objectForKey:kVideoURLKey];
     viewsNum.text = [NSString stringWithFormat:@"view: %@",[object objectForKey:kVideoViewsKey]];
     reviewsNum.text = [NSString stringWithFormat:@"review: %d", [[object objectForKey:kVideoReviewsKey] count]];
+    visibility.text = [NSString stringWithFormat:@"%@", [object objectForKey:kVideoVisibilityKey]];
     return cell;
 }
 

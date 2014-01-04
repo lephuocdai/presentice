@@ -154,11 +154,9 @@
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
         NSLog(@"sent object = %@", object);
-        destViewController.fileName = [object objectForKey:kVideoURLKey];
         destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
-        destViewController.userName = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-        destViewController.questionVideoId = [object objectId];
-        destViewController.videoObj = object;
+//        destViewController.questionVideoId = [object objectId];
+        destViewController.questionVideoObj = object;
     }
 }
 

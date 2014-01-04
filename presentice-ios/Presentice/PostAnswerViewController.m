@@ -144,9 +144,7 @@
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    
 }
 
 #pragma mark - AmazonServiceRequestDelegate

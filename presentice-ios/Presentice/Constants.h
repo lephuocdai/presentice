@@ -73,6 +73,7 @@
 #define kVideoReviewsKey @"reviews"
 #define kVideoViewsKey @"views"
 #define kVideoAnswersKey @"answers"
+#define kVideoVisibilityKey @"visibility"
 
 #pragma Table Activity
 #define kActivityClassKey @"Activity"

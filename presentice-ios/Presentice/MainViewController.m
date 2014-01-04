@@ -101,10 +101,11 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *videoListQuery = [PFQuery queryWithClassName:self.parseClassName];
-    [videoListQuery includeKey:kVideoUserKey]; // Important: Include "user" key in this query make receiving user info easier
+    [videoListQuery includeKey:kVideoUserKey];      // Important: Include "user" key in this query make receiving user info easier
     [videoListQuery includeKey:kVideoAsAReplyTo];
     [videoListQuery includeKey:kVideoReviewsKey];
-    [videoListQuery whereKey:kVideoTypeKey equalTo:@"answer"];
+    [videoListQuery whereKey:kVideoTypeKey equalTo:@"answer"];      // Only query videos with type "answer"
+    [videoListQuery whereKey:kVideoVisibilityKey equalTo:@"open"];  // Only query videos that were set as "open"
     [videoListQuery whereKey:kVideoUserKey notEqualTo:[PFUser currentUser]];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
