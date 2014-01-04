@@ -13,6 +13,9 @@
 
 @interface QuestionViewController : UIViewController <UINavigationBarDelegate>
 
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+
+//@property (strong, nonatomic) IBOutlet UIView *movieDisplay;
 @property (strong, nonatomic) IBOutlet UILabel *fileLabel;
 @property (strong, nonatomic) IBOutlet UILabel *userLabel;
 
@@ -22,7 +25,10 @@
 @property (strong, nonatomic) NSString *fileName;
 @property (strong, nonatomic) NSString *userName;
 @property (copy, nonatomic)NSURL *movieURL;
+
 @property (strong, nonatomic)MPMoviePlayerController *movieController;
+
+
 
 @property (weak, nonatomic) NSString *questionVideoId;
 

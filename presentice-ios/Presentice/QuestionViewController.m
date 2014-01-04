@@ -30,8 +30,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.scrollView setScrollEnabled:YES];
+    [self.scrollView setContentSize:(CGSizeMake(320, 860))];
+
     fileLabel.text = fileName;
     userLabel.text = userName;
+    
+//    [self.scrollView addSubview:[[]
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,8 +49,9 @@
     self.movieController = [[MPMoviePlayerController alloc] init];
     
     [self.movieController setContentURL:self.movieURL];
-    [self.movieController.view setFrame:CGRectMake(0, 100, 320, 340)];
-    [self.view addSubview:self.movieController.view];
+    [self.movieController.view setFrame:CGRectMake(0, 130, 320, 400)];
+//    [self.view addSubview:self.movieController.view];
+    [self.scrollView addSubview:self.movieController.view];
     
     // Using the Movie Player Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.movieController];
