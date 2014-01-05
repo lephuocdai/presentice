@@ -165,23 +165,13 @@
 }
 
 -(void)request:(AmazonServiceRequest *)request didSendData:(long long) bytesWritten totalBytesWritten:(long long)totalBytesWritten totalBytesExpectedToWrite:(long long)totalBytesExpectedToWrite {
-    if([((S3PutObjectRequest *)request).key isEqualToString:uploadFilename]){
-        double percent = ((double)totalBytesWritten/(double)totalBytesExpectedToWrite)*100;
-        self.putObjectTextField.text = [NSString stringWithFormat:@"%.2f%%", percent];
-    }
-    else if([((S3PutObjectRequest *)request).key isEqualToString:kKeyForBigFile]) {
-        double percent = ((double)totalBytesWritten/(double)totalBytesExpectedToWrite)*100;
-        self.multipartObjectTextField.text = [NSString stringWithFormat:@"%.2f%%", percent];
-    }
+    double percent = ((double)totalBytesWritten/(double)totalBytesExpectedToWrite)*100;
+    self.putObjectTextField.text = [NSString stringWithFormat:@"%.2f%%", percent];
 }
 
 -(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response {
-    if([((S3PutObjectRequest *)request).key isEqualToString:uploadFilename]){
-        self.putObjectTextField.text = @"Done";
-    }
-    else if([((S3PutObjectRequest *)request).key isEqualToString:kKeyForBigFile]) {
-        self.multipartObjectTextField.text = @"Done";
-    }
+    self.putObjectTextField.text = @"Done";
+
     NSLog(@"upload file url: %@", response);
     
     // Register to Parser DB
@@ -221,8 +211,6 @@
     }
     return filePath;
 }
-
-
 
 - (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate {
     // Validations

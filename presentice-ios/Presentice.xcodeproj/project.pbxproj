@@ -36,7 +36,6 @@
 		F00006A9186BA9AC00E69027 /* MessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F00006A8186BA9AC00E69027 /* MessageDetailViewController.m */; };
 		F00006AD186BAA1800E69027 /* NotificationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F00006AC186BAA1800E69027 /* NotificationListViewController.m */; };
 		F00006B0186BAA2900E69027 /* NotificationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F00006AF186BAA2900E69027 /* NotificationDetailViewController.m */; };
-		F00006B5186D3BB600E69027 /* PostAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F00006B4186D3BB600E69027 /* PostAnswerViewController.m */; };
 		F00006B8186EB9BF00E69027 /* icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = F00006B6186EB9BF00E69027 /* icon_1.png */; };
 		F00006B9186EB9BF00E69027 /* icon_2.png in Resources */ = {isa = PBXBuildFile; fileRef = F00006B7186EB9BF00E69027 /* icon_2.png */; };
 		F0718CB0185ABF23009014A0 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0718CAF185ABF23009014A0 /* SWRevealViewController.m */; };
@@ -139,8 +138,6 @@
 		F00006AC186BAA1800E69027 /* NotificationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationListViewController.m; sourceTree = "<group>"; };
 		F00006AE186BAA2900E69027 /* NotificationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationDetailViewController.h; sourceTree = "<group>"; };
 		F00006AF186BAA2900E69027 /* NotificationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationDetailViewController.m; sourceTree = "<group>"; };
-		F00006B3186D3BB600E69027 /* PostAnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostAnswerViewController.h; sourceTree = "<group>"; };
-		F00006B4186D3BB600E69027 /* PostAnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostAnswerViewController.m; sourceTree = "<group>"; };
 		F00006B6186EB9BF00E69027 /* icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_1.png; sourceTree = "<group>"; };
 		F00006B7186EB9BF00E69027 /* icon_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_2.png; sourceTree = "<group>"; };
 		F0718CAE185ABF23009014A0 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -329,15 +326,6 @@
 			name = Notification;
 			sourceTree = "<group>";
 		};
-		F00006B2186D3B9500E69027 /* PostAnswer */ = {
-			isa = PBXGroup;
-			children = (
-				F00006B3186D3BB600E69027 /* PostAnswerViewController.h */,
-				F00006B4186D3BB600E69027 /* PostAnswerViewController.m */,
-			);
-			name = PostAnswer;
-			sourceTree = "<group>";
-		};
 		F0718CBE185ACE41009014A0 /* Stream */ = {
 			isa = PBXGroup;
 			children = (
@@ -351,7 +339,6 @@
 		F0718CBF185ACE8B009014A0 /* Share */ = {
 			isa = PBXGroup;
 			children = (
-				F00006B2186D3B9500E69027 /* PostAnswer */,
 				F09EBCD118691D6D009C2BC9 /* PostQuestion */,
 			);
 			name = Share;
@@ -653,7 +640,6 @@
 				A78E9D5C185DA16B00ACCC54 /* TTTTimeIntervalFormatter.m in Sources */,
 				F00006A9186BA9AC00E69027 /* MessageDetailViewController.m in Sources */,
 				F0A5A74A1871D9DF004E24A3 /* QuestionListViewController.m in Sources */,
-				F00006B5186D3BB600E69027 /* PostAnswerViewController.m in Sources */,
 				A73D5A1418653BF700087F27 /* LoginViewController.m in Sources */,
 				F4EECF1E177C99F400778578 /* main.m in Sources */,
 				F00006AD186BAA1800E69027 /* NotificationListViewController.m in Sources */,

@@ -125,8 +125,6 @@
     
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    
-//    self.answerVideoVisibility = @"open";
 }
 
 - (void)moviePlayBackDidFinish:(NSNotification *)notification {
@@ -145,7 +143,7 @@
                                                    delegate:self
                                           cancelButtonTitle:@"Cancel"
                                           otherButtonTitles:@"Upload from Library", @"Record from Camera", nil];
-    alert.tag = 0;
+    alert.tag = 0;      // Set alert tag is important in case of existence of many alerts
     [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
     [[alert textFieldAtIndex:0] setPlaceholder:@"Video Name"];
     [alert show];
@@ -170,12 +168,14 @@
             NSLog(@"Record from Camera");
             [self startCameraControllerFromViewController:self usingDelegate:self];
         }
+        
+        // Call another alert after this alert executed
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Seclect Visibility!"
                                                         message:@"Decide who can view this video"
                                                        delegate:self
                                               cancelButtonTitle:@"open"
                                               otherButtonTitles:@"friendOnly", @"onlyMe", nil];
-        alert.tag = 2;
+        alert.tag = 2;  // Set alert tag is important in case of existence of many alerts
         [alert show];
     } else if (alertView.tag == 1) {
         NSLog(@"clickedButton");
@@ -289,7 +289,7 @@
                                                        delegate:self
                                               cancelButtonTitle:@"NO"
                                               otherButtonTitles:@"YES", nil];
-        alert.tag = 1;
+        alert.tag = 1;      // Set alert tag is important in case of existence of many alerts
         [alert show];
     }
 }
@@ -301,26 +301,14 @@
 }
 
 -(void)request:(AmazonServiceRequest *)request didSendData:(long long) bytesWritten totalBytesWritten:(long long)totalBytesWritten totalBytesExpectedToWrite:(long long)totalBytesExpectedToWrite {
-    if([((S3PutObjectRequest *)request).key isEqualToString:uploadFilename]){
-        double percent = ((double)totalBytesWritten/(double)totalBytesExpectedToWrite)*100;
-        self.putObjectTextField.text = [NSString stringWithFormat:@"%.2f%%", percent];
-    }
-    else if([((S3PutObjectRequest *)request).key isEqualToString:kKeyForBigFile]) {
-        double percent = ((double)totalBytesWritten/(double)totalBytesExpectedToWrite)*100;
-        self.multipartObjectTextField.text = [NSString stringWithFormat:@"%.2f%%", percent];
-    }
+    double percent = ((double)totalBytesWritten/(double)totalBytesExpectedToWrite)*100;
+    self.putObjectTextField.text = [NSString stringWithFormat:@"%.2f%%", percent];
 }
 
 -(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response {
-    if([((S3PutObjectRequest *)request).key isEqualToString:uploadFilename]){
-        self.putObjectTextField.text = @"Done";
-    }
-    else if([((S3PutObjectRequest *)request).key isEqualToString:kKeyForBigFile]) {
-        self.multipartObjectTextField.text = @"Done";
-    }
+    self.putObjectTextField.text = @"Done";
+
     NSLog(@"upload file url: %@", response);
-    
-    NSLog(@"didCompleteWithResponse");
     
     // Register to Parser DB
     PFObject *newVideo = [PFObject objectWithClassName:kVideoClassKey];

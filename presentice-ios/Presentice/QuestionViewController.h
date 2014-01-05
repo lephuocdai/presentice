@@ -7,9 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MediaPlayer/MediaPlayer.h>
 
-#import "PostAnswerViewController.h"
+#import <AWSRuntime/AWSRuntime.h>
+#import <AWSS3/AWSS3.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <MediaPlayer/MediaPlayer.h>
+#import <MobileCoreServices/UTCoreTypes.h>
+#import "Constants.h"
+
+#import <Parse/Parse.h>
+#import "MBProgressHUD.h"
 
 @interface QuestionViewController : UIViewController <UINavigationControllerDelegate, UINavigationBarDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
 
@@ -30,8 +37,5 @@
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
 @property (strong, nonatomic) NSString *answerVideoName;
 @property (strong, nonatomic) NSString *answerVideoVisibility;
-
-// This file may not be used
-@property (weak, nonatomic) IBOutlet UITextField *multipartObjectTextField;
 
 @end

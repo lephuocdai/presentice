@@ -28,9 +28,6 @@
 - (IBAction)record:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *putObjectTextField;
 
-// This file may not be used
-@property (weak, nonatomic) IBOutlet UITextField *multipartObjectTextField;
-
 - (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
 
