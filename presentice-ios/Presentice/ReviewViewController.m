@@ -108,9 +108,17 @@ PFObject *reviewObj;
             NSLog(@"save succeeded");
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save Review Succeeded" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
             [alert show];
+            
+            // Send a notification to all devices subscribed to the "Giants" channel.
+            PFPush *push = [[PFPush alloc] init];
+            [push setChannel:@"nquangphuong@gmail.com"];
+            [push setMessage:@"The Giants just scored!"];
+            [push sendPushInBackground];
+            
         } else{
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save Review Failed" message:@"Please try again later." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
             [alert show];
+            
         }
     }];
     
