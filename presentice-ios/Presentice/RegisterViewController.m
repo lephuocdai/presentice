@@ -116,6 +116,11 @@ NSDictionary<FBGraphUser>  *fbInfo;
                 [errorAlert show];
         }
     }];
+    
+    // subscribe user default channel for notification.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation addUniqueObject:[newUser objectId] forKey:@"channels"];
+    [currentInstallation saveInBackground];
 }
 
 #pragma alertDelegate
