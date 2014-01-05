@@ -111,7 +111,7 @@ PFObject *reviewObj;
             
             // Send a notification to all devices subscribed to the "Giants" channel.
             PFPush *push = [[PFPush alloc] init];
-            NSString *channelName = self.videoObj[@"user"];
+            NSString *channelName = [[self.videoObj objectForKey:kVideoUserKey] objectForKey:kObjectIdKey];
             NSLog(@"%@", channelName);
             [push setChannel:channelName];
             [push setMessage:@"The Giants just scored!"];
