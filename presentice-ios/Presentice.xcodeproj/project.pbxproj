@@ -577,6 +577,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = Presentice;
+				TargetAttributes = {
+					F4EECF0D177C99F400778578 = {
+						DevelopmentTeam = FYF5789L32;
+					};
+				};
 			};
 			buildConfigurationList = F4EECF09177C99F400778578 /* Build configuration list for PBXProject "Presentice" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -764,6 +769,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Presentice/**",
 					"$(SRCROOT)/External/**",
@@ -778,6 +785,7 @@
 				INFOPLIST_FILE = "Presentice/Presentice-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = Presentice;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -786,6 +794,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Presentice/**",
 					"$(SRCROOT)/External/**",
@@ -800,6 +810,7 @@
 				INFOPLIST_FILE = "Presentice/Presentice-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = Presentice;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
