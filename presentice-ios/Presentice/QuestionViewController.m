@@ -191,7 +191,7 @@
             [dateFormat setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
             NSString *stringFromDate = [dateFormat stringFromDate:date];
             
-            uploadFilename = [NSString stringWithFormat:@"%@.mov", stringFromDate];
+            uploadFilename = [NSString stringWithFormat:@"%@_%@_%@_%@.mov",[[PFUser currentUser] objectId],[[PFUser currentUser] objectForKey:kUserNameKey], [self.questionVideoObj objectId],stringFromDate];
             
             if(self.uploadFromLibrary == nil || (self.uploadFromLibrary.isFinished && !self.uploadFromLibrary.isPaused)){
                 self.uploadFromLibrary = [self.tm uploadFile:self.pathForFileFromLibrary bucket: [Constants transferManagerBucket] key: uploadFilename];
@@ -226,7 +226,7 @@
             [dateFormat setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
             NSString *stringFromDate = [dateFormat stringFromDate:date];
             
-            uploadFilename = [NSString stringWithFormat:@"%@.mov", stringFromDate];
+            uploadFilename = [NSString stringWithFormat:@"%@_%@_%@_%@.mov",[[PFUser currentUser] objectId],[[PFUser currentUser] objectForKey:kUserNameKey], [self.questionVideoObj objectId],stringFromDate];
             [picker dismissViewControllerAnimated:YES completion:NULL];
             
             if(self.uploadFromLibrary == nil || (self.uploadFromLibrary.isFinished && !self.uploadFromLibrary.isPaused)){
