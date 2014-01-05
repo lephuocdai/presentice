@@ -162,6 +162,14 @@
                             RegisterViewController *destViewController = (RegisterViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RegisterViewController"];
                             [self.navigationController pushViewController:destViewController animated:YES];
                         }
+                        
+                        // subscribe user default channel for notification.
+                        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                        [currentInstallation addUniqueObject:[user objectId] forKey:@"channels"];
+                        [currentInstallation saveInBackground];
+                        
+                        NSLog(@"currentInstallation: %@", currentInstallation);
+                        
                         //dismiss hub
                         [MBProgressHUD hideHUDForView:self.view animated:YES];
                     }];
