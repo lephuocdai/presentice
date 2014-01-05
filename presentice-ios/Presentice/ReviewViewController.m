@@ -111,7 +111,7 @@ PFObject *reviewObj;
             
             // Send a notification to all devices subscribed to the "Giants" channel.
             PFPush *push = [[PFPush alloc] init];
-            [push setChannel:@"nquangphuong@gmail.com"];
+            [push setChannel:@"Giants"];
             [push setMessage:@"The Giants just scored!"];
             [push sendPushInBackground];
             
