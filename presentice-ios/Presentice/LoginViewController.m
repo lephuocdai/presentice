@@ -95,6 +95,12 @@
             [self.navigationController pushViewController:destViewController animated:YES];
             //show navigator
             [self.navigationController setNavigationBarHidden:NO animated:YES];
+            
+            // subscribe user default channel for notification.
+            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+            [currentInstallation addUniqueObject:[user objectId] forKey:@"channels"];
+            [currentInstallation saveInBackground];
+            
         } else {
             UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Please check your login username and password!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
             [errorAlert show];
