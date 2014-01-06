@@ -811,56 +811,39 @@
             <point key="canvasLocation" x="2913" y="188"/>
         </scene>
         <!--My Answer View Controller - Detail View-->
-        <scene sceneID="fmF-SU-Vof">
+        <scene sceneID="gU3-57-K8s">
             <objects>
-                <viewController id="XNd-kZ-IEI" customClass="MyAnswerViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="j2e-U1-i4v" userLabel="MyAnswer">
+                <tableViewController storyboardIdentifier="StoryBoard_MyAnswer" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Xnj-hM-lCe" customClass="MyAnswerViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" id="fXv-w8-ILW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="aTz-9l-70y">
-                                <rect key="frame" x="0.0" y="364" width="320" height="212"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" restorationIdentifier="videoInfoTableCell" selectionStyle="none" indentationWidth="10" reuseIdentifier="videoInfoTableCell" rowHeight="120" id="JKN-Wz-oyc" customClass="VideoInfoCell">
-                                        <rect key="frame" x="0.0" y="119" width="320" height="120"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JKN-Wz-oyc" id="Bff-Tt-KFa">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="119"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lVP-Aw-nJC">
-                                                    <rect key="frame" x="20" y="-12" width="280" height="104"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="content" destination="lVP-Aw-nJC" id="SPW-bl-epW"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <sections/>
-                            </tableView>
-                            <view contentMode="scaleToFill" id="4NT-T6-B2D">
-                                <rect key="frame" x="0.0" y="63" width="320" height="300"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Detail View" id="a4L-xi-CNx"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="videoTableCell" rowHeight="55" id="Hns-gT-LHH">
+                                <rect key="frame" x="0.0" y="86" width="320" height="55"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Hns-gT-LHH" id="9by-Dz-LdY">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" id="Xuc-iN-KGP">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        </view>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Xnj-hM-lCe" id="ZVt-GV-sia"/>
+                            <outlet property="delegate" destination="Xnj-hM-lCe" id="4Qp-zz-wIs"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Detail View" id="6JC-Mw-TfN"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <connections>
-                        <outlet property="videoInfoTable" destination="aTz-9l-70y" id="mwZ-GY-RrR"/>
-                        <outlet property="videoView" destination="4NT-T6-B2D" id="ahP-Uh-KJY"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jdJ-X4-mGz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KiW-aR-L2U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2913" y="852"/>
         </scene>
@@ -1109,7 +1092,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="XNd-kZ-IEI" kind="push" identifier="showAnswerDetail" id="c2g-ux-75V"/>
+                                    <segue destination="Xnj-hM-lCe" kind="push" identifier="showAnswerDetail" id="uGR-a0-Q2a"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
