@@ -70,9 +70,9 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if(section == 0) {
-        return @"Video View";
+        return @"Answer Video View";
     } else if(section == 1) {
-        return @"Video Information";
+        return @"Answer Information";
     } else if (section == 2) {
         return  @"Comments";
     }
@@ -120,10 +120,13 @@
         
         [self.movieController play];
     } else if(indexPath.section == 1){
-        cell.textLabel.numberOfLines = 3;
+        cell.textLabel.numberOfLines = 4;
         cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
         if(indexPath.row == 0){
-            cell.textLabel.text = [NSString stringWithFormat:@"Video Name: %@",self.fileName];
+            NSLog(@"section 1 videoObj = %@", self.videoObj);
+            cell.textLabel.text = [NSString stringWithFormat:@"Question: %@\nAnswer Name: %@",
+                                   [[self.videoObj objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey],
+                                   self.fileName];
         } else {
             cell.textLabel.text = videoPointStr;
             NSLog(@"videoPointStr text = %@",cell.textLabel.text);

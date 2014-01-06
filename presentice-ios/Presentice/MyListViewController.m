@@ -98,6 +98,7 @@
 - (PFQuery *)queryForTable {
     PFQuery *myListQuery = [PFQuery queryWithClassName:self.parseClassName];
     [myListQuery includeKey:kVideoReviewsKey];
+    [myListQuery includeKey:kVideoAsAReplyTo];
     [myListQuery whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
     [myListQuery whereKey:kVideoTypeKey equalTo:@"answer"]; //only get list of answers
     
