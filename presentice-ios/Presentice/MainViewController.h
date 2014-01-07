@@ -13,7 +13,8 @@
 #import <AWSRuntime/AWSRuntime.h>
 #import <AWSS3/AWSS3.h>
 #import <AssetsLibrary/AssetsLibrary.h>
-#import "FileViewController.h"
+//#import "FileViewController.h"
+#import "VideoViewController.h"
 #import "Constants.h"
 
 #import <Parse/Parse.h>

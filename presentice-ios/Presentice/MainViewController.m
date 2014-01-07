@@ -173,7 +173,7 @@
 
     if ([segue.identifier isEqualToString:@"showFileDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        FileViewController *destViewController = segue.destinationViewController;
+        VideoViewController *destViewController = segue.destinationViewController;
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
         NSLog(@"sent object = %@", object);
