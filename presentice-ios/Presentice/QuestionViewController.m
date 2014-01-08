@@ -322,6 +322,14 @@
     [newVideo setObject:[[PFQuery queryWithClassName:kVideoClassKey] getObjectWithId:[self.questionVideoObj objectId]] forKey:kVideoAsAReplyTo];
     [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         NSLog(@"saved to Parse");
+        
+        // Send a notification to the device with channel contain video's userId
+        PFPush *push = [[PFPush alloc] init];
+        NSString *channelName = [[self.questionVideoObj objectForKey:kVideoUserKey] objectId];
+        [push setChannel:channelName];
+        [push setMessage:[NSString stringWithFormat:@"Your video %@ has been answered by %@!",[self.questionVideoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
+        [push sendPushInBackground];
+        
     }];
     
     // Increment answers

@@ -142,7 +142,7 @@
         PFPush *push = [[PFPush alloc] init];
         NSString *channelName = [[self.videoObj objectForKey:kVideoUserKey] objectId];
         [push setChannel:channelName];
-        [push setMessage:[NSString stringWithFormat:@"Your video %@ has been viewed from %@!",[self.videoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
+        [push setMessage:[NSString stringWithFormat:@"Your video %@ has been viewed by %@!",[self.videoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
         [push sendPushInBackground];
         
     } else {
