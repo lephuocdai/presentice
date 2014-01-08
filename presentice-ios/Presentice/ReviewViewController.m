@@ -109,7 +109,7 @@ PFObject *reviewObj;
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save Review Succeeded" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
             [alert show];
             
-            // Send a notification to all devices subscribed to the "Giants" channel.
+            // Send a notification to the device with channel contain video's userId
             PFPush *push = [[PFPush alloc] init];
             NSString *channelName = [[self.videoObj objectForKey:kVideoUserKey] objectId];
             [push setChannel:channelName];

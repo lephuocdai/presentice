@@ -137,6 +137,14 @@
         [self.movieController prepareToPlay];
         
         [self.movieController play];
+        
+        // Send a notification to the device with channel contain video's userId
+        PFPush *push = [[PFPush alloc] init];
+        NSString *channelName = [[self.videoObj objectForKey:kVideoUserKey] objectId];
+        [push setChannel:channelName];
+        [push setMessage:[NSString stringWithFormat:@"Your video %@ has been viewed from %@!",[self.videoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
+        [push sendPushInBackground];
+        
     } else {
         if (indexPath.row == 0) {
             cell.textLabel.text = [[self.videoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
