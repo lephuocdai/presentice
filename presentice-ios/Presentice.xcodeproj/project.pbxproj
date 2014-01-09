@@ -759,8 +759,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.Presentice.Presentice";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development IOS Push Services: com.Presentice.Presentice";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Phuoc Dai Le (FYF5789L32)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Phuoc Dai Le (FYF5789L32)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Presentice/**",
 					"$(SRCROOT)/External/**",
@@ -775,7 +775,7 @@
 				INFOPLIST_FILE = "Presentice/Presentice-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = Presentice;
-				PROVISIONING_PROFILE = "56EBFE38-985D-4090-A0D0-3129DADE6E91";
+				PROVISIONING_PROFILE = "61F54E49-AED7-44AB-9733-3C3EFEDBF778";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -784,8 +784,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.Presentice.Presentice";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development IOS Push Services: com.Presentice.Presentice";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Phuoc Dai Le (FYF5789L32)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Phuoc Dai Le (FYF5789L32)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Presentice/**",
 					"$(SRCROOT)/External/**",
@@ -800,7 +800,7 @@
 				INFOPLIST_FILE = "Presentice/Presentice-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = Presentice;
-				PROVISIONING_PROFILE = "56EBFE38-985D-4090-A0D0-3129DADE6E91";
+				PROVISIONING_PROFILE = "61F54E49-AED7-44AB-9733-3C3EFEDBF778";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
