@@ -75,12 +75,17 @@
 #define kActivityContentKey @"content"  // The detail content if available
 #define kACtivityTargetVideoKey @"targetVideo"  // Pointer to the video that this activity was taken on
 
+#pragma Table Review
 #define kReviewClassKey @"Review"
 #define kReviewFromUserKey @"fromUser"
 #define kReviewToUserKey @"toUser"
 #define kReviewTargetVideoKey @"targetVideo"
 #define kReviewContentKey @"content"
 #define kReviewCommentKey @"comment"
+
+#pragma Table Message
+#define kMessageClassKey @"Message"
+
 
 #define REVIEW_MAX_VALUE 5
 #define REVIEW_MIN_VALUE 1

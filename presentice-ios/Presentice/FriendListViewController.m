@@ -1,19 +1,18 @@
 //
-//  MessageListViewController.m
+//  FriendListViewController.m
 //  Presentice
 //
-//  Created by レー フックダイ on 12/26/13.
-//  Copyright (c) 2013 Appcoda. All rights reserved.
+//  Created by レー フックダイ on 1/9/14.
+//  Copyright (c) 2014 Presentice. All rights reserved.
 //
 
-#import "MessageListViewController.h"
+#import "FriendListViewController.h"
 
-@interface MessageListViewController ()
+@interface FriendListViewController ()
 
 @end
 
-@implementation MessageListViewController {
-//    NSMutableArray *messageList;
+@implementation FriendListViewController {
     AmazonS3Client *s3Client;
 }
 
@@ -23,10 +22,10 @@
         // Custom the table
         
         // The className to query on
-        self.parseClassName = kMessageClassKey;
+        self.parseClassName = kUserClassKey;
         
         // The key of the PFObject to display in the label of the default cell style
-        self.textKey = kCreatedAtKey;   // Need to be modified
+        self.textKey = kUserDisplayNameKey;
         
         // Whether the built-in pull-to-refresh is enabled
         self.pullToRefreshEnabled = YES;
@@ -50,7 +49,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
@@ -70,16 +68,6 @@
                                                  name:@"refreshTable"
                                                object:nil];
 }
-
-/**
- * override function
- * load table for each time load view
- */
-//- (void) viewWillAppear:(BOOL)animated {
-//    messageList = [[NSMutableArray alloc] init];
-//    [self queryMessageList];
-//    [self.tableView reloadData];
-//}
 
 - (void)viewDidAppear:(BOOL)animated {
     // Hid all HUD after all objects appered
@@ -107,40 +95,38 @@
 }
 
 - (PFQuery *)queryForTable {
-    PFQuery *messageListQuery = [PFQuery queryWithClassName:self.parseClassName];
-//    PFQuery *questionListQuery = [PFUser query];
+//    PFQuery *questionListQuery = [PFQuery queryWithClassName:self.parseClassName];
+    PFQuery *friendListQuery = [PFUser query];
     // Now we don't have any algorithm about showing user list. Just show all users
-    /**
-     [questionListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
-     [questionListQuery whereKey:kVideoTypeKey equalTo:@"question"];
-     **/
+/**
+    [questionListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
+    [questionListQuery whereKey:kVideoTypeKey equalTo:@"question"];
+**/
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
     if ([self.objects count] == 0) {
-        messageListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        friendListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
-    [messageListQuery orderByAscending:kUpdatedAtKey];
-    return messageListQuery;
+    [friendListQuery orderByAscending:kUpdatedAtKey];
+    return friendListQuery;
 }
 
-#pragma table methods
-/**
- * delegage method
- * number of rows of table
- */
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return [messageList count];
-//}
-
-/**
- * delegate method
- * build table view
- */
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *fileListIdentifier = @"messageListIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:fileListIdentifier];
+// Override to customize the look of a cell representing an object. The default is to display
+// a UITableViewCellStyleDefault style cell with the label being the first key in the object.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    static NSString *simpleTableIdentifier = @"friendListIdentifier";
     
-    cell.textLabel.text = @"Need to put message view here";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    }
+    
+    // Configure the cell
+    UILabel *userName = (UILabel *)[cell viewWithTag:100];
+    UILabel *email = (UILabel *)[cell viewWithTag:101];
+
+    userName.text = [object objectForKey:kUserDisplayNameKey];
+    email.text = [object objectForKey:kUserEmailKey];
     return cell;
 }
 
@@ -149,19 +135,13 @@
     NSLog(@"error: %@", [error localizedDescription]);
 }
 
-/**
- * segue for table cell
- * click to direct to video play view
- * pass video name, video url
- */
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    if ([segue.identifier isEqualToString:@"showQuestionDetail"]) {
-//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-//        QuestionViewController *destViewController = segue.destinationViewController;
-//        destViewController.fileName = [questionList objectAtIndex:indexPath.row][@"fileName"];
-//        destViewController.movieURL = [questionList objectAtIndex:indexPath.row][@"fileURL"];
-//        destViewController.userName = [questionList objectAtIndex:indexPath.row][@"userName"];
-//    }
+
+    if ([segue.identifier isEqualToString:@"showMessageFromContacList"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        MessageDetailViewController *destViewController = segue.destinationViewController;
+        destViewController.toUser = [self.objects objectAtIndex:indexPath.row];
+    }
 }
 
 @end

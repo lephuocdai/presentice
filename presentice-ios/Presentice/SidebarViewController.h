@@ -15,6 +15,7 @@
 #import "MyListViewController.h"
 #import "MessageListViewController.h"
 #import "NotificationListViewController.h"
+#import "FriendListViewController.h"
 
 @interface SidebarViewController : UITableViewController
 

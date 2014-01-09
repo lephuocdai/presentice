@@ -13,12 +13,8 @@
 #import <AWSS3/AWSS3.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "MessageDetailViewController.h"
-#import "Constants.h"
 
-#import <Parse/Parse.h>
-#import "MBProgressHUD.h"
-
-@interface MessageListViewController : UIViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface MessageListViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
