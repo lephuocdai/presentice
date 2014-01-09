@@ -14,9 +14,8 @@
 #import <Parse/Parse.h>
 #import "MBProgressHUD.h"
 
-@interface MessageDetailViewController : PFQueryTableViewController <UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface MessageDetailViewController : PFQueryTableViewController <UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
 @property (strong, nonatomic) PFUser *toUser;
-
 
 @end

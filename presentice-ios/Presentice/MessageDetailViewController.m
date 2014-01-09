@@ -8,11 +8,13 @@
 
 #import "MessageDetailViewController.h"
 
+
 @interface MessageDetailViewController ()
 
 @property (nonatomic, strong) UITextField *commentTextField;
 
 @end
+
 
 @implementation MessageDetailViewController
 
@@ -131,26 +133,7 @@
     
     textString.text = [object objectForKey:@"content"];
     
-//    NSString *chatText = [[self.objects objectAtIndex:indexPath.row] objectForKey:@"content"];
-//    self.userLabel.text = [[[[self.objects objectAtIndex:indexPath.row] objectForKey:@"users"] firstObject] objectId];
-//    self.timeLabel.text = [[self.objects objectAtIndex:indexPath.row] objectForKey:kCreatedAtKey];
-//    
-//    cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-//    UIFont *font = [UIFont systemFontOfSize:14];
-//    CGSize size = [chatText sizeWithFont:font constrainedToSize:CGSizeMake(225.0f, 1000.0f) lineBreakMode:NSLineBreakByCharWrapping];
-//    cell.textString.frame = CGRectMake(75, 14, size.width +20, size.height + 20);
-//    cell.textString.font = [UIFont fontWithName:@"Helvetica" size:14.0];
-//    cell.textString.text = chatText;
-    
     return cell;
-    
-    
-//     static NSString *fileListIdentifier = @"chatCellIdentifier";
-//     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:fileListIdentifier];
-//    
-//     cell.textLabel.text = [[self.objects objectAtIndex:indexPath.row] objectForKey:@"content"];
-//     return cell;
-    
 }
 
 #pragma mark - UITextFieldDelegate
@@ -180,11 +163,8 @@
             }
             
             // Send a notification to the device with channel contain toUser's Id
-            PFPush *push = [[PFPush alloc] init];
-            NSString *channelName = [self.toUser objectId];
-            [push setChannel:channelName];
-            [push setMessage:[NSString stringWithFormat:@"%@ sent you a message: %@",[[PFUser currentUser] objectForKey:kUserDisplayNameKey], trimmedComment]];
-            [push sendPushInBackground];
+            [PFPush sendPushMessageToChannelInBackground:[self.toUser objectId]
+                                             withMessage:[NSString stringWithFormat:@"%@ sent you a message: %@",[[PFUser currentUser] objectForKey:kUserDisplayNameKey], trimmedComment]];
             
             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
             [self loadObjects];

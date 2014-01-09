@@ -104,6 +104,10 @@
     [self.movieController prepareToPlay];
     [self.movieController play];
     
+    // Send a notification to the device with channel contain questionVideo's userId
+    [PFPush sendPushMessageToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId]
+                                     withMessage:[NSString stringWithFormat:@"Your video %@ has been viewed by %@!",[self.questionVideoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
+    
     // Add activity
     PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
     [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
@@ -324,11 +328,8 @@
         NSLog(@"saved to Parse");
         
         // Send a notification to the device with channel contain video's userId
-        PFPush *push = [[PFPush alloc] init];
-        NSString *channelName = [[self.questionVideoObj objectForKey:kVideoUserKey] objectId];
-        [push setChannel:channelName];
-        [push setMessage:[NSString stringWithFormat:@"Your video %@ has been answered by %@!",[self.questionVideoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
-        [push sendPushInBackground];
+        [PFPush sendPushMessageToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId]
+                                         withMessage:[NSString stringWithFormat:@"Your video %@ has been answered by %@!",[self.questionVideoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
         
     }];
     

@@ -136,11 +136,11 @@
  * delegate method
  * build table view
  */
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *fileListIdentifier = @"messageListIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:fileListIdentifier];
     
-    cell.textLabel.text = @"Need to put message view here";
+    cell.textLabel.text = [object objectForKey:@"content"];
     return cell;
 }
 
