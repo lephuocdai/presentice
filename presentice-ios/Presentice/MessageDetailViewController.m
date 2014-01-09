@@ -97,6 +97,7 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *messageListQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [messageListQuery includeKey:@"fromUser"];
     [messageListQuery whereKey:@"users" containsAllObjectsInArray:@[[PFUser currentUser], self.toUser]];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
@@ -108,12 +109,48 @@
     return messageListQuery;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *fileListIdentifier = @"messageIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:fileListIdentifier];
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     
-    cell.textLabel.text = [[self.objects objectAtIndex:indexPath.row] objectForKey:@"content"];
+    static NSString *cellIdentifier = @"chatCellIdentifier";
+    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
+    // Configure the cell
+    UILabel *userLabel = (UILabel *)[cell viewWithTag:100];
+    UILabel *timeLabel = (UILabel *)[cell viewWithTag:101];
+    UITextView *textString = (UITextView *)[cell viewWithTag:102];
+    
+    userLabel.text = [[object objectForKey:@"fromUser"] objectForKey:kUserDisplayNameKey];
+    
+    NSDate *theDate = [object objectForKey:kCreatedAtKey];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateStyle:NSDateFormatterShortStyle];
+    timeLabel.text = [formatter stringFromDate:theDate];
+    
+    textString.text = [object objectForKey:@"content"];
+    
+//    NSString *chatText = [[self.objects objectAtIndex:indexPath.row] objectForKey:@"content"];
+//    self.userLabel.text = [[[[self.objects objectAtIndex:indexPath.row] objectForKey:@"users"] firstObject] objectId];
+//    self.timeLabel.text = [[self.objects objectAtIndex:indexPath.row] objectForKey:kCreatedAtKey];
+//    
+//    cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+//    UIFont *font = [UIFont systemFontOfSize:14];
+//    CGSize size = [chatText sizeWithFont:font constrainedToSize:CGSizeMake(225.0f, 1000.0f) lineBreakMode:NSLineBreakByCharWrapping];
+//    cell.textString.frame = CGRectMake(75, 14, size.width +20, size.height + 20);
+//    cell.textString.font = [UIFont fontWithName:@"Helvetica" size:14.0];
+//    cell.textString.text = chatText;
+    
     return cell;
+    
+    
+//     static NSString *fileListIdentifier = @"chatCellIdentifier";
+//     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:fileListIdentifier];
+//    
+//     cell.textLabel.text = [[self.objects objectAtIndex:indexPath.row] objectForKey:@"content"];
+//     return cell;
+    
 }
 
 #pragma mark - UITextFieldDelegate
@@ -125,7 +162,7 @@
         [message setObject:trimmedComment forKey:@"content"]; // Set comment text
         NSMutableArray *users = [[NSMutableArray alloc] initWithArray:@[[PFUser currentUser], self.toUser]];    // Add two users to the "users" field
         [message setObject:users forKey:@"users"];
-        
+        [message setObject:[PFUser currentUser] forKey:@"fromUser"];
         // Show HUD view
         [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
         

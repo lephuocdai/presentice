@@ -39,7 +39,6 @@
 		F00006B8186EB9BF00E69027 /* icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = F00006B6186EB9BF00E69027 /* icon_1.png */; };
 		F00006B9186EB9BF00E69027 /* icon_2.png in Resources */ = {isa = PBXBuildFile; fileRef = F00006B7186EB9BF00E69027 /* icon_2.png */; };
 		F03486BC187E337A001BE459 /* FriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486BB187E337A001BE459 /* FriendListViewController.m */; };
-		F03486C1187E819A001BE459 /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486C0187E819A001BE459 /* ChatCell.m */; };
 		F03486C4187E8C69001BE459 /* MessageFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486C3187E8C69001BE459 /* MessageFooterView.m */; };
 		F03486C7187E8D80001BE459 /* PresenticeUtitily.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486C6187E8D80001BE459 /* PresenticeUtitily.m */; };
 		F0578ED0187A723400573CD2 /* MyAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0578ECF187A723400573CD2 /* MyAnswerViewController.m */; };
@@ -146,8 +145,6 @@
 		F00006B7186EB9BF00E69027 /* icon_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_2.png; sourceTree = "<group>"; };
 		F03486BA187E337A001BE459 /* FriendListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListViewController.h; sourceTree = "<group>"; };
 		F03486BB187E337A001BE459 /* FriendListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListViewController.m; sourceTree = "<group>"; };
-		F03486BF187E819A001BE459 /* ChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCell.h; sourceTree = "<group>"; };
-		F03486C0187E819A001BE459 /* ChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatCell.m; sourceTree = "<group>"; };
 		F03486C2187E8C69001BE459 /* MessageFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageFooterView.h; sourceTree = "<group>"; };
 		F03486C3187E8C69001BE459 /* MessageFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageFooterView.m; sourceTree = "<group>"; };
 		F03486C5187E8D80001BE459 /* PresenticeUtitily.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresenticeUtitily.h; sourceTree = "<group>"; };
@@ -323,12 +320,10 @@
 				F03486BB187E337A001BE459 /* FriendListViewController.m */,
 				F00006A7186BA9AC00E69027 /* MessageDetailViewController.h */,
 				F00006A8186BA9AC00E69027 /* MessageDetailViewController.m */,
-				F00006A4186BA98C00E69027 /* MessageListViewController.h */,
-				F00006A5186BA98C00E69027 /* MessageListViewController.m */,
-				F03486BF187E819A001BE459 /* ChatCell.h */,
-				F03486C0187E819A001BE459 /* ChatCell.m */,
 				F03486C2187E8C69001BE459 /* MessageFooterView.h */,
 				F03486C3187E8C69001BE459 /* MessageFooterView.m */,
+				F00006A4186BA98C00E69027 /* MessageListViewController.h */,
+				F00006A5186BA98C00E69027 /* MessageListViewController.m */,
 			);
 			name = Message;
 			sourceTree = "<group>";
@@ -658,7 +653,6 @@
 				F0718CB0185ABF23009014A0 /* SWRevealViewController.m in Sources */,
 				F00006A6186BA98C00E69027 /* MessageListViewController.m in Sources */,
 				A78E9D5C185DA16B00ACCC54 /* TTTTimeIntervalFormatter.m in Sources */,
-				F03486C1187E819A001BE459 /* ChatCell.m in Sources */,
 				F00006A9186BA9AC00E69027 /* MessageDetailViewController.m in Sources */,
 				F0A5A74A1871D9DF004E24A3 /* QuestionListViewController.m in Sources */,
 				A73D5A1418653BF700087F27 /* LoginViewController.m in Sources */,
