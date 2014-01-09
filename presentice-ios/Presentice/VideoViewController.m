@@ -138,9 +138,12 @@
         
         [self.movieController play];
         
+        
         // Send a notification to the device with channel contain video's userId
+        NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"viewed"];
+        NSLog(@"pushMessageFormat = %@",pushMessageFormat);
         [PFPush sendPushMessageToChannelInBackground:[[self.videoObj objectForKey:kVideoUserKey] objectId]
-                                         withMessage:[NSString stringWithFormat:@"Your video %@ has been viewed by %@!",
+                                         withMessage:[NSString stringWithFormat:pushMessageFormat,
                                                       [self.videoObj objectForKey:kVideoNameKey],
                                                       [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
         

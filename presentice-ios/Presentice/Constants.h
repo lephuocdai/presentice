@@ -98,4 +98,5 @@
  */
 + (NSString *)transferManagerBucket;
 
++ (NSString *)getConstantbyClass:(NSString *)className forType:(NSString *)typeName withName:(NSString *)name;
 @end

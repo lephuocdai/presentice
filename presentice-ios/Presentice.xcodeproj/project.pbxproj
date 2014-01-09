@@ -320,8 +320,6 @@
 				F03486BB187E337A001BE459 /* FriendListViewController.m */,
 				F00006A7186BA9AC00E69027 /* MessageDetailViewController.h */,
 				F00006A8186BA9AC00E69027 /* MessageDetailViewController.m */,
-				F03486C2187E8C69001BE459 /* MessageFooterView.h */,
-				F03486C3187E8C69001BE459 /* MessageFooterView.m */,
 				F00006A4186BA98C00E69027 /* MessageListViewController.h */,
 				F00006A5186BA98C00E69027 /* MessageListViewController.m */,
 			);
@@ -337,6 +335,28 @@
 				F00006AF186BAA2900E69027 /* NotificationDetailViewController.m */,
 			);
 			name = Notification;
+			sourceTree = "<group>";
+		};
+		F03486CB187EEB60001BE459 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F03486C2187E8C69001BE459 /* MessageFooterView.h */,
+				F03486C3187E8C69001BE459 /* MessageFooterView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		F03486CC187EEB7A001BE459 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A73D5A1118653BD700087F27 /* Login */,
+				F0718CBE185ACE41009014A0 /* Stream */,
+				F0718CBF185ACE8B009014A0 /* Share */,
+				F00006A2186BA95A00E69027 /* Message */,
+				F00006A3186BA96200E69027 /* Notification */,
+				F09EBCD218691D91009C2BC9 /* Setting */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		F0718CBE185ACE41009014A0 /* Stream */ = {
@@ -471,12 +491,8 @@
 			isa = PBXGroup;
 			children = (
 				F4EECF29177C99F400778578 /* MainStoryboard.storyboard */,
-				A73D5A1118653BD700087F27 /* Login */,
-				F0718CBE185ACE41009014A0 /* Stream */,
-				F0718CBF185ACE8B009014A0 /* Share */,
-				F00006A2186BA95A00E69027 /* Message */,
-				F00006A3186BA96200E69027 /* Notification */,
-				F09EBCD218691D91009C2BC9 /* Setting */,
+				F03486CC187EEB7A001BE459 /* Controller */,
+				F03486CB187EEB60001BE459 /* View */,
 				F4EECF18177C99F400778578 /* Supporting Files */,
 			);
 			path = Presentice;

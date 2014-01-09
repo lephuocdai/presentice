@@ -14,12 +14,23 @@
  */
 
 #import "Constants.h"
+#import <Parse/Parse.h>
 
 @implementation Constants
 
-+ (NSString *)transferManagerBucket
-{
++ (NSString *)transferManagerBucket {
     return [[NSString stringWithFormat:@"%@-%@", S3TRANSFERMANAGER_BUCKET, ACCESS_KEY_ID] lowercaseString];
+}
+
++ (NSString *)getConstantbyClass:(NSString *)className forType:(NSString *)typeName withName:(NSString *)name {
+    PFQuery *query = [PFQuery queryWithClassName:@"Constant"];
+    [query whereKey:@"class" equalTo:className];
+    [query whereKey:@"type" equalTo:typeName];
+    PFObject *object = [query getFirstObject];
+    
+    NSArray *contents = [[NSArray alloc] initWithArray:[object objectForKey:@"content"]];
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"name = %@", name];
+    return [[[contents filteredArrayUsingPredicate:filter] firstObject] objectForKey:@"content"];
 }
 
 @end

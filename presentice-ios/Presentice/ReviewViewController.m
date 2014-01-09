@@ -110,11 +110,10 @@ PFObject *reviewObj;
             [alert show];
             
             // Send a notification to the device with channel contain video's userId
-            PFPush *push = [[PFPush alloc] init];
-            NSString *channelName = [[self.videoObj objectForKey:kVideoUserKey] objectId];
-            [push setChannel:channelName];
-            [push setMessage:[NSString stringWithFormat:@"Your video %@ has been reviewed by %@!",[self.videoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
-            [push sendPushInBackground];
+            NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"reviewed"];
+            NSLog(@"pushMessageFormat = %@",pushMessageFormat);
+            [PFPush sendPushMessageToChannelInBackground:[[self.videoObj objectForKey:kVideoUserKey] objectId]
+                                             withMessage:[NSString stringWithFormat:pushMessageFormat,[self.videoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
             
         } else{
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save Review Failed" message:@"Please try again later." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
