@@ -8,7 +8,7 @@ Parse.Cloud.afterSave("Review", function(request) {
 		success: function(video){
 			var toUser = video.get("user");
 			Parse.Push.send({
-  				channels: [ fromUser.id, toUser.id],
+  				channels: [toUser.id],
   				data: {
     				alert: "Your video " + video.get("videoName") + " has been reviewed by " + request.user.get("displayName") + "!"
   				}
