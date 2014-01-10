@@ -11,8 +11,11 @@
 #import <Parse/Parse.h>
 #import "MBProgressHUD.h"
 #import "Constants.h"
+#import "PushPermissionViewController.h"
 
-@interface SettingViewController : UITableViewController
+@interface SettingViewController : UITableViewController <PushPermissionViewDataDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (strong, nonatomic) NSString *photoFilename;
+@property (nonatomic, strong) NSMutableArray *menuItems;
+
 @end

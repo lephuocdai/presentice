@@ -9,9 +9,6 @@
 #import "SettingViewController.h"
 
 @interface SettingViewController ()
-
-@property (nonatomic, strong) NSMutableArray *menuItems;
-
 @end
 
 
@@ -87,9 +84,21 @@
     UILabel *info = (UILabel *)[cell viewWithTag:101];
     info.text = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"];
     
-//    UILabel *email = (UILabel *)[cell viewWithTag:102];
-    
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"type = %@", [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"type"]);
+    if ([[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"type"] isEqual:@"pushPermission"] ) {
+        NSLog(@"get in side");
+        PushPermissionViewController *destViewController = [[PushPermissionViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        if ([destViewController isKindOfClass:[PushPermissionViewController class]]) {
+            destViewController.delegate = self;
+        }
+        destViewController.pushPermission = [[NSMutableDictionary alloc] initWithDictionary:[[PFUser currentUser] objectForKey:@"pushPermission"]];
+//        [self presentViewController:destViewController animated:YES completion:nil];
+        [self.navigationController pushViewController:destViewController animated:YES];
+    }
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -101,25 +110,44 @@
 - (void) setMenuItems {
     
     NSMutableDictionary *username = [[NSMutableDictionary alloc] init];
+    [username setObject:@"username" forKey:@"type"];
     [username setObject:[[PFUser currentUser] objectForKey:kUserDisplayNameKey] forKey:@"info"];
     [username setObject:@"myList.jpeg" forKey:@"image"];
     [self.menuItems addObject:username];
     
     NSMutableDictionary *email = [[NSMutableDictionary alloc] init];
+    [email setObject:@"email" forKey:@"type"];
     [email setObject:[[PFUser currentUser] objectForKey:kUserEmailKey] forKey:@"info"];
     [email setObject:@"email.jpeg" forKey:@"image"];
     [self.menuItems addObject:email];
     
     NSMutableDictionary *location = [[NSMutableDictionary alloc] init];
+    [location setObject:@"location" forKey:@"type"];
     [location setObject:[[[[PFUser currentUser] objectForKey:kUserProfileKey] objectForKey:@"location"] objectForKey:@"name"]  forKey:@"info"];
     [location setObject:@"map.png" forKey:@"image"];
     [self.menuItems addObject:location];
     
     NSMutableDictionary *hometown = [[NSMutableDictionary alloc] init];
+    [hometown setObject:@"hometown" forKey:@"type"];
     [hometown setObject:[[[[PFUser currentUser] objectForKey:kUserProfileKey] objectForKey:@"hometown"] objectForKey:@"name"]  forKey:@"info"];
     [hometown setObject:@"map.png" forKey:@"image"];
     [self.menuItems addObject:hometown];
     
+    
+    NSDictionary *permission = [[PFUser currentUser] objectForKey:@"pushPermission"];
+    NSMutableDictionary *pushPermission = [[NSMutableDictionary alloc] init];
+    [pushPermission setObject:@"pushPermission" forKey:@"type"];
+    [pushPermission setObject:[NSString stringWithFormat:@"viewed:%@, reviewed:%@, answered:%@",
+                               [permission objectForKey:@"viewed"],
+                               [permission objectForKey:@"reviewed"],
+                               [permission objectForKey:@"answered"]] forKey:@"info"];
+    [pushPermission setObject:@"map.png" forKey:@"image"];
+    [self.menuItems addObject:pushPermission];
+}
+
+- (void)recieveData:(NSMutableArray *)pushPermission {
+    
+    [self setMenuItems];
 }
 
 @end
