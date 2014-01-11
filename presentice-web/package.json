@@ -1,5 +1,5 @@
 {
-  "name": "presentice-test",
+  "name": "presentice",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -15,14 +15,14 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/phuongnq/presentice-test"
+    "url": "https://github.com/phuongnq/presentice"
   },
   "keywords": [
     "presentice"
   ],
   "author": "PhuongNQ",
-  "license": "MIT",
+  "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/phuongnq/presentice-test/issues"
+    "url": "https://github.com/phuongnq/presentice/issues"
   }
 }

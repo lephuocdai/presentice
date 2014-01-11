@@ -25,14 +25,14 @@
 
     <div class="container">
 
-      <form class="form-signin" name="loginForm" role="form" action="javascript:Login()">
+      <form class="form-signin" name="loginForm" role="form" method="post" action="/login">
         <h2 class="form-signin-heading">Presentice Login</h2>
         <input type="text" id="username" name="username" class="form-control" placeholder="Email address" required autofocus>
         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         <label class="checkbox">
           <input type="checkbox" value="remember-me"> Remember me
         </label>
-        <button class="btn btn-lg btn-primary btn-block login-btn">Login</button>
+        <button class="btn btn-lg btn-primary btn-block login-btn" type="submit">Login</button>
       </form>
       <div class="register">
       	<h3>Don't have an account?</h3>
