@@ -142,10 +142,18 @@
         // Send a notification to the device with channel contain video's userId
         NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"viewed"];
         NSLog(@"pushMessageFormat = %@",pushMessageFormat);
-        [PFPush sendPushMessageToChannelInBackground:[[self.videoObj objectForKey:kVideoUserKey] objectId]
-                                         withMessage:[NSString stringWithFormat:pushMessageFormat,
-                                                      [self.videoObj objectForKey:kVideoNameKey],
-                                                      [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
+        NSString *messageContent = [NSString stringWithFormat:pushMessageFormat,
+                                    [self.videoObj objectForKey:kVideoNameKey],
+                                    [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
+        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                              messageContent, @"alert",
+                              @"Increment", @"badge",
+                              nil];
+        [PFPush sendPushDataToChannelInBackground:[[self.videoObj objectForKey:kVideoUserKey] objectId] withData:data];
+//        [PFPush sendPushMessageToChannelInBackground:[[self.videoObj objectForKey:kVideoUserKey] objectId]
+//                                         withMessage:[NSString stringWithFormat:pushMessageFormat,
+//                                                      [self.videoObj objectForKey:kVideoNameKey],
+//                                                      [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
         
     } else {
         if (indexPath.row == 0) {

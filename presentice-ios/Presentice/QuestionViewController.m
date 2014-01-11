@@ -107,8 +107,15 @@
     // Send a notification to the device with channel contain questionVideo's userId
     NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"viewed"];
     NSLog(@"pushMessageFormat = %@",pushMessageFormat);
-    [PFPush sendPushMessageToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId]
-                                     withMessage:[NSString stringWithFormat:pushMessageFormat,[self.questionVideoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
+    NSString *messageContent = [NSString stringWithFormat:pushMessageFormat,[self.questionVideoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
+    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                          messageContent, @"alert",
+                          @"Increment", @"badge",
+                          nil];
+    [PFPush sendPushDataToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] withData:data];
+    
+//    [PFPush sendPushMessageToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId]
+//                                     withMessage:[NSString stringWithFormat:pushMessageFormat,[self.questionVideoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
     
     // Add activity
     PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
@@ -332,8 +339,15 @@
         // Send a notification to the device with channel contain video's userId
         NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"answered"];
         NSLog(@"pushMessageFormat = %@",pushMessageFormat);
-        [PFPush sendPushMessageToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId]
-                                         withMessage:[NSString stringWithFormat:pushMessageFormat,[self.questionVideoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
+        NSString *messageContent = [NSString stringWithFormat:pushMessageFormat,[self.questionVideoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
+        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                              messageContent, @"alert",
+                              @"Increment", @"badge",
+                              nil];
+        [PFPush sendPushDataToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] withData:data];
+        
+//        [PFPush sendPushMessageToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId]
+//                                         withMessage:[NSString stringWithFormat:pushMessageFormat,[self.questionVideoObj objectForKey:kVideoNameKey], [[PFUser currentUser] objectForKey:kUserDisplayNameKey]]];
         
     }];
     

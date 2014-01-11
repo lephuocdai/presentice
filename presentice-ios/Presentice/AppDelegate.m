@@ -28,6 +28,21 @@
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
     
+    // Extract the notification data
+//    NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (application.applicationState != UIApplicationStateBackground) {
+        // Track an app open here if we launch with a push, unless
+        // "content_available" was used to trigger a background push (introduced
+        // in iOS 7). In that case, we skip tracking here to avoid double
+        // counting the app-open.
+        BOOL preBackgroundPush = ![application respondsToSelector:@selector(backgroundRefreshStatus)];
+        BOOL oldPushHandlerOnly = ![self respondsToSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
+        BOOL noPushPayload = ![launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (preBackgroundPush || oldPushHandlerOnly || noPushPayload) {
+            [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+        }
+    }
+    
     NSLog(@"after push notification register");
     
     UIImage *navBackgroundImage = [UIImage imageNamed:@"nav_bg"];
@@ -51,7 +66,18 @@
     NSLog(@"currentInstallation: %@",currentInstallation);
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    if (application.applicationState == UIApplicationStateInactive) {
+        // The application was just brought from the background to the foreground,
+        // so we consider the app as having been "opened by a push notification."
+        [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
+    }
     [PFPush handlePush:userInfo];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    if (application.applicationState == UIApplicationStateInactive) {
+        [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
+    }
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -84,12 +110,18 @@
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[PFFacebookUtils session]];
 }
+
 - (void) applicationDidBecomeActive:(UIApplication *)application {
     /*
      Called when the application is about to terminate.
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    if (currentInstallation.badge != 0) {
+        currentInstallation.badge = 0;
+        [currentInstallation saveEventually];
+    }
     [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
 }
 @end
