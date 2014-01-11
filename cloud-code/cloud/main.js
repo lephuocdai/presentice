@@ -10,7 +10,8 @@ Parse.Cloud.afterSave("Review", function(request) {
 			Parse.Push.send({
   				channels: [toUser.id],
   				data: {
-    				alert: "Your video " + video.get("videoName") + " has been reviewed by " + request.user.get("displayName") + "!"
+    				alert: "Your video " + video.get("videoName") + " has been reviewed by " + request.user.get("displayName") + "!",
+    				badge: "Increment"
   				}
 				}, {
   				success: function() {
@@ -22,7 +23,6 @@ Parse.Cloud.afterSave("Review", function(request) {
 			});
 		},
 		error: function(object, error){
-
 		}
 	});
     
