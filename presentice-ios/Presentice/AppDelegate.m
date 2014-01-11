@@ -44,6 +44,18 @@
     }
     
     NSLog(@"after push notification register");
+
+    // Setting for SideMenu
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+//    MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)self.window.rootViewController;
+//    UINavigationController *navigationController = [storyboard instantiateViewControllerWithIdentifier:@"navigationController"];
+//    
+//    UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
+//    UIViewController *rightSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
+//    
+//    [container setLeftMenuViewController:leftSideMenuViewController];
+//    [container setRightMenuViewController:rightSideMenuViewController];
+//    [container setCenterViewController:navigationController];
     
     UIImage *navBackgroundImage = [UIImage imageNamed:@"nav_bg"];
     [[UINavigationBar appearance] setBackgroundImage:navBackgroundImage forBarMetrics:UIBarMetricsDefault];
@@ -56,6 +68,7 @@
                                                            [UIFont fontWithName:@"Helvetica-Light" size:20.0], UITextAttributeFont, nil]];
     return YES;
 }
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken {
     // Store the deviceToken in the current installation and save it to Parse.
     NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken: %@", newDeviceToken);

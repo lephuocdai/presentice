@@ -29,7 +29,7 @@
 	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]){
         //[self redirectToScreen:@"MainViewController"];
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-        MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
+        MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
         [self.navigationController pushViewController:destViewController animated:YES];
         //show navigator
         [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -91,7 +91,7 @@
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error) {
         if(!error){
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-            MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
+            MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
             [self.navigationController pushViewController:destViewController animated:YES];
             //show navigator
             [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -151,7 +151,7 @@
                         if (!error && [objects count] != 0) {
                             //redirect using storyboard
                             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-                            MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
+                            MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
                             [self.navigationController pushViewController:destViewController animated:YES];
                             //show navigator
                             [self.navigationController setNavigationBarHidden:NO animated:YES];
