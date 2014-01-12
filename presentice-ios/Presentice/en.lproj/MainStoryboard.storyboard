@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="mlo-es-2XG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="5D7-fp-3iF">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
@@ -56,7 +56,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X5Z-hc-S8P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-746" y="-1496"/>
+            <point key="canvasLocation" x="-1955" y="-1874"/>
         </scene>
         <!--Push Permission View Controller - PushPermissionView-->
         <scene sceneID="zap-hj-cHs">
@@ -92,7 +92,7 @@
         <!--Share View Controller - Share-->
         <scene sceneID="gbA-tY-N7d">
             <objects>
-                <viewController storyboardIdentifier="Storyboard_PostQuestion" id="CZq-aJ-KAU" customClass="ShareViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="shareViewController" id="CZq-aJ-KAU" customClass="ShareViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9gn-kA-oDW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -140,13 +140,23 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Share" id="bxK-GB-bvd">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="6UH-BZ-60q"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="6UH-BZ-60q">
+                            <connections>
+                                <action selector="showLeftMenu:" destination="CZq-aJ-KAU" id="BYx-Ql-kgI"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="menu.png" id="Usc-lG-R3A">
+                            <connections>
+                                <action selector="showRightMenu:" destination="CZq-aJ-KAU" id="qDx-qn-VOb"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="putObjectTextField" destination="piW-XM-egx" id="JCy-fS-Gos"/>
-                        <outlet property="sidebarButton" destination="6UH-BZ-60q" id="8Yz-5G-HpY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R1O-sx-2nD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -298,7 +308,7 @@
         <!--Side Menu Container View Controller-->
         <scene sceneID="Di1-Oh-W6k">
             <objects>
-                <viewController id="mlo-es-2XG" customClass="MFSideMenuContainerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sideMenuContainer" id="mlo-es-2XG" customClass="MFSideMenuContainerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jnl-T9-lA4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -490,29 +500,51 @@
             </objects>
             <point key="canvasLocation" x="1248" y="-706"/>
         </scene>
-        <!--Right Side Menu View Controller-->
+        <!--Right Side Menu View Controller - Contact List-->
         <scene sceneID="53L-Wn-AbA">
             <objects>
                 <tableViewController storyboardIdentifier="rightSideMenuViewController" id="1SO-X1-PID" customClass="RightSideMenuViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="WNe-2G-7Z5">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="67" sectionHeaderHeight="22" sectionFooterHeight="22" id="QUN-B9-1ov">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Nqk-MV-u4c">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="friendListIdentifier" rowHeight="67" id="ijt-SE-iKl">
+                                <rect key="frame" x="0.0" y="86" width="320" height="67"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nqk-MV-u4c" id="6Tn-Ab-fLN">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ijt-SE-iKl" id="dTu-WP-80X">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="66"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="userName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="abl-GR-dMl">
+                                            <rect key="frame" x="20" y="9" width="182" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Z5-cg-dCl">
+                                            <rect key="frame" x="20" y="38" width="182" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="1SO-X1-PID" id="Dbl-qj-WbQ"/>
-                            <outlet property="delegate" destination="1SO-X1-PID" id="Lzs-Ip-dnB"/>
+                            <outlet property="dataSource" destination="1SO-X1-PID" id="puC-By-sDj"/>
+                            <outlet property="delegate" destination="1SO-X1-PID" id="oRf-Jh-MQo"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Contact List" id="vc8-9C-SAz"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="QUN-B9-1ov" id="545-vH-kzc"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Onp-3i-QYe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -606,7 +638,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mdp-30-Of8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2319" y="-1107"/>
+            <point key="canvasLocation" x="255" y="-1849"/>
         </scene>
         <!--Login View Controller - Login-->
         <scene sceneID="y9c-x9-gVr">
@@ -693,7 +725,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CWr-gd-eFj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-829" y="-2149"/>
+            <point key="canvasLocation" x="-541" y="-989"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="5Z6-ag-ZQ1">
@@ -712,21 +744,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vOb-gn-Bt7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1731" y="-1727"/>
-        </scene>
-        <!--Reveal View Controller-->
-        <scene sceneID="Km2-4s-uzW">
-            <objects>
-                <viewController id="FUu-XX-1jG" customClass="SWRevealViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ynq-FO-pVk">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="C4c-d4-88L" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-3131" y="-1263"/>
+            <point key="canvasLocation" x="-1955" y="-983"/>
         </scene>
         <!--Question View Controller - Detail View-->
         <scene sceneID="T7p-Xr-CUu">
@@ -872,7 +890,7 @@
         <!--Question List View Controller - Quetion List View Controller-->
         <scene sceneID="6G1-b7-LEF">
             <objects>
-                <tableViewController storyboardIdentifier="questionListViewController" title="Quetion List View Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pEw-m6-w8R" customClass="QuestionListViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="questionListViewController" title="Quetion List View Controller" id="pEw-m6-w8R" customClass="QuestionListViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" sectionHeaderHeight="22" sectionFooterHeight="22" id="GTT-jO-aKP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1063,9 +1081,9 @@
         <!--Message List View Controller - Messages-->
         <scene sceneID="JXp-l4-BtU">
             <objects>
-                <tableViewController id="xsU-W6-y7U" customClass="MessageListViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="messageListViewController" id="xsU-W6-y7U" customClass="MessageListViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="jV5-EK-K66">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1084,12 +1102,22 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Messages" id="IpV-9Y-6MA"/>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Messages" id="0ob-bJ-EF9">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="b6b-5c-sCn"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="b6b-5c-sCn">
+                            <connections>
+                                <action selector="showLeftMenu:" destination="xsU-W6-y7U" id="CSn-Op-oaC"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="menu.png" id="gBp-4E-tYv">
+                            <connections>
+                                <action selector="showRightMenu:" destination="xsU-W6-y7U" id="tzv-ch-3PT"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="sidebarButton" destination="b6b-5c-sCn" id="3Hh-nc-SZB"/>
                         <outlet property="tableView" destination="jV5-EK-K66" id="tAD-8l-6Wk"/>
                     </connections>
                 </tableViewController>
@@ -1111,7 +1139,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="notificationListIdentifier" rowHeight="60" id="R4X-D3-IDc">
-                                        <rect key="frame" x="0.0" y="55" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="119" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="232" tableViewCell="R4X-D3-IDc" id="4yK-Tg-7fU">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="59"/>
@@ -1130,11 +1158,22 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Notification List" id="ddh-nh-Sui">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="GPc-yv-hdL"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="GPc-yv-hdL">
+                            <connections>
+                                <action selector="showLeftMenu:" destination="Xz7-CA-r1M" id="Ok1-aE-DSj"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="menu.png" id="W7W-iF-eRh">
+                            <connections>
+                                <action selector="showRightMenu:" destination="Xz7-CA-r1M" id="KJa-Xg-H0m"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="sidebarButton" destination="GPc-yv-hdL" id="FW3-B5-78K"/>
                         <outlet property="tableView" destination="8c0-62-kGe" id="ZiG-cC-ms8"/>
                     </connections>
                 </viewController>
@@ -1145,7 +1184,7 @@
         <!--Notification Detail View Controller - Detail View-->
         <scene sceneID="Wmb-y6-ba4">
             <objects>
-                <viewController storyboardIdentifier="StoryBoard_NotificationDetail" id="ZqR-m8-3lS" customClass="NotificationDetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="notificationListViewController" id="ZqR-m8-3lS" customClass="NotificationDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="j6h-LR-kyV" userLabel="MyAnswer" customClass="Question">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1160,14 +1199,14 @@
         <!--My List View Controller - My List View Controller-->
         <scene sceneID="eAv-OV-hV9">
             <objects>
-                <tableViewController storyboardIdentifier="StoryBoard_MyList" title="My List View Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pdo-2c-UBU" customClass="MyListViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="myListViewController" title="My List View Controller" id="pdo-2c-UBU" customClass="MyListViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" sectionHeaderHeight="22" sectionFooterHeight="22" id="LDZ-W6-EQ0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="myListIdentifier" rowHeight="120" id="AEG-tf-mb3">
-                                <rect key="frame" x="0.0" y="22" width="320" height="120"/>
+                                <rect key="frame" x="0.0" y="86" width="320" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AEG-tf-mb3" id="euI-4g-Ulh">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="119"/>
@@ -1218,11 +1257,22 @@
                             <outlet property="delegate" destination="pdo-2c-UBU" id="Ezy-qn-CwY"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="My List" id="KC7-D0-XL9">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="e0G-r9-NCs"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="e0G-r9-NCs">
+                            <connections>
+                                <action selector="showLeftMenu:" destination="pdo-2c-UBU" id="mKN-vG-DZI"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="menu.png" id="hWC-bL-Agk">
+                            <connections>
+                                <action selector="showRightMenu:" destination="pdo-2c-UBU" id="R75-6A-DKo"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="sidebarButton" destination="e0G-r9-NCs" id="DmV-ig-OSu"/>
                         <outlet property="tableView" destination="LDZ-W6-EQ0" id="u61-dr-bPK"/>
                     </connections>
                 </tableViewController>
@@ -1374,6 +1424,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="b5z-uv-nQA"/>
+        <segue reference="och-ue-P3p"/>
     </inferredMetricsTieBreakers>
 </document>

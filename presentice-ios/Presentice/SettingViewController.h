@@ -14,7 +14,6 @@
 #import "PushPermissionViewController.h"
 
 @interface SettingViewController : UITableViewController <PushPermissionViewDataDelegate>
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (strong, nonatomic) NSString *photoFilename;
 @property (nonatomic, strong) NSMutableArray *menuItems;
 - (IBAction)showLeftMenu:(id)sender;

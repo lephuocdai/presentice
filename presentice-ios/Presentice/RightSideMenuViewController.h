@@ -6,12 +6,18 @@
 //  Copyright (c) 2014 Presentice. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import "MFSideMenu.h"
 
-#import "MainViewController.h"
+#import <AWSRuntime/AWSRuntime.h>
+#import <AWSS3/AWSS3.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+#import "MessageDetailViewController.h"
+#import "Constants.h"
 
-@interface RightSideMenuViewController : UITableViewController
+#import <Parse/Parse.h>
+#import "MBProgressHUD.h"
 
+@interface RightSideMenuViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 @end
