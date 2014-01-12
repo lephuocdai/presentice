@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SWRevealViewController.h"
+#import "MFSideMenu.h"
 #import <Parse/Parse.h>
 #import "MBProgressHUD.h"
 #import "Constants.h"
@@ -17,5 +17,6 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (strong, nonatomic) NSString *photoFilename;
 @property (nonatomic, strong) NSMutableArray *menuItems;
+- (IBAction)showLeftMenu:(id)sender;
 
 @end
