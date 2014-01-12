@@ -81,42 +81,30 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-    mainViewController.title = [NSString stringWithFormat:@"Left demo #%d-%d", indexPath.section, indexPath.row];
-    
-    UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-    NSArray *controllers = [NSArray arrayWithObject:mainViewController];
-    navigationController.viewControllers = controllers;
+    if(indexPath.row == 1){
+        MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+        //MainViewController.title = [NSString stringWithFormat:@"Left second demo #%d-%d", indexPath.section, indexPath.row];
+        
+        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+        NSArray *controllers = [NSArray arrayWithObject:mainViewController];
+        navigationController.viewControllers = controllers;
+    } else if(indexPath.row == 2) {
+        QuestionListViewController *questionListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
+        //MainViewController.title = [NSString stringWithFormat:@"Left second demo #%d-%d", indexPath.section, indexPath.row];
+        
+        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+        NSArray *controllers = [NSArray arrayWithObject:questionListViewController];
+        navigationController.viewControllers = controllers;
+    }else if(indexPath.row == 7){
+        SettingViewController *settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];
+        //MainViewController.title = [NSString stringWithFormat:@"Left second demo #%d-%d", indexPath.section, indexPath.row];
+        
+        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+        NSArray *controllers = [NSArray arrayWithObject:settingViewController];
+        navigationController.viewControllers = controllers;
+    }
     [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
 }
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Set title of navigation bar by using the menu items
-    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    UINavigationController *destViewController = (UINavigationController *)segue.destinationViewController;
-    
-    destViewController.title = [[_menuItems objectAtIndex:indexPath.row] capitalizedString];
-    
-    if ([segue.identifier isEqualToString:@"showSetting"]) {
-        
-    } else if ([segue.identifier isEqualToString:@"showShare"]) {
-        
-    } else if ([segue.identifier isEqualToString:@"showStream"]) {
-        
-    } else if ([segue.identifier isEqualToString:@"showQuestionList"]){
-        NSLog(@"show Question List");
-        
-    } else if ([segue.identifier isEqualToString:@"showMyList"]) {
-        NSLog(@"show My List");
-        
-    } else if ([segue.identifier isEqualToString:@"showMessageList"]) {
-        
-    } else if ([segue.identifier isEqualToString:@"showNotificationList"]) {
-        
-    }
-    
-}
-
 
 /*
 // Override to support conditional editing of the table view.
