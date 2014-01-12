@@ -28,13 +28,6 @@
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    // Set the side bar button action. When it's tapped, it'll show up the sidebar.
-    _sidebarButton.target = self.revealViewController;
-    _sidebarButton.action = @selector(revealToggle:);
-    
-    // Set the gesture
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    
     // Set the menu's display
     self.menuItems = [[NSMutableArray alloc] init];
     [self setMenuItems];
@@ -143,6 +136,10 @@
                                [permission objectForKey:@"answered"]] forKey:@"info"];
     [pushPermission setObject:@"map.png" forKey:@"image"];
     [self.menuItems addObject:pushPermission];
+}
+
+- (IBAction)showLeftMenu:(id)sender {
+    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
 
 - (void)recieveData:(NSMutableArray *)pushPermission {
