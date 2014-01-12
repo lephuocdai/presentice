@@ -30,7 +30,11 @@ helpers(app);
 
 // all environments
 app.set('port', process.env.PORT || 5000);
+<<<<<<< HEAD
+// app.set('port', 8080);
+=======
 //app.set('port', 8080);
+>>>>>>> b86aa196fcbebd8a8b7a4af9077733b4c0269b4c
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.favicon());
