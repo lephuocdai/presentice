@@ -87,19 +87,15 @@ PFObject *reviewObj;
         reviewObj = [PFObject objectWithClassName:kReviewClassKey];
         NSLog(@"assert reviewObj %@", reviewObj);
     }
-    
-//    [reviewObj setObject:[PFUser currentUser] forKey:kReviewFromUserKey];
-//    [reviewObj setObject:self.videoObj forKey:kReviewTargetVideoKey];
-//    [reviewObj setObject:self.commentTextView.text forKey:kReviewCommentKey];
     reviewObj[kReviewFromUserKey] = [PFUser currentUser];
     reviewObj[kReviewTargetVideoKey] = self.videoObj;
+    reviewObj[kReviewToUserKey] = [self.videoObj objectForKey:kVideoUserKey];
     reviewObj[kReviewCommentKey] = self.commentTextView.text;
     
     NSMutableDictionary *content = [[NSMutableDictionary alloc] init ];
     [content setObject:self.organizationLabel.text forKey:@"organization"];
     [content setObject:self.understandLabel.text forKey:@"understandability"];
     [content setObject:self.appearanceLabel.text forKey:@"appearance"];
-//    [reviewObj setObject:content forKey:kReviewContentKey];
     reviewObj[kReviewContentKey] = content;
     NSLog(@"reviewObj before save = %@", reviewObj);
     

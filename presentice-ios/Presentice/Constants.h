@@ -62,6 +62,7 @@
 #define kVideoNameKey @"videoName"
 #define kVideoUserKey @"user"   // Pointer to the user that posted this video
 #define kVideoAsAReplyTo @"asAReplyTo"  // Pointer to the questionVideo that this answerVideo is replying to
+#define kVideoToUserKey @"toUser"
 #define kVideoReviewsKey @"reviews"
 #define kVideoViewsKey @"views"
 #define kVideoAnswersKey @"answers"
