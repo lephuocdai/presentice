@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SWRevealViewController.h"
+#import "MFSideMenu.h"
 
 #import <AWSRuntime/AWSRuntime.h>
 #import <AWSS3/AWSS3.h>
@@ -20,7 +20,8 @@
 
 @interface NotificationListViewController : UIViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
 
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+- (IBAction)showLeftMenu:(id)sender;
+- (IBAction)showRightMenu:(id)sender;
 
 @end

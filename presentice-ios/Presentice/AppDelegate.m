@@ -20,7 +20,6 @@
     [PFFacebookUtils initializeFacebook];
     // ****************************************************************************
 
-    NSLog(@"before push notification register");
     //Push Notification Test
     // Register for push notifications
     [application registerForRemoteNotificationTypes:
@@ -42,29 +41,6 @@
             [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
         }
     }
-    
-    NSLog(@"after push notification register");
-
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    
-    //if user already login, redirect to MainViewController
-	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]){
-        // Setting for SideMenu
-        MFSideMenuContainerViewController *container = (MFSideMenuContainerViewController *)self.window.rootViewController;
-        UINavigationController *navigationController = [storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
-        
-        UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
-        UIViewController *rightSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
-        
-        [container setLeftMenuViewController:leftSideMenuViewController];
-        [container setRightMenuViewController:rightSideMenuViewController];
-        [container setCenterViewController:navigationController];
-    } else {
-        LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
-        [self.window.rootViewController presentViewController:loginViewController animated:YES completion:nil];
-    }
-    
-
     
     UIImage *navBackgroundImage = [UIImage imageNamed:@"nav_bg"];
     [[UINavigationBar appearance] setBackgroundImage:navBackgroundImage forBarMetrics:UIBarMetricsDefault];

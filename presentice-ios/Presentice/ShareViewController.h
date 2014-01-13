@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SWRevealViewController.h"
+#import "MFSideMenu.h"
 
 #import <AWSRuntime/AWSRuntime.h>
 #import <AWSS3/AWSS3.h>
@@ -30,5 +30,7 @@
 
 - (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
+- (IBAction)showLeftMenu:(id)sender;
+- (IBAction)showRightMenu:(id)sender;
 
 @end

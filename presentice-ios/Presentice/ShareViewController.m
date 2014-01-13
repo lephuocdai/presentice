@@ -32,15 +32,7 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    
-    // Set the side bar button action. When it's tapped, it'll show up the sidebar.
-    _sidebarButton.target = self.revealViewController;
-    _sidebarButton.action = @selector(revealToggle:);
-    
-    // Set the gesture
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    
+    [super viewDidLoad];    
     //set up amazon connection in background
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self setupAmazonS3];
@@ -249,6 +241,14 @@
                                               otherButtonTitles:@"YES", nil];
         [alert show];
     }
+}
+
+- (IBAction)showLeftMenu:(id)sender {
+    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
+}
+
+- (IBAction)showRightMenu:(id)sender {
+    [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

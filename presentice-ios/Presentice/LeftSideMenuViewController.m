@@ -83,22 +83,36 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.row == 1){
         MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-        //MainViewController.title = [NSString stringWithFormat:@"Left second demo #%d-%d", indexPath.section, indexPath.row];
-        
         UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
         NSArray *controllers = [NSArray arrayWithObject:mainViewController];
         navigationController.viewControllers = controllers;
     } else if(indexPath.row == 2) {
         QuestionListViewController *questionListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
-        //MainViewController.title = [NSString stringWithFormat:@"Left second demo #%d-%d", indexPath.section, indexPath.row];
-        
         UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
         NSArray *controllers = [NSArray arrayWithObject:questionListViewController];
         navigationController.viewControllers = controllers;
+    } else if(indexPath.row == 3){
+        MyListViewController *myListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"myListViewController"];
+        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+        NSArray *controllers = [NSArray arrayWithObject:myListViewController];
+        navigationController.viewControllers = controllers;
+    } else if(indexPath.row == 4){
+        MessageListViewController *messageListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageListViewController"];
+        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+        NSArray *controllers = [NSArray arrayWithObject:messageListViewController];
+        navigationController.viewControllers = controllers;
+    }else if(indexPath.row == 5){
+        NotificationListViewController *notificationListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
+        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+        NSArray *controllers = [NSArray arrayWithObject:notificationListViewController];
+        navigationController.viewControllers = controllers;
+    } else if(indexPath.row == 6){
+        ShareViewController *shareViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"shareViewController"];
+        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+        NSArray *controllers = [NSArray arrayWithObject:shareViewController];
+        navigationController.viewControllers = controllers;
     }else if(indexPath.row == 7){
-        SettingViewController *settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];
-        //MainViewController.title = [NSString stringWithFormat:@"Left second demo #%d-%d", indexPath.section, indexPath.row];
-        
+        SettingViewController *settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];        
         UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
         NSArray *controllers = [NSArray arrayWithObject:settingViewController];
         navigationController.viewControllers = controllers;

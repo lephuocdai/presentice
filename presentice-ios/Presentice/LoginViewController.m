@@ -14,25 +14,30 @@
 
 @implementation LoginViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+//    if (self) {
+//        // Custom initialization
+//    }
+//    return self;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     //if user already login, redirect to MainViewController
 	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]){
-        //[self redirectToScreen:@"MainViewController"];
+        // Setting for SideMenu
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-        MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-        [self.navigationController pushViewController:destViewController animated:YES];
-        //show navigator
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
+
+        UINavigationController *centerViewController = [storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
+        
+        UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
+        UIViewController *rightSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
+        
+        MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController containerWithCenterViewController:centerViewController
+                                                                                                     leftMenuViewController:leftSideMenuViewController rightMenuViewController:rightSideMenuViewController];
+        [self.navigationController presentViewController:container animated:YES completion:nil];
     }
 }
 - (void) viewWillAppear:(BOOL)animated {
@@ -91,10 +96,15 @@
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error) {
         if(!error){
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-            MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-            [self.navigationController pushViewController:destViewController animated:YES];
-            //show navigator
-            [self.navigationController setNavigationBarHidden:NO animated:YES];
+            
+            UINavigationController *centerViewController = [storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
+            
+            UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
+            UIViewController *rightSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
+            
+            MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController containerWithCenterViewController:centerViewController
+                                                                                                         leftMenuViewController:leftSideMenuViewController rightMenuViewController:rightSideMenuViewController];
+            [self.navigationController presentViewController:container animated:YES completion:nil];
             
             // subscribe user default channel for notification.
             PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -150,11 +160,19 @@
                         //if email/facebookId already registered, redirect to main view
                         if (!error && [objects count] != 0) {
                             //redirect using storyboard
-                            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-                            MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-                            [self.navigationController pushViewController:destViewController animated:YES];
-                            //show navigator
-                            [self.navigationController setNavigationBarHidden:NO animated:YES];
+                            //if user already login, redirect to MainViewController
+                            if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]){
+                                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+                                
+                                UINavigationController *centerViewController = [storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
+                                
+                                UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
+                                UIViewController *rightSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
+                                
+                                MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController containerWithCenterViewController:centerViewController
+                                                                                                                             leftMenuViewController:leftSideMenuViewController rightMenuViewController:rightSideMenuViewController];
+                                [self.navigationController presentViewController:container animated:YES completion:nil];
+                            }
                             
                         } else {
                             //redirecto to register screen using storyboard
