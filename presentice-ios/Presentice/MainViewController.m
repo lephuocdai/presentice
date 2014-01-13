@@ -130,9 +130,6 @@
     UILabel *status = (UILabel *)[cell viewWithTag:103];
     UILabel *viewsNum = (UILabel *)[cell viewWithTag:104];
 
-    
-    //postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-//    NSLog(@"%d : %hhd", [[PFUser currentUser] isEqual:[object objectForKey:kVideoUserKey]]);
     postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     if ([videoType.text isEqualToString:@"question"] ) {
         // Need a better way to check answeredStatus

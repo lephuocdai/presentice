@@ -53,6 +53,7 @@
 #define kUserDisplayNameKey @"displayName"
 #define kUserFacebookIdKey @"facebookId"
 #define kUserProfileKey @"profile"
+#define kUserPushPermission @"pushPermission"
 
 #pragma Table Video
 #define kVideoClassKey @"Video"
