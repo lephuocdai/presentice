@@ -34,7 +34,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    pushType = @[@"viewed", @"reviewed", @"answered"];
+    pushType = @[@"viewed", @"reviewed", @"answered", @"message"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -86,9 +86,9 @@
 - (void)updateSwitch:(UISwitch *)switchView {
     NSLog(@"before changed self pushPermission = %@", self.pushPermission);
     if ([switchView isOn]) {
-        [self.pushPermission setObject:@"no" forKey:[pushType objectAtIndex:switchView.tag]];
-    } else {
         [self.pushPermission setObject:@"yes" forKey:[pushType objectAtIndex:switchView.tag]];
+    } else {
+        [self.pushPermission setObject:@"no" forKey:[pushType objectAtIndex:switchView.tag]];
     }
     NSLog(@"after changed self pushPermission = %@", self.pushPermission);
 }
@@ -97,17 +97,10 @@
     [super viewWillDisappear:animated];
     
     if (self.isMovingFromParentViewController) {
-        [self.delegate recieveData:self.pushPermission];
+        [self.delegate receiveData:self.pushPermission];
         NSLog(@"currentUser = %@", [[PFUser currentUser] objectForKey:kUserNameKey]);
-        
-        PFQuery *query = [PFUser query];
-        [query getObjectInBackgroundWithId:[[PFUser currentUser] objectId] block:^(PFObject *object, NSError *error) {
-            [object setObject:self.pushPermission forKey:@"pushPermission"];
-            NSLog(@"getUser = %@", [object objectForKey:kUserNameKey]);
-            [object saveInBackground];
-            NSLog(@"self pushPermission = %@", self.pushPermission);
-            NSLog(@"object pushPermission = %@", [object objectForKey:@"pushPermission"]);
-        }];
+        [[PFUser currentUser] setObject:self.pushPermission forKey:kUserPushPermission];
+        [[PFUser currentUser] saveInBackground];
     }
 }
 

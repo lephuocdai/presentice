@@ -107,16 +107,22 @@ PFObject *reviewObj;
             
             // Send a notification to the device with channel contain video's userId
             if ([[[[self.videoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"reviewed"] isEqualToString:@"yes"]) {
-                NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"reviewed"];
-                NSLog(@"pushMessageFormat = %@",pushMessageFormat);
-                NSString *messageContent = [NSString stringWithFormat:pushMessageFormat,
-                                            [self.videoObj objectForKey:kVideoNameKey],
-                                            [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
-                NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-                                      messageContent, @"alert",
-                                      @"Increment", @"badge",
-                                      nil];
-                [PFPush sendPushDataToChannelInBackground:[[self.videoObj objectForKey:kVideoUserKey] objectId] withData:data];
+                NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+                [params setObject:[self.videoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
+                [params setObject:[[self.videoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
+                [params setObject:@"reviewed" forKey:@"pushType"];
+                [PFCloud callFunction:@"sendPushNotification" withParameters:params];
+
+//                NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"reviewed"];
+//                NSLog(@"pushMessageFormat = %@",pushMessageFormat);
+//                NSString *messageContent = [NSString stringWithFormat:pushMessageFormat,
+//                                            [self.videoObj objectForKey:kVideoNameKey],
+//                                            [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
+//                NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                      messageContent, @"alert",
+//                                      @"Increment", @"badge",
+//                                      nil];
+//                [PFPush sendPushDataToChannelInBackground:[[self.videoObj objectForKey:kVideoUserKey] objectId] withData:data];
             }
         } else{
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save Review Failed" message:@"Please try again later." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];

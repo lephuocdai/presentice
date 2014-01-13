@@ -99,6 +99,10 @@ NSDictionary<FBGraphUser>  *fbInfo;
     [newUser setObject:fbInfo.name forKey:kUserDisplayNameKey];
     [newUser setObject:fbInfo forKey:kUserProfileKey];
     
+    NSMutableDictionary *pushPermission = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"answered", @"yes", @"reviewed", @"yes", @"viewed", @"yes", @"message", @"yes", nil];
+    
+    [newUser setObject:pushPermission forKey:kUserPushPermission];
+    
     [newUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             NSLog(@"register succeed!");

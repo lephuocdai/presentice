@@ -142,16 +142,23 @@
         // Send a "viewed" notification to the device with channel contain video's userId
         NSLog(@"viewd push = %@", [[[self.videoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"]);
         if ([[[[self.videoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"] isEqualToString:@"yes"]) {
-            NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"viewed"];
-            NSLog(@"pushMessageFormat = %@",pushMessageFormat);
-            NSString *messageContent = [NSString stringWithFormat:pushMessageFormat,
-                                        [self.videoObj objectForKey:kVideoNameKey],
-                                        [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
-            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  messageContent, @"alert",
-                                  @"Increment", @"badge",
-                                  nil];
-            [PFPush sendPushDataToChannelInBackground:[[self.videoObj objectForKey:kVideoUserKey] objectId] withData:data];
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+            [params setObject:[self.videoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
+            [params setObject:[[self.videoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
+            [params setObject:@"viewed" forKey:@"pushType"];
+            [PFCloud callFunction:@"sendPushNotification" withParameters:params];
+            
+//            NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"viewed"];
+//            NSString *pushMessageFormat = @"Your video %@ has been viewed by %@!";
+//            NSLog(@"pushMessageFormat = %@",pushMessageFormat);
+//            NSString *messageContent = [NSString stringWithFormat:pushMessageFormat,
+//                                        [self.videoObj objectForKey:kVideoNameKey],
+//                                        [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
+//            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                  messageContent, @"alert",
+//                                  @"Increment", @"badge",
+//                                  nil];
+//            [PFPush sendPushDataToChannelInBackground:[[self.videoObj objectForKey:kVideoUserKey] objectId] withData:data];
         }
     } else {
         if (indexPath.row == 0) {

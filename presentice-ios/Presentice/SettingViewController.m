@@ -76,9 +76,13 @@
     
     UILabel *info = (UILabel *)[cell viewWithTag:101];
     NSLog(@"%@",[self.menuItems objectAtIndex:indexPath.row]);
-    if([[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"] != nil)
+    if([[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"] != nil) {
         info.text = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"];
-    
+        [info setTextAlignment:NSTextAlignmentLeft];
+        info.lineBreakMode = NSLineBreakByWordWrapping;
+        [info setNumberOfLines:0];
+        [info sizeToFit];
+    }
     return cell;
 }
 
@@ -140,10 +144,11 @@
         NSDictionary *permission = [[PFUser currentUser] objectForKey:@"pushPermission"];
         NSMutableDictionary *pushPermission = [[NSMutableDictionary alloc] init];
         [pushPermission setObject:@"pushPermission" forKey:@"type"];
-        [pushPermission setObject:[NSString stringWithFormat:@"viewed:%@, reviewed:%@, answered:%@",
+        [pushPermission setObject:[NSString stringWithFormat:@"viewed:%@, reviewed:%@, answered:%@, message:%@",
                                    [permission objectForKey:@"viewed"],
                                    [permission objectForKey:@"reviewed"],
-                                   [permission objectForKey:@"answered"]] forKey:@"info"];
+                                   [permission objectForKey:@"answered"],
+                                   [permission objectForKey:@"message"]] forKey:@"info"];
         [pushPermission setObject:@"map.png" forKey:@"image"];
         [self.menuItems addObject:pushPermission];
     }
@@ -153,9 +158,19 @@
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
 
-- (void)recieveData:(NSMutableArray *)pushPermission {
+- (void)receiveData:(NSMutableDictionary *)permission {
+    [self.menuItems removeObjectAtIndex:4];
     
-    [self setMenuItems];
+    NSMutableDictionary *pushPermission = [[NSMutableDictionary alloc] init];
+    [pushPermission setObject:@"pushPermission" forKey:@"type"];
+    [pushPermission setObject:[NSString stringWithFormat:@"viewed:%@, reviewed:%@, answered:%@, message:%@",
+                               [permission objectForKey:@"viewed"],
+                               [permission objectForKey:@"reviewed"],
+                               [permission objectForKey:@"answered"],
+                               [permission objectForKey:@"message"]] forKey:@"info"];
+    [pushPermission setObject:@"map.png" forKey:@"image"];
+    [self.menuItems insertObject:pushPermission atIndex:4];    
+    [self.tableView reloadData];
 }
 
 @end

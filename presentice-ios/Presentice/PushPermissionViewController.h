@@ -11,7 +11,7 @@
 #import "Constants.h"
 @protocol PushPermissionViewDataDelegate
 
-- (void)recieveData:(NSMutableDictionary *)pushPermission;
+- (void)receiveData:(NSMutableDictionary *)permission;
 
 @end
 

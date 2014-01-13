@@ -163,14 +163,19 @@
             }
             
             // Send a notification to the device with channel contain toUser's Id
-            [PFPush sendPushMessageToChannelInBackground:[self.toUser objectId]
-                                             withMessage:[NSString stringWithFormat:@"%@ sent you a message: %@",[[PFUser currentUser] objectForKey:kUserDisplayNameKey], trimmedComment]];
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+            [params setObject:trimmedComment forKey:@"content"];
+            [params setObject:[self.toUser objectId] forKey:@"toUser"];
+            [params setObject:@"message" forKey:@"pushType"];
+            [PFCloud callFunction:@"sendPushNotification" withParameters:params];
+            
+//            [PFPush sendPushMessageToChannelInBackground:[self.toUser objectId]
+//                                             withMessage:[NSString stringWithFormat:@"%@ sent you a message: %@",[[PFUser currentUser] objectForKey:kUserDisplayNameKey], trimmedComment]];
             
             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
             [self loadObjects];
         }];
     }
-    
     [textField setText:@""];
     return [textField resignFirstResponder];
 }

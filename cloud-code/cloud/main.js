@@ -1,3 +1,43 @@
+Parse.Cloud.define("sendPushNotification", function(request, response) {
+	var pushType = request.params.pushType;
+	if (pushType == "message") {
+		var toUser = request.params.toUser;
+		var content = request.params.content;
+		Parse.Push.send({
+	  		channels: [toUser],
+	  		data: {
+				alert: "\"" + request.user.get("displayName") + "\" sent you a " + pushType + ": \"" + content + "\"",
+	    		badge: "Increment"
+	  		}
+		}, {
+	  		success: function() {
+	    		// Push was successful
+	  		},
+	  		error: function(error) {
+	    		// Handle error
+	  		}
+		});
+	} else {
+		var targetVideo = request.params.targetVideo;
+		var toUser = request.params.toUser;
+		Parse.Push.send({
+	  		channels: [toUser],
+	  		data: {
+				alert: "Your video \"" + targetVideo + "\" has been " + pushType + " by \"" + request.user.get("displayName") + "\"",
+	    		badge: "Increment"
+	  		}
+		}, {
+	  		success: function() {
+	    		// Push was successful
+	  		},
+	  		error: function(error) {
+	    		// Handle error
+	  		}
+		});
+	}
+});
+
+
 
 // Parse.Cloud.afterSave("Review", function(request) {
 // 	var fromUser = request.object.get("fromUser");
