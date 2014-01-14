@@ -1,14 +1,14 @@
 //
-//  QuestionViewController.m
+//  QuestionDetailViewController.m
 //  Presentice
 //
-//  Created by レー フックダイ on 12/24/13.
-//  Copyright (c) 2013 Appcoda. All rights reserved.
+//  Created by レー フックダイ on 1/14/14.
+//  Copyright (c) 2014 Presentice. All rights reserved.
 //
 
-#import "QuestionViewController.h"
+#import "QuestionDetailViewController.h"
 
-@interface QuestionViewController ()
+@interface QuestionDetailViewController ()
 
 @property (nonatomic, strong) S3TransferOperation *uploadDidRecord;
 @property (nonatomic, strong) S3TransferOperation *uploadFromLibrary;
@@ -16,17 +16,38 @@
 
 @end
 
-@implementation QuestionViewController {
+@implementation QuestionDetailViewController {
     NSString *uploadFilename;
     bool isUploadFromLibrary;
     NSString *recordedVideoPath;
+    AmazonS3Client *s3Client;
 }
 
-@synthesize fileLabel;
-//@synthesize fileName;
-@synthesize userLabel;
-//@synthesize userName;
+@synthesize videoNameLabel;
+@synthesize postedUserLabel;
 
+- (id)initWithCoder:(NSCoder *)aCoder {
+    self = [super initWithCoder:aCoder];
+    if (self) {
+        // Custom the table
+        
+        // The className to query on
+        self.parseClassName = kVideoClassKey;
+        
+        // The key of the PFObject to display in the label of the default cell style
+        self.textKey = kVideoURLKey;
+        
+        // Whether the built-in pull-to-refresh is enabled
+        self.pullToRefreshEnabled = YES;
+        
+        // Whether the built-in pagination is enabled
+        self.paginationEnabled = YES;
+        
+        // The number of objects to show per page
+        self.objectsPerPage = 5;
+    }
+    return self;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -39,11 +60,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.scrollView setScrollEnabled:YES];
-    [self.scrollView setContentSize:(CGSizeMake(320, 860))];
-
-    fileLabel.text = [self.questionVideoObj objectForKey:kVideoURLKey];
-    userLabel.text = [[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
+    // Start loading HUD
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    videoNameLabel.text = [self.questionVideoObj objectForKey:kVideoNameKey];
+    postedUserLabel.text = [[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
     // Initiate S3 bucket access
     if(self.tm == nil){
@@ -80,11 +104,12 @@
             [message show];
         }
     }
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+	// Set refreshTable notification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshTable:)
+                                                 name:@"refreshTable"
+                                               object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -92,12 +117,11 @@
     // Set up movieController
     self.movieController = [[MPMoviePlayerController alloc] init];
     [self.movieController setContentURL:self.movieURL];
-    [self.movieController.view setFrame:CGRectMake(0, 130, 320, 400)];
-    [self.scrollView addSubview:self.movieController.view];
+    [self.movieController.view setFrame:CGRectMake(0, 0, 320, 380)];
+    [self.videoView addSubview:self.movieController.view];
     
     // Using the Movie Player Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.movieController];
-    
     self.movieController.controlStyle =  MPMovieControlStyleEmbedded;
     self.movieController.shouldAutoplay = YES;
     self.movieController.repeatMode = NO;
@@ -113,16 +137,16 @@
         [params setObject:@"viewed" forKey:@"pushType"];
         [PFCloud callFunction:@"sendPushNotification" withParameters:params];
         
-//        NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"viewed"];
-//        NSLog(@"pushMessageFormat = %@",pushMessageFormat);
-//        NSString *messageContent = [NSString stringWithFormat:pushMessageFormat,
-//                                    [self.questionVideoObj objectForKey:kVideoNameKey],
-//                                    [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
-//        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-//                              messageContent, @"alert",
-//                              @"Increment", @"badge",
-//                              nil];
-//        [PFPush sendPushDataToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] withData:data];
+        //        NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"viewed"];
+        //        NSLog(@"pushMessageFormat = %@",pushMessageFormat);
+        //        NSString *messageContent = [NSString stringWithFormat:pushMessageFormat,
+        //                                    [self.questionVideoObj objectForKey:kVideoNameKey],
+        //                                    [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
+        //        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+        //                              messageContent, @"alert",
+        //                              @"Increment", @"badge",
+        //                              nil];
+        //        [PFPush sendPushDataToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] withData:data];
     }
     // Add activity
     PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
@@ -145,6 +169,111 @@
     
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)refreshTable:(NSNotification *) notification {
+    // Reload the recipes
+    [self loadObjects];
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
+- (PFQuery *)queryForTable {
+    PFQuery *answerListQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [answerListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
+    [answerListQuery whereKey:kVideoTypeKey equalTo:@"answer"];
+    [answerListQuery whereKey:kVideoAsAReplyTo equalTo:self.questionVideoObj];
+    [answerListQuery whereKey:kVideoVisibilityKey containedIn:@[@"open"]];
+    
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    if ([self.objects count] == 0) {
+        answerListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    }
+    [answerListQuery orderByAscending:kUpdatedAtKey];
+    return answerListQuery;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    static NSString *simpleTableIdentifier = @"answerListIdentifier";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    }
+    
+    // Configure the cell
+    UILabel *userName = (UILabel *)[cell viewWithTag:101];
+    UILabel *videoName = (UILabel *)[cell viewWithTag:102];
+    //    UILabel *isTakenAnswer = (UILabel *)[cell viewWithTag:102];
+    UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
+    UILabel *reviewNum = (UILabel *)[cell viewWithTag:104];
+    
+    userName.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
+    videoName.text = [object objectForKey:kVideoNameKey];
+    viewsNum.text = [NSString stringWithFormat:@"view: %@",[object objectForKey:kVideoViewsKey]];
+    reviewNum.text = [NSString stringWithFormat:@"answers: %d",[[object objectForKey:kVideoReviewsKey] count]];
+    return cell;
+}
+
+- (void) objectsDidLoad:(NSError *)error {
+    [super objectsDidLoad:error];
+    NSLog(@"error: %@", [error localizedDescription]);
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+//    if ([segue.identifier isEqualToString:@"showQuestionDetail"]) {
+//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+//        QuestionViewController *destViewController = segue.destinationViewController;
+//        
+//        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+//        NSLog(@"sent object = %@", object);
+//        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
+//        //        destViewController.questionVideoId = [object objectId];
+//        destViewController.questionVideoObj = object;
+//    }
+}
+
+- (NSURL*)s3URL: (NSString*)bucketName :(PFObject*)object {
+    // Init connection with S3Client
+    s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
+    @try {
+        // Set the content type so that the browser will treat the URL as an image.
+        S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
+        override.contentType = @" ";
+        // Request a pre-signed URL to picture that has been uplaoded.
+        S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
+        // Video name
+        gpsur.key = [NSString stringWithFormat:@"%@", [object objectForKey:kVideoURLKey]];
+        //bucket name
+        gpsur.bucket  = bucketName;
+        // Added an hour's worth of seconds to the current time.
+        gpsur.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600];
+        
+        gpsur.responseHeaderOverrides = override;
+        
+        // Get the URL
+        NSError *error;
+        NSURL *url = [s3Client getPreSignedURL:gpsur error:&error];
+        return url;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Cannot list S3 %@",exception);
+    }
 }
 
 - (void)moviePlayBackDidFinish:(NSNotification *)notification {
@@ -182,7 +311,7 @@
             picker.allowsEditing = YES;
             picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             picker.mediaTypes = [NSArray arrayWithObject:(NSString *)kUTTypeMovie];
-        
+            
             [self presentViewController:picker animated:YES completion:NULL];
         } else if (buttonIndex == 2) {
             NSLog(@"Record from Camera");
@@ -327,7 +456,7 @@
 
 -(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response {
     self.putObjectTextField.text = @"Done";
-
+    
     NSLog(@"upload file url: %@", response);
     
     // Register to Parser DB
@@ -339,7 +468,7 @@
     [newVideo setObject:self.answerVideoVisibility forKey:kVideoVisibilityKey];
     
     NSLog(@"%@", [[PFQuery queryWithClassName:kVideoClassKey] getObjectWithId:[self.questionVideoObj objectId]]);
-//    [newVideo setObject:[[PFQuery queryWithClassName:kVideoClassKey] getObjectWithId:[self.questionVideoObj objectId]] forKey:kVideoAsAReplyTo];
+    //    [newVideo setObject:[[PFQuery queryWithClassName:kVideoClassKey] getObjectWithId:[self.questionVideoObj objectId]] forKey:kVideoAsAReplyTo];
     [newVideo setObject:self.questionVideoObj forKey:kVideoAsAReplyTo];
     [newVideo setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kVideoToUserKey];
     [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -354,16 +483,16 @@
             [params setObject:@"answered" forKey:@"pushType"];
             [PFCloud callFunction:@"sendPushNotification" withParameters:params];
             
-//            NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"answered"];
-//            NSLog(@"pushMessageFormat = %@",pushMessageFormat);
-//            NSString *messageContent = [NSString stringWithFormat:pushMessageFormat,
-//                                        [self.questionVideoObj objectForKey:kVideoNameKey],
-//                                        [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
-//            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-//                                  messageContent, @"alert",
-//                                  @"Increment", @"badge",
-//                                  nil];
-//            [PFPush sendPushDataToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] withData:data];
+            //            NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"answered"];
+            //            NSLog(@"pushMessageFormat = %@",pushMessageFormat);
+            //            NSString *messageContent = [NSString stringWithFormat:pushMessageFormat,
+            //                                        [self.questionVideoObj objectForKey:kVideoNameKey],
+            //                                        [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
+            //            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+            //                                  messageContent, @"alert",
+            //                                  @"Increment", @"badge",
+            //                                  nil];
+            //            [PFPush sendPushDataToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] withData:data];
         }
     }];
     

@@ -1,9 +1,9 @@
 //
-//  QuestionViewController.h
+//  QuestionDetailViewController.h
 //  Presentice
 //
-//  Created by レー フックダイ on 12/24/13.
-//  Copyright (c) 2013 Appcoda. All rights reserved.
+//  Created by レー フックダイ on 1/14/14.
+//  Copyright (c) 2014 Presentice. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -18,15 +18,15 @@
 #import <Parse/Parse.h>
 #import "MBProgressHUD.h"
 
-@interface QuestionViewController : UIViewController <UINavigationControllerDelegate, UINavigationBarDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
+@interface QuestionDetailViewController : PFQueryTableViewController <UINavigationControllerDelegate, UINavigationBarDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
 
 
 // For display questionVideo
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) IBOutlet UILabel *fileLabel;
-@property (strong, nonatomic) IBOutlet UILabel *userLabel;
+@property (strong, nonatomic) IBOutlet UILabel *videoNameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *postedUserLabel;
 @property (copy, nonatomic)NSURL *movieURL;
 @property (strong, nonatomic) PFObject *questionVideoObj;
+@property (strong, nonatomic) IBOutlet UIView *videoView;
 @property (strong, nonatomic)MPMoviePlayerController *movieController;
 
 // For taking answerVideo
@@ -37,5 +37,6 @@
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
 @property (strong, nonatomic) NSString *answerVideoName;
 @property (strong, nonatomic) NSString *answerVideoVisibility;
+
 
 @end

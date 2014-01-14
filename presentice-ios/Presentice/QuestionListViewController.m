@@ -142,7 +142,8 @@
 
     if ([segue.identifier isEqualToString:@"showQuestionDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        QuestionViewController *destViewController = segue.destinationViewController;
+//        QuestionViewController *destViewController = segue.destinationViewController;
+        QuestionDetailViewController *destViewController = segue.destinationViewController;
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
         NSLog(@"sent object = %@", object);

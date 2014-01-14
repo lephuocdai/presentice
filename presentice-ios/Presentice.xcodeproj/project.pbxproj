@@ -39,6 +39,7 @@
 		F00006B0186BAA2900E69027 /* NotificationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F00006AF186BAA2900E69027 /* NotificationDetailViewController.m */; };
 		F00006B8186EB9BF00E69027 /* icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = F00006B6186EB9BF00E69027 /* icon_1.png */; };
 		F00006B9186EB9BF00E69027 /* icon_2.png in Resources */ = {isa = PBXBuildFile; fileRef = F00006B7186EB9BF00E69027 /* icon_2.png */; };
+		F01ECFEB18850563000604C3 /* QuestionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F01ECFEA18850563000604C3 /* QuestionDetailViewController.m */; };
 		F03486BC187E337A001BE459 /* FriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486BB187E337A001BE459 /* FriendListViewController.m */; };
 		F03486C4187E8C69001BE459 /* MessageFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486C3187E8C69001BE459 /* MessageFooterView.m */; };
 		F03486C7187E8D80001BE459 /* PresenticeUtitily.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486C6187E8D80001BE459 /* PresenticeUtitily.m */; };
@@ -67,7 +68,6 @@
 		F09EBCC71866897A009C2BC9 /* myList.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F09EBCC61866897A009C2BC9 /* myList.jpeg */; };
 		F09EBCC918672BF9009C2BC9 /* newsFeed.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F09EBCC818672BF9009C2BC9 /* newsFeed.jpeg */; };
 		F09EBCCB18672CC3009C2BC9 /* notification.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F09EBCCA18672CC3009C2BC9 /* notification.jpeg */; };
-		F09EBCCE18691A8C009C2BC9 /* QuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F09EBCCD18691A8C009C2BC9 /* QuestionViewController.m */; };
 		F0A5A74A1871D9DF004E24A3 /* QuestionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0A5A7491871D9DF004E24A3 /* QuestionListViewController.m */; };
 		F0A5A74D187276CD004E24A3 /* MyListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0A5A74C187276CD004E24A3 /* MyListViewController.m */; };
 		F0A5A75218729E01004E24A3 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0A5A75118729E01004E24A3 /* MainViewController.m */; };
@@ -149,6 +149,8 @@
 		F00006AF186BAA2900E69027 /* NotificationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationDetailViewController.m; sourceTree = "<group>"; };
 		F00006B6186EB9BF00E69027 /* icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_1.png; sourceTree = "<group>"; };
 		F00006B7186EB9BF00E69027 /* icon_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_2.png; sourceTree = "<group>"; };
+		F01ECFE918850563000604C3 /* QuestionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionDetailViewController.h; sourceTree = "<group>"; };
+		F01ECFEA18850563000604C3 /* QuestionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionDetailViewController.m; sourceTree = "<group>"; };
 		F03486BA187E337A001BE459 /* FriendListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListViewController.h; sourceTree = "<group>"; };
 		F03486BB187E337A001BE459 /* FriendListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListViewController.m; sourceTree = "<group>"; };
 		F03486C2187E8C69001BE459 /* MessageFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageFooterView.h; sourceTree = "<group>"; };
@@ -190,8 +192,6 @@
 		F09EBCC61866897A009C2BC9 /* myList.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = myList.jpeg; sourceTree = "<group>"; };
 		F09EBCC818672BF9009C2BC9 /* newsFeed.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = newsFeed.jpeg; sourceTree = "<group>"; };
 		F09EBCCA18672CC3009C2BC9 /* notification.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = notification.jpeg; sourceTree = "<group>"; };
-		F09EBCCC18691A8C009C2BC9 /* QuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionViewController.h; sourceTree = "<group>"; };
-		F09EBCCD18691A8C009C2BC9 /* QuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionViewController.m; sourceTree = "<group>"; };
 		F09EBCE118694164009C2BC9 /* SettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		F0A5A7481871D9DF004E24A3 /* QuestionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionListViewController.h; sourceTree = "<group>"; };
 		F0A5A7491871D9DF004E24A3 /* QuestionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionListViewController.m; sourceTree = "<group>"; };
@@ -442,8 +442,8 @@
 			children = (
 				F0A5A7481871D9DF004E24A3 /* QuestionListViewController.h */,
 				F0A5A7491871D9DF004E24A3 /* QuestionListViewController.m */,
-				F09EBCCC18691A8C009C2BC9 /* QuestionViewController.h */,
-				F09EBCCD18691A8C009C2BC9 /* QuestionViewController.m */,
+				F01ECFE918850563000604C3 /* QuestionDetailViewController.h */,
+				F01ECFEA18850563000604C3 /* QuestionDetailViewController.m */,
 			);
 			name = Question;
 			sourceTree = "<group>";
@@ -739,8 +739,8 @@
 				F0759AC51881CB1C0077D387 /* RightSideMenuViewController.m in Sources */,
 				F0759ABC1881C6310077D387 /* MFSideMenuContainerViewController.m in Sources */,
 				F0759ABE1881C6310077D387 /* UIViewController+MFSideMenuAdditions.m in Sources */,
-				F09EBCCE18691A8C009C2BC9 /* QuestionViewController.m in Sources */,
 				F4EECF4A177DF87700778578 /* SidebarViewController.m in Sources */,
+				F01ECFEB18850563000604C3 /* QuestionDetailViewController.m in Sources */,
 				F00006B0186BAA2900E69027 /* NotificationDetailViewController.m in Sources */,
 				A78E9D5A185DA16B00ACCC54 /* MBProgressHUD.m in Sources */,
 				F03486C7187E8D80001BE459 /* PresenticeUtitily.m in Sources */,

@@ -67,9 +67,6 @@
     commentTextField = footerView.commentField;
     commentTextField.delegate = self;
     self.tableView.tableFooterView = footerView;
-    
-    
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
