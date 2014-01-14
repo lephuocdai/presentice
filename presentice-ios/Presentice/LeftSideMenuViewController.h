@@ -22,5 +22,7 @@
 
 
 @interface LeftSideMenuViewController : UITableViewController
+@property (strong, nonatomic) IBOutlet UILabel *videoNumLabel;
+@property (strong, nonatomic) IBOutlet UILabel *notifyNumLabel;
 
 @end

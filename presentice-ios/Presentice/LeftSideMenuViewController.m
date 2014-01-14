@@ -16,7 +16,6 @@
 
 @implementation LeftSideMenuViewController
 
-
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
@@ -27,18 +26,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     self.tableView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
     
-    _menuItems = @[@"title", @"timeline", @"questionList", @"myList", @"message", @"notification", @"postQuestion", @"setting"];
+    _menuItems = @[@"title", @"timeline", @"questionList", @"myList", @"notification", @"setting", @"message", @"postQuestion"];
+    
+    // Set my List videoNum
+    self.videoNumLabel.text = @"undefined";
+    
+    // Set notification badge
+    if ([PFInstallation currentInstallation]) {
+        self.notifyNumLabel.text = [NSString stringWithFormat:@"%ld",(long)[PFInstallation currentInstallation].badge];
+    } else {
+        self.notifyNumLabel.text = @"0";
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,10 +51,10 @@
 
 #pragma mark -
 #pragma mark - UITableViewDataSource
-
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//    return [NSString stringWithFormat:@"Left %d", section];
-//}
+/**
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [NSString stringWithFormat:@"Left %d", section];
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -61,24 +64,12 @@
     return [self.menuItems count];
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return 60;
-//}
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60;
+}
+**/
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-//    static NSString *CellIdentifier = @"Cell";
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    if (cell == nil) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-//    }
-//    cell.textLabel.text = [NSString stringWithFormat:@"Left item %d", indexPath.row];
-
-    NSString *CellIdentifier = [self.menuItems objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    
+    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     return cell;
 }
 
@@ -86,41 +77,58 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.row == 1){
-        MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-        NSArray *controllers = [NSArray arrayWithObject:mainViewController];
-        navigationController.viewControllers = controllers;
-    } else if(indexPath.row == 2) {
-        QuestionListViewController *questionListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
-        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-        NSArray *controllers = [NSArray arrayWithObject:questionListViewController];
-        navigationController.viewControllers = controllers;
-    } else if(indexPath.row == 3){
-        MyListViewController *myListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"myListViewController"];
-        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-        NSArray *controllers = [NSArray arrayWithObject:myListViewController];
-        navigationController.viewControllers = controllers;
-    } else if(indexPath.row == 4){
-        MessageListViewController *messageListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageListViewController"];
-        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-        NSArray *controllers = [NSArray arrayWithObject:messageListViewController];
-        navigationController.viewControllers = controllers;
-    }else if(indexPath.row == 5){
-        NotificationListViewController *notificationListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
-        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-        NSArray *controllers = [NSArray arrayWithObject:notificationListViewController];
-        navigationController.viewControllers = controllers;
-    } else if(indexPath.row == 6){
-        ShareViewController *shareViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"shareViewController"];
-        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-        NSArray *controllers = [NSArray arrayWithObject:shareViewController];
-        navigationController.viewControllers = controllers;
-    }else if(indexPath.row == 7){
-        SettingViewController *settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];        
-        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-        NSArray *controllers = [NSArray arrayWithObject:settingViewController];
-        navigationController.viewControllers = controllers;
+    if (indexPath.section == 1) {
+        if(indexPath.row == 0){
+            MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+            NSArray *controllers = [NSArray arrayWithObject:mainViewController];
+            navigationController.viewControllers = controllers;
+        } else if(indexPath.row == 1) {
+            QuestionListViewController *questionListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
+            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+            NSArray *controllers = [NSArray arrayWithObject:questionListViewController];
+            navigationController.viewControllers = controllers;
+        } else if(indexPath.row == 2){
+            MyListViewController *myListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"myListViewController"];
+            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+            NSArray *controllers = [NSArray arrayWithObject:myListViewController];
+            navigationController.viewControllers = controllers;
+        } else if(indexPath.row == 3){
+            
+            // Reset notification badge
+            if (![self.notifyNumLabel.text isEqualToString:@"0"]) {
+                PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                if (currentInstallation.badge != 0) {
+                    currentInstallation.badge = 0;
+                    [currentInstallation saveEventually];
+                }
+                self.notifyNumLabel.text = @"0";
+            }
+            
+            // Perform the transition
+            MessageListViewController *messageListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
+            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+            NSArray *controllers = [NSArray arrayWithObject:messageListViewController];
+            navigationController.viewControllers = controllers;
+            
+        }else if(indexPath.row == 4){
+            NotificationListViewController *notificationListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];
+            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+            NSArray *controllers = [NSArray arrayWithObject:notificationListViewController];
+            navigationController.viewControllers = controllers;
+        }
+    } else if (indexPath.section == 2) {
+        if(indexPath.row == 0){
+            ShareViewController *shareViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageListViewController"];
+            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+            NSArray *controllers = [NSArray arrayWithObject:shareViewController];
+            navigationController.viewControllers = controllers;
+        }else if(indexPath.row == 1){
+            SettingViewController *settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"shareViewController"];
+            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+            NSArray *controllers = [NSArray arrayWithObject:settingViewController];
+            navigationController.viewControllers = controllers;
+        }
     }
     [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
 }
