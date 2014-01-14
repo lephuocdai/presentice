@@ -169,9 +169,10 @@
         VideoViewController *destViewController = segue.destinationViewController;
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
-        NSLog(@"sent object = %@", object);
 //        destViewController.fileName = [object objectForKey:kVideoURLKey];
         destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
+        NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :object]);
+        NSLog(@"answer video object: %@", object);
         destViewController.answerVideoObj = object;
     }
 }

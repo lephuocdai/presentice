@@ -22,6 +22,7 @@ Parse.Cloud.define("sendPushNotification", function(request, response) {
 		var toUser = request.params.toUser;
 		Parse.Push.send({
 	  		channels: [toUser],
+	  		//channels: ["MvvDYgieBH"],
 	  		data: {
 				alert: "Your video \"" + targetVideo + "\" has been " + pushType + " by \"" + request.user.get("displayName") + "\"",
 	    		badge: "Increment"

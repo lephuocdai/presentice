@@ -139,5 +139,4 @@
         destViewController.toUser = [self.objects objectAtIndex:indexPath.row];
     }
 }
-
 @end

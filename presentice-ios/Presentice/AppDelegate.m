@@ -71,6 +71,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     if (application.applicationState == UIApplicationStateInactive) {
+        NSLog(@"%@", userInfo);
         [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
     }
 }

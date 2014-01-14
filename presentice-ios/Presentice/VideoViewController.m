@@ -134,7 +134,6 @@
     [self.movieController play];
     
     // Send a "viewed" notification to the device with channel contain video's userId
-    NSLog(@"viewd push = %@", [[[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"]);
     if ([[[[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"] isEqualToString:@"yes"]) {
         NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
         [params setObject:[self.answerVideoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
