@@ -31,6 +31,9 @@
     // Set the menu's display
     self.menuItems = [[NSMutableArray alloc] init];
     [self setMenuItems];
+    
+    //get profile picture
+    [self getFacebookProfilePicture];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -172,5 +175,22 @@
     [self.menuItems insertObject:pushPermission atIndex:4];    
     [self.tableView reloadData];
 }
+/**
+* get facebook profile picture after logged in
+*/
+- (void) getFacebookProfilePicture {
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"picture.type(large)",@"fields",nil];
+    [FBRequestConnection startWithGraphPath:@"me"
+                         parameters:params
+                         HTTPMethod:@"GET"
+                         completionHandler:^(
+                                              FBRequestConnection *connection,
+                                              id result,
+                                              NSError *error
+                                              ) {
+                              NSLog(@"facebook profile picture url: %@", result);
+                          }];
 
+
+}
 @end

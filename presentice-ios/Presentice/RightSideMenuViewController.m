@@ -60,6 +60,9 @@
                                              selector:@selector(refreshTable:)
                                                  name:@"refreshTable"
                                                object:nil];
+    
+    //get facebook friend list
+    [self facebookFriendsList];
 }
 - (void) viewWillAppear:(BOOL)animated {
     [self loadObjects];
@@ -131,5 +134,16 @@
         destViewController.toUser = [self.objects objectAtIndex:indexPath.row];
     }
 }
-
+- (void) facebookFriendsList {
+    [FBRequestConnection startWithGraphPath:@"me/friends"
+                                 parameters:nil
+                                 HTTPMethod:@"GET"
+                          completionHandler:^(
+                                              FBRequestConnection *connection,
+                                              id result,
+                                              NSError *error
+                                              ) {
+                              NSLog(@"facebook friends list: %@", result);
+                          }];
+}
 @end
