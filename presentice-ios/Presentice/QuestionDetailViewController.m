@@ -35,7 +35,7 @@
         self.parseClassName = kVideoClassKey;
         
         // The key of the PFObject to display in the label of the default cell style
-        self.textKey = kVideoURLKey;
+        self.textKey = kVideoNameKey;
         
         // Whether the built-in pull-to-refresh is enabled
         self.pullToRefreshEnabled = YES;
@@ -148,6 +148,7 @@
         //                              nil];
         //        [PFPush sendPushDataToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] withData:data];
     }
+    
     // Add activity
     PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
     [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
@@ -218,7 +219,6 @@
     // Configure the cell
     UILabel *userName = (UILabel *)[cell viewWithTag:101];
     UILabel *videoName = (UILabel *)[cell viewWithTag:102];
-    //    UILabel *isTakenAnswer = (UILabel *)[cell viewWithTag:102];
     UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
     UILabel *reviewNum = (UILabel *)[cell viewWithTag:104];
     
@@ -424,8 +424,6 @@
     [controller presentViewController:cameraUI animated:YES completion:nil];
     return YES;
 }
-
-
 
 -(void)video:(NSString*)videoPath didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo {
     if (error) {
