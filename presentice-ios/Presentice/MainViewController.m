@@ -158,18 +158,14 @@
 
 - (void) objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
-    NSLog(@"error: %@", [error localizedDescription]);
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    NSLog(@"HERE %@", self.objects);
-
     if ([segue.identifier isEqualToString:@"showFileDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         VideoViewController *destViewController = segue.destinationViewController;
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
-//        destViewController.fileName = [object objectForKey:kVideoURLKey];
         destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
         NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :object]);
         NSLog(@"answer video object: %@", object);

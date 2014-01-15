@@ -35,4 +35,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)showLeftMenu:(id)sender {
+}
+
+- (IBAction)showRightMenu:(id)sender {
+}
 @end
