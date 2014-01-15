@@ -40,9 +40,9 @@
  * load table for each time load view
  */
 - (void) viewWillAppear:(BOOL)animated {
-    notificationList = [[NSMutableArray alloc] init];
-    [self queryNotificationList];
-    [self.tableView reloadData];
+//    notificationList = [[NSMutableArray alloc] init];
+//    [self queryNotificationList];
+//    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

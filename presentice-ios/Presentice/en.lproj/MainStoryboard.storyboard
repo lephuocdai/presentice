@@ -1300,7 +1300,7 @@
         <!--Notification List View Controller - Notification List View Controller-->
         <scene sceneID="jFa-7p-wzt">
             <objects>
-                <viewController storyboardIdentifier="StoryBoard_NotificationList" title="Notification List View Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Xz7-CA-r1M" customClass="NotificationListViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="notificationListViewController" title="Notification List View Controller" id="Xz7-CA-r1M" customClass="NotificationListViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hpj-7O-syL">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1351,22 +1351,35 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EIo-8n-qMf" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2369" y="1024"/>
+            <point key="canvasLocation" x="2895" y="1024"/>
         </scene>
         <!--Notification Detail View Controller - Detail View-->
         <scene sceneID="Wmb-y6-ba4">
             <objects>
-                <viewController storyboardIdentifier="notificationListViewController" id="ZqR-m8-3lS" customClass="NotificationDetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="notificationDetailViewController" id="ZqR-m8-3lS" customClass="NotificationDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="j6h-LR-kyV" userLabel="MyAnswer" customClass="Question">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Detail View" id="MyH-b1-lTg"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Detail View" id="MyH-b1-lTg">
+                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="ymj-XQ-yc8">
+                            <connections>
+                                <action selector="showLeftMenu:" destination="ZqR-m8-3lS" id="Nf2-KD-vTO"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="menu.png" id="3NF-y9-t36">
+                            <connections>
+                                <action selector="showRightMenu:" destination="ZqR-m8-3lS" id="Xow-X1-zbZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ATX-ee-VEM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2895" y="1024"/>
+            <point key="canvasLocation" x="3421" y="1024"/>
         </scene>
         <!--My List View Controller - My List View Controller-->
         <scene sceneID="eAv-OV-hV9">
@@ -1555,6 +1568,24 @@
             </objects>
             <point key="canvasLocation" x="2382" y="-1861"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="sc8-v0-Fso">
+            <objects>
+                <navigationController storyboardIdentifier="notificationListNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="KFY-XF-sEk" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="S48-ac-40b">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Xz7-CA-r1M" kind="relationship" relationship="rootViewController" id="ATw-k8-Gkz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qPR-g9-DXV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2369" y="1024"/>
+        </scene>
     </scenes>
     <resources>
         <image name="icon.png" width="800" height="800"/>
@@ -1573,7 +1604,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="och-ue-P3p"/>
-        <segue reference="3I1-yo-AWs"/>
+        <segue reference="wqw-1d-BIa"/>
+        <segue reference="b5z-uv-nQA"/>
     </inferredMetricsTieBreakers>
 </document>

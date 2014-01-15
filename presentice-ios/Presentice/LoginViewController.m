@@ -27,14 +27,13 @@
     
     //if user already login, redirect to MainViewController
 	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]){
-        // Setting for SideMenu
+        //get main storyboard
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
 
+        //create side menu
         UINavigationController *centerViewController = [storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
-        
         UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
         UIViewController *rightSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
-        
         MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController containerWithCenterViewController:centerViewController
                                                                                                      leftMenuViewController:leftSideMenuViewController rightMenuViewController:rightSideMenuViewController];
         [self.navigationController presentViewController:container animated:YES completion:nil];

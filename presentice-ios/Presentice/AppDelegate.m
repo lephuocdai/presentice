@@ -73,6 +73,17 @@
     if (application.applicationState == UIApplicationStateInactive) {
         NSLog(@"%@", userInfo);
         [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
+        //redirect to Notification View
+        //todo: redirect to view depending on notification
+        //get main storyboard
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        //create side menu
+        UINavigationController *centerViewController = [storyboard instantiateViewControllerWithIdentifier:@"notificationListNavigationController"];
+        UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
+        UIViewController *rightSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
+        MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController containerWithCenterViewController:centerViewController
+                                                                                                     leftMenuViewController:leftSideMenuViewController rightMenuViewController:rightSideMenuViewController];
+        self.window.rootViewController = container;
     }
 }
 

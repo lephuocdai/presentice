@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface NotificationDetailViewController : UIViewController
+- (IBAction)showLeftMenu:(id)sender;
+- (IBAction)showRightMenu:(id)sender;
 
 @end
