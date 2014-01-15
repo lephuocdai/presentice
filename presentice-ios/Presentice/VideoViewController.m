@@ -323,7 +323,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"toReviewView"]) {
-        ReviewViewController *destViewController = segue.destinationViewController;
+        TakeReviewViewController *destViewController = segue.destinationViewController;
         destViewController.videoObj = self.answerVideoObj;
     }
 }

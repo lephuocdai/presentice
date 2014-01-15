@@ -6,15 +6,15 @@
 //  Copyright (c) 2013 Presentice. All rights reserved.
 //
 
-#import "ReviewViewController.h"
+#import "TakeReviewViewController.h"
 
 PFObject *reviewObj;
 
-@interface ReviewViewController ()
+@interface TakeReviewViewController ()
 
 @end
 
-@implementation ReviewViewController
+@implementation TakeReviewViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

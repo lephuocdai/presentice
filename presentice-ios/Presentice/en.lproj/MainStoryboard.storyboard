@@ -163,10 +163,10 @@
             </objects>
             <point key="canvasLocation" x="2369" y="1756"/>
         </scene>
-        <!--Review View Controller - Review-->
+        <!--Take Review View Controller - Review-->
         <scene sceneID="pRa-qW-8i7">
             <objects>
-                <viewController storyboardIdentifier="StoryBoard_Review" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ipn-Ee-cke" customClass="ReviewViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StoryBoard_Review" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ipn-Ee-cke" customClass="TakeReviewViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XSe-SL-1qC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
