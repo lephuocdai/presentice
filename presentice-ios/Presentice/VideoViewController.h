@@ -17,7 +17,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 
 #import "TakeReviewViewController.h"
-
+#import "ReviewDetailViewController.h"
 
 @interface VideoViewController : PFQueryTableViewController <UINavigationControllerDelegate, UINavigationBarDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
 

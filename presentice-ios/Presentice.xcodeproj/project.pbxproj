@@ -45,6 +45,7 @@
 		F03486C7187E8D80001BE459 /* PresenticeUtitily.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486C6187E8D80001BE459 /* PresenticeUtitily.m */; };
 		F03486CF1880166D001BE459 /* PushPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486CE1880166D001BE459 /* PushPermissionViewController.m */; };
 		F0578ED0187A723400573CD2 /* MyAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0578ECF187A723400573CD2 /* MyAnswerViewController.m */; };
+		F06E4BF418864EA100FB9333 /* ReviewDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F06E4BF318864EA100FB9333 /* ReviewDetailViewController.m */; };
 		F0718CB0185ABF23009014A0 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0718CAF185ABF23009014A0 /* SWRevealViewController.m */; };
 		F0718CB6185AC168009014A0 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F0718CB1185AC168009014A0 /* icon.png */; };
 		F0718CB7185AC168009014A0 /* record.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F0718CB2185AC168009014A0 /* record.jpeg */; };
@@ -161,6 +162,8 @@
 		F03486CE1880166D001BE459 /* PushPermissionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushPermissionViewController.m; sourceTree = "<group>"; };
 		F0578ECE187A723400573CD2 /* MyAnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnswerViewController.h; sourceTree = "<group>"; };
 		F0578ECF187A723400573CD2 /* MyAnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnswerViewController.m; sourceTree = "<group>"; };
+		F06E4BF218864EA100FB9333 /* ReviewDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewDetailViewController.h; sourceTree = "<group>"; };
+		F06E4BF318864EA100FB9333 /* ReviewDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewDetailViewController.m; sourceTree = "<group>"; };
 		F0718CAE185ABF23009014A0 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		F0718CAF185ABF23009014A0 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		F0718CB1185AC168009014A0 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
@@ -477,6 +480,8 @@
 				F0DDAB83187BD460002BDC67 /* VideoViewController.m */,
 				A72C52C318700B1A00DE8BEC /* TakeReviewViewController.h */,
 				A72C52C418700B1A00DE8BEC /* TakeReviewViewController.m */,
+				F06E4BF218864EA100FB9333 /* ReviewDetailViewController.h */,
+				F06E4BF318864EA100FB9333 /* ReviewDetailViewController.m */,
 			);
 			name = NewsFeed;
 			sourceTree = "<group>";
@@ -748,6 +753,7 @@
 				F01ECFEB18850563000604C3 /* QuestionDetailViewController.m in Sources */,
 				F00006B0186BAA2900E69027 /* NotificationDetailViewController.m in Sources */,
 				A78E9D5A185DA16B00ACCC54 /* MBProgressHUD.m in Sources */,
+				F06E4BF418864EA100FB9333 /* ReviewDetailViewController.m in Sources */,
 				F03486C7187E8D80001BE459 /* PresenticeUtitily.m in Sources */,
 				A7E995A51867D197009E48CA /* RegisterViewController.m in Sources */,
 				F4EECF6E177FD51400778578 /* ShareViewController.m in Sources */,
