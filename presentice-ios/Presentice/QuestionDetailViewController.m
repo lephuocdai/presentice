@@ -225,7 +225,7 @@
     userName.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     videoName.text = [object objectForKey:kVideoNameKey];
     viewsNum.text = [NSString stringWithFormat:@"view: %@",[object objectForKey:kVideoViewsKey]];
-    reviewNum.text = [NSString stringWithFormat:@"answers: %d",[[object objectForKey:kVideoReviewsKey] count]];
+    reviewNum.text = [NSString stringWithFormat:@"reviews: %d",[[object objectForKey:kVideoReviewsKey] count]];
     return cell;
 }
 
@@ -234,18 +234,17 @@
     NSLog(@"error: %@", [error localizedDescription]);
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-//    if ([segue.identifier isEqualToString:@"showQuestionDetail"]) {
-//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-//        QuestionViewController *destViewController = segue.destinationViewController;
-//        
-//        PFObject *object = [self.objects objectAtIndex:indexPath.row];
-//        NSLog(@"sent object = %@", object);
-//        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
-//        //        destViewController.questionVideoId = [object objectId];
-//        destViewController.questionVideoObj = object;
-//    }
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {    
+    if ([segue.identifier isEqualToString:@"showAnswerFromQuestion"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        VideoViewController *destViewController = segue.destinationViewController;
+        
+        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        NSLog(@"sent object = %@", object);
+        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
+        //        destViewController.questionVideoId = [object objectId];
+        destViewController.answerVideoObj = object;
+    }
 }
 
 - (NSURL*)s3URL: (NSString*)bucketName :(PFObject*)object {

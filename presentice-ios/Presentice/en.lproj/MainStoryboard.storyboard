@@ -827,15 +827,15 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="answerListIdentifier" rowHeight="80" id="0wQ-a8-0bt">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="answerListIdentifier" rowHeight="80" id="0wQ-a8-0bt">
                                 <rect key="frame" x="0.0" y="523" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0wQ-a8-0bt" id="ZLk-jL-ZcI">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="79"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="epr-9g-O2Z">
-                                            <rect key="frame" x="6" y="6" width="40" height="40"/>
+                                            <rect key="frame" x="6" y="6" width="7" height="40"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="userName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="R4t-OU-N5g">
@@ -864,6 +864,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="GHB-MB-EgD" kind="push" identifier="showAnswerFromQuestion" id="3I1-yo-AWs"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -1037,7 +1040,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ALZ-Yc-bEl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3425" y="-1164"/>
+            <point key="canvasLocation" x="3415" y="-1861"/>
         </scene>
         <!--Question List View Controller - Quetion List View Controller-->
         <scene sceneID="6G1-b7-LEF">
@@ -1496,5 +1499,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="och-ue-P3p"/>
+        <segue reference="3I1-yo-AWs"/>
     </inferredMetricsTieBreakers>
 </document>
