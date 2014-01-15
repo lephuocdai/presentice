@@ -46,6 +46,7 @@
 		F03486CF1880166D001BE459 /* PushPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486CE1880166D001BE459 /* PushPermissionViewController.m */; };
 		F0578ED0187A723400573CD2 /* MyAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0578ECF187A723400573CD2 /* MyAnswerViewController.m */; };
 		F06E4BF418864EA100FB9333 /* ReviewDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F06E4BF318864EA100FB9333 /* ReviewDetailViewController.m */; };
+		F06E4BF71886DC9D00FB9333 /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F06E4BF61886DC9D00FB9333 /* UserProfileViewController.m */; };
 		F0718CB0185ABF23009014A0 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0718CAF185ABF23009014A0 /* SWRevealViewController.m */; };
 		F0718CB6185AC168009014A0 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F0718CB1185AC168009014A0 /* icon.png */; };
 		F0718CB7185AC168009014A0 /* record.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F0718CB2185AC168009014A0 /* record.jpeg */; };
@@ -164,6 +165,8 @@
 		F0578ECF187A723400573CD2 /* MyAnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnswerViewController.m; sourceTree = "<group>"; };
 		F06E4BF218864EA100FB9333 /* ReviewDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewDetailViewController.h; sourceTree = "<group>"; };
 		F06E4BF318864EA100FB9333 /* ReviewDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewDetailViewController.m; sourceTree = "<group>"; };
+		F06E4BF51886DC9D00FB9333 /* UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfileViewController.h; sourceTree = "<group>"; };
+		F06E4BF61886DC9D00FB9333 /* UserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProfileViewController.m; sourceTree = "<group>"; };
 		F0718CAE185ABF23009014A0 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		F0718CAF185ABF23009014A0 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		F0718CB1185AC168009014A0 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
@@ -423,6 +426,8 @@
 				F0759AC11881C92E0077D387 /* LeftSideMenuViewController.m */,
 				F0759AC31881CB1C0077D387 /* RightSideMenuViewController.h */,
 				F0759AC41881CB1C0077D387 /* RightSideMenuViewController.m */,
+				F06E4BF51886DC9D00FB9333 /* UserProfileViewController.h */,
+				F06E4BF61886DC9D00FB9333 /* UserProfileViewController.m */,
 			);
 			name = SideMenu;
 			sourceTree = "<group>";
@@ -734,6 +739,7 @@
 				F4EECF1E177C99F400778578 /* main.m in Sources */,
 				F00006AD186BAA1800E69027 /* NotificationListViewController.m in Sources */,
 				F4EECF22177C99F400778578 /* AppDelegate.m in Sources */,
+				F06E4BF71886DC9D00FB9333 /* UserProfileViewController.m in Sources */,
 				A78E9D5B185DA16B00ACCC54 /* Reachability.m in Sources */,
 				A72524CD18713B7900671AB6 /* VideoInfoCell.m in Sources */,
 				F0718CBD185ACE27009014A0 /* Constants.m in Sources */,

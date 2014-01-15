@@ -8,16 +8,15 @@
 
 #import <Parse/Parse.h>
 #import "MFSideMenu.h"
-
-#import <AWSRuntime/AWSRuntime.h>
-#import <AWSS3/AWSS3.h>
-#import <AssetsLibrary/AssetsLibrary.h>
-#import "MessageDetailViewController.h"
 #import "Constants.h"
-
-#import <Parse/Parse.h>
 #import "MBProgressHUD.h"
 
-@interface RightSideMenuViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
+
+#import "MessageDetailViewController.h"
+#import "UserProfileViewController.h"
+
+
+
+@interface RightSideMenuViewController : PFQueryTableViewController
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @end

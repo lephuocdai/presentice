@@ -13,7 +13,7 @@
 @end
 
 @implementation RightSideMenuViewController {
-    AmazonS3Client *s3Client;
+//    AmazonS3Client *s3Client;
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -35,7 +35,7 @@
         self.paginationEnabled = YES;
         
         // The number of objects to show per page
-        self.objectsPerPage = 5;
+        self.objectsPerPage = 3;
     }
     return self;
 }
@@ -61,8 +61,8 @@
                                                  name:@"refreshTable"
                                                object:nil];
     
-    //get facebook friend list
-    [self facebookFriendsList];
+//    //get facebook friend list
+//    [self facebookFriendsList];
 }
 - (void) viewWillAppear:(BOOL)animated {
     [self loadObjects];
@@ -94,6 +94,7 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *friendListQuery = [PFUser query];
+    [friendListQuery whereKey:kObjectIdKey notEqualTo:[[PFUser currentUser] objectId]];
 
     if ([self.objects count] == 0) {
         friendListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
@@ -118,6 +119,7 @@
     
     userName.text = [object objectForKey:kUserDisplayNameKey];
     email.text = [object objectForKey:kUserEmailKey];
+    NSLog(@"number of rows = %d",[self.tableView numberOfRowsInSection:0]);
     return cell;
 }
 
@@ -126,14 +128,20 @@
     NSLog(@"error: %@", [error localizedDescription]);
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    if ([segue.identifier isEqualToString:@"showMessageFromContacList"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        MessageDetailViewController *destViewController = segue.destinationViewController;
-        destViewController.toUser = [self.objects objectAtIndex:indexPath.row];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    if (indexPath.row != [self.tableView numberOfRowsInSection:0] - 1) {
+        UserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
+        userProfileViewController.userObj = [self.objects objectAtIndex:indexPath.row];
+        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+        NSArray *controllers = [NSArray arrayWithObject:userProfileViewController];
+        navigationController.viewControllers = controllers;
+        [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+    } else {
+        [self.tableView reloadData];
     }
 }
+
 - (void) facebookFriendsList {
     [FBRequestConnection startWithGraphPath:@"me/friends"
                                  parameters:nil
@@ -146,4 +154,5 @@
                               NSLog(@"facebook friends list: %@", result);
                           }];
 }
+
 @end
