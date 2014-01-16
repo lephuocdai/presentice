@@ -12,7 +12,9 @@
 @end
 
 
-@implementation SettingViewController
+@implementation SettingViewController {
+    NSString *profilePictureURL;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -28,12 +30,13 @@
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
+    //get profile picture
+    [self getFacebookProfilePicture];
+    
     // Set the menu's display
     self.menuItems = [[NSMutableArray alloc] init];
     [self setMenuItems];
     
-    //get profile picture
-    [self getFacebookProfilePicture];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -72,10 +75,18 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
     
-    // // Configure the cell
-    
+    // Configure the cell
     UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:100];
-    thumbnailImageView.image = [UIImage imageNamed:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]];
+    if (indexPath.row == 0) {
+        if ([[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"] isEqualToString:@"myList.jpeg"]) {
+            thumbnailImageView.image = [UIImage imageNamed:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]];
+        } else {
+            thumbnailImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:profilePictureURL]]];
+        }
+    } else {
+        thumbnailImageView.image = [UIImage imageNamed:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]];
+    }
+    
     
     UILabel *info = (UILabel *)[cell viewWithTag:101];
     NSLog(@"%@",[self.menuItems objectAtIndex:indexPath.row]);
@@ -98,7 +109,6 @@
             destViewController.delegate = self;
         }
         destViewController.pushPermission = [[NSMutableDictionary alloc] initWithDictionary:[[PFUser currentUser] objectForKey:@"pushPermission"]];
-//        [self presentViewController:destViewController animated:YES completion:nil];
         [self.navigationController pushViewController:destViewController animated:YES];
     }
 }
@@ -116,6 +126,8 @@
         [username setObject:@"username" forKey:@"type"];
         [username setObject:[[PFUser currentUser] objectForKey:kUserDisplayNameKey] forKey:@"info"];
         [username setObject:@"myList.jpeg" forKey:@"image"];
+//        [username setObject:@"https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/187392_1033342482_1452374131_n.jpg" forKey:@"image"];
+        NSLog(@"pictureURL setMenuItems = %@", profilePictureURL);
         [self.menuItems addObject:username];
     }
     
@@ -178,19 +190,20 @@
 /**
 * get facebook profile picture after logged in
 */
-- (void) getFacebookProfilePicture {
+- (void) getFacebookProfilePicture{
+//    __block NSString *pictureURL = [[NSString alloc]init];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"picture.type(large)",@"fields",nil];
     [FBRequestConnection startWithGraphPath:@"me"
                          parameters:params
                          HTTPMethod:@"GET"
-                         completionHandler:^(
-                                              FBRequestConnection *connection,
-                                              id result,
-                                              NSError *error
-                                              ) {
-                              NSLog(@"facebook profile picture url: %@", result);
+                         completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                             if (!error) {
+                                 profilePictureURL = [[[result objectForKey:@"picture"] objectForKey:@"data"] objectForKey:@"url"];
+                                 NSLog(@"pictureURL before = %@", profilePictureURL);
+                                 [[self.menuItems firstObject] setObject:profilePictureURL forKey:@"image"];
+                                 [self.tableView reloadData];
+                             }
                           }];
-
-
 }
+
 @end
