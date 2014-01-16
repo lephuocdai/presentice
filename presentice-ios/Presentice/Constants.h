@@ -87,6 +87,8 @@
 
 #pragma Table Message
 #define kMessageClassKey @"Message"
+#define kMessageUsersKey @"users"
+#define kMessageFromUserKey @"fromUser"
 
 
 #define REVIEW_MAX_VALUE 5

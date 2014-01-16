@@ -13,7 +13,6 @@
 @end
 
 @implementation FriendListViewController {
-    AmazonS3Client *s3Client;
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -93,8 +92,8 @@
 - (PFQuery *)queryForTable {
 //    PFQuery *questionListQuery = [PFQuery queryWithClassName:self.parseClassName];
     PFQuery *friendListQuery = [PFUser query];
-    // Now we don't have any algorithm about showing user list. Just show all users
-
+    // Now we don't have any algorithm about showing user list. Just show all users execept currentUser
+    [friendListQuery whereKey:kObjectIdKey notEqualTo:[[PFUser currentUser] objectId]];
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
     if ([self.objects count] == 0) {
@@ -132,15 +131,18 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-    if ([segue.identifier isEqualToString:@"showMessageFromContacList"]) {
+    if ([segue.identifier isEqualToString:@"showMessageFromContactList"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         MessageDetailViewController *destViewController = segue.destinationViewController;
         destViewController.toUser = [self.objects objectAtIndex:indexPath.row];
     }
 }
 - (IBAction)showLeftMenu:(id)sender {
+    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
 
 - (IBAction)showRightMenu:(id)sender {
+    [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
+
 @end

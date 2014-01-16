@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
+#import "MBProgressHUD.h"
 #import "MFSideMenu.h"
+#import "Constants.h"
 
-#import <AWSRuntime/AWSRuntime.h>
-#import <AWSS3/AWSS3.h>
-#import <AssetsLibrary/AssetsLibrary.h>
 #import "MessageDetailViewController.h"
 
-@interface MessageListViewController : PFQueryTableViewController < UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface MessageListViewController : PFQueryTableViewController < UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)showLeftMenu:(id)sender;

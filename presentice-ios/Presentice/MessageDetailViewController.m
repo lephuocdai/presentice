@@ -96,8 +96,8 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *messageListQuery = [PFQuery queryWithClassName:self.parseClassName];
-    [messageListQuery includeKey:@"fromUser"];
-    [messageListQuery whereKey:@"users" containsAllObjectsInArray:@[[PFUser currentUser], self.toUser]];
+    [messageListQuery includeKey:kMessageFromUserKey];
+    [messageListQuery whereKey:kMessageUsersKey containsAllObjectsInArray:@[[PFUser currentUser], self.toUser]];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
@@ -141,6 +141,9 @@
         PFObject *message = [PFObject objectWithClassName:kMessageClassKey];
         [message setObject:trimmedComment forKey:@"content"]; // Set comment text
         NSMutableArray *users = [[NSMutableArray alloc] initWithArray:@[[PFUser currentUser], self.toUser]];    // Add two users to the "users" field
+        NSSortDescriptor *aSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"objectId" ascending:YES];
+        [users sortUsingDescriptors:[NSArray arrayWithObject:aSortDescriptor]];
+        
         [message setObject:users forKey:@"users"];
         [message setObject:[PFUser currentUser] forKey:@"fromUser"];
         // Show HUD view

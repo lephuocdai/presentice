@@ -6,19 +6,16 @@
 //  Copyright (c) 2014 Presentice. All rights reserved.
 //
 
-#import <Parse/Parse.h>
-#import "SWRevealViewController.h"
-
-#import <AWSRuntime/AWSRuntime.h>
-#import <AWSS3/AWSS3.h>
-#import <AssetsLibrary/AssetsLibrary.h>
-#import "MessageDetailViewController.h"
-#import "Constants.h"
-
+#import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import "MBProgressHUD.h"
+#import "MFSideMenu.h"
+#import "Constants.h"
 
-@interface FriendListViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
+#import "MessageDetailViewController.h"
+
+
+@interface FriendListViewController : PFQueryTableViewController <UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 

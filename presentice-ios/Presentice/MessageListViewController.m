@@ -13,8 +13,6 @@
 @end
 
 @implementation MessageListViewController {
-//    NSMutableArray *messageList;
-    AmazonS3Client *s3Client;
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -52,6 +50,8 @@
     [super viewDidLoad];
     
     NSLog(@"get in message list");
+    
+    [self refreshTable:nil];
     
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -103,6 +103,8 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *messageListQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [messageListQuery includeKey:kMessageUsersKey];
+    [messageListQuery whereKey:kMessageUsersKey containsAllObjectsInArray:@[[PFUser currentUser]]];
 //    PFQuery *questionListQuery = [PFUser query];
     // Now we don't have any algorithm about showing user list. Just show all users
     /**
@@ -150,13 +152,37 @@
  * pass video name, video url
  */
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    if ([segue.identifier isEqualToString:@"showQuestionDetail"]) {
-//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-//        QuestionViewController *destViewController = segue.destinationViewController;
-//        destViewController.fileName = [questionList objectAtIndex:indexPath.row][@"fileName"];
-//        destViewController.movieURL = [questionList objectAtIndex:indexPath.row][@"fileURL"];
-//        destViewController.userName = [questionList objectAtIndex:indexPath.row][@"userName"];
-//    }
+    if ([segue.identifier isEqualToString:@"showMessageFromMessageList"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        MessageDetailViewController *destViewController = segue.destinationViewController;
+        
+        NSMutableArray *users = [[[self.objects objectAtIndex:indexPath.row] objectForKey:kMessageUsersKey] mutableCopy];
+        NSLog(@"users count before = %d", [users count]);
+        
+        NSUInteger currentUserIndex = [self indexOfObjectwithKey:[[PFUser currentUser] objectId] inArray:users];
+        NSLog(@"currentUserIndex = %lu", (unsigned long)currentUserIndex);
+        
+        [users removeObjectAtIndex:currentUserIndex];
+        
+        NSLog(@"users count after = %d", [users count]);
+        PFUser *toUser = [users lastObject];
+        destViewController.toUser = toUser;
+        NSLog(@"toUser = %@ \n currentUser = %@", toUser, [PFUser currentUser]);
+    }
+}
+
+- (NSUInteger)indexOfObjectwithKey:(NSString*)key inArray: (NSArray*)array {
+    NSLog(@"key = %@", key);
+    NSLog(@"array = %@", array);
+    
+    for (NSUInteger i = 0; i < [array count]; i++) {
+        NSString *objectId = [[array objectAtIndex:i] valueForKey:@"objectId"];
+        NSLog(@"i = %d objectId = %@", i, objectId);
+        if ([objectId isEqualToString:key]) {
+            return i;
+        }
+    }
+    return 100;
 }
 
 - (IBAction)showLeftMenu:(id)sender {
