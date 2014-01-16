@@ -119,7 +119,6 @@
     
     userName.text = [object objectForKey:kUserDisplayNameKey];
     email.text = [object objectForKey:kUserEmailKey];
-    NSLog(@"number of rows = %d",[self.tableView numberOfRowsInSection:0]);
     return cell;
 }
 
@@ -130,15 +129,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-    if (indexPath.row != [self.tableView numberOfRowsInSection:0] - 1) {
+    if (indexPath.row < [self.objects count] ) {
         UserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
         userProfileViewController.userObj = [self.objects objectAtIndex:indexPath.row];
         UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
         NSArray *controllers = [NSArray arrayWithObject:userProfileViewController];
         navigationController.viewControllers = controllers;
         [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
-    } else {
-        [self.tableView reloadData];
     }
 }
 
