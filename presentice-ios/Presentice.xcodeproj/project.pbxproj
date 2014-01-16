@@ -342,12 +342,12 @@
 		F00006A2186BA95A00E69027 /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				F00006A4186BA98C00E69027 /* MessageListViewController.h */,
+				F00006A5186BA98C00E69027 /* MessageListViewController.m */,
 				F03486BA187E337A001BE459 /* FriendListViewController.h */,
 				F03486BB187E337A001BE459 /* FriendListViewController.m */,
 				F00006A7186BA9AC00E69027 /* MessageDetailViewController.h */,
 				F00006A8186BA9AC00E69027 /* MessageDetailViewController.m */,
-				F00006A4186BA98C00E69027 /* MessageListViewController.h */,
-				F00006A5186BA98C00E69027 /* MessageListViewController.m */,
 			);
 			name = Message;
 			sourceTree = "<group>";

@@ -132,9 +132,10 @@
     if (indexPath.row < [self.objects count] ) {
         UserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
         userProfileViewController.userObj = [self.objects objectAtIndex:indexPath.row];
-        UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+        UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
+        [self.menuContainerViewController setCenterViewController:centerViewController];
         NSArray *controllers = [NSArray arrayWithObject:userProfileViewController];
-        navigationController.viewControllers = controllers;
+        centerViewController.viewControllers = controllers;
         [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
     }
 }

@@ -49,11 +49,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSLog(@"get in friend list");
+    
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    // Set the gesture
-    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -94,10 +94,7 @@
 //    PFQuery *questionListQuery = [PFQuery queryWithClassName:self.parseClassName];
     PFQuery *friendListQuery = [PFUser query];
     // Now we don't have any algorithm about showing user list. Just show all users
-/**
-    [questionListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
-    [questionListQuery whereKey:kVideoTypeKey equalTo:@"question"];
-**/
+
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
     if ([self.objects count] == 0) {
@@ -118,17 +115,19 @@
     }
     
     // Configure the cell
-    UILabel *userName = (UILabel *)[cell viewWithTag:100];
-    UILabel *email = (UILabel *)[cell viewWithTag:101];
-
-    userName.text = [object objectForKey:kUserDisplayNameKey];
-    email.text = [object objectForKey:kUserEmailKey];
+//    UILabel *userName = (UILabel *)[cell viewWithTag:100];
+//    UILabel *email = (UILabel *)[cell viewWithTag:101];
+//
+//    userName.text = [object objectForKey:kUserDisplayNameKey];
+//    email.text = [object objectForKey:kUserEmailKey];
+    cell.textLabel.text = [object objectForKey:kUserDisplayNameKey];
+    
     return cell;
 }
 
 - (void) objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
-    NSLog(@"error: %@", [error localizedDescription]);
+    NSLog(@"objectsDidLoad message list error: %@", [error localizedDescription]);
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -138,5 +137,10 @@
         MessageDetailViewController *destViewController = segue.destinationViewController;
         destViewController.toUser = [self.objects objectAtIndex:indexPath.row];
     }
+}
+- (IBAction)showLeftMenu:(id)sender {
+}
+
+- (IBAction)showRightMenu:(id)sender {
 }
 @end

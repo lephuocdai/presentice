@@ -14,7 +14,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "MessageDetailViewController.h"
 
-@interface MessageListViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface MessageListViewController : PFQueryTableViewController < UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)showLeftMenu:(id)sender;

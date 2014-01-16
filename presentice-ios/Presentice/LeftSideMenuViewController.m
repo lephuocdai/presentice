@@ -80,19 +80,22 @@
     if (indexPath.section == 1) {
         if(indexPath.row == 0){
             MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+            UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
+            [self.menuContainerViewController setCenterViewController:centerViewController];
             NSArray *controllers = [NSArray arrayWithObject:mainViewController];
-            navigationController.viewControllers = controllers;
+            centerViewController.viewControllers = controllers;
         } else if(indexPath.row == 1) {
             QuestionListViewController *questionListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
-            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+            UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
+            [self.menuContainerViewController setCenterViewController:centerViewController];
             NSArray *controllers = [NSArray arrayWithObject:questionListViewController];
-            navigationController.viewControllers = controllers;
+            centerViewController.viewControllers = controllers;
         } else if(indexPath.row == 2){
             MyListViewController *myListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"myListViewController"];
-            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
+            UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
+            [self.menuContainerViewController setCenterViewController:centerViewController];
             NSArray *controllers = [NSArray arrayWithObject:myListViewController];
-            navigationController.viewControllers = controllers;
+            centerViewController.viewControllers = controllers;
         } else if(indexPath.row == 3){
             
             // Reset notification badge
@@ -106,28 +109,41 @@
             }
             
             // Perform the transition
-            MessageListViewController *messageListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
-            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-            NSArray *controllers = [NSArray arrayWithObject:messageListViewController];
-            navigationController.viewControllers = controllers;
+            NotificationListViewController *notificationListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
+            UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
+            [self.menuContainerViewController setCenterViewController:centerViewController];
+            NSArray *controllers = [NSArray arrayWithObject:notificationListViewController];
+            centerViewController.viewControllers = controllers;
             
         }else if(indexPath.row == 4){
-            NotificationListViewController *notificationListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];
-            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-            NSArray *controllers = [NSArray arrayWithObject:notificationListViewController];
-            navigationController.viewControllers = controllers;
+            SettingViewController *settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];
+            UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
+            [self.menuContainerViewController setCenterViewController:centerViewController];
+            NSArray *controllers = [NSArray arrayWithObject:settingViewController];
+            centerViewController.viewControllers = controllers;
         }
     } else if (indexPath.section == 2) {
         if(indexPath.row == 0){
-            ShareViewController *shareViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageListViewController"];
-            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-            NSArray *controllers = [NSArray arrayWithObject:shareViewController];
+            MessageListViewController *messageListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageListViewController"];
+            UINavigationController *messageListNavigationController = [[UINavigationController alloc]initWithRootViewController:messageListViewController];
+
+            FriendListViewController *friendListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"friendListViewController"];
+            UINavigationController *friendListNavigationController = [[UINavigationController alloc]initWithRootViewController:friendListViewController];
+            
+            UITabBarController *messageTabBarController = [[UITabBarController alloc] init];
+            [messageTabBarController setViewControllers:[NSArray arrayWithObjects:messageListNavigationController, friendListNavigationController, nil]];
+            [self.menuContainerViewController setCenterViewController:messageTabBarController];
+            UITabBarController *tabBarController = self.menuContainerViewController.centerViewController;
+            UINavigationController *navigationController = (UINavigationController *)tabBarController.selectedViewController;
+            NSArray *controllers = [NSArray arrayWithObject:messageListViewController];
             navigationController.viewControllers = controllers;
+            
         }else if(indexPath.row == 1){
-            SettingViewController *settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"shareViewController"];
-            UINavigationController *navigationController = self.menuContainerViewController.centerViewController;
-            NSArray *controllers = [NSArray arrayWithObject:settingViewController];
-            navigationController.viewControllers = controllers;
+            ShareViewController *shareViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"shareViewController"];
+            UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
+            [self.menuContainerViewController setCenterViewController:centerViewController];
+            NSArray *controllers = [NSArray arrayWithObject:shareViewController];
+            centerViewController.viewControllers = controllers;
         }
     }
     [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];

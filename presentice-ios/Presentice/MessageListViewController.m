@@ -51,6 +51,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    NSLog(@"get in message list");
+    
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
@@ -139,7 +141,7 @@
 
 - (void) objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
-    NSLog(@"error: %@", [error localizedDescription]);
+    NSLog(@"objectsDidLoad message list error: %@", [error localizedDescription]);
 }
 
 /**

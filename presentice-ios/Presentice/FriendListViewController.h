@@ -22,5 +22,8 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
+- (IBAction)showLeftMenu:(id)sender;
+- (IBAction)showRightMenu:(id)sender;
+
 
 @end
