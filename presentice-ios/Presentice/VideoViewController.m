@@ -67,7 +67,7 @@
     
     videoNameLabel.text = [self.answerVideoObj objectForKey:kVideoNameKey];
     postedUserLabel.text = [[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-    viewNumLabel.text = [self.answerVideoObj objectForKey:kVideoViewsKey];
+    viewNumLabel.text = [NSString stringWithFormat:@"views: %@",[self.answerVideoObj objectForKey:kVideoViewsKey]];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -256,10 +256,17 @@
     }
     
     // Configure the cell
+    UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
     UILabel *userName = (UILabel *)[cell viewWithTag:101];
     UILabel *pointDetail = (UILabel *)[cell viewWithTag:102];
     UILabel *pointSum = (UILabel *)[cell viewWithTag:103];
     UILabel *comment = (UILabel *)[cell viewWithTag:104];
+    
+    userProfilePicture.image = [UIImage imageWithData:
+                                [NSData dataWithContentsOfURL:
+                                 [NSURL URLWithString:
+                                  [Constants facebookProfilePictureofUser:
+                                   [object objectForKey:kReviewFromUserKey]]]]];
     
     userName.text = [[object objectForKey:kReviewFromUserKey] objectForKey:kUserDisplayNameKey];
     

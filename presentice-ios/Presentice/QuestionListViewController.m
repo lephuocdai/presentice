@@ -107,7 +107,7 @@
     // Configure the cell
     UILabel *postedUser = (UILabel *)[cell viewWithTag:100];
     UILabel *videoName = (UILabel *)[cell viewWithTag:101];
-//    UILabel *isTakenAnswer = (UILabel *)[cell viewWithTag:102];
+    UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:102];
     UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
     UILabel *answersNum = (UILabel *)[cell viewWithTag:104];
     
@@ -115,21 +115,11 @@
     videoName.text = [object objectForKey:kVideoNameKey];
     viewsNum.text = [NSString stringWithFormat:@"view: %@",[object objectForKey:kVideoViewsKey]];
     answersNum.text = [NSString stringWithFormat:@"answers: %@", [object objectForKey:kVideoAnswersKey]];
-    
-    // Need a better way to check answeredStatus
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-//        PFQuery *myAnswer = [PFQuery queryWithClassName:kVideoClassKey];
-//        [myAnswer includeKey:kVideoUserKey];
-//        [myAnswer whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
-//        [myAnswer whereKey:kVideoAsAReplyTo equalTo:object];
-//        [myAnswer findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//            if(!error && objects.count != 0){
-//                isTakenAnswer.text = @"Already Answered";
-//            } else {
-//                isTakenAnswer.text = @"Not Answered Yet";
-//            }
-//        }];
-//    });
+    userProfilePicture.image = [UIImage imageWithData:
+                                [NSData dataWithContentsOfURL:
+                                 [NSURL URLWithString:
+                                  [Constants facebookProfilePictureofUser:
+                                   [object objectForKey:kVideoUserKey]]]]];
     return cell;
 }
 

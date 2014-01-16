@@ -217,10 +217,17 @@
     }
     
     // Configure the cell
+    UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
     UILabel *userName = (UILabel *)[cell viewWithTag:101];
     UILabel *videoName = (UILabel *)[cell viewWithTag:102];
     UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
     UILabel *reviewNum = (UILabel *)[cell viewWithTag:104];
+    
+    userProfilePicture.image = [UIImage imageWithData:
+                                [NSData dataWithContentsOfURL:
+                                 [NSURL URLWithString:
+                                  [Constants facebookProfilePictureofUser:
+                                   [object objectForKey:kVideoUserKey]]]]];
     
     userName.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     videoName.text = [object objectForKey:kVideoNameKey];
