@@ -14,7 +14,6 @@
  */
 
 #import "Constants.h"
-#import <Parse/Parse.h>
 
 @implementation Constants
 
@@ -31,6 +30,11 @@
     NSArray *contents = [[NSArray alloc] initWithArray:[object objectForKey:@"content"]];
     NSPredicate *filter = [NSPredicate predicateWithFormat:@"name = %@", name];
     return [[[contents filteredArrayUsingPredicate:filter] firstObject] objectForKey:@"content"];
+}
+
++ (NSString*)facebookProfilePictureofUser:(PFUser*)user{
+    NSString* userFBID = [user objectForKey:kUserFacebookIdKey];
+    return [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=square", userFBID];
 }
 
 @end

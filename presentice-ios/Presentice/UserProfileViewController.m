@@ -75,7 +75,12 @@
     
     // Configure the cell...
     UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:100];
-    thumbnailImageView.image = [UIImage imageNamed:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]];
+    
+    if ([[[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"] lowercaseString] hasPrefix:@"http://"]) {
+        thumbnailImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]]]];
+    } else {
+        thumbnailImageView.image = [UIImage imageNamed:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]];
+    }
     
     UILabel *info = (UILabel *)[cell viewWithTag:101];
     NSLog(@"%@",[self.menuItems objectAtIndex:indexPath.row]);
@@ -95,7 +100,7 @@
         NSMutableDictionary *username = [[NSMutableDictionary alloc] init];
         [username setObject:@"username" forKey:@"type"];
         [username setObject:[self.userObj objectForKey:kUserDisplayNameKey] forKey:@"info"];
-        [username setObject:@"myList.jpeg" forKey:@"image"];
+        [username setObject:[Constants facebookProfilePictureofUser:self.userObj] forKey:@"image"];
         [self.menuItems addObject:username];
     }
     

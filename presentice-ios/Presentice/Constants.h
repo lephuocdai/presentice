@@ -14,6 +14,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <Parse/Parse.h>
 
 // Constants used to represent your AWS Credentials.
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -103,4 +104,7 @@
 + (NSString *)transferManagerBucket;
 
 + (NSString *)getConstantbyClass:(NSString *)className forType:(NSString *)typeName withName:(NSString *)name;
+
++ (NSString*)facebookProfilePictureofUser:(PFUser*)user;
+
 @end
