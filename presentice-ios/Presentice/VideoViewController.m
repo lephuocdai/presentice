@@ -20,14 +20,6 @@
 @synthesize postedUserLabel;
 @synthesize viewNumLabel;
 
-- (id)initWithStyle:(UITableViewStyle)style {
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
     if (self) {
@@ -51,6 +43,14 @@
     return self;
 }
 
+- (id)initWithStyle:(UITableViewStyle)style {
+    self = [super initWithStyle:style];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -67,45 +67,10 @@
     
     videoNameLabel.text = [self.answerVideoObj objectForKey:kVideoNameKey];
     postedUserLabel.text = [[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
+    viewNumLabel.text = [self.answerVideoObj objectForKey:kVideoViewsKey];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    
-    // Initiate S3 bucket access
-//    if(self.tm == nil){
-//        if(![ACCESS_KEY_ID isEqualToString:@"CHANGE ME"]){
-//            
-//            // Initialize the S3 Client.
-//            AmazonS3Client *s3 = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
-//            s3.endpoint = [AmazonEndpoints s3Endpoint:US_WEST_2];
-//            
-//            // Initialize the S3TransferManager
-//            self.tm = [S3TransferManager new];
-//            self.tm.s3 = s3;
-//            self.tm.delegate = self;
-//            
-//            // Create the bucket
-//            S3CreateBucketRequest *createBucketRequest = [[S3CreateBucketRequest alloc] initWithName:[Constants transferManagerBucket] andRegion: [S3Region USWest2]];
-//            @try {
-//                S3CreateBucketResponse *createBucketResponse = [s3 createBucket:createBucketRequest];
-//                if(createBucketResponse.error != nil) {
-//                    NSLog(@"Error: %@", createBucketResponse.error);
-//                }
-//            }@catch(AmazonServiceException *exception) {
-//                if(![@"BucketAlreadyOwnedByYou" isEqualToString: exception.errorCode]) {
-//                    NSLog(@"Unable to create bucket: %@ %@",exception.errorCode, exception.error);
-//                }
-//            }
-//            
-//        }else {
-//            UIAlertView *message = [[UIAlertView alloc] initWithTitle:CREDENTIALS_ERROR_TITLE
-//                                                              message:CREDENTIALS_ERROR_MESSAGE
-//                                                             delegate:nil
-//                                                    cancelButtonTitle:@"OK"
-//                                                    otherButtonTitles:nil];
-//            [message show];
-//        }
-//    }
     
     // Set refreshTable notification
     [[NSNotificationCenter defaultCenter] addObserver:self

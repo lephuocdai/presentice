@@ -13,9 +13,37 @@
 @end
 
 @implementation MyAnswerViewController {
-    NSString *videoPointStr;
-    NSMutableArray *commentList;
-    NSMutableArray *reviews;
+//    NSString *videoPointStr;
+//    NSMutableArray *commentList;
+//    NSMutableArray *reviews;
+}
+
+@synthesize questionVideoLabel;
+@synthesize questionVideoPostedUserLabel;
+@synthesize viewNumLabel;
+@synthesize noteView;
+
+- (id)initWithCoder:(NSCoder *)aCoder {
+    self = [super initWithCoder:aCoder];
+    if (self) {
+        // Custom the table
+        
+        // The className to query on
+        self.parseClassName = kReviewClassKey;
+        
+        // The key of the PFObject to display in the label of the default cell style
+        self.textKey = kReviewCommentKey;
+        
+        // Whether the built-in pull-to-refresh is enabled
+        self.pullToRefreshEnabled = YES;
+        
+        // Whether the built-in pagination is enabled
+        self.paginationEnabled = YES;
+        
+        // The number of objects to show per page
+        self.objectsPerPage = 5;
+    }
+    return self;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -36,17 +64,28 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    reviews = [[NSMutableArray alloc] init];
-    commentList = [[NSMutableArray alloc] init];
+//    reviews = [[NSMutableArray alloc] init];
+//    commentList = [[NSMutableArray alloc] init];
+//    
+//    [self queryReviews];
     
-    [self queryReviews];
+    // Start loading HUD
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    questionVideoLabel.text = [self.questionVideoObj objectForKey:kVideoNameKey];
+    questionVideoPostedUserLabel.text = [self.questionPostedUser objectForKey:kUserDisplayNameKey];
+    viewNumLabel.text = [NSString stringWithFormat:@"views: %@",[self.answerVideoObj objectForKey:kVideoViewsKey]];
+    noteView.text = [self.answerVideoObj objectForKey:kVideoNoteKey];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    // Set refreshTable notification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshTable:)
+                                                 name:@"refreshTable"
+                                               object:nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -58,11 +97,66 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    // Set up movieController
+    self.movieController = [[MPMoviePlayerController alloc] init];
+    [self.movieController setContentURL:self.movieURL];
+    [self.movieController.view setFrame:CGRectMake(0, 0, 320, 380)];
+    [self.videoView addSubview:self.movieController.view];
+    
+    // Using the Movie Player Notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.movieController];
+    self.movieController.controlStyle =  MPMovieControlStyleEmbedded;
+    self.movieController.shouldAutoplay = YES;
+    self.movieController.repeatMode = NO;
+    [self.movieController prepareToPlay];
+    [self.movieController play];
+    
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+}
 
+- (void)refreshTable:(NSNotification *) notification {
+    // Reload the recipes
+    [self loadObjects];
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
+- (PFQuery *)queryForTable {
+    PFQuery *reviewListQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [reviewListQuery includeKey:kReviewFromUserKey];   // Important: Include "fromUser" key in this query make receiving user info easier
+    [reviewListQuery includeKey:kReviewToUserKey];
+    [reviewListQuery includeKey:kReviewTargetVideoKey];
+    [reviewListQuery whereKey:kReviewTargetVideoKey equalTo:self.answerVideoObj];
+    
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    if ([self.objects count] == 0) {
+        reviewListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    }
+    [reviewListQuery orderByAscending:kUpdatedAtKey];
+    return reviewListQuery;
+}
+
+- (void)moviePlayBackDidFinish:(NSNotification *)notification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+}
+- (void) viewWillDisappear:(BOOL)animated {
+    [self.movieController stop];
+    [self.movieController.view removeFromSuperview];
+    self.movieController = nil;
 }
 
 #pragma mark - Table view data source
-
+/**
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 3;
@@ -147,64 +241,55 @@
     }
     return cell;
 }
-
-- (void)moviePlayBackDidFinish:(NSNotification *)notification {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
-}
-
-- (void) viewWillDisappear:(BOOL)animated {
-    //finish video when clicking back button
-    if([self.navigationController.viewControllers indexOfObject:self] == NSNotFound){
-        [self.movieController stop];
-        [self.movieController.view removeFromSuperview];
-        self.movieController = nil;
+**/
+ 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    static NSString *simpleTableIdentifier = @"reviewListIdentifier";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
+    
+    // Configure the cell
+    UILabel *userName = (UILabel *)[cell viewWithTag:101];
+    UILabel *pointDetail = (UILabel *)[cell viewWithTag:102];
+    UILabel *pointSum = (UILabel *)[cell viewWithTag:103];
+    UILabel *comment = (UILabel *)[cell viewWithTag:104];
+    
+    userName.text = [[object objectForKey:kReviewFromUserKey] objectForKey:kUserDisplayNameKey];
+    
+    NSMutableDictionary *points = [object objectForKey:kReviewContentKey];
+    pointDetail.text = [NSString stringWithFormat:@"app: %@, org: %@, und: %@",
+                        [points objectForKey:@"appearance"],
+                        [points objectForKey:@"organization"],
+                        [points objectForKey:@"understandability"]];
+    
+    pointSum.text = @"undefined";
+    
+    comment.text = [object objectForKey:kReviewCommentKey];
+    return cell;
 }
 
-#pragma Parse query
+- (void) objectsDidLoad:(NSError *)error {
+    [super objectsDidLoad:error];
+    NSLog(@"error: %@", [error localizedDescription]);
+}
 
-- (void) queryReviews {
+/**
+ * segue for table cell
+ * click to direct to video review
+ * pass video object
+ */
 
-    PFQuery *points = [PFQuery queryWithClassName:kReviewClassKey];
-    [points includeKey:kReviewFromUserKey];
-    [points whereKey:kReviewTargetVideoKey equalTo:self.videoObj];
-    [points findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            int organizationPoint = 0;
-            int understandPoint = 0;
-            int appearancePoint = 0;
-            
-            //retrive each row of data to get video points
-            for(int i = 0; i < [objects count]; i++){
-                //review content
-                NSDictionary *content = [objects[i] objectForKey:kReviewContentKey];
-                organizationPoint = organizationPoint + [[content objectForKey:@"organization"] integerValue];
-                understandPoint = understandPoint + [[content objectForKey:@"understandability"] integerValue];
-                appearancePoint = appearancePoint + [[content objectForKey:@"appearance"] integerValue];
-                
-                //review comment
-                // Add new file to fileList
-                NSMutableDictionary *comment = [NSMutableDictionary dictionary];
-                comment[@"comment_content"] = [objects[i] objectForKey:kReviewCommentKey];
-                [commentList addObject:comment];
-                
-                // Add each review object to reviews array
-                [reviews addObject:objects[i]];
-            }
-            //print video point to string
-            videoPointStr = [NSString stringWithFormat:@"Organization: %d", organizationPoint];
-            videoPointStr = [videoPointStr stringByAppendingFormat:@"\nUnderstandability: %d", understandPoint];
-            videoPointStr = [videoPointStr stringByAppendingFormat:@"\nAppearance: %d", appearancePoint];
-            
-            //reload table data
-            [self.tableView reloadData];
-            
-            NSLog(@"videoPointStr = %@", videoPointStr);
-            
-        } else {
-            NSLog(@"error");
-        }
-    }];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showReviewDetail"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        ReviewDetailViewController *destViewController = segue.destinationViewController;
+        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        NSLog(@"sent object = %@", object);
+        destViewController.reviewObject = object;
+    }
 }
 
 /*

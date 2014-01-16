@@ -92,6 +92,7 @@
     PFQuery *myListQuery = [PFQuery queryWithClassName:self.parseClassName];
     [myListQuery includeKey:kVideoReviewsKey];
     [myListQuery includeKey:kVideoAsAReplyTo];
+    [myListQuery includeKey:kVideoToUserKey];
     [myListQuery whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
     [myListQuery whereKey:kVideoTypeKey equalTo:@"answer"]; //only get list of answers
     
@@ -143,10 +144,10 @@
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
         NSLog(@"sent object = %@", object);
-        destViewController.fileName = [object objectForKey:kVideoURLKey];
         destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
-//        destViewController.userName = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-        destViewController.videoObj = object;
+        destViewController.answerVideoObj = object;
+        destViewController.questionPostedUser = [object objectForKey:kVideoToUserKey];
+        destViewController.questionVideoObj = [object objectForKey:kVideoAsAReplyTo];
     }
 }
 

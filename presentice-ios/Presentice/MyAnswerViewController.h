@@ -7,18 +7,36 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MediaPlayer/MediaPlayer.h>
-#import <Parse/Parse.h>
-
 #import "Constants.h"
-//#import "VideoInfoCell.h"
+#import <Parse/Parse.h>
+#import "MBProgressHUD.h"
 
-@interface MyAnswerViewController : UITableViewController
+#import <AWSRuntime/AWSRuntime.h>
+#import <AWSS3/AWSS3.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <MediaPlayer/MediaPlayer.h>
 
-@property (strong, nonatomic) NSString *fileName;
+#import "ReviewDetailViewController.h"
+
+@interface MyAnswerViewController : PFQueryTableViewController <UINavigationControllerDelegate, UINavigationBarDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
+
+// For display answerVideo
+@property (strong, nonatomic) IBOutlet UILabel *questionVideoLabel;
+@property (strong, nonatomic) IBOutlet UILabel *questionVideoPostedUserLabel;
+@property (strong, nonatomic) IBOutlet UILabel *viewNumLabel;
+@property (strong, nonatomic) IBOutlet UIView *videoView;
+@property (strong, nonatomic) IBOutlet UITextView *noteView;
+
+
 @property (copy, nonatomic)NSURL *movieURL;
+@property (strong, nonatomic) PFObject *answerVideoObj;
+@property (strong, nonatomic) PFUser *questionPostedUser;
+@property (strong, nonatomic) PFObject *questionVideoObj;
 @property (strong, nonatomic)MPMoviePlayerController *movieController;
 
-@property (strong, nonatomic) PFObject *videoObj;
+//@property (strong, nonatomic) NSString *fileName;
+//@property (copy, nonatomic)NSURL *movieURL;
+//@property (strong, nonatomic)MPMoviePlayerController *movieController;
+//@property (strong, nonatomic) PFObject *videoObj;
 
 @end

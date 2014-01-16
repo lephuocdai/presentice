@@ -25,17 +25,11 @@
 @property (strong, nonatomic) IBOutlet UILabel *videoNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *postedUserLabel;
 @property (strong, nonatomic) IBOutlet UILabel *viewNumLabel;
+@property (strong, nonatomic) IBOutlet UIView *videoView;
+
 @property (copy, nonatomic)NSURL *movieURL;
 @property (strong, nonatomic) PFObject *answerVideoObj;
-@property (strong, nonatomic) IBOutlet UIView *videoView;
 @property (strong, nonatomic)MPMoviePlayerController *movieController;
 
-
-
-
-//@property (strong, nonatomic) NSString *fileName;
-//@property (copy, nonatomic)NSURL *movieURL;
-//@property (strong, nonatomic)MPMoviePlayerController *movieController;
-//@property (strong, nonatomic) PFObject *videoObj;
 
 @end
