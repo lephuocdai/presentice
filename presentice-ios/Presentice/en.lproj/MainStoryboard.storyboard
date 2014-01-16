@@ -370,6 +370,7 @@
                         <outlet property="answerVideoNameLabel" destination="ky4-Rq-kUx" id="fj8-sH-iXu"/>
                         <outlet property="answerVideoPosterUserNameLabel" destination="fke-t9-Ig4" id="0D4-Dd-DuC"/>
                         <outlet property="commentView" destination="Fqt-4C-8DE" id="QNq-56-3ph"/>
+                        <outlet property="profileView" destination="qBl-Ht-HNG" id="cOd-zN-UTp"/>
                         <outlet property="reviewerNameLabel" destination="ALL-ZG-wnw" id="eH7-DL-teG"/>
                     </connections>
                 </tableViewController>

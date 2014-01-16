@@ -17,12 +17,11 @@
 
 @property (strong, nonatomic) PFObject *reviewObject;
 
+@property (strong, nonatomic) IBOutlet UIImageView *profileView;
 @property (strong, nonatomic) IBOutlet UILabel *reviewerNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *answerVideoNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *answerVideoPosterUserNameLabel;
 
 @property (strong, nonatomic) IBOutlet UIView *commentView;
-//@property (strong, nonatomic) IBOutlet UILabel *thankYouLabel;
-//- (IBAction)sayThankyou:(id)sender;
 
 @end
