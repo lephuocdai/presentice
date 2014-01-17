@@ -96,25 +96,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
-/**
-- (PFQuery *)queryForTable {
-    PFQuery *videoListQuery = [PFQuery queryWithClassName:self.parseClassName];
-    [videoListQuery includeKey:kVideoUserKey];      // Important: Include "user" key in this query make receiving user info easier
-    [videoListQuery includeKey:kVideoAsAReplyTo];
-    [videoListQuery includeKey:kVideoReviewsKey];
-    [videoListQuery whereKey:kVideoTypeKey equalTo:@"answer"];      // Only query videos with type "answer"
-    [videoListQuery whereKey:kVideoVisibilityKey equalTo:@"open"];  // Only query videos that were set as "open"
-    [videoListQuery whereKey:kVideoUserKey notEqualTo:[PFUser currentUser]];
-    
-    // If no objects are loaded in memory, we look to the cache first to fill the table
-    // and then subsequently do a query against the network.
-    if ([self.objects count] == 0) {
-        videoListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    }
-    [videoListQuery orderByAscending:kUpdatedAtKey];
-    return videoListQuery;
-}
-**/
+
 - (PFQuery *)queryForTable {
     PFQuery *activitiesQuery = [PFQuery queryWithClassName:self.parseClassName];
     [activitiesQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review", @"postQuestion", @"register"]];
@@ -132,17 +114,34 @@
         activitiesQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
     
-    [activitiesQuery orderByAscending:kUpdatedAtKey];
+    [activitiesQuery orderByDescending:kUpdatedAtKey];
     return activitiesQuery;
 }
 
+
+
 // Override to customize the look of a cell representing an object. The default is to display
 // a UITableViewCellStyleDefault style cell with the label being the first key in the object.
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"answer"] ) {
+        return 90;
+    } else if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
+        return 120;
+    } else if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
+        return 120;
+    } else if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
+        return 72;
+    } else {
+        return 120;
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     
     if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"answer"]) {
         NSString *simpleTableIdentifier = @"answerListIdentifier";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
@@ -166,7 +165,7 @@
         return cell;
     } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
         NSString *simpleTableIdentifier = @"reviewListIdentifier";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
@@ -195,7 +194,7 @@
     } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
         NSString *simpleTableIdentifier = @"postQuestionListIdentifier";
         
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
@@ -223,7 +222,7 @@
     } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
         NSString *simpleTableIdentifier = @"registerListIdentifier";
         
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
@@ -240,6 +239,13 @@
         
         description.text = [NSString stringWithFormat:@"%@ has joined Presentice!",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
+        return cell;
+    } else {
+        NSString *simpleTableIdentifier = @"answerListIdentifier";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        }
         return cell;
     }
 }
