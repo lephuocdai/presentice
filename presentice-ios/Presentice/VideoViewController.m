@@ -26,10 +26,10 @@
         // Custom the table
         
         // The className to query on
-        self.parseClassName = kReviewClassKey;
+        self.parseClassName = kActivityClassKey;
         
         // The key of the PFObject to display in the label of the default cell style
-        self.textKey = kReviewCommentKey;
+        self.textKey = kActivityDescriptionKey;
         
         // Whether the built-in pull-to-refresh is enabled
         self.pullToRefreshEnabled = YES;
@@ -98,33 +98,36 @@
     [self.movieController prepareToPlay];
     [self.movieController play];
     
-    // Send a "viewed" notification to the device with channel contain video's userId
-    if ([[[[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"] isEqualToString:@"yes"]) {
-        NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-        [params setObject:[self.answerVideoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
-        [params setObject:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
-        [params setObject:@"viewed" forKey:@"pushType"];
-        [PFCloud callFunction:@"sendPushNotification" withParameters:params];
+    // If currentUser is not the video's owner
+    if (![[[PFUser currentUser] objectId] isEqualToString:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId]]) {
+        // Send a "viewed" notification
+        if ([[[[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"] isEqualToString:@"yes"]) {
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+            [params setObject:[self.answerVideoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
+            [params setObject:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
+            [params setObject:@"viewed" forKey:@"pushType"];
+            [PFCloud callFunction:@"sendPushNotification" withParameters:params];
+        }
+        
+        // Add activity
+        PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
+        [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+        [activity setObject:[self.answerVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
+        [activity setObject:@"view" forKey:kActivityTypeKey];
+        [activity setObject:self.answerVideoObj forKey:kActivityTargetVideoKey];
+        [activity saveInBackground];
+        
+        // Increment views
+        int viewsNum = [[self.answerVideoObj objectForKey:kVideoViewsKey] intValue];
+        [self.answerVideoObj setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
+        PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
+        [query getObjectInBackgroundWithId:[self.answerVideoObj objectId] block:^(PFObject *object, NSError *error) {
+            [object setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
+            [object saveInBackground];
+        }];
+        [self.answerVideoObj saveInBackground];
+        NSLog(@"after videoObj = %@", self.answerVideoObj);
     }
-
-    // Add activity
-    PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
-    [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
-    [activity setObject:[self.answerVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
-    [activity setObject:@"view" forKey:kActivityTypeKey];
-    [activity setObject:self.answerVideoObj forKey:kActivityTargetVideoKey];
-    [activity saveInBackground];
-    
-    // Increment views
-    int viewsNum = [[self.answerVideoObj objectForKey:kVideoViewsKey] intValue];
-    [self.answerVideoObj setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
-    PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
-    [query getObjectInBackgroundWithId:[self.answerVideoObj objectId] block:^(PFObject *object, NSError *error) {
-        [object setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
-        [object saveInBackground];
-    }];
-    [self.answerVideoObj saveInBackground];
-    NSLog(@"after videoObj = %@", self.answerVideoObj);
     
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -152,10 +155,11 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *reviewListQuery = [PFQuery queryWithClassName:self.parseClassName];
-    [reviewListQuery includeKey:kReviewFromUserKey];   // Important: Include "fromUser" key in this query make receiving user info easier
-    [reviewListQuery includeKey:kReviewToUserKey];
-    [reviewListQuery includeKey:kReviewTargetVideoKey];
-    [reviewListQuery whereKey:kReviewTargetVideoKey equalTo:self.answerVideoObj];
+    [reviewListQuery includeKey:kActivityFromUserKey];   // Important: Include "fromUser" key in this query make receiving user info easier
+    [reviewListQuery includeKey:kActivityToUserKey];
+    [reviewListQuery includeKey:kActivityTargetVideoKey];
+    [reviewListQuery whereKey:kActivityTypeKey equalTo:@"review"];
+    [reviewListQuery whereKey:kActivityTargetVideoKey equalTo:self.answerVideoObj];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
@@ -254,19 +258,19 @@
                                 [NSData dataWithContentsOfURL:
                                  [NSURL URLWithString:
                                   [Constants facebookProfilePictureofUser:
-                                   [object objectForKey:kReviewFromUserKey]]]]];
+                                   [object objectForKey:kActivityFromUserKey]]]]];
     
-    userName.text = [[object objectForKey:kReviewFromUserKey] objectForKey:kUserDisplayNameKey];
+    userName.text = [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey];
     
-    NSMutableDictionary *points = [object objectForKey:kReviewContentKey];
+    NSMutableDictionary *points = [object objectForKey:kActivityContentKey];
     pointDetail.text = [NSString stringWithFormat:@"app: %@, org: %@, und: %@",
                         [points objectForKey:@"appearance"],
                         [points objectForKey:@"organization"],
                         [points objectForKey:@"understandability"]];
-    
+    NSLog(@"points = %@ \n object= %@", points, object);
     pointSum.text = @"undefined";
     
-    comment.text = [object objectForKey:kReviewCommentKey];
+    comment.text = [object objectForKey:kActivityDescriptionKey];
     return cell;
 }
 
@@ -292,6 +296,16 @@
         NSLog(@"sent object = %@", object);
         destViewController.reviewObject = object;
     }
+}
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([identifier isEqualToString:@"toReviewView"]) {
+        if ([[[PFUser currentUser] objectId] isEqualToString:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId]]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"You can not review yourself" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+            return NO;
+        }
+    }
+    return YES;
 }
 
 @end

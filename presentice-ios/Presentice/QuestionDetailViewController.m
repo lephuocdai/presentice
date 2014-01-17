@@ -128,35 +128,38 @@
     [self.movieController prepareToPlay];
     [self.movieController play];
     
-    // Send a notification to the device with channel contain questionVideo's userId
-    NSLog(@"viewd push = %@", [[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"]);
-    if ([[[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"] isEqualToString:@"yes"]) {
-        NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-        [params setObject:[self.questionVideoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
-        [params setObject:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
-        [params setObject:@"viewed" forKey:@"pushType"];
-        [PFCloud callFunction:@"sendPushNotification" withParameters:params];
+    // If currentUser is not the video's owner
+    if (![[[PFUser currentUser] objectId] isEqualToString:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId]]) {
+        // Send a notification to the device with channel contain questionVideo's userId
+        NSLog(@"viewd push = %@", [[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"]);
+        if ([[[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"] isEqualToString:@"yes"]) {
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+            [params setObject:[self.questionVideoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
+            [params setObject:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
+            [params setObject:@"viewed" forKey:@"pushType"];
+            [PFCloud callFunction:@"sendPushNotification" withParameters:params];
+        }
+        
+        // Add activity
+        PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
+        [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+        [activity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
+        [activity setObject:@"view" forKey:kActivityTypeKey];
+        [activity setObject:self.questionVideoObj forKey:kActivityTargetVideoKey];
+        [activity saveInBackground];
+        
+        
+        // Increment views: need to be revised
+        int viewsNum = [[self.questionVideoObj objectForKey:kVideoViewsKey] intValue];
+        [self.questionVideoObj setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
+        PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
+        [query getObjectInBackgroundWithId:[self.questionVideoObj objectId] block:^(PFObject *object, NSError *error) {
+            [object setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
+            [object saveInBackground];
+        }];
+        [self.questionVideoObj saveInBackground];
     }
-    
-    // Add activity
-    PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
-    [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
-    [activity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
-    [activity setObject:@"view" forKey:kActivityTypeKey];
-    [activity setObject:self.questionVideoObj forKey:kActivityTargetVideoKey];
-    [activity saveInBackground];
-    
-    
-    // Increment views: need to be revised
-    int viewsNum = [[self.questionVideoObj objectForKey:kVideoViewsKey] intValue];
-    [self.questionVideoObj setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
-    PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
-    [query getObjectInBackgroundWithId:[self.questionVideoObj objectId] block:^(PFObject *object, NSError *error) {
-        [object setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
-        [object saveInBackground];
-    }];
-    [self.questionVideoObj saveInBackground];
-    
+
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
