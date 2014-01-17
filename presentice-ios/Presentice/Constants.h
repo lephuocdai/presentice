@@ -15,23 +15,10 @@
 
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
-
-// Constants used to represent your AWS Credentials.
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// This sample App is for demonstration purposes only.
-// It is not secure to embed your credentials into source code.
-// Please read the following article for getting credentials
-// to devices securely.
-// http://aws.amazon.com/articles/Mobile/4611615499399490
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#define ACCESS_KEY_ID          @"AKIAIBF67U5IMHUB2KDQ"
-#define SECRET_KEY             @"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"
-
+#import "Credentials.h"
 
 // Constants for the Bucket
 #define S3TRANSFERMANAGER_BUCKET         @"s3-transfer-manager-bucket"
-
-
 #define CREDENTIALS_ERROR_TITLE    @"Missing Credentials"
 #define CREDENTIALS_ERROR_MESSAGE  @"AWS Credentials not configured correctly.  Please review the README file."
 

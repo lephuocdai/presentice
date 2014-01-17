@@ -10,7 +10,7 @@
 #import <Parse/Parse.h>
 #import "MFSideMenuContainerViewController.h"
 #import "LoginViewController.h"
-
+#import "Credentials.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, NSURLConnectionDataDelegate>
 
