@@ -65,7 +65,7 @@
 #define kActivityTypeKey @"type"    // Ex: "view", "review", "comment"
 #define kActivityDescriptionKey @"description" // The description of the activity if available
 #define kActivityContentKey @"content"  // The detail content if available
-#define kACtivityTargetVideoKey @"targetVideo"  // Pointer to the video that this activity was taken on
+#define kActivityTargetVideoKey @"targetVideo"  // Pointer to the video that this activity was taken on
 
 #pragma Table Review
 #define kReviewClassKey @"Review"

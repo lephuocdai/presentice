@@ -112,7 +112,7 @@
     [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
     [activity setObject:[self.answerVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
     [activity setObject:@"view" forKey:kActivityTypeKey];
-    [activity setObject:self.answerVideoObj forKey:kACtivityTargetVideoKey];
+    [activity setObject:self.answerVideoObj forKey:kActivityTargetVideoKey];
     [activity saveInBackground];
     
     // Increment views

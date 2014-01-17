@@ -30,10 +30,12 @@
         // Custom the table
         
         // The className to query on
-        self.parseClassName = kVideoClassKey;
+//        self.parseClassName = kVideoClassKey;
+        self.parseClassName = kActivityClassKey;
         
         // The key of the PFObject to display in the label of the default cell style
-        self.textKey = kVideoURLKey;
+//        self.textKey = kVideoURLKey;
+        self.textKey = kActivityTypeKey;
         
         // Whether the built-in pull-to-refresh is enabled
         self.pullToRefreshEnabled = YES;
@@ -94,7 +96,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
-
+/**
 - (PFQuery *)queryForTable {
     PFQuery *videoListQuery = [PFQuery queryWithClassName:self.parseClassName];
     [videoListQuery includeKey:kVideoUserKey];      // Important: Include "user" key in this query make receiving user info easier
@@ -112,48 +114,131 @@
     [videoListQuery orderByAscending:kUpdatedAtKey];
     return videoListQuery;
 }
+**/
+- (PFQuery *)queryForTable {
+    PFQuery *activitiesQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [activitiesQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review", @"postQuestion", @"register"]];
+//    [activitiesQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review"]];
+    [activitiesQuery includeKey:kActivityFromUserKey];
+    [activitiesQuery includeKey:kActivityTargetVideoKey];
+    [activitiesQuery includeKey:kActivityToUserKey];
+    
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    if ([self.objects count] == 0) {
+        activitiesQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    }
+    
+    [activitiesQuery orderByAscending:kUpdatedAtKey];
+    return activitiesQuery;
+}
 
 // Override to customize the look of a cell representing an object. The default is to display
 // a UITableViewCellStyleDefault style cell with the label being the first key in the object.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
-    static NSString *simpleTableIdentifier = @"fileListIdentifier";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"answer"]) {
+        NSString *simpleTableIdentifier = @"answerListIdentifier";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        }
+        
+        // Configure the cell
+        UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
+        UILabel *description = (UILabel *)[cell viewWithTag:101];
+        UILabel *activityType = (UILabel *)[cell viewWithTag:102];
+        UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
+        
+        userProfilePicture.image = [UIImage imageWithData:
+                                    [NSData dataWithContentsOfURL:
+                                     [NSURL URLWithString:
+                                      [Constants facebookProfilePictureofUser:
+                                       [object objectForKey:kActivityFromUserKey]]]]];
+        description.text = [NSString stringWithFormat:@"%@ has posted %@!",
+                            [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
+                            [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
+        activityType.text = [NSString stringWithFormat:@"%@", [object objectForKey:kActivityTypeKey]];
+        viewsNum.text = [NSString stringWithFormat:@"view: %@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoViewsKey]];
+        return cell;
+    } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
+        NSString *simpleTableIdentifier = @"reviewListIdentifier";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        }
+        
+        // Configure the cell
+        UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
+        UILabel *description = (UILabel *)[cell viewWithTag:101];
+        UILabel *activityType = (UILabel *)[cell viewWithTag:102];
+        UILabel *comment = (UILabel *)[cell viewWithTag:103];
+        UILabel *answerVideoName = (UILabel *)[cell viewWithTag:104];
+        
+        userProfilePicture.image = [UIImage imageWithData:
+                                    [NSData dataWithContentsOfURL:
+                                     [NSURL URLWithString:
+                                      [Constants facebookProfilePictureofUser:
+                                       [object objectForKey:kActivityFromUserKey]]]]];
+        
+        description.text = [NSString stringWithFormat:@"%@ has reviewed %@'s%@!",
+                            [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
+                            [[object objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey],
+                            [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
+        activityType.text = [NSString stringWithFormat:@"%@", [object objectForKey:kActivityTypeKey]];
+        comment.text = [object objectForKey:kActivityDescriptionKey];
+        answerVideoName.text = [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey];
+        return cell;
+    } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
+        NSString *simpleTableIdentifier = @"postQuestionListIdentifier";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        }
+        
+        // Configure the cell
+        UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
+        UILabel *description = (UILabel *)[cell viewWithTag:101];
+        UILabel *activityType = (UILabel *)[cell viewWithTag:102];
+        UILabel *comment = (UILabel *)[cell viewWithTag:103];
+        UILabel *questionVideoName = (UILabel *)[cell viewWithTag:104];
+        
+        userProfilePicture.image = [UIImage imageWithData:
+                                    [NSData dataWithContentsOfURL:
+                                     [NSURL URLWithString:
+                                      [Constants facebookProfilePictureofUser:
+                                       [object objectForKey:kActivityFromUserKey]]]]];
+        
+        description.text = [NSString stringWithFormat:@"%@ has posted a new question %@!",
+                            [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
+                            [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
+        activityType.text = [NSString stringWithFormat:@"%@", [object objectForKey:kActivityTypeKey]];
+        comment.text = [object objectForKey:kActivityDescriptionKey];
+        questionVideoName.text = [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey];
+        return cell;
+    } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
+        NSString *simpleTableIdentifier = @"registerListIdentifier";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        }
+        
+        // Configure the cell
+        UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
+        UILabel *description = (UILabel *)[cell viewWithTag:101];
+        
+        userProfilePicture.image = [UIImage imageWithData:
+                                    [NSData dataWithContentsOfURL:
+                                     [NSURL URLWithString:
+                                      [Constants facebookProfilePictureofUser:
+                                       [object objectForKey:kActivityFromUserKey]]]]];
+        
+        description.text = [NSString stringWithFormat:@"%@ has joined Presentice!",
+                            [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
+        return cell;
     }
-    
-    // Configure the cell
-    UILabel *postedUser = (UILabel *)[cell viewWithTag:100];
-    UILabel *videoType = (UILabel *)[cell viewWithTag:101];
-    UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
-    UILabel *status = (UILabel *)[cell viewWithTag:103];
-    UILabel *viewsNum = (UILabel *)[cell viewWithTag:104];
-
-    postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-    if ([videoType.text isEqualToString:@"question"] ) {
-        // Need a better way to check answeredStatus
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-            PFQuery *myAnswer = [PFQuery queryWithClassName:kVideoClassKey];
-            [myAnswer includeKey:kVideoUserKey];
-            [myAnswer whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
-            [myAnswer whereKey:kVideoAsAReplyTo equalTo:object];
-            [myAnswer findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                if(!error && objects.count != 0){
-                    status.text = @"Already Answered";
-                } else {
-                    status.text = @"Not Answered Yet";
-                }
-            }];
-        });
-    } else if ([videoType.text isEqualToString:@"answer"]) {
-        status.text = [NSString stringWithFormat:@"review: %d", [[object objectForKey:kVideoReviewsKey] count]];
-    }
-    videoType.text = [object objectForKey:kVideoTypeKey];
-    postedTime.text = [object objectForKey:kVideoURLKey];
-    viewsNum.text = [NSString stringWithFormat:@"view: %@",[object objectForKey:kVideoViewsKey]];
-    
-    return cell;
 }
 
 - (void) objectsDidLoad:(NSError *)error {

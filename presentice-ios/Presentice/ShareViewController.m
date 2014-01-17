@@ -179,7 +179,7 @@
         PFObject *newActivity = [PFObject objectWithClassName:kActivityClassKey];
         [newActivity setObject:@"postQuestion" forKey:kActivityTypeKey];
         [newActivity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
-        [newActivity setObject:newVideo forKey:kACtivityTargetVideoKey];
+        [newActivity setObject:newVideo forKey:kActivityTargetVideoKey];
         [newActivity saveInBackground];
     }];
     

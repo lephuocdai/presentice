@@ -143,7 +143,7 @@
     [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
     [activity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
     [activity setObject:@"view" forKey:kActivityTypeKey];
-    [activity setObject:self.questionVideoObj forKey:kACtivityTargetVideoKey];
+    [activity setObject:self.questionVideoObj forKey:kActivityTargetVideoKey];
     [activity saveInBackground];
     
     
@@ -481,7 +481,7 @@
         PFObject *answerActivity = [PFObject objectWithClassName:kActivityClassKey];
         [answerActivity setObject:@"answer" forKey:kActivityTypeKey];
         [answerActivity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
-        [answerActivity setObject:newVideo forKey:kACtivityTargetVideoKey];
+        [answerActivity setObject:newVideo forKey:kActivityTargetVideoKey];
         [answerActivity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
         [answerActivity saveInBackground];
     }];

@@ -91,7 +91,7 @@ PFObject *reviewObj;
     [reviewObj setObject:@"review" forKey:kActivityTypeKey];
     [reviewObj setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
     [reviewObj setObject:self.commentTextView.text forKey:kActivityDescriptionKey];
-    [reviewObj setObject:self.videoObj forKey:kACtivityTargetVideoKey];
+    [reviewObj setObject:self.videoObj forKey:kActivityTargetVideoKey];
     [reviewObj setObject:[self.videoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
     
     NSMutableDictionary *content = [[NSMutableDictionary alloc] init ];
@@ -165,7 +165,7 @@ PFObject *reviewObj;
 
     PFQuery *review = [PFQuery queryWithClassName:kActivityClassKey];
     [review whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
-    [review whereKey:kACtivityTargetVideoKey equalTo:self.videoObj];
+    [review whereKey:kActivityTargetVideoKey equalTo:self.videoObj];
     [review getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if(!error && object != nil){
             reviewObj = object;
