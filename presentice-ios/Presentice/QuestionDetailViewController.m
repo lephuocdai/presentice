@@ -136,17 +136,6 @@
         [params setObject:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
         [params setObject:@"viewed" forKey:@"pushType"];
         [PFCloud callFunction:@"sendPushNotification" withParameters:params];
-        
-        //        NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"viewed"];
-        //        NSLog(@"pushMessageFormat = %@",pushMessageFormat);
-        //        NSString *messageContent = [NSString stringWithFormat:pushMessageFormat,
-        //                                    [self.questionVideoObj objectForKey:kVideoNameKey],
-        //                                    [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
-        //        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-        //                              messageContent, @"alert",
-        //                              @"Increment", @"badge",
-        //                              nil];
-        //        [PFPush sendPushDataToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] withData:data];
     }
     
     // Add activity
@@ -158,7 +147,7 @@
     [activity saveInBackground];
     
     
-    // Increment views
+    // Increment views: need to be revised
     int viewsNum = [[self.questionVideoObj objectForKey:kVideoViewsKey] intValue];
     [self.questionVideoObj setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
     PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
@@ -486,18 +475,15 @@
             [params setObject:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
             [params setObject:@"answered" forKey:@"pushType"];
             [PFCloud callFunction:@"sendPushNotification" withParameters:params];
-            
-            //            NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"answered"];
-            //            NSLog(@"pushMessageFormat = %@",pushMessageFormat);
-            //            NSString *messageContent = [NSString stringWithFormat:pushMessageFormat,
-            //                                        [self.questionVideoObj objectForKey:kVideoNameKey],
-            //                                        [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
-            //            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-            //                                  messageContent, @"alert",
-            //                                  @"Increment", @"badge",
-            //                                  nil];
-            //            [PFPush sendPushDataToChannelInBackground:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] withData:data];
         }
+        
+        // Register answerActivity in to Activity Table
+        PFObject *answerActivity = [PFObject objectWithClassName:kActivityClassKey];
+        [answerActivity setObject:@"answer" forKey:kActivityTypeKey];
+        [answerActivity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+        [answerActivity setObject:newVideo forKey:kACtivityTargetVideoKey];
+        [answerActivity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
+        [answerActivity saveInBackground];
     }];
     
     // Increment answers

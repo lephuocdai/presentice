@@ -166,14 +166,23 @@
 
     NSLog(@"upload file url: %@", response);
     
-    // Register to Parser DB
+    // Register question to Video Table
     PFObject *newVideo = [PFObject objectWithClassName:kVideoClassKey];
     [newVideo setObject:[PFUser currentUser] forKey:kVideoUserKey];
     [newVideo setObject:uploadFilename forKey:kVideoURLKey];
     [newVideo setObject:@"question" forKey:kVideoTypeKey];
+    [newVideo setObject:@"open" forKey:kVideoVisibilityKey];
     [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         NSLog(@"saved to Parse");
+        
+        // Register postQuestionActivity to Activity Table
+        PFObject *newActivity = [PFObject objectWithClassName:kActivityClassKey];
+        [newActivity setObject:@"postQuestion" forKey:kActivityTypeKey];
+        [newActivity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+        [newActivity setObject:newVideo forKey:kACtivityTargetVideoKey];
+        [newActivity saveInBackground];
     }];
+    
 }
 
 -(void)request:(AmazonServiceRequest *)request didFailWithError:(NSError *)error {

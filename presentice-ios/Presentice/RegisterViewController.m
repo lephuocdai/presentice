@@ -118,6 +118,21 @@ NSDictionary<FBGraphUser>  *fbInfo;
                 //show errored alert
                 UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 [errorAlert show];
+                
+            // Register registerActivity to Actitivy Table
+                
+                
+                PFObject *registerActivity = [PFObject objectWithClassName:kActivityClassKey];
+                [registerActivity setObject:@"register" forKey:kActivityTypeKey];
+                [registerActivity setObject:newUser forKey:kActivityFromUserKey];
+                
+                NSMutableDictionary *content = [[NSMutableDictionary alloc] init ];
+                [content setObject:[newUser objectForKey:kUserFacebookIdKey] forKey:@"facebookId"];
+                [content setObject:[newUser objectForKey:kUserActivatedKey] forKey:@"activated"];
+                [content setObject:[newUser objectForKey:kUserTypeKey] forKey:@"type"];
+                [registerActivity setObject:content forKey:kActivityContentKey];
+                
+                [registerActivity saveInBackground];
         }
     }];
     

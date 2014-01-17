@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A72524CD18713B7900671AB6 /* VideoInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A72524CC18713B7900671AB6 /* VideoInfoCell.m */; };
 		A72C52C2186FF56D00DE8BEC /* Validate.m in Sources */ = {isa = PBXBuildFile; fileRef = A72C52C1186FF56D00DE8BEC /* Validate.m */; };
 		A72C52C518700B1B00DE8BEC /* TakeReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A72C52C418700B1A00DE8BEC /* TakeReviewViewController.m */; };
 		A73D5A1418653BF700087F27 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A73D5A1318653BF700087F27 /* LoginViewController.m */; };
@@ -109,8 +108,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A72524CB18713B7900671AB6 /* VideoInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoInfoCell.h; sourceTree = "<group>"; };
-		A72524CC18713B7900671AB6 /* VideoInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoInfoCell.m; sourceTree = "<group>"; };
 		A72C52C0186FF56D00DE8BEC /* Validate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Validate.h; sourceTree = "<group>"; };
 		A72C52C1186FF56D00DE8BEC /* Validate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Validate.m; sourceTree = "<group>"; };
 		A72C52C318700B1A00DE8BEC /* TakeReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakeReviewViewController.h; sourceTree = "<group>"; };
@@ -451,8 +448,6 @@
 				F0A5A74C187276CD004E24A3 /* MyListViewController.m */,
 				F0578ECE187A723400573CD2 /* MyAnswerViewController.h */,
 				F0578ECF187A723400573CD2 /* MyAnswerViewController.m */,
-				A72524CB18713B7900671AB6 /* VideoInfoCell.h */,
-				A72524CC18713B7900671AB6 /* VideoInfoCell.m */,
 			);
 			name = MyList;
 			sourceTree = "<group>";
@@ -561,11 +556,11 @@
 		F4EECF17177C99F400778578 /* Presentice */ = {
 			isa = PBXGroup;
 			children = (
-				F04C77271888E66300F56126 /* Credentials */,
 				F4EECF29177C99F400778578 /* MainStoryboard.storyboard */,
 				F03486CC187EEB7A001BE459 /* Controller */,
 				F03486CB187EEB60001BE459 /* View */,
 				F4EECF18177C99F400778578 /* Supporting Files */,
+				F04C77271888E66300F56126 /* Credentials */,
 			);
 			path = Presentice;
 			sourceTree = "<group>";
@@ -754,7 +749,6 @@
 				F4EECF22177C99F400778578 /* AppDelegate.m in Sources */,
 				F06E4BF71886DC9D00FB9333 /* UserProfileViewController.m in Sources */,
 				A78E9D5B185DA16B00ACCC54 /* Reachability.m in Sources */,
-				A72524CD18713B7900671AB6 /* VideoInfoCell.m in Sources */,
 				F0718CBD185ACE27009014A0 /* Constants.m in Sources */,
 				F0759ABD1881C6310077D387 /* MFSideMenuShadow.m in Sources */,
 				F03486C4187E8C69001BE459 /* MessageFooterView.m in Sources */,
@@ -838,7 +832,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "257B9F76-6AE3-4210-A38D-BAC55F77562F";
+				PROVISIONING_PROFILE = "6FFF1F59-56DD-44CC-8D8F-3071BD105391";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -869,7 +863,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "257B9F76-6AE3-4210-A38D-BAC55F77562F";
+				PROVISIONING_PROFILE = "6FFF1F59-56DD-44CC-8D8F-3071BD105391";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -893,9 +887,9 @@
 					"/Users/phuongnq/startup/github/iOSsample/Presentice/**",
 				);
 				INFOPLIST_FILE = "Presentice/Presentice-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = Presentice;
-				PROVISIONING_PROFILE = "6F4EE498-66DC-479D-8665-8EFCBEC5CD2C";
+				PROVISIONING_PROFILE = "6FFF1F59-56DD-44CC-8D8F-3071BD105391";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -918,9 +912,9 @@
 					"/Users/phuongnq/startup/github/iOSsample/Presentice/**",
 				);
 				INFOPLIST_FILE = "Presentice/Presentice-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = Presentice;
-				PROVISIONING_PROFILE = "6F4EE498-66DC-479D-8665-8EFCBEC5CD2C";
+				PROVISIONING_PROFILE = "6FFF1F59-56DD-44CC-8D8F-3071BD105391";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

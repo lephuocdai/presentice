@@ -24,8 +24,7 @@ PFObject *reviewObj;
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	[self initDesign];
     [self initSlider];
@@ -33,8 +32,7 @@ PFObject *reviewObj;
     
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -43,6 +41,7 @@ PFObject *reviewObj;
     self.commentTextView.layer.borderWidth = 0.5f;
     self.commentTextView.layer.borderColor = [[UIColor grayColor] CGColor];
 }
+
 - (void) initSlider {
     self.organizationPoint.minimumValue = REVIEW_MIN_VALUE;
     self.organizationPoint.maximumValue = REVIEW_MAX_VALUE;
@@ -77,6 +76,7 @@ PFObject *reviewObj;
 			[view resignFirstResponder];
 	}
 }
+
 - (IBAction)didPressSendButton:(id)sender {
     //start loading hub
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -84,19 +84,22 @@ PFObject *reviewObj;
     NSLog(@"%@", reviewObj);
     
     if(!reviewObj){
-        reviewObj = [PFObject objectWithClassName:kReviewClassKey];
+        reviewObj = [PFObject objectWithClassName:kActivityClassKey];
         NSLog(@"assert reviewObj %@", reviewObj);
     }
-    reviewObj[kReviewFromUserKey] = [PFUser currentUser];
-    reviewObj[kReviewTargetVideoKey] = self.videoObj;
-    reviewObj[kReviewToUserKey] = [self.videoObj objectForKey:kVideoUserKey];
-    reviewObj[kReviewCommentKey] = self.commentTextView.text;
+    
+    [reviewObj setObject:@"review" forKey:kActivityTypeKey];
+    [reviewObj setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+    [reviewObj setObject:self.commentTextView.text forKey:kActivityDescriptionKey];
+    [reviewObj setObject:self.videoObj forKey:kACtivityTargetVideoKey];
+    [reviewObj setObject:[self.videoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
     
     NSMutableDictionary *content = [[NSMutableDictionary alloc] init ];
     [content setObject:self.organizationLabel.text forKey:@"organization"];
     [content setObject:self.understandLabel.text forKey:@"understandability"];
     [content setObject:self.appearanceLabel.text forKey:@"appearance"];
-    reviewObj[kReviewContentKey] = content;
+    [reviewObj setObject:content forKey:kActivityContentKey];
+    
     NSLog(@"reviewObj before save = %@", reviewObj);
     
     [reviewObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -112,17 +115,6 @@ PFObject *reviewObj;
                 [params setObject:[[self.videoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
                 [params setObject:@"reviewed" forKey:@"pushType"];
                 [PFCloud callFunction:@"sendPushNotification" withParameters:params];
-
-//                NSString *pushMessageFormat = [Constants getConstantbyClass:@"Message" forType:@"Push" withName:@"reviewed"];
-//                NSLog(@"pushMessageFormat = %@",pushMessageFormat);
-//                NSString *messageContent = [NSString stringWithFormat:pushMessageFormat,
-//                                            [self.videoObj objectForKey:kVideoNameKey],
-//                                            [[PFUser currentUser] objectForKey:kUserDisplayNameKey]];
-//                NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-//                                      messageContent, @"alert",
-//                                      @"Increment", @"badge",
-//                                      nil];
-//                [PFPush sendPushDataToChannelInBackground:[[self.videoObj objectForKey:kVideoUserKey] objectId] withData:data];
             }
         } else{
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save Review Failed" message:@"Please try again later." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
@@ -141,12 +133,15 @@ PFObject *reviewObj;
             [reviews addObject:review];
         }
     }
-    NSLog(@"1 reviews = %@", reviews);
+
     [reviews addObject:reviewObj];
-    NSLog(@"2 reviews = %@", reviews);
+
     [self.videoObj setObject:reviews forKey:kVideoReviewsKey];
+    
     PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
+    
     [query whereKey:kObjectIdKey equalTo:[self.videoObj objectId]];
+    
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *answerVideo, NSError *error) {
         if (!error) {
             [answerVideo setObject:reviews forKey:kVideoReviewsKey];
@@ -157,27 +152,28 @@ PFObject *reviewObj;
             NSLog(@"Error: %@", error);
         }
     }];
+    
     //dismiss hub
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void) queryCurrentReview {
     
-    NSArray *reviews = [self.videoObj objectForKey:kVideoReviewsKey];
+    NSArray *reviews = [self.videoObj objectForKey:kActivityClassKey];
     
     NSLog(@"queryCurrentReview reviews = %@", reviews);
 
-    PFQuery *review = [PFQuery queryWithClassName:kReviewClassKey];
-    [review whereKey:kReviewFromUserKey equalTo:[PFUser currentUser]];
-    [review whereKey:kReviewTargetVideoKey equalTo:self.videoObj];
+    PFQuery *review = [PFQuery queryWithClassName:kActivityClassKey];
+    [review whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
+    [review whereKey:kACtivityTargetVideoKey equalTo:self.videoObj];
     [review getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if(!error && object != nil){
             reviewObj = object;
-            NSDictionary *content = [reviewObj objectForKey:kReviewContentKey];
+            NSDictionary *content = [reviewObj objectForKey:kActivityContentKey];
             self.organizationLabel.text = [content objectForKey:@"appearance"];
             self.understandLabel.text = [content objectForKey:@"understandability"];
             self.appearanceLabel.text = [content objectForKey:@"appearance"];
-            self.commentTextView.text = [reviewObj objectForKey:kReviewCommentKey];
+            self.commentTextView.text = [reviewObj objectForKey:kActivityDescriptionKey];
         }
     }];
     NSLog(@"queryCurrentReview reviewObject = %@", reviewObj);
