@@ -15,7 +15,6 @@
 @interface UserProfileViewController : UITableViewController
 
 @property (strong, nonatomic) PFUser *userObj;
-@property (strong, nonatomic) NSString *photoFilename;
 @property (nonatomic, strong) NSMutableArray *menuItems;
 - (IBAction)showLeftMenuPressed:(id)sender;
 - (IBAction)showRightMenuPressed:(id)sender;

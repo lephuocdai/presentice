@@ -7,16 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "Constants.h"
+#import <Parse/Parse.h>
 #import "MFSideMenu.h"
 
 #import <AWSRuntime/AWSRuntime.h>
 #import <AWSS3/AWSS3.h>
 #import <AssetsLibrary/AssetsLibrary.h>
-#import "VideoViewController.h"
-#import "Constants.h"
 
-#import <Parse/Parse.h>
+#import "VideoViewController.h"
+#import "QuestionDetailViewController.h"
+#import "UserProfileViewController.h"
 
 @interface MainViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
 

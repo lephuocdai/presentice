@@ -121,6 +121,9 @@
 //    [activitiesQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review"]];
     [activitiesQuery includeKey:kActivityFromUserKey];
     [activitiesQuery includeKey:kActivityTargetVideoKey];
+    [activitiesQuery includeKey:@"targetVideo.user"];
+    [activitiesQuery includeKey:@"targetVideo.asAReplyTo"];
+    [activitiesQuery includeKey:@"targetVideo.toUser"];
     [activitiesQuery includeKey:kActivityToUserKey];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
@@ -246,15 +249,48 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showFileDetail"]) {
+    if ([segue.identifier isEqualToString:@"showAnswerfromAnswerDescription"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         VideoViewController *destViewController = segue.destinationViewController;
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
-        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
-        NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :object]);
-        NSLog(@"answer video object: %@", object);
-        destViewController.answerVideoObj = object;
+        PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
+        
+        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+        NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :videoObj]);
+        NSLog(@"answer video object: %@", videoObj);
+        destViewController.answerVideoObj = videoObj;
+    } else if ([segue.identifier isEqualToString:@"showAnswerFromReviewDescription"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        VideoViewController *destViewController = segue.destinationViewController;
+        
+        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
+        
+        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+        NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :videoObj]);
+        NSLog(@"answer video object: %@", videoObj);
+        destViewController.answerVideoObj = videoObj;
+    } else if ([segue.identifier isEqualToString:@"showQuestionFromQuestionDescription"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        QuestionDetailViewController *destViewController = segue.destinationViewController;
+        
+        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
+        
+        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+        NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :videoObj]);
+        NSLog(@"answer video object: %@", videoObj);
+        destViewController.questionVideoObj = videoObj;
+    } else if ([segue.identifier isEqualToString:@"showUserFromRegisterDescription"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        UserProfileViewController *destViewController = segue.destinationViewController;
+        
+        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        PFUser *userObj = [object objectForKey:kActivityFromUserKey];
+        
+        NSLog(@"answer video object: %@", userObj);
+        destViewController.userObj = userObj;
     }
 }
 
