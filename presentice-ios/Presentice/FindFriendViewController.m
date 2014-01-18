@@ -63,34 +63,7 @@ typedef enum {
 #pragma mark - PFQueryTableViewController
 - (PFQuery *)queryForTable {
     // Use cached facebook friend ids
-    __block NSArray *facebookFriends = [[PresenticeCache sharedCache] facebookFriends];
-    __block BOOL finish = true;
-
-    NSLog(@"facebookFriends: %@", facebookFriends);
-    if([facebookFriends count] <= 0){
-        finish = false;
-        [FBRequestConnection startWithGraphPath:@"me/friends"
-                                         parameters:nil
-                                         HTTPMethod:@"GET"
-                                  completionHandler:^(
-                                                      FBRequestConnection *connection,
-                                                      id result,
-                                                      NSError *error
-                                                      ) {
-              NSArray *data = [result objectForKey:@"data"];
-              NSMutableArray *facebookIds = [[NSMutableArray alloc] initWithCapacity:[data count]];
-              NSLog(@"%d", [data count]);
-              for (NSDictionary *friendData in data) {
-                    [facebookIds addObject:[friendData objectForKey:@"id"]];
-              }
-            // cache friend data
-            //[[PresenticeCache sharedCache] setFacebookFriends:facebookIds];
-            //facebookFriends = [[PresenticeCache sharedCache] facebookFriends];
-            finish = true;
-         }];
-    }
-    while(!finish);
-    NSLog(@"%@", facebookFriends);
+    NSArray *facebookFriends = [[PresenticeCache sharedCache] facebookFriends];
     // Query for all friends you have on facebook and who are using the app
     PFQuery *query = [PFUser query];
     [query whereKey:kUserFacebookIdKey containedIn:facebookFriends];
@@ -166,7 +139,7 @@ typedef enum {
 }
 
 - (void)configureUnfollowAllButton {
-    [self.followAllBtn setTitle:@"UnFollow All" forState:UIControlStateNormal];
+    [self.followAllBtn setTitle:@"Unfollow All" forState:UIControlStateNormal];
     [self.followAllBtn addTarget:self action:@selector(doUnfollowAllAction:)forControlEvents:UIControlEventTouchDown];
 }
 - (void)doFollowAllAction:(id)sender {
