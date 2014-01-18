@@ -60,4 +60,39 @@
     
     return friends;
 }
+
+/************************************************/
+//follow method
+- (void)setFollowStatus:(BOOL)following user:(PFUser *)user {
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithDictionary:[self attributesForUser:user]];
+    [attributes setObject:[NSNumber numberWithBool:following] forKey:kUserAttributesIsFollowedByCurrentUserKey];
+    [self setAttributes:attributes forUser:user];
+}
+- (BOOL)followStatusForUser:(PFUser *)user {
+    NSDictionary *attributes = [self attributesForUser:user];
+    if (attributes) {
+        NSNumber *followStatus = [attributes objectForKey:kUserAttributesIsFollowedByCurrentUserKey];
+        if (followStatus) {
+            return [followStatus boolValue];
+        }
+    }
+    
+    return NO;
+}
+
+
+/************************************************/
+//attribute methods
+- (void)setAttributes:(NSDictionary *)attributes forUser:(PFUser *)user {
+    NSString *key = [self keyForUser:user];
+    [self.cache setObject:attributes forKey:key];
+}
+- (NSDictionary *)attributesForUser:(PFUser *)user {
+    NSString *key = [self keyForUser:user];
+    return [self.cache objectForKey:key];
+}
+
+- (NSString *)keyForUser:(PFUser *)user {
+    return [NSString stringWithFormat:@"user_%@", [user objectId]];
+}
 @end

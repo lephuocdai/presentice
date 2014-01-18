@@ -28,10 +28,9 @@ typedef enum {
     }
     return self;
 }
-- (id)initWithStyle:(UITableViewStyle)style {
-    self = [super initWithStyle:style];
-    if (self) {
-        
+-(id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if(self){
         // Whether the built-in pull-to-refresh is enabled
         self.pullToRefreshEnabled = YES;
         
@@ -44,7 +43,6 @@ typedef enum {
         // Used to determine Follow/Unfollow All button status
         self.followStatus = FindFriendsFollowingSome;
         
-        [self.tableView setSeparatorColor:[UIColor colorWithRed:210.0f/255.0f green:203.0f/255.0f blue:182.0f/255.0f alpha:1.0]];
     }
     return self;
 }
@@ -90,15 +88,15 @@ typedef enum {
             if (number == self.objects.count) {
                 self.followStatus = FindFriendsFollowingAll;
                 [self configureUnfollowAllButton];
-//                for (PFUser *user in self.objects) {
-//                    [[PresenticeCache sharedCache] setFollowStatus:YES user:user];
-//                }
+                for (PFUser *user in self.objects) {
+                    [[PresenticeCache sharedCache] setFollowStatus:YES user:user];
+                }
             } else if (number == 0) {
                 self.followStatus = FindFriendsFollowingNone;
                 [self configureFollowAllButton];
-//                for (PFUser *user in self.objects) {
-//                    [[PresenticeCache sharedCache] setFollowStatus:NO user:user];
-//                }
+                for (PFUser *user in self.objects) {
+                    [[PresenticeCache sharedCache] setFollowStatus:NO user:user];
+                }
             } else {
                 self.followStatus = FindFriendsFollowingSome;
                 [self configureFollowAllButton];
@@ -106,12 +104,12 @@ typedef enum {
         }
         
         if (self.objects.count == 0) {
-            self.navigationItem.rightBarButtonItem = nil;
+            self.followAllBtn = nil;
         }
     }];
     
     if (self.objects.count == 0) {
-        self.navigationItem.rightBarButtonItem = nil;
+        self.followAllBtn = nil;
     }
 }
 #pragma table
@@ -121,6 +119,7 @@ typedef enum {
     if (cell == nil) {
         cell = [[FindFriendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FindFriendCellIdentifier];
     }
+    cell.delegate = self;
     
     //asyn to get profile picture
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -133,10 +132,40 @@ typedef enum {
     //username
     cell.facebookName.text = [(PFUser *)object objectForKey:kUserDisplayNameKey];
     
+    //follow button
+    cell.followBtn.selected = NO;
+    cell.tag = indexPath.row;
+    NSDictionary *attributes = [[PresenticeCache sharedCache] attributesForUser:(PFUser *)object];
+    if (self.followStatus == FindFriendsFollowingSome) {
+        if (attributes) {
+            [cell.followBtn setSelected:[[PresenticeCache sharedCache] followStatusForUser:(PFUser *)object]];
+        } else {
+            @synchronized(self) {
+                PFQuery *isFollowingQuery = [PFQuery queryWithClassName:kActivityClassKey];
+                [isFollowingQuery whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
+                [isFollowingQuery whereKey:kActivityTypeKey equalTo:kActivityTypeFollow];
+                [isFollowingQuery whereKey:kActivityToUserKey equalTo:object];
+                
+                [isFollowingQuery countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+                    @synchronized(self) {
+                        [[PresenticeCache sharedCache] setFollowStatus:(!error && number > 0) user:(PFUser *)object];
+                    }
+                    if (cell.tag == indexPath.row) {
+                        [cell.followBtn setSelected:(!error && number > 0)];
+                    }
+                }];
+            }
+        }
+    } else {
+        [cell.followBtn setSelected:(self.followStatus == FindFriendsFollowingAll)];
+    }
+    
+    //set cell user
     [cell setUser:(PFUser*)object];
     
     return cell;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row < self.objects.count) {
         return [FindFriendCell heightForCell];
@@ -154,15 +183,61 @@ typedef enum {
     [self.followAllBtn addTarget:self action:@selector(doUnfollowAllAction:)forControlEvents:UIControlEventTouchDown];
 }
 - (void)doFollowAllAction:(id)sender {
-    NSLog(@"doFollowAllAction: %@", self.objects);
+    [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    self.followStatus = FindFriendsFollowingAll;
     [self configureUnfollowAllButton];
+    //set all follow button to not selected state
+    NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity:self.objects.count];
+    for (int r = 0; r < self.objects.count; r++) {
+        PFObject *user = [self.objects objectAtIndex:r];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:r inSection:0];
+        FindFriendCell *cell = (FindFriendCell *)[self tableView:self.tableView cellForRowAtIndexPath:indexPath object:user];
+        cell.followBtn.selected = YES;
+        [indexPaths addObject:indexPath];
+    }
+    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+    [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     [PresenticeUtitily followUsersEventually:self.objects block:^(BOOL succeeded, NSError *error) {
         //todo: add timer
     }];
 }
 - (void)doUnfollowAllAction:(id)sender {
+    [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    self.followStatus = FindFriendsFollowingNone;
     [self configureFollowAllButton];
+    //set all follow button to Selected state
+    NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity:self.objects.count];
+    for (int r = 0; r < self.objects.count; r++) {
+        PFObject *user = [self.objects objectAtIndex:r];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:r inSection:0];
+        FindFriendCell *cell = (FindFriendCell *)[self tableView:self.tableView cellForRowAtIndexPath:indexPath object:user];
+        cell.followBtn.selected = NO;
+        [indexPaths addObject:indexPath];
+    }
+    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+    [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
     [PresenticeUtitily unfollowUsersEventually:self.objects];
+}
+
+//delegate method
+- (void)cell:(FindFriendCell *)cellView didTapFollowButton:(PFUser *)aUser {
+    PFUser *cellUser = cellView.user;
+    if ([cellView.followBtn isSelected]) {
+        // Unfollow
+        cellView.followBtn.selected = NO;
+        [PresenticeUtitily unfollowUserEventually:cellUser];
+        //[[NSNotificationCenter defaultCenter] postNotificationName:PAPUtilityUserFollowingChangedNotification object:nil];
+    } else {
+        // Follow
+        cellView.followBtn.selected = YES;
+        [PresenticeUtitily followUserEventually:cellUser block:^(BOOL succeeded, NSError *error) {
+            if (!error) {
+                //[[NSNotificationCenter defaultCenter] postNotificationName:PAPUtilityUserFollowingChangedNotification object:nil];
+            } else {
+                cellView.followBtn.selected = NO;
+            }
+        }];
+    }
 }
 - (IBAction)showLeftMenu:(id)sender {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
