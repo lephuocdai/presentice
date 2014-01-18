@@ -152,11 +152,14 @@
         UILabel *activityType = (UILabel *)[cell viewWithTag:102];
         UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
         
-        userProfilePicture.image = [UIImage imageWithData:
-                                    [NSData dataWithContentsOfURL:
-                                     [NSURL URLWithString:
-                                      [Constants facebookProfilePictureofUser:
-                                       [object objectForKey:kActivityFromUserKey]]]]];
+        //asyn to get profile picture
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[Constants facebookProfilePictureofUser:[object objectForKey:kActivityFromUserKey]]]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                userProfilePicture.image = [UIImage imageWithData:profileImageData];
+            });
+        });
+
         description.text = [NSString stringWithFormat:@"%@ has posted %@!",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
