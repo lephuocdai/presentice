@@ -92,6 +92,8 @@
     
     // Using the Movie Player Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.movieController];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterFullScreen:) name:MPMoviePlayerWillEnterFullscreenNotification object:nil];
+
     self.movieController.controlStyle =  MPMovieControlStyleEmbedded;
     self.movieController.shouldAutoplay = YES;
     self.movieController.repeatMode = NO;
@@ -174,10 +176,13 @@
 - (void)moviePlayBackDidFinish:(NSNotification *)notification {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
 }
+- (void)willEnterFullScreen:(NSNotification *)notification {
+    NSLog(@"Enter full screen mode");
+}
 - (void) viewWillDisappear:(BOOL)animated {
-    [self.movieController stop];
-    [self.movieController.view removeFromSuperview];
-    self.movieController = nil;
+//    [self.movieController stop];
+//    [self.movieController.view removeFromSuperview];
+//    self.movieController = nil;
 }
 
 #pragma mark - Table view data source
