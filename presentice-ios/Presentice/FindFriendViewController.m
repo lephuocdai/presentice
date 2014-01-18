@@ -122,6 +122,17 @@ typedef enum {
         cell = [[FindFriendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:FindFriendCellIdentifier];
     }
     
+    //asyn to get profile picture
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[Constants facebookProfilePictureofUser:(PFUser*)object]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            cell.profilePicture.image = [UIImage imageWithData:profileImageData];
+        });
+    });
+    
+    //username
+    cell.facebookName.text = [(PFUser *)object objectForKey:kUserDisplayNameKey];
+    
     [cell setUser:(PFUser*)object];
     
     return cell;

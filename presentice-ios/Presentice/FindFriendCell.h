@@ -11,7 +11,7 @@
 
 @interface FindFriendCell : UITableViewCell
 @property (nonatomic, strong) PFUser *user;
-@property (weak, nonatomic) IBOutlet UIView *profilePicture;
+@property (weak, nonatomic) IBOutlet UIImageView *profilePicture;
 @property (weak, nonatomic) IBOutlet UILabel *facebookName;
 @property (weak, nonatomic) IBOutlet UIButton *followBtn;
 
