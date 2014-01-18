@@ -140,17 +140,13 @@
     }
 }
 
-- (void) facebookFriendsList {
-    [FBRequestConnection startWithGraphPath:@"me/friends"
-                                 parameters:nil
-                                 HTTPMethod:@"GET"
-                          completionHandler:^(
-                                              FBRequestConnection *connection,
-                                              id result,
-                                              NSError *error
-                                              ) {
-                              NSLog(@"facebook friends list: %@", result);
-                          }];
+- (IBAction)doClickFindFriendsBtn:(id)sender {
+    //redirect to Find Friends View
+    FindFriendViewController *findFriendViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"findFriendViewController"];
+    UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
+    [self.menuContainerViewController setCenterViewController:centerViewController];
+    NSArray *controllers = [NSArray arrayWithObject:findFriendViewController];
+    centerViewController.viewControllers = controllers;
+    [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
 }
-
 @end

@@ -9,10 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
 #import "Constants.h"
+#import "PresenticeCache.h"
 
 @interface PresenticeUtitily : NSObject
 
 + (void)drawSideAndBottomDropShadowForRect:(CGRect)rect inContext:(CGContextRef)context;
 + (void)followUserEventually:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
++ (void)followUsersEventually:(NSArray *)users block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 + (void)unfollowUserEventually:(PFUser *)user;
++ (void)unfollowUsersEventually:(NSArray *)users;
 @end

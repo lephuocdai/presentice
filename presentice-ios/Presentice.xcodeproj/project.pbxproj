@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		A72AB04D188A4D8100C12A74 /* Credentials.m in Sources */ = {isa = PBXBuildFile; fileRef = A72AB04C188A4D8100C12A74 /* Credentials.m */; };
+		A72AB050188A82F600C12A74 /* FindFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A72AB04F188A82F600C12A74 /* FindFriendViewController.m */; };
+		A72AB053188A876E00C12A74 /* FindFriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A72AB052188A876E00C12A74 /* FindFriendCell.m */; };
+		A72AB056188A8D3800C12A74 /* PresenticeCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A72AB055188A8D3700C12A74 /* PresenticeCache.m */; };
 		A72C52C2186FF56D00DE8BEC /* Validate.m in Sources */ = {isa = PBXBuildFile; fileRef = A72C52C1186FF56D00DE8BEC /* Validate.m */; };
 		A72C52C518700B1B00DE8BEC /* TakeReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A72C52C418700B1A00DE8BEC /* TakeReviewViewController.m */; };
 		A73D5A1418653BF700087F27 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A73D5A1318653BF700087F27 /* LoginViewController.m */; };
@@ -110,6 +113,12 @@
 /* Begin PBXFileReference section */
 		A72AB04B188A4D8100C12A74 /* Credentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Credentials.h; sourceTree = "<group>"; };
 		A72AB04C188A4D8100C12A74 /* Credentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Credentials.m; sourceTree = "<group>"; };
+		A72AB04E188A82F600C12A74 /* FindFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindFriendViewController.h; sourceTree = "<group>"; };
+		A72AB04F188A82F600C12A74 /* FindFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindFriendViewController.m; sourceTree = "<group>"; };
+		A72AB051188A876E00C12A74 /* FindFriendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindFriendCell.h; sourceTree = "<group>"; };
+		A72AB052188A876E00C12A74 /* FindFriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindFriendCell.m; sourceTree = "<group>"; };
+		A72AB054188A8D3700C12A74 /* PresenticeCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresenticeCache.h; sourceTree = "<group>"; };
+		A72AB055188A8D3700C12A74 /* PresenticeCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresenticeCache.m; sourceTree = "<group>"; };
 		A72C52C0186FF56D00DE8BEC /* Validate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Validate.h; sourceTree = "<group>"; };
 		A72C52C1186FF56D00DE8BEC /* Validate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Validate.m; sourceTree = "<group>"; };
 		A72C52C318700B1A00DE8BEC /* TakeReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakeReviewViewController.h; sourceTree = "<group>"; };
@@ -494,6 +503,10 @@
 				A72C52C418700B1A00DE8BEC /* TakeReviewViewController.m */,
 				F06E4BF218864EA100FB9333 /* ReviewDetailViewController.h */,
 				F06E4BF318864EA100FB9333 /* ReviewDetailViewController.m */,
+				A72AB04E188A82F600C12A74 /* FindFriendViewController.h */,
+				A72AB04F188A82F600C12A74 /* FindFriendViewController.m */,
+				A72AB051188A876E00C12A74 /* FindFriendCell.h */,
+				A72AB052188A876E00C12A74 /* FindFriendCell.m */,
 			);
 			name = NewsFeed;
 			sourceTree = "<group>";
@@ -582,6 +595,8 @@
 				F03486C5187E8D80001BE459 /* PresenticeUtitily.h */,
 				F03486C6187E8D80001BE459 /* PresenticeUtitily.m */,
 				F4EECF53177F37CB00778578 /* Images */,
+				A72AB054188A8D3700C12A74 /* PresenticeCache.h */,
+				A72AB055188A8D3700C12A74 /* PresenticeCache.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -757,11 +772,13 @@
 				A72C52C2186FF56D00DE8BEC /* Validate.m in Sources */,
 				F0A5A75218729E01004E24A3 /* MainViewController.m in Sources */,
 				F0759AC21881C92E0077D387 /* LeftSideMenuViewController.m in Sources */,
+				A72AB056188A8D3800C12A74 /* PresenticeCache.m in Sources */,
 				F03486BC187E337A001BE459 /* FriendListViewController.m in Sources */,
 				F0A5A74D187276CD004E24A3 /* MyListViewController.m in Sources */,
 				F0759AC51881CB1C0077D387 /* RightSideMenuViewController.m in Sources */,
 				F0759ABC1881C6310077D387 /* MFSideMenuContainerViewController.m in Sources */,
 				F0759ABE1881C6310077D387 /* UIViewController+MFSideMenuAdditions.m in Sources */,
+				A72AB050188A82F600C12A74 /* FindFriendViewController.m in Sources */,
 				F4EECF4A177DF87700778578 /* SidebarViewController.m in Sources */,
 				F01ECFEB18850563000604C3 /* QuestionDetailViewController.m in Sources */,
 				F00006B0186BAA2900E69027 /* NotificationDetailViewController.m in Sources */,
@@ -769,6 +786,7 @@
 				A72AB04D188A4D8100C12A74 /* Credentials.m in Sources */,
 				F06E4BF418864EA100FB9333 /* ReviewDetailViewController.m in Sources */,
 				F03486C7187E8D80001BE459 /* PresenticeUtitily.m in Sources */,
+				A72AB053188A876E00C12A74 /* FindFriendCell.m in Sources */,
 				A7E995A51867D197009E48CA /* RegisterViewController.m in Sources */,
 				F4EECF6E177FD51400778578 /* ShareViewController.m in Sources */,
 				F0DDAB84187BD460002BDC67 /* VideoViewController.m in Sources */,
