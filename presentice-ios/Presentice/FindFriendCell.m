@@ -9,16 +9,30 @@
 #import "FindFriendCell.h"
 
 @implementation FindFriendCell
+@synthesize followBtn;
+@synthesize facebookName;
+@synthesize profilePicture;
+@synthesize user;
+@synthesize delegate;
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if(self){
+
     }
     return self;
 }
+-(void)layoutSubviews
+{
 
+    [self.followBtn setTitle:@"Follow  " forState:UIControlStateNormal]; // space added for centering
+    [self.followBtn setTitle:@"Following" forState:UIControlStateSelected];
+    [self.followBtn addTarget:self action:@selector(didTapFollowButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+
+}
+- (void)setUser:(PFUser *)aUser {
+    user = aUser;
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
@@ -27,5 +41,12 @@
 }
 + (CGFloat)heightForCell {
     return 67.0f;
+}
+/* Inform delegate that the follow button was tapped */
+- (void)didTapFollowButtonAction:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cell:didTapFollowButton:)]) {
+        NSLog(@"self.deleaget");
+        [self.delegate cell:self didTapFollowButton:self.user];
+    }
 }
 @end

@@ -13,4 +13,9 @@
 + (id)sharedCache;
 - (void)setFacebookFriends:(NSArray *)friends;
 - (NSArray *)facebookFriends;
+
+- (BOOL)followStatusForUser:(PFUser *)user;
+- (void)setFollowStatus:(BOOL)following user:(PFUser *)user;
+
+- (NSDictionary *)attributesForUser:(PFUser *)user;
 @end

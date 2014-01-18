@@ -12,8 +12,9 @@
 #import "FindFriendCell.h"
 #import "PresenticeCache.h"
 #import "PresenticeUtitily.h"
+#import "MBProgressHUD.h"
 
-@interface FindFriendViewController : PFQueryTableViewController <UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface FindFriendViewController : PFQueryTableViewController <FindFriendCellDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 - (IBAction)showLeftMenu:(id)sender;
 - (IBAction)showRightMenu:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *followAllBtn;

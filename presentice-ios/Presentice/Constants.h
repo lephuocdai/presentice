@@ -23,7 +23,8 @@
 #define CREDENTIALS_ERROR_MESSAGE  @"AWS Credentials not configured correctly.  Please review the README file."
 
 //Constants for PresenticeCache
-#define kUserDefaultsCacheFacebookFriendsKey @"com.presentice.userDefaults.cache.facebookFriends"
+#define kUserDefaultsCacheFacebookFriendsKey            @"com.presentice.userDefaults.cache.facebookFriends"
+#define kUserAttributesIsFollowedByCurrentUserKey    @"isFollowedByCurrentUser"
 
 #pragma constants of Parse Table
 
