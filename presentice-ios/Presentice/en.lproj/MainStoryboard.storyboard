@@ -663,7 +663,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Register Your Account" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="opw-wb-2Um">
-                                <rect key="frame" x="74" y="20" width="172" height="21"/>
+                                <rect key="frame" x="63" y="20" width="172" height="21"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
@@ -958,7 +958,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VCI-7z-9dG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1429" y="-1484"/>
+            <point key="canvasLocation" x="1453" y="-1484"/>
         </scene>
         <!--My Answer View Controller - Detail View-->
         <scene sceneID="gU3-57-K8s">
@@ -1066,7 +1066,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KiW-aR-L2U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="847" y="-780"/>
+            <point key="canvasLocation" x="1959" y="-780"/>
         </scene>
         <!--Video View Controller - Video Detail-->
         <scene sceneID="y6e-tG-wo2">
@@ -1886,7 +1886,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="JBH-Ig-TRL"/>
-        <segue reference="wqw-1d-BIa"/>
+        <segue reference="3I1-yo-AWs"/>
         <segue reference="xiV-62-4g4"/>
         <segue reference="6kH-cL-B2Y"/>
         <segue reference="b5z-uv-nQA"/>

@@ -36,7 +36,7 @@
         UIViewController *rightSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
         MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController containerWithCenterViewController:centerViewController
                                                                                                      leftMenuViewController:leftSideMenuViewController rightMenuViewController:rightSideMenuViewController];
-        [self.navigationController presentViewController:container animated:YES completion:nil];
+        [self.navigationController presentViewController:container animated:NO completion:nil];
     }
 }
 - (void) viewWillAppear:(BOOL)animated {
