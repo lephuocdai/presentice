@@ -36,4 +36,36 @@
     CGContextRestoreGState(context);
 }
 
+#pragma mark User Following
++ (void)followUserEventually:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock {
+    if ([[user objectId] isEqualToString:[[PFUser currentUser] objectId]]) {
+        return;
+    }
+    
+    PFObject *followActivity = [PFObject objectWithClassName:kActivityClassKey];
+    [followActivity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+    [followActivity setObject:user forKey:kActivityToUserKey];
+    [followActivity setObject:kActivityTypeFollow forKey:kActivityTypeKey];
+    
+    PFACL *followACL = [PFACL ACLWithUser:[PFUser currentUser]];
+    [followACL setPublicReadAccess:YES];
+    followActivity.ACL = followACL;
+    
+    [followActivity saveEventually:completionBlock];
+}
++ (void)unfollowUserEventually:(PFUser *)user {
+    PFQuery *query = [PFQuery queryWithClassName:kActivityClassKey];
+    [query whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
+    [query whereKey:kActivityToUserKey equalTo:user];
+    [query whereKey:kActivityTypeKey equalTo:kActivityTypeFollow];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *followActivities, NSError *error) {
+        // While normally there should only be one follow activity returned, we can't guarantee that.
+        
+        if (!error) {
+            for (PFObject *followActivity in followActivities) {
+                [followActivity deleteEventually];
+            }
+        }
+    }];
+}
 @end

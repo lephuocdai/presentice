@@ -40,8 +40,26 @@
     self.menuItems = [[NSMutableArray alloc] init];
     [self setMenuItems];
     
+    // check if the currentUser is following this user
+    PFQuery *queryIsFollowing = [PFQuery queryWithClassName:kActivityClassKey];
+    [queryIsFollowing whereKey:kActivityTypeKey equalTo:kActivityTypeFollow];
+    [queryIsFollowing whereKey:kActivityToUserKey equalTo:self.userObj];
+    [queryIsFollowing whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
+    [queryIsFollowing countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+        if (error) {
+            NSLog(@"Couldn't determine follow relationship: %@", error);
+            self.followBtn = nil;
+        } else {
+            if (number == 0) {
+                NSLog(@"configureFollowButton");
+                [self configureFollowButton];
+            } else {
+                NSLog(@"configureUnfollowButton");
+                [self configureUnfollowButton];
+            }
+        }
+    }];
 }
-
 - (void)viewDidAppear:(BOOL)animated {
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -138,4 +156,30 @@
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
 
+- (void)doFollowAction:(id)sender {
+    //set to unfollow button
+    [self configureUnfollowButton];
+    //save to parse.com
+    [PresenticeUtitily followUserEventually:self.userObj block:^(BOOL succeeded, NSError *error){
+        if(error){
+            //set back to follow button
+            [self configureFollowButton];
+        }
+    }];
+}
+- (void)doUnfollowAction:(id)sender {
+    //set to follow button
+    [self configureFollowButton];
+    //delete from parse.com
+    [PresenticeUtitily unfollowUserEventually:self.userObj];
+}
+- (void)configureFollowButton {
+    [self.followBtn setTitle:@"Follow" forState:UIControlStateNormal];
+    [self.followBtn addTarget:self action:@selector(doFollowAction:)forControlEvents:UIControlEventTouchDown];
+}
+
+- (void)configureUnfollowButton {
+    [self.followBtn setTitle:@"Unfollow" forState:UIControlStateNormal];
+    [self.followBtn addTarget:self action:@selector(doUnfollowAction:)forControlEvents:UIControlEventTouchDown];
+}
 @end

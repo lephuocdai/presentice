@@ -11,6 +11,7 @@
 #import <Parse/Parse.h>
 #import "MBProgressHUD.h"
 #import "Constants.h"
+#import "PresenticeUtitily.h"
 
 @interface UserProfileViewController : UITableViewController
 
@@ -18,5 +19,6 @@
 @property (nonatomic, strong) NSMutableArray *menuItems;
 - (IBAction)showLeftMenuPressed:(id)sender;
 - (IBAction)showRightMenuPressed:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *followBtn;
 
 @end

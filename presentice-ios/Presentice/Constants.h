@@ -67,6 +67,8 @@
 #define kActivityContentKey @"content"  // The detail content if available
 #define kActivityTargetVideoKey @"targetVideo"  // Pointer to the video that this activity was taken on
 
+#define kActivityTypeFollow @"follow"   //type = follow
+
 #pragma Table Review
 #define kReviewClassKey @"Review"
 #define kReviewFromUserKey @"fromUser"
