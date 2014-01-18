@@ -62,7 +62,7 @@
                                                object:nil];
     
 //    //get facebook friend list
-//    [self facebookFriendsList];
+    [self facebookFriendsList];
 }
 - (void) viewWillAppear:(BOOL)animated {
     [self loadObjects];
@@ -139,7 +139,26 @@
         [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
     }
 }
-
+- (void) facebookFriendsList {
+    [FBRequestConnection startWithGraphPath:@"me/friends"
+                                 parameters:nil
+                                 HTTPMethod:@"GET"
+                          completionHandler:^(
+                                              FBRequestConnection *connection,
+                                              id result,
+                                              NSError *error
+                                              ) {
+                              NSArray *data = [result objectForKey:@"data"];
+                              NSMutableArray *facebookIds = [[NSMutableArray alloc] initWithCapacity:[data count]];
+                              NSLog(@"%d", [data count]);
+                              for (NSDictionary *friendData in data) {
+                                  [facebookIds addObject:[friendData objectForKey:@"id"]];
+                              }
+                              // cache friend data
+                              [[PresenticeCache sharedCache] setFacebookFriends:facebookIds];
+                              //facebookFriends = [[PresenticeCache sharedCache] facebookFriends];
+                          }];
+}
 - (IBAction)doClickFindFriendsBtn:(id)sender {
     //redirect to Find Friends View
     FindFriendViewController *findFriendViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"findFriendViewController"];
