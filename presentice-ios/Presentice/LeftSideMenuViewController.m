@@ -27,12 +27,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
-    self.tableView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
-    self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
+    self.view.backgroundColor = [UIColor colorWithRed:40.0/255 green:40.0/255 blue:50.0/255 alpha:1];
     
     _menuItems = @[@"profile", @"home", @"message", @"setting"];
     
+/**
     // Set my List videoNum
     self.videoNumLabel.text = @"undefined";
     
@@ -42,6 +41,8 @@
     } else {
         self.notifyNumLabel.text = @"0";
     }
+**/
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -71,16 +72,23 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.bounds] ;
+    cell.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:40.0/255 green:40.0/255 blue:50.0/255 alpha:1];
     
+    // Get facebook profile picture
     if (indexPath.section == 0 && indexPath.row == 0) {
-        UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
-        UILabel *user = (UILabel *)[cell viewWithTag:101];
-        userProfilePicture.image = [UIImage imageWithData:
-                                    [NSData dataWithContentsOfURL:
-                                     [NSURL URLWithString:
-                                      [Constants facebookProfilePictureofUser:
-                                       [PFUser currentUser]]]]];
-        user.text = [[PFUser currentUser] objectForKey:kUserDisplayNameKey];
+        UIImage *image = [UIImage imageWithData:
+                          [NSData dataWithContentsOfURL:
+                           [NSURL URLWithString:
+                            [Constants facebookProfilePictureofUser:
+                             [PFUser currentUser]]]]];
+        if (image != nil) {
+            UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
+            userProfilePicture.image = image;
+            userProfilePicture.highlightedImage = image;
+            userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
+            userProfilePicture.layer.masksToBounds = YES;
+        }
     }
     
     return cell;
@@ -91,14 +99,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        if(indexPath.row == 0){
+        if(indexPath.row == 0) {
             SettingViewController *settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];
             UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
             [self.menuContainerViewController setCenterViewController:centerViewController];
             NSArray *controllers = [NSArray arrayWithObject:settingViewController];
             centerViewController.viewControllers = controllers;
-            
-        } else {
+        } else if (indexPath.row == 1) {
+            /**
             // Reset notification badge
             if (![self.notifyNumLabel.text isEqualToString:@"0"]) {
                 PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -108,7 +116,7 @@
                 }
                 self.notifyNumLabel.text = @"0";
             }
-            
+            **/
             MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
             UINavigationController *mainNavigationController = [[UINavigationController alloc]initWithRootViewController:mainViewController];
             
@@ -128,15 +136,12 @@
             UINavigationController *navigationController = (UINavigationController *)tabBarController.selectedViewController;
             NSArray *controllers = [NSArray arrayWithObject:mainViewController];
             navigationController.viewControllers = controllers;
-        }
-    } else if (indexPath.section == 1) {
-        if(indexPath.row == 0){
+        } else if (indexPath.row == 2) {
             MessageListViewController *messageListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageListViewController"];
             UINavigationController *messageListNavigationController = [[UINavigationController alloc]initWithRootViewController:messageListViewController];
 
             FriendListViewController *friendListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"friendListViewController"];
             UINavigationController *friendListNavigationController = [[UINavigationController alloc]initWithRootViewController:friendListViewController];
-            
             
             UITabBarController *messageTabBarController = [[UITabBarController alloc] init];
             [messageTabBarController setViewControllers:[NSArray arrayWithObjects:messageListNavigationController, friendListNavigationController, nil]];
@@ -146,7 +151,7 @@
             NSArray *controllers = [NSArray arrayWithObject:messageListViewController];
             navigationController.viewControllers = controllers;
             
-        }else if(indexPath.row == 1){
+        } else if(indexPath.row == 3){
             ShareViewController *shareViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"shareViewController"];
             UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
             [self.menuContainerViewController setCenterViewController:centerViewController];
