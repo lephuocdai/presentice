@@ -52,7 +52,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -97,7 +97,6 @@
 - (PFQuery *)queryForTable {
     PFQuery *activitiesQuery = [PFQuery queryWithClassName:self.parseClassName];
     [activitiesQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review", @"postQuestion", @"register"]];
-//    [activitiesQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review"]];
     [activitiesQuery includeKey:kActivityFromUserKey];
     [activitiesQuery includeKey:kActivityTargetVideoKey];
     [activitiesQuery includeKey:@"targetVideo.user"];
@@ -120,6 +119,12 @@
 // Override to customize the look of a cell representing an object. The default is to display
 // a UITableViewCellStyleDefault style cell with the label being the first key in the object.
 
+#pragma table methods
+/**
+ * delegage method
+ * number of rows of table
+ */
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"answer"] ) {
         return 90;
@@ -132,6 +137,10 @@
     } else {
         return 120;
     }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.objects count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
@@ -300,6 +309,35 @@
     }
 }
 
+- (IBAction)showLeftMenu:(id)sender {
+    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
+}
+
+- (IBAction)showRightMenu:(id)sender {
+    [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
+}
+
+#pragma mark - AmazonServiceRequestDelegate
+
+-(void)request:(AmazonServiceRequest *)request didReceiveResponse:(NSURLResponse *)response {
+}
+
+- (void)request:(AmazonServiceRequest *)request didReceiveData:(NSData *)data {
+}
+
+-(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response {
+}
+
+-(void)request:(AmazonServiceRequest *)request didFailWithError:(NSError *)error {
+    NSLog(@"didFailWithError called: %@", error);
+}
+
+-(void)request:(AmazonServiceRequest *)request didFailWithServiceException:(NSException *)exception {
+    NSLog(@"didFailWithServiceException called: %@", exception);
+}
+
+#pragma Amazon implemented methods
+
 /**
  * get the URL from S3
  * param: bucket name
@@ -335,12 +373,4 @@
     }
 }
 
-
-- (IBAction)showLeftMenu:(id)sender {
-    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
-}
-
-- (IBAction)showRightMenu:(id)sender {
-    [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
-}
 @end

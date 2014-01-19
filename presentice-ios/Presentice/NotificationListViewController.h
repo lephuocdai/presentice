@@ -15,7 +15,9 @@
 #import <AWSS3/AWSS3.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-#import "NotificationDetailViewController.h"
+#import "VideoViewController.h"
+#import "QuestionDetailViewController.h"
+#import "UserProfileViewController.h"
 
 
 @interface NotificationListViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
