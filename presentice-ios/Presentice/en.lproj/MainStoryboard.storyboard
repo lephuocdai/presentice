@@ -401,34 +401,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
-                            <tableViewSection headerTitle="Title" id="z7f-s4-tM5">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="title" rowHeight="60" id="vWg-g0-VUg">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="60"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vWg-g0-VUg" id="pVw-fu-1ep">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Presentice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ptv-mn-IX3">
-                                                    <rect key="frame" x="66" y="15" width="172" height="30"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBlack" family="Helvetica Neue" pointSize="35"/>
-                                                    <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon.png" id="nSu-Tr-fqh">
-                                                    <rect key="frame" x="20" y="11" width="38" height="38"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                             <tableViewSection headerTitle="Main Feature" id="3Pz-WB-P88">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="profile" rowHeight="60" id="mtl-5U-NVc">
-                                        <rect key="frame" x="0.0" y="104" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mtl-5U-NVc" id="Kdd-ov-HEq">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
@@ -440,7 +416,7 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="setting.jpg" id="oWM-yP-1AK">
+                                                <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="myList.jpeg" id="oWM-yP-1AK">
                                                     <rect key="frame" x="20" y="11" width="38" height="38"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
@@ -448,7 +424,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="home" rowHeight="60" id="qTu-ny-Rca">
-                                        <rect key="frame" x="0.0" y="164" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="82" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="leftMenuNotification" tableViewCell="qTu-ny-Rca" id="yQW-iG-HBU">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
@@ -479,7 +455,7 @@
                             <tableViewSection headerTitle="Sub Feature" id="sdf-eD-UXB">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="message" rowHeight="60" id="Fo4-hh-ay5">
-                                        <rect key="frame" x="0.0" y="246" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="164" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fo4-hh-ay5" id="U5f-DA-hTa">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
@@ -499,7 +475,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="setting" rowHeight="60" id="aXm-5b-2PD">
-                                        <rect key="frame" x="0.0" y="306" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="224" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aXm-5b-2PD" id="auL-YB-krs">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
@@ -1933,12 +1909,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon.png" width="800" height="800"/>
         <image name="menu.png" width="28" height="20"/>
         <image name="message.png" width="1024" height="1024"/>
+        <image name="myList.jpeg" width="151" height="151"/>
         <image name="newsFeed.jpeg" width="156" height="156"/>
         <image name="notification.jpeg" width="151" height="151"/>
-        <image name="setting.jpg" width="155" height="155"/>
         <image name="share.jpeg" width="165" height="165"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -1949,7 +1924,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="wqw-1d-BIa"/>
         <segue reference="hyQ-RK-lqM"/>
-        <segue reference="mBi-jE-RWx"/>
+        <segue reference="JBH-Ig-TRL"/>
         <segue reference="b5z-uv-nQA"/>
         <segue reference="Dgk-9J-N99"/>
     </inferredMetricsTieBreakers>

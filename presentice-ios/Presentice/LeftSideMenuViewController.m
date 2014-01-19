@@ -31,7 +31,7 @@
     self.tableView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
     
-    _menuItems = @[@"title", @"profile", @"home", @"message", @"setting"];
+    _menuItems = @[@"profile", @"home", @"message", @"setting"];
     
     // Set my List videoNum
     self.videoNumLabel.text = @"undefined";
@@ -72,7 +72,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
-    if (indexPath.section == 1 && indexPath.row == 0) {
+    if (indexPath.section == 0 && indexPath.row == 0) {
         UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
         UILabel *user = (UILabel *)[cell viewWithTag:101];
         userProfilePicture.image = [UIImage imageWithData:
@@ -90,7 +90,7 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 1) {
+    if (indexPath.section == 0) {
         if(indexPath.row == 0){
             SettingViewController *settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];
             UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
@@ -129,7 +129,7 @@
             NSArray *controllers = [NSArray arrayWithObject:mainViewController];
             navigationController.viewControllers = controllers;
         }
-    } else if (indexPath.section == 2) {
+    } else if (indexPath.section == 1) {
         if(indexPath.row == 0){
             MessageListViewController *messageListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageListViewController"];
             UINavigationController *messageListNavigationController = [[UINavigationController alloc]initWithRootViewController:messageListViewController];
