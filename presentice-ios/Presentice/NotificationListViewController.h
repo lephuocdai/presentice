@@ -7,18 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Constants.h"
+#import <Parse/Parse.h>
 #import "MFSideMenu.h"
 
 #import <AWSRuntime/AWSRuntime.h>
 #import <AWSS3/AWSS3.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+
 #import "NotificationDetailViewController.h"
-#import "Constants.h"
 
-#import <Parse/Parse.h>
-#import "MBProgressHUD.h"
 
-@interface NotificationListViewController : UIViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface NotificationListViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)showLeftMenu:(id)sender;
