@@ -8,13 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
-#import "MainViewController.h"
-#import "RegisterViewController.h"
 #import "MBProgressHUD.h"
 
 #import "MFSideMenuContainerViewController.h"
 
+#import "LeftSideMenuViewController.h"
+#import "RightSideMenuViewController.h"
 
+#import "MainViewController.h"
+#import "QuestionListViewController.h"
+#import "MyListViewController.h"
+#import "NotificationListViewController.h"
+#import "RegisterViewController.h"
 
 @interface LoginViewController : UIViewController
 

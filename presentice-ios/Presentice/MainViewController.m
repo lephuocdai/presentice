@@ -16,13 +16,7 @@
     AmazonS3Client *s3Client;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+
 
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
@@ -30,11 +24,9 @@
         // Custom the table
         
         // The className to query on
-//        self.parseClassName = kVideoClassKey;
         self.parseClassName = kActivityClassKey;
         
         // The key of the PFObject to display in the label of the default cell style
-//        self.textKey = kVideoURLKey;
         self.textKey = kActivityTypeKey;
         
         // Whether the built-in pull-to-refresh is enabled
@@ -49,16 +41,22 @@
     return self;
 }
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+//    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    // Set the gesture
-    //[self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;

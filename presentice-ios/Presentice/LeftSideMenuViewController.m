@@ -31,7 +31,7 @@
     self.tableView.backgroundColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     self.tableView.separatorColor = [UIColor colorWithWhite:0.15f alpha:0.2f];
     
-    _menuItems = @[@"title", @"timeline", @"questionList", @"myList", @"notification", @"setting", @"message", @"postQuestion"];
+    _menuItems = @[@"title", @"profile", @"home", @"message", @"setting"];
     
     // Set my List videoNum
     self.videoNumLabel.text = @"undefined";
@@ -68,10 +68,11 @@
     return 60;
 }
 **/
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
-    if (indexPath.section == 1 && indexPath.row == 4) {
+    if (indexPath.section == 1 && indexPath.row == 0) {
         UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
         UILabel *user = (UILabel *)[cell viewWithTag:101];
         userProfilePicture.image = [UIImage imageWithData:
@@ -91,25 +92,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 1) {
         if(indexPath.row == 0){
-            MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+            SettingViewController *settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];
             UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
             [self.menuContainerViewController setCenterViewController:centerViewController];
-            NSArray *controllers = [NSArray arrayWithObject:mainViewController];
+            NSArray *controllers = [NSArray arrayWithObject:settingViewController];
             centerViewController.viewControllers = controllers;
-        } else if(indexPath.row == 1) {
-            QuestionListViewController *questionListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
-            UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
-            [self.menuContainerViewController setCenterViewController:centerViewController];
-            NSArray *controllers = [NSArray arrayWithObject:questionListViewController];
-            centerViewController.viewControllers = controllers;
-        } else if(indexPath.row == 2){
-            MyListViewController *myListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"myListViewController"];
-            UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
-            [self.menuContainerViewController setCenterViewController:centerViewController];
-            NSArray *controllers = [NSArray arrayWithObject:myListViewController];
-            centerViewController.viewControllers = controllers;
-        } else if(indexPath.row == 3){
             
+        } else {
             // Reset notification badge
             if (![self.notifyNumLabel.text isEqualToString:@"0"]) {
                 PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -120,19 +109,25 @@
                 self.notifyNumLabel.text = @"0";
             }
             
-            // Perform the transition
-            NotificationListViewController *notificationListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
-            UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
-            [self.menuContainerViewController setCenterViewController:centerViewController];
-            NSArray *controllers = [NSArray arrayWithObject:notificationListViewController];
-            centerViewController.viewControllers = controllers;
+            MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+            UINavigationController *mainNavigationController = [[UINavigationController alloc]initWithRootViewController:mainViewController];
             
-        }else if(indexPath.row == 4){
-            SettingViewController *settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];
-            UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
-            [self.menuContainerViewController setCenterViewController:centerViewController];
-            NSArray *controllers = [NSArray arrayWithObject:settingViewController];
-            centerViewController.viewControllers = controllers;
+            QuestionListViewController *questionListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
+            UINavigationController *questionListNavigationController = [[UINavigationController alloc]initWithRootViewController:questionListViewController];
+            
+            MyListViewController *myListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"myListViewController"];
+            UINavigationController *myListNavigationController = [[UINavigationController alloc]initWithRootViewController:myListViewController];
+            
+            NotificationListViewController *notificationListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
+            UINavigationController *notificationListNavigationController = [[UINavigationController alloc]initWithRootViewController:notificationListViewController];
+            
+            UITabBarController *homeTabBarController = [[UITabBarController alloc] init];
+            [homeTabBarController setViewControllers:[NSArray arrayWithObjects:mainNavigationController, questionListNavigationController, myListNavigationController, notificationListNavigationController, nil]];
+            [self.menuContainerViewController setCenterViewController:homeTabBarController];
+            UITabBarController *tabBarController = self.menuContainerViewController.centerViewController;
+            UINavigationController *navigationController = (UINavigationController *)tabBarController.selectedViewController;
+            NSArray *controllers = [NSArray arrayWithObject:mainViewController];
+            navigationController.viewControllers = controllers;
         }
     } else if (indexPath.section == 2) {
         if(indexPath.row == 0){
@@ -141,6 +136,7 @@
 
             FriendListViewController *friendListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"friendListViewController"];
             UINavigationController *friendListNavigationController = [[UINavigationController alloc]initWithRootViewController:friendListViewController];
+            
             
             UITabBarController *messageTabBarController = [[UITabBarController alloc] init];
             [messageTabBarController setViewControllers:[NSArray arrayWithObjects:messageListNavigationController, friendListNavigationController, nil]];
