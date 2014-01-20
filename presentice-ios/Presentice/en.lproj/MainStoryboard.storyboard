@@ -1324,7 +1324,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="t8L-6J-xSc">
-                            <rect key="frame" x="0.0" y="64" width="320" height="171"/>
+                            <rect key="frame" x="0.0" y="64" width="320" height="70"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Oxp-du-tI1">
@@ -1339,7 +1339,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="info" id="dVl-0n-fIF">
-                                <rect key="frame" x="0.0" y="257" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="156" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dVl-0n-fIF" id="rB3-75-wDV">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1351,7 +1351,7 @@
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ZNM-O1-d3e">
+                                        <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ico_profile.png" highlightedImage="ico_profile_on.png" highlighted="YES" id="ZNM-O1-d3e">
                                             <rect key="frame" x="7" y="3" width="38" height="38"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
@@ -1366,11 +1366,6 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="User Profile" id="GJk-Jh-aIO">
-                        <barButtonItem key="leftBarButtonItem" image="ico_head_globalmenu.png" id="Jvn-jn-8dr">
-                            <connections>
-                                <action selector="showLeftMenuPressed:" destination="KLi-xi-ZeY" id="gYJ-EW-ifB"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="ico_head_friendsList.png" id="7H3-Ew-PoL">
                             <connections>
                                 <action selector="showRightMenuPressed:" destination="KLi-xi-ZeY" id="cFN-X2-SX3"/>

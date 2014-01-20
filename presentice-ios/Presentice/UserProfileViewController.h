@@ -17,8 +17,10 @@
 
 @property (strong, nonatomic) PFUser *userObj;
 @property (nonatomic, strong) NSMutableArray *menuItems;
-- (IBAction)showLeftMenuPressed:(id)sender;
+
+//- (IBAction)showLeftMenuPressed:(id)sender;
 - (IBAction)showRightMenuPressed:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UIButton *followBtn;
 
 @end

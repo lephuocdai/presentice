@@ -95,7 +95,26 @@
 }
 
 - (PFQuery *)queryForTable {
-    PFQuery *activitiesQuery = [PFQuery queryWithClassName:self.parseClassName];
+    
+    // Query all followActivities where toUser is followed by the currentUser
+    PFQuery *followingFriendQuery = [PFQuery queryWithClassName:kActivityClassKey];
+    [followingFriendQuery whereKey:kActivityTypeKey equalTo:@"follow"];
+    [followingFriendQuery whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
+    followingFriendQuery.cachePolicy = kPFCachePolicyNetworkOnly;
+    followingFriendQuery.limit = 1000;
+    
+    // Query all the activities where fromUser is followingFriend
+    PFQuery *followingFromUserQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [followingFromUserQuery whereKey:kActivityFromUserKey matchesKey:kActivityToUserKey inQuery:followingFriendQuery];
+    [followingFromUserQuery whereKey:kActivityToUserKey notEqualTo:[PFUser currentUser]];
+    
+    // Query all the activities where toUser is followingFriend
+    PFQuery *followingToUserQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [followingToUserQuery whereKey:kActivityToUserKey matchesKey:kActivityToUserKey inQuery:followingFriendQuery];
+    [followingToUserQuery whereKey:kActivityFromUserKey notEqualTo:[PFUser currentUser]];
+    
+    // Combine the two queries above
+    PFQuery *activitiesQuery = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:followingToUserQuery, followingFromUserQuery, nil]];
     [activitiesQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review", @"postQuestion", @"register"]];
     [activitiesQuery includeKey:kActivityFromUserKey];
     [activitiesQuery includeKey:kActivityTargetVideoKey];
@@ -114,13 +133,10 @@
     return activitiesQuery;
 }
 
-
-
 // Override to customize the look of a cell representing an object. The default is to display
 // a UITableViewCellStyleDefault style cell with the label being the first key in the object.
 
 #pragma mark - UITableViewDataSource
-
 
 /**
  * delegage method
@@ -215,6 +231,7 @@
                 NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[Constants facebookProfilePictureofUser:[object objectForKey:kActivityFromUserKey]]]];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     userProfilePicture.image = [UIImage imageWithData:profileImageData];
+                    userProfilePicture.highlightedImage = userProfilePicture.image;
                     userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
                     userProfilePicture.layer.masksToBounds = YES;
                 });
@@ -245,6 +262,7 @@
                                          [NSURL URLWithString:
                                           [Constants facebookProfilePictureofUser:
                                            [object objectForKey:kActivityFromUserKey]]]]];
+            userProfilePicture.highlightedImage = userProfilePicture.image;
             userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
             userProfilePicture.layer.masksToBounds = YES;
             description.text = [NSString stringWithFormat:@"%@ has reviewed %@'s%@!",
@@ -275,6 +293,7 @@
                                          [NSURL URLWithString:
                                           [Constants facebookProfilePictureofUser:
                                            [object objectForKey:kActivityFromUserKey]]]]];
+            userProfilePicture.highlightedImage = userProfilePicture.image;
             userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
             userProfilePicture.layer.masksToBounds = YES;
             description.text = [NSString stringWithFormat:@"%@ has posted a new question %@!",
@@ -301,6 +320,7 @@
                                          [NSURL URLWithString:
                                           [Constants facebookProfilePictureofUser:
                                            [object objectForKey:kActivityFromUserKey]]]]];
+            userProfilePicture.highlightedImage = userProfilePicture.image;
             userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
             userProfilePicture.layer.masksToBounds = YES;
             description.text = [NSString stringWithFormat:@"%@ has joined Presentice!",

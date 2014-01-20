@@ -96,9 +96,12 @@
     
     if ([[[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"] lowercaseString] hasPrefix:@"http://"]) {
         thumbnailImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]]]];
+        thumbnailImageView.highlightedImage = thumbnailImageView.image;
     } else {
         thumbnailImageView.image = [UIImage imageNamed:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]];
+        thumbnailImageView.highlightedImage = thumbnailImageView.image;
     }
+    
     thumbnailImageView.layer.cornerRadius = thumbnailImageView.frame.size.width / 2;
     thumbnailImageView.layer.masksToBounds = YES;
     
@@ -150,9 +153,9 @@
     
 }
 
-- (IBAction)showLeftMenuPressed:(id)sender {
-    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
-}
+//- (IBAction)showLeftMenuPressed:(id)sender {
+//    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
+//}
 
 - (IBAction)showRightMenuPressed:(id)sender {
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
