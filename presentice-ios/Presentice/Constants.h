@@ -73,13 +73,13 @@
 
 #define kActivityTypeFollow @"follow"   //type = follow
 
-#pragma Table Review
-#define kReviewClassKey @"Review"
-#define kReviewFromUserKey @"fromUser"
-#define kReviewToUserKey @"toUser"
-#define kReviewTargetVideoKey @"targetVideo"
-#define kReviewContentKey @"content"
-#define kReviewCommentKey @"comment"
+//#pragma Table Review
+//#define kReviewClassKey @"Review"
+//#define kReviewFromUserKey @"fromUser"
+//#define kReviewToUserKey @"toUser"
+//#define kReviewTargetVideoKey @"targetVideo"
+//#define kReviewContentKey @"content"
+//#define kReviewCommentKey @"comment"
 
 #pragma Table Message
 #define kMessageClassKey @"Message"

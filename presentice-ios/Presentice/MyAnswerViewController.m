@@ -26,10 +26,10 @@
         // Custom the table
         
         // The className to query on
-        self.parseClassName = kReviewClassKey;
+        self.parseClassName = kActivityClassKey;
         
         // The key of the PFObject to display in the label of the default cell style
-        self.textKey = kReviewCommentKey;
+        self.textKey = kActivityDescriptionKey;
         
         // Whether the built-in pull-to-refresh is enabled
         self.pullToRefreshEnabled = YES;
@@ -124,17 +124,18 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *reviewListQuery = [PFQuery queryWithClassName:self.parseClassName];
-    [reviewListQuery includeKey:kReviewFromUserKey];   // Important: Include "fromUser" key in this query make receiving user info easier
-    [reviewListQuery includeKey:kReviewToUserKey];
-    [reviewListQuery includeKey:kReviewTargetVideoKey];
-    [reviewListQuery whereKey:kReviewTargetVideoKey equalTo:self.answerVideoObj];
+    [reviewListQuery includeKey:kActivityFromUserKey];   // Important: Include "fromUser" key in this query make receiving user info easier
+    [reviewListQuery includeKey:kActivityToUserKey];
+    [reviewListQuery includeKey:kActivityTargetVideoKey];
+    [reviewListQuery whereKey:kActivityTypeKey equalTo:@"review"];
+    [reviewListQuery whereKey:kActivityTargetVideoKey equalTo:self.answerVideoObj];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
     if ([self.objects count] == 0) {
         reviewListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
-    [reviewListQuery orderByAscending:kUpdatedAtKey];
+    [reviewListQuery orderByDescending:kUpdatedAtKey];
     return reviewListQuery;
 }
 
@@ -148,93 +149,7 @@
 }
 
 #pragma mark - Table view data source
-/**
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 3;
-}
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if(section == 0) {
-        return @"Answer Video View";
-    } else if(section == 1) {
-        return @"Answer Information";
-    } else if (section == 2) {
-        return  @"Comments";
-    }
-    return  nil;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(section == 0) {
-        return 1;   // Only one video play
-    } else if(section == 1) {
-        return 2;   // video info has two row: videoname + video points
-    } else {
-        return [commentList count]; //number of comments
-    }
-}
-
-- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
-        return 300;
-    } else {
-        return 120;
-    }
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    static NSString *videoTableCellIdentifier = @"videoTableCell";
-    UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:videoTableCellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:videoTableCellIdentifier ];
-    }
-    if (indexPath.section == 0) {
-        self.movieController = [[MPMoviePlayerController alloc] init];
-        [self.movieController setContentURL:self.movieURL];
-        [self.movieController.view setFrame:CGRectMake(0, 0, 320, 300)];
-        [cell.contentView addSubview:self.movieController.view];
-        
-        // Using the Movie Player Notifications
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.movieController];
-        
-        self.movieController.controlStyle =  MPMovieControlStyleEmbedded;
-        self.movieController.shouldAutoplay = YES;
-        self.movieController.repeatMode = NO;
-        [self.movieController prepareToPlay];
-        
-        [self.movieController play];
-    } else if(indexPath.section == 1){
-        cell.textLabel.numberOfLines = 4;
-        cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        if(indexPath.row == 0){
-            NSLog(@"section 1 videoObj = %@", self.videoObj);
-            cell.textLabel.text = [NSString stringWithFormat:@"Question: %@\nAnswer Name: %@",
-                                   [[self.videoObj objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey],
-                                   self.fileName];
-        } else {
-            cell.textLabel.text = videoPointStr;
-            NSLog(@"videoPointStr text = %@",cell.textLabel.text);
-        }
-    } else {
-        cell.textLabel.text = [NSString stringWithFormat:@"%@ :\n%@",
-                               [[[reviews objectAtIndex:indexPath.row] objectForKey:kReviewFromUserKey] objectForKey:kUserDisplayNameKey],
-                               [[reviews objectAtIndex:indexPath.row] objectForKey:kReviewCommentKey]];
-        cell.textLabel.numberOfLines = 2;
-// These lines are related to UI design
-        cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        cell.textLabel.baselineAdjustment = UIBaselineAdjustmentAlignBaselines;
-        cell.textLabel.textAlignment = NSTextAlignmentLeft;
-        cell.textLabel.font=[UIFont boldSystemFontOfSize:22];
-        cell.textLabel.textColor=[UIColor lightGrayColor];
-//--------------------------------------
-        NSLog(@"commentList text = %@",cell.textLabel.text);
-    }
-    return cell;
-}
-**/
- 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *simpleTableIdentifier = @"reviewListIdentifier";
     
@@ -254,13 +169,14 @@
                                 [NSData dataWithContentsOfURL:
                                  [NSURL URLWithString:
                                   [Constants facebookProfilePictureofUser:
-                                   [object objectForKey:kReviewFromUserKey]]]]];
+                                   [object objectForKey:kActivityFromUserKey]]]]];
+    
     userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
     userProfilePicture.layer.masksToBounds = YES;
     
-    userName.text = [[object objectForKey:kReviewFromUserKey] objectForKey:kUserDisplayNameKey];
+    userName.text = [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey];
     
-    NSMutableDictionary *points = [object objectForKey:kReviewContentKey];
+    NSMutableDictionary *points = [object objectForKey:kActivityContentKey];
     pointDetail.text = [NSString stringWithFormat:@"app: %@, org: %@, und: %@",
                         [points objectForKey:@"appearance"],
                         [points objectForKey:@"organization"],
@@ -268,7 +184,7 @@
     
     pointSum.text = @"undefined";
     
-    comment.text = [object objectForKey:kReviewCommentKey];
+    comment.text = [object objectForKey:kActivityDescriptionKey];
     return cell;
 }
 

@@ -42,13 +42,15 @@
                          [NSData dataWithContentsOfURL:
                           [NSURL URLWithString:
                            [Constants facebookProfilePictureofUser:
-                            [self.reviewObject objectForKey:kReviewFromUserKey]]]]];
+                            [self.reviewObject objectForKey:kActivityFromUserKey]]]]];
+    profileView.layer.cornerRadius = profileView.frame.size.width / 2;
+    profileView.layer.masksToBounds = YES;
     
-    reviewerNameLabel.text = [[self.reviewObject objectForKey:kReviewFromUserKey] objectForKey:kUserDisplayNameKey];
-    answerVideoNameLabel.text = [[self.reviewObject objectForKey:kReviewTargetVideoKey] objectForKey:kVideoNameKey];
-    answerVideoPosterUserNameLabel.text = [[self.reviewObject objectForKey:kReviewToUserKey] objectForKey:kUserDisplayNameKey];
+    reviewerNameLabel.text = [[self.reviewObject objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey];
+    answerVideoNameLabel.text = [[self.reviewObject objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey];
+    answerVideoPosterUserNameLabel.text = [[self.reviewObject objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey];
     UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
-    commentLabel.text = [self.reviewObject objectForKey:kReviewCommentKey];
+    commentLabel.text = [self.reviewObject objectForKey:kActivityDescriptionKey];
     commentLabel.numberOfLines = 0;
     [commentLabel setTextAlignment:NSTextAlignmentLeft];
     [commentLabel setLineBreakMode:NSLineBreakByWordWrapping];
@@ -56,7 +58,7 @@
     [commentView addSubview:commentLabel];
     
     NSLog(@"%@", commentView);
-    criteria = [[NSMutableArray alloc] initWithArray:[[self.reviewObject objectForKey:kReviewContentKey] allKeys]];
+    criteria = [[NSMutableArray alloc] initWithArray:[[self.reviewObject objectForKey:kActivityContentKey] allKeys]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -89,7 +91,7 @@
     NSString *criteriumKey = [criteria objectAtIndex:indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@: %@",
                            criteriumKey,
-                           [[self.reviewObject objectForKey:kReviewContentKey] objectForKey:criteriumKey]];
+                           [[self.reviewObject objectForKey:kActivityContentKey] objectForKey:criteriumKey]];
     return cell;
 }
 

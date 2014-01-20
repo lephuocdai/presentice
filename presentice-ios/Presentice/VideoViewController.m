@@ -111,13 +111,31 @@
             [PFCloud callFunction:@"sendPushNotification" withParameters:params];
         }
         
-        // Add activity
-        PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
-        [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
-        [activity setObject:[self.answerVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
-        [activity setObject:@"view" forKey:kActivityTypeKey];
-        [activity setObject:self.answerVideoObj forKey:kActivityTargetVideoKey];
-        [activity saveInBackground];
+        
+        // Register view activity in to Acitivity Table
+        PFQuery *activityQuery = [PFQuery queryWithClassName:kActivityClassKey];
+        [activityQuery whereKey:kActivityTypeKey equalTo:@"view"];
+        [activityQuery whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
+        [activityQuery whereKey:kActivityToUserKey equalTo:[self.answerVideoObj objectForKey:kVideoUserKey]];
+        [activityQuery whereKey:kActivityTargetVideoKey equalTo:self.answerVideoObj];
+        [activityQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!error) {
+                // Found activity record, so just overwrote it
+                NSMutableDictionary *views = [[NSMutableDictionary alloc]initWithDictionary:[object objectForKey:kActivityContentKey]];
+                [views setObject:@{@"date": [NSDate date]} forKey:[NSString stringWithFormat:@"%d", [[views allKeys] count]]];
+                [object setObject:views forKey:kActivityContentKey];
+                [object saveInBackground];
+            } else {
+                // No activity record, so create a new activity
+                PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
+                [activity setObject:@"view" forKey:kActivityTypeKey];
+                [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+                [activity setObject:[self.answerVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
+                [activity setObject:self.answerVideoObj forKey:kActivityTargetVideoKey];
+                [activity setObject:@{@"0":@{@"date": [NSDate date]}} forKey:kActivityContentKey];
+                [activity saveInBackground];
+            }
+        }];
         
         // Increment views
         int viewsNum = [[self.answerVideoObj objectForKey:kVideoViewsKey] intValue];
@@ -168,7 +186,7 @@
     if ([self.objects count] == 0) {
         reviewListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
-    [reviewListQuery orderByAscending:kUpdatedAtKey];
+    [reviewListQuery orderByDescending:kUpdatedAtKey];
     return reviewListQuery;
 }
 
@@ -186,63 +204,6 @@
 }
 
 #pragma mark - Table view data source
-/**
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 2;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(section == 0) {
-        return 1;   // Only one video play
-    } else {
-        return 3;   // Video info has three row: videoName + postedUser + views/reviews
-    }
-}
-
-- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
-        return 300;
-    } else {
-        return 50;
-    }
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *videoTableCellIdentifier = @"videoTableCell";
-    UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:videoTableCellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:videoTableCellIdentifier ];
-    }
-    // Configure the cell...
-    
-    if (indexPath.section == 0) {
-        self.movieController = [[MPMoviePlayerController alloc] init];
-        [self.movieController setContentURL:self.movieURL];
-        [self.movieController.view setFrame:CGRectMake(0, 0, 320, 300)];
-        [cell.contentView addSubview:self.movieController.view];
-        
-        // Using the Movie Player Notifications
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.movieController];
-        
-        self.movieController.controlStyle =  MPMovieControlStyleEmbedded;
-        self.movieController.shouldAutoplay = YES;
-        self.movieController.repeatMode = NO;
-        [self.movieController prepareToPlay];
-        
-        [self.movieController play];
-    } else {
-        if (indexPath.row == 0) {
-            cell.textLabel.text = [[self.videoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-        } else if (indexPath.row == 1) {
-            cell.textLabel.text = [self.videoObj objectForKey:kVideoNameKey];
-        } else {
-            cell.textLabel.text = [NSString stringWithFormat:@"View: %@     Reviews: %d",[self.videoObj objectForKey:kVideoViewsKey],[[self.videoObj objectForKey:kVideoReviewsKey] count]];
-        }
-    }
-    return cell;
-}
-**/
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *simpleTableIdentifier = @"reviewListIdentifier";

@@ -101,7 +101,7 @@
     if ([self.objects count] == 0) {
         myListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
-    [myListQuery orderByAscending:kUpdatedAtKey];
+    [myListQuery orderByDescending:kVideoViewsKey];
     return myListQuery;
 }
 

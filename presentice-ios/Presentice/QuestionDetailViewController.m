@@ -140,13 +140,36 @@
             [PFCloud callFunction:@"sendPushNotification" withParameters:params];
         }
         
-        // Add activity
-        PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
-        [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
-        [activity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
-        [activity setObject:@"view" forKey:kActivityTypeKey];
-        [activity setObject:self.questionVideoObj forKey:kActivityTargetVideoKey];
-        [activity saveInBackground];
+        // Register view activity in to Acitivity Table
+//        PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
+//        [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+//        [activity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
+//        [activity setObject:@"view" forKey:kActivityTypeKey];
+//        [activity setObject:self.questionVideoObj forKey:kActivityTargetVideoKey];
+//        [activity saveInBackground];
+        PFQuery *activityQuery = [PFQuery queryWithClassName:kActivityClassKey];
+        [activityQuery whereKey:kActivityTypeKey equalTo:@"view"];
+        [activityQuery whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
+        [activityQuery whereKey:kActivityToUserKey equalTo:[self.questionVideoObj objectForKey:kVideoUserKey]];
+        [activityQuery whereKey:kActivityTargetVideoKey equalTo:self.questionVideoObj];
+        [activityQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!error) {
+                // Found activity record, so just overwrote it
+                NSMutableDictionary *views = [[NSMutableDictionary alloc]initWithDictionary:[object objectForKey:kActivityContentKey]];
+                [views setObject:@{@"date": [NSDate date]} forKey:[NSString stringWithFormat:@"%d", [[views allKeys] count]]];
+                [object setObject:views forKey:kActivityContentKey];
+                [object saveInBackground];
+            } else {
+                // No activity record, so create a new activity
+                PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
+                [activity setObject:@"view" forKey:kActivityTypeKey];
+                [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+                [activity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
+                [activity setObject:self.questionVideoObj forKey:kActivityTargetVideoKey];
+                [activity setObject:@{@"0":@{@"date": [NSDate date]}} forKey:kActivityContentKey];
+                [activity saveInBackground];
+            }
+        }];
         
         
         // Increment views: need to be revised
@@ -220,6 +243,8 @@
                                  [NSURL URLWithString:
                                   [Constants facebookProfilePictureofUser:
                                    [object objectForKey:kVideoUserKey]]]]];
+    userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
+    userProfilePicture.layer.masksToBounds = YES;
     
     userName.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     videoName.text = [object objectForKey:kVideoNameKey];
@@ -464,7 +489,6 @@
     [newVideo setObject:self.answerVideoVisibility forKey:kVideoVisibilityKey];
     
     NSLog(@"%@", [[PFQuery queryWithClassName:kVideoClassKey] getObjectWithId:[self.questionVideoObj objectId]]);
-    //    [newVideo setObject:[[PFQuery queryWithClassName:kVideoClassKey] getObjectWithId:[self.questionVideoObj objectId]] forKey:kVideoAsAReplyTo];
     [newVideo setObject:self.questionVideoObj forKey:kVideoAsAReplyTo];
     [newVideo setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kVideoToUserKey];
     [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -487,6 +511,10 @@
         [answerActivity setObject:newVideo forKey:kActivityTargetVideoKey];
         [answerActivity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
         [answerActivity saveInBackground];
+        
+        
+        
+        
     }];
     
     // Increment answers
