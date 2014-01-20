@@ -39,11 +39,10 @@
         self.objectsPerPage = 5;
     }
     
-    if ([PFInstallation currentInstallation]) {
-        if ([PFInstallation currentInstallation].badge > 0) {
+    if ([PFInstallation currentInstallation].badge > 0) {
             [self.tabBarItem setBadgeValue:[NSString stringWithFormat:@"%ld",(long)[PFInstallation currentInstallation].badge]];
         }
-    }
+    
     return self;
 }
 
@@ -74,6 +73,16 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    
+    if ([self.tabBarItem badgeValue]) {
+        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+        if (currentInstallation.badge != 0) {
+               currentInstallation.badge = 0;
+               [currentInstallation saveEventually];
+        }
+        [self.tabBarItem setBadgeValue:nil];
+    }
+    
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
