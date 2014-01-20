@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "MFSideMenu.h"
 #import <Parse/Parse.h>
-#import "FindFriendCell.h"
+#import "MBProgressHUD.h"
+
 #import "PresenticeCache.h"
 #import "PresenticeUtitily.h"
-#import "MBProgressHUD.h"
+#import "FindFriendCell.h"
+
+#import "UserProfileViewController.h"
 
 @interface FindFriendViewController : PFQueryTableViewController <FindFriendCellDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 - (IBAction)showLeftMenu:(id)sender;

@@ -42,7 +42,6 @@ typedef enum {
         
         // Used to determine Follow/Unfollow All button status
         self.followStatus = FindFriendsFollowingSome;
-        
     }
     return self;
 }
@@ -129,6 +128,9 @@ typedef enum {
         });
     });
     
+    cell.profilePicture.layer.cornerRadius = cell.profilePicture.frame.size.width / 2;
+    cell.profilePicture.layer.masksToBounds = YES;
+    
     //username
     cell.facebookName.text = [(PFUser *)object objectForKey:kUserDisplayNameKey];
     
@@ -164,6 +166,18 @@ typedef enum {
     [cell setUser:(PFUser*)object];
     
     return cell;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showUserFromFindFriend"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        UserProfileViewController *destViewController = segue.destinationViewController;
+        
+        PFUser *userObj = [self.objects objectAtIndex:indexPath.row];
+
+        NSLog(@"user object: %@", userObj);
+        destViewController.userObj = userObj;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
