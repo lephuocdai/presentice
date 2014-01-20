@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="5D7-fp-3iF">
     <dependencies>
-        <deployment defaultVersion="1552" identifier="iOS"/>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
@@ -1487,26 +1487,26 @@
             <point key="canvasLocation" x="335" y="1416"/>
         </scene>
         <!--Notification List View Controller - Notification List View Controller-->
-        <scene sceneID="jFa-7p-wzt">
+        <scene sceneID="dH5-Gj-2gE">
             <objects>
-                <viewController storyboardIdentifier="notificationListViewController" title="Notification List View Controller" id="Xz7-CA-r1M" customClass="NotificationListViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="503" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="68" sectionHeaderHeight="22" sectionFooterHeight="22" id="8c0-62-kGe">
+                <tableViewController storyboardIdentifier="notificationListViewController" title="Notification List View Controller" id="3op-j9-1ht" customClass="NotificationListViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="22" sectionFooterHeight="22" id="KTb-b4-8Ar">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="notificationListIdentifier" rowHeight="68" id="R4X-D3-IDc">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="notificationListIdentifier" rowHeight="68" id="fyr-1X-LCC">
                                 <rect key="frame" x="0.0" y="86" width="320" height="68"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="232" tableViewCell="R4X-D3-IDc" id="4yK-Tg-7fU">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="232" tableViewCell="fyr-1X-LCC" id="vr1-Re-HHa">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="67"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ico_profile.png" highlightedImage="ico_profile_on.png" highlighted="YES" id="Cqv-rJ-gGb">
+                                        <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ico_profile.png" highlightedImage="ico_profile_on.png" highlighted="YES" id="56q-S7-efI">
                                             <rect key="frame" x="10" y="10" width="48" height="48"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Qkb-Oi-hKq">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mqr-Is-VlB">
                                             <rect key="frame" x="66" y="10" width="213" height="48"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -1518,33 +1518,32 @@
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="Xz7-CA-r1M" id="0bL-jv-dKs"/>
-                            <outlet property="delegate" destination="Xz7-CA-r1M" id="lIY-Do-mOO"/>
+                            <outlet property="dataSource" destination="3op-j9-1ht" id="zc9-7A-9fW"/>
+                            <outlet property="delegate" destination="3op-j9-1ht" id="eMU-98-MVn"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Notifications" image="ico_notification.png" id="U06-76-MeV">
+                    <tabBarItem key="tabBarItem" title="Notifications" image="ico_notification.png" id="pa3-jl-nte">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Notifications" id="ddh-nh-Sui">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="GPc-yv-hdL">
+                    <navigationItem key="navigationItem" title="Notifications" id="2U9-1f-Mei">
+                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="HlM-6c-HiC">
                             <connections>
-                                <action selector="showLeftMenu:" destination="Xz7-CA-r1M" id="Ok1-aE-DSj"/>
+                                <action selector="showLeftMenu:" destination="3op-j9-1ht" id="NlR-6d-NgJ"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="ico_head_friendsList.png" id="W7W-iF-eRh">
+                        <barButtonItem key="rightBarButtonItem" image="ico_head_friendsList.png" id="dUO-BQ-4Jd">
                             <connections>
-                                <action selector="showRightMenu:" destination="Xz7-CA-r1M" id="KJa-Xg-H0m"/>
+                                <action selector="showRightMenu:" destination="3op-j9-1ht" id="2t2-fE-IFn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="tableView" destination="8c0-62-kGe" id="ZiG-cC-ms8"/>
+                        <outlet property="tableView" destination="KTb-b4-8Ar" id="BVJ-0P-f9c"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="EIo-8n-qMf" sceneMemberID="firstResponder"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z1X-cN-jW4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="321" y="-28"/>
         </scene>
@@ -1870,10 +1869,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="wqw-1d-BIa"/>
-        <segue reference="6kH-cL-B2Y"/>
         <segue reference="mBi-jE-RWx"/>
         <segue reference="b5z-uv-nQA"/>
+        <segue reference="6kH-cL-B2Y"/>
+        <segue reference="3I1-yo-AWs"/>
         <segue reference="Dgk-9J-N99"/>
     </inferredMetricsTieBreakers>
 </document>

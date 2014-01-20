@@ -125,10 +125,11 @@
  * delegage method
  * number of rows of table
  */
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return [messageList count];
-//}
-
+/**
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [messageList count];
+}
+**/
 /**
  * delegate method
  * build table view

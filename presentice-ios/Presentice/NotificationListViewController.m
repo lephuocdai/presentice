@@ -52,7 +52,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+//    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -157,16 +157,18 @@
  
 **/
 
+/**
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.objects count];
+    return [self.objects count] + 1;
 }
+**/
 
 /**
  * delegate method
  * build table view
  */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
-    NSString *simpleTableIdentifier = @"notificationListIdentifier";
+    static NSString *simpleTableIdentifier = @"notificationListIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
@@ -201,6 +203,11 @@
     return cell;
 }
 
+- (void) objectsDidLoad:(NSError *)error {
+    [super objectsDidLoad:error];
+    NSLog(@"error: %@", [error localizedDescription]);
+}
+
 /**
  * segue for table cell
  * click to direct to video play view
@@ -209,60 +216,53 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-    
-    PFObject *notificationObj = [self.objects objectAtIndex:indexPath.row];
-    
-    if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"answer"]) {
-        VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
-        PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
-        
-        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
-        destViewController.answerVideoObj = videoObj;
-        
-//        [self.navigationController presentViewController:destViewController animated:YES completion:nil];
-        [self.navigationController pushViewController:destViewController animated:YES];
-        
-    } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
-        VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
-        PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
-        
-        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
-        destViewController.answerVideoObj = videoObj;
-        
-//        [self.navigationController presentViewController:destViewController animated:YES completion:nil];
-        [self.navigationController pushViewController:destViewController animated:YES];
-        
-    } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
-        QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
-        PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
-        
-        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
-        destViewController.questionVideoObj = videoObj;
-        
-        //        [self.navigationController presentViewController:destViewController animated:YES completion:nil];
-        [self.navigationController pushViewController:destViewController animated:YES];
-
-    } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
-        UserProfileViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
-        destViewController.userObj = [notificationObj objectForKey:kActivityFromUserKey];
-        
-        //        [self.navigationController presentViewController:destViewController animated:YES completion:nil];
-        [self.navigationController pushViewController:destViewController animated:YES];
-
-    } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"follow"]) {
-        UserProfileViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
-        destViewController.userObj = [notificationObj objectForKey:kActivityFromUserKey];
-
-        //        [self.navigationController presentViewController:destViewController animated:YES completion:nil];
-        [self.navigationController pushViewController:destViewController animated:YES];
-        
-    } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"view"]) {
-        UserProfileViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
-        destViewController.userObj = [notificationObj objectForKey:kActivityFromUserKey];
-        
-        //        [self.navigationController presentViewController:destViewController animated:YES completion:nil];
-        [self.navigationController pushViewController:destViewController animated:YES];
-        
+    if (indexPath.row < [self.objects count] ) {
+        PFObject *notificationObj = [self.objects objectAtIndex:indexPath.row];
+        if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"answer"]) {
+            VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
+            PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
+            
+            destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+            destViewController.answerVideoObj = videoObj;
+            
+            [self.navigationController pushViewController:destViewController animated:YES];
+            
+        } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
+            VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
+            PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
+            
+            destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+            destViewController.answerVideoObj = videoObj;
+            
+            [self.navigationController pushViewController:destViewController animated:YES];
+            
+        } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
+            QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
+            PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
+            
+            destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+            destViewController.questionVideoObj = videoObj;
+            
+            [self.navigationController pushViewController:destViewController animated:YES];
+            
+        } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
+            UserProfileViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
+            destViewController.userObj = [notificationObj objectForKey:kActivityFromUserKey];
+            
+            [self.navigationController pushViewController:destViewController animated:YES];
+            
+        } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"follow"]) {
+            UserProfileViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
+            destViewController.userObj = [notificationObj objectForKey:kActivityFromUserKey];
+            
+            [self.navigationController pushViewController:destViewController animated:YES];
+            
+        } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"view"]) {
+            UserProfileViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
+            destViewController.userObj = [notificationObj objectForKey:kActivityFromUserKey];
+            
+            [self.navigationController pushViewController:destViewController animated:YES];
+        }
     }
 }
 
@@ -343,49 +343,4 @@
         NSLog(@"Cannot list S3 %@",exception);
     }
 }
-
-/**
-- (void) s3DirectoryListing: (NSString *) bucketName :(NSArray *) videos{
-    
-    Init connection with S3Client
-    s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
-    @try {
-        NSLog(@"videos number: %d", [videos count]);
-        // Add each filename to fileList
-        for (int x = 0; x < [videos count]; x++) {
-    
-            // Set the content type so that the browser will treat the URL as an image.
-            S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
-            override.contentType = @" ";
-    
-            // Request a pre-signed URL to picture that has been uplaoded.
-            S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
-    
-            //video name
-            gpsur.key     = [NSString stringWithFormat:@"%@",[[videos objectAtIndex:x] objectForKey:@"videoURL"]];
-            //bucket name
-            gpsur.bucket  = bucketName;
-    
-            gpsur.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600]; // Added an hour's worth of seconds to the current time.
-    
-            gpsur.responseHeaderOverrides = override;
-    
-            // Get the URL
-            NSError *error;
-            NSURL *url = [s3Client getPreSignedURL:gpsur error:&error];
-    
-            // Add new file to fileList
-            NSMutableDictionary *file = [NSMutableDictionary dictionary];
-            file[@"fileName"] = [NSString stringWithFormat:@"%@",[[videos objectAtIndex:x] objectForKey:@"videoURL"]];
-            file[@"fileURL"] = url;
-            file[@"userName"] = @"Need to add userName";
-            [messageList addObject:file];
-        }
-        [self.tableView reloadData];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Cannot list S3 %@",exception);
-    }
-}
-**/
 @end
