@@ -41,7 +41,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Setting" id="AEE-Gf-cfg">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="I60-Pb-N7x">
+                        <barButtonItem key="leftBarButtonItem" image="ico_head_globalmenu.png" id="I60-Pb-N7x">
                             <connections>
                                 <action selector="showLeftMenu:" destination="Kv7-ru-gm9" id="pg3-sM-lOX"/>
                             </connections>
@@ -142,7 +142,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Share" id="bxK-GB-bvd">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="6UH-BZ-60q">
+                        <barButtonItem key="leftBarButtonItem" image="ico_head_globalmenu.png" id="6UH-BZ-60q">
                             <connections>
                                 <action selector="showLeftMenu:" destination="CZq-aJ-KAU" id="BYx-Ql-kgI"/>
                             </connections>
@@ -421,7 +421,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_profile.png" highlightedImage="menu_profile_on.png" id="yJV-t3-2S3">
-                                                    <rect key="frame" x="80" y="26" width="120" height="27"/>
+                                                    <rect key="frame" x="80" y="31" width="80" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -440,7 +440,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_home.png" highlightedImage="menu_home_on.png" id="g7v-gp-Tc1">
-                                                    <rect key="frame" x="80" y="26" width="120" height="27"/>
+                                                    <rect key="frame" x="80" y="31" width="80" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -458,8 +458,8 @@
                                                     <rect key="frame" x="16" y="16" width="48" height="48"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_message.png" highlightedImage="menu_message_on.png" id="c6S-XB-yL4">
-                                                    <rect key="frame" x="80" y="30" width="120" height="27"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_messages.png" highlightedImage="menu_messages_on.png" id="c6S-XB-yL4">
+                                                    <rect key="frame" x="80" y="31" width="80" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -477,8 +477,8 @@
                                                     <rect key="frame" x="16" y="16" width="48" height="48"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_setting.png" highlightedImage="menu_setting_on.png" id="efU-D3-twN">
-                                                    <rect key="frame" x="80" y="30" width="120" height="27"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_settings.png" highlightedImage="menu_settings_on.png" id="efU-D3-twN">
+                                                    <rect key="frame" x="80" y="31" width="80" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -566,12 +566,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Find Friends" id="KPT-fX-qiz">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="sjA-3i-Mht">
+                        <barButtonItem key="leftBarButtonItem" image="ico_head_globalmenu.png" id="sjA-3i-Mht">
                             <connections>
                                 <action selector="showLeftMenu:" destination="UQd-Wk-Q35" id="4KT-dh-vcM"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="menu.png" id="tBq-JT-eHd">
+                        <barButtonItem key="rightBarButtonItem" image="ico_head_friendsList.png" id="tBq-JT-eHd">
                             <connections>
                                 <action selector="showRightMenu:" destination="UQd-Wk-Q35" id="NVR-AP-Hqi"/>
                             </connections>
@@ -584,7 +584,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7IJ-Rt-MhR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-680" y="-28"/>
+            <point key="canvasLocation" x="-752" y="-28"/>
         </scene>
         <!--Right Side Menu View Controller - Contact List-->
         <scene sceneID="53L-Wn-AbA">
@@ -1239,10 +1239,10 @@
                             <outlet property="delegate" destination="pEw-m6-w8R" id="nUl-1J-uFd"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Challenges" image="ico_challengeList.png" id="gM6-6R-KPH"/>
+                    <tabBarItem key="tabBarItem" title="Challenges" image="ico_challenges.png" id="gM6-6R-KPH"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Question List" id="05Y-vt-brB">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="eZq-BD-NK8">
+                        <barButtonItem key="leftBarButtonItem" image="ico_head_globalmenu.png" id="eZq-BD-NK8">
                             <connections>
                                 <action selector="showLeftMenu:" destination="pEw-m6-w8R" id="xfw-je-LEt"/>
                             </connections>
@@ -1366,12 +1366,12 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="User Profile" id="GJk-Jh-aIO">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="Jvn-jn-8dr">
+                        <barButtonItem key="leftBarButtonItem" image="ico_head_globalmenu.png" id="Jvn-jn-8dr">
                             <connections>
                                 <action selector="showLeftMenuPressed:" destination="KLi-xi-ZeY" id="gYJ-EW-ifB"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="menu.png" id="7H3-Ew-PoL">
+                        <barButtonItem key="rightBarButtonItem" image="ico_head_friendsList.png" id="7H3-Ew-PoL">
                             <connections>
                                 <action selector="showRightMenuPressed:" destination="KLi-xi-ZeY" id="cFN-X2-SX3"/>
                             </connections>
@@ -1416,7 +1416,7 @@
                     <tabBarItem key="tabBarItem" systemItem="recents" id="IpV-9Y-6MA"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Messages" id="0ob-bJ-EF9">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="b6b-5c-sCn">
+                        <barButtonItem key="leftBarButtonItem" image="ico_head_globalmenu.png" id="b6b-5c-sCn">
                             <connections>
                                 <action selector="showLeftMenu:" destination="xsU-W6-y7U" id="CSn-Op-oaC"/>
                             </connections>
@@ -1465,7 +1465,7 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" systemItem="contacts" id="Cad-Nb-gZc"/>
                     <navigationItem key="navigationItem" title="Contacts List" id="KVs-r1-2ac">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="vIE-kB-vC3">
+                        <barButtonItem key="leftBarButtonItem" image="ico_head_globalmenu.png" id="vIE-kB-vC3">
                             <connections>
                                 <action selector="showLeftMenu:" destination="bTq-Wf-xGm" id="Kcv-wP-Dk2"/>
                             </connections>
@@ -1490,24 +1490,24 @@
         <scene sceneID="dH5-Gj-2gE">
             <objects>
                 <tableViewController storyboardIdentifier="notificationListViewController" title="Notification List View Controller" id="3op-j9-1ht" customClass="NotificationListViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="22" sectionFooterHeight="22" id="KTb-b4-8Ar">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" id="KTb-b4-8Ar">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="notificationListIdentifier" rowHeight="68" id="fyr-1X-LCC">
-                                <rect key="frame" x="0.0" y="86" width="320" height="68"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="notificationListIdentifier" rowHeight="50" id="fyr-1X-LCC">
+                                <rect key="frame" x="0.0" y="86" width="320" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="232" tableViewCell="fyr-1X-LCC" id="vr1-Re-HHa">
-                                    <rect key="frame" x="0.0" y="0.0" width="287" height="67"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ico_profile.png" highlightedImage="ico_profile_on.png" highlighted="YES" id="56q-S7-efI">
-                                            <rect key="frame" x="10" y="10" width="48" height="48"/>
+                                            <rect key="frame" x="5" y="5" width="40" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mqr-Is-VlB">
-                                            <rect key="frame" x="66" y="10" width="213" height="48"/>
+                                            <rect key="frame" x="53" y="5" width="234" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1526,7 +1526,7 @@
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <navigationItem key="navigationItem" title="Notifications" id="2U9-1f-Mei">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="HlM-6c-HiC">
+                        <barButtonItem key="leftBarButtonItem" image="ico_head_globalmenu.png" id="HlM-6c-HiC">
                             <connections>
                                 <action selector="showLeftMenu:" destination="3op-j9-1ht" id="NlR-6d-NgJ"/>
                             </connections>
@@ -1608,10 +1608,10 @@
                             <outlet property="delegate" destination="pdo-2c-UBU" id="Ezy-qn-CwY"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="My Library" image="ico_library.png" id="hDD-do-XHT"/>
+                    <tabBarItem key="tabBarItem" title="My Library" image="ico_mylibrary.png" id="hDD-do-XHT"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="My List" id="KC7-D0-XL9">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="e0G-r9-NCs">
+                        <barButtonItem key="leftBarButtonItem" image="ico_head_globalmenu.png" id="e0G-r9-NCs">
                             <connections>
                                 <action selector="showLeftMenu:" destination="pdo-2c-UBU" id="mKN-vG-DZI"/>
                             </connections>
@@ -1799,10 +1799,10 @@
                             <outlet property="delegate" destination="A0p-xX-VXc" id="Rnu-jl-AQ6"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="News Feed" image="ico_timeline.png" id="taZ-xU-Ea9"/>
+                    <tabBarItem key="tabBarItem" title="News Feed" image="ico_newsfeed.png" id="taZ-xU-Ea9"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="News Feed" id="cOH-jQ-lZp">
-                        <barButtonItem key="leftBarButtonItem" image="menu.png" id="ljY-lK-RSK">
+                        <barButtonItem key="leftBarButtonItem" image="ico_head_globalmenu.png" id="ljY-lK-RSK">
                             <connections>
                                 <action selector="showLeftMenu:" destination="A0p-xX-VXc" id="4GQ-kE-7dy"/>
                             </connections>
@@ -1840,28 +1840,28 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ico_challengeList.png" width="48" height="32"/>
-        <image name="ico_head_friendsList.png" width="28" height="20"/>
+        <image name="ico_challenges.png" width="96" height="72"/>
+        <image name="ico_head_friendsList.png" width="44" height="31"/>
+        <image name="ico_head_globalmenu.png" width="44" height="31"/>
         <image name="ico_home.png" width="70" height="70"/>
         <image name="ico_home_on.png" width="70" height="70"/>
-        <image name="ico_library.png" width="48" height="32"/>
         <image name="ico_message.png" width="70" height="70"/>
         <image name="ico_message_on.png" width="70" height="70"/>
-        <image name="ico_notification.png" width="48" height="32"/>
+        <image name="ico_mylibrary.png" width="96" height="72"/>
+        <image name="ico_newsfeed.png" width="96" height="72"/>
+        <image name="ico_notification.png" width="96" height="72"/>
         <image name="ico_profile.png" width="70" height="70"/>
         <image name="ico_profile_on.png" width="70" height="70"/>
         <image name="ico_setting.png" width="70" height="70"/>
         <image name="ico_setting_on.png" width="70" height="70"/>
-        <image name="ico_timeline.png" width="48" height="32"/>
-        <image name="menu.png" width="28" height="20"/>
-        <image name="menu_home.png" width="209" height="47"/>
+        <image name="menu_home.png" width="223" height="47"/>
         <image name="menu_home_on.png" width="209" height="47"/>
-        <image name="menu_message.png" width="209" height="47"/>
-        <image name="menu_message_on.png" width="209" height="47"/>
-        <image name="menu_profile.png" width="209" height="47"/>
+        <image name="menu_messages.png" width="223" height="47"/>
+        <image name="menu_messages_on.png" width="223" height="47"/>
+        <image name="menu_profile.png" width="223" height="47"/>
         <image name="menu_profile_on.png" width="209" height="47"/>
-        <image name="menu_setting.png" width="209" height="47"/>
-        <image name="menu_setting_on.png" width="209" height="47"/>
+        <image name="menu_settings.png" width="223" height="47"/>
+        <image name="menu_settings_on.png" width="223" height="47"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -1869,10 +1869,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="mBi-jE-RWx"/>
-        <segue reference="b5z-uv-nQA"/>
-        <segue reference="6kH-cL-B2Y"/>
-        <segue reference="3I1-yo-AWs"/>
         <segue reference="Dgk-9J-N99"/>
+        <segue reference="mBi-jE-RWx"/>
+        <segue reference="och-ue-P3p"/>
+        <segue reference="6kH-cL-B2Y"/>
+        <segue reference="wqw-1d-BIa"/>
     </inferredMetricsTieBreakers>
 </document>

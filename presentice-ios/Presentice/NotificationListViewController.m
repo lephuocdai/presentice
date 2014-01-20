@@ -183,6 +183,7 @@
         NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[Constants facebookProfilePictureofUser:[object objectForKey:kActivityFromUserKey]]]];
         dispatch_async(dispatch_get_main_queue(), ^{
             userProfilePicture.image = [UIImage imageWithData:profileImageData];
+            userProfilePicture.highlightedImage = [UIImage imageWithData:profileImageData];
         });
     });
     
@@ -191,14 +192,19 @@
         description.text = [NSString stringWithFormat:@"%@ has posted new question %@!",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
+        [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
+        [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
     } else if ([type isEqualToString:@"follow"]) {
         description.text = [NSString stringWithFormat:@"%@ has followed you!",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
+        [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
     } else {
         description.text = [NSString stringWithFormat:@"%@ has %@ed your %@!",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                             [object objectForKey:kActivityTypeKey],
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
+        [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
+        [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
     }
     return cell;
 }

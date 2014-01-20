@@ -19,6 +19,7 @@
 #import "QuestionDetailViewController.h"
 #import "UserProfileViewController.h"
 
+#import "UILabel+Boldify.h"
 
 @interface NotificationListViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
 

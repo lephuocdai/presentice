@@ -183,6 +183,6 @@
 }
 
 - (IBAction)showRightMenu:(id)sender {
-    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
+    [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
 @end
