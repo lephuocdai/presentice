@@ -119,23 +119,68 @@
 // Override to customize the look of a cell representing an object. The default is to display
 // a UITableViewCellStyleDefault style cell with the label being the first key in the object.
 
-#pragma table methods
+#pragma mark - UITableViewDataSource
+
+
 /**
  * delegage method
  * number of rows of table
  */
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    NSInteger sections = self.objects.count;
+    if (self.paginationEnabled && sections != 0)
+        sections++;
+    return sections;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == self.objects.count) {
+        return 0.0f;
+    }
+    return 10.0f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake( 0.0f, 0.0f, self.tableView.bounds.size.width, 16.0f)];
+    return footerView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == self.objects.count) {
+        return 0.0f;
+    }
+    return 5.0f;
+}
+
+
+- (PFObject *)objectAtIndexPath:(NSIndexPath *)indexPath {
+    // overridden, since we want to implement sections
+    if (indexPath.section < self.objects.count) {
+        return [self.objects objectAtIndex:indexPath.section];
+    }
+    
+    return nil;
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"answer"] ) {
-        return 90;
-    } else if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
-        return 120;
-    } else if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
-        return 120;
-    } else if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
-        return 72;
+    if (indexPath.section >= self.objects.count) {
+        return 70;
     } else {
-        return 120;
+        if ([[[self.objects objectAtIndex:indexPath.section] objectForKey:kActivityTypeKey] isEqualToString:@"answer"] ) {
+            return 90;
+        } else if ([[[self.objects objectAtIndex:indexPath.section] objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
+            return 120;
+        } else if ([[[self.objects objectAtIndex:indexPath.section] objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
+            return 120;
+        } else if ([[[self.objects objectAtIndex:indexPath.section] objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
+            return 72;
+        } else {
+            return 120;
+        }
     }
 }
 
@@ -147,117 +192,123 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     
-    if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"answer"]) {
-        NSString *simpleTableIdentifier = @"answerListIdentifier";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-        }
-        
-        // Configure the cell
-        UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
-        UILabel *description = (UILabel *)[cell viewWithTag:101];
-        UILabel *activityType = (UILabel *)[cell viewWithTag:102];
-        UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
-        
-        //asyn to get profile picture
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[Constants facebookProfilePictureofUser:[object objectForKey:kActivityFromUserKey]]]];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                userProfilePicture.image = [UIImage imageWithData:profileImageData];
-            });
-        });
-
-        description.text = [NSString stringWithFormat:@"%@ has posted %@!",
-                            [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
-                            [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
-        activityType.text = [NSString stringWithFormat:@"%@", [object objectForKey:kActivityTypeKey]];
-        viewsNum.text = [NSString stringWithFormat:@"view: %@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoViewsKey]];
-        return cell;
-    } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
-        NSString *simpleTableIdentifier = @"reviewListIdentifier";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-        }
-        
-        // Configure the cell
-        UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
-        UILabel *description = (UILabel *)[cell viewWithTag:101];
-        UILabel *activityType = (UILabel *)[cell viewWithTag:102];
-        UILabel *comment = (UILabel *)[cell viewWithTag:103];
-        UILabel *answerVideoName = (UILabel *)[cell viewWithTag:104];
-        
-        userProfilePicture.image = [UIImage imageWithData:
-                                    [NSData dataWithContentsOfURL:
-                                     [NSURL URLWithString:
-                                      [Constants facebookProfilePictureofUser:
-                                       [object objectForKey:kActivityFromUserKey]]]]];
-        
-        description.text = [NSString stringWithFormat:@"%@ has reviewed %@'s%@!",
-                            [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
-                            [[object objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey],
-                            [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
-        activityType.text = [NSString stringWithFormat:@"%@", [object objectForKey:kActivityTypeKey]];
-        comment.text = [object objectForKey:kActivityDescriptionKey];
-        answerVideoName.text = [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey];
-        return cell;
-    } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
-        NSString *simpleTableIdentifier = @"postQuestionListIdentifier";
-        
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-        }
-        
-        // Configure the cell
-        UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
-        UILabel *description = (UILabel *)[cell viewWithTag:101];
-        UILabel *activityType = (UILabel *)[cell viewWithTag:102];
-        UILabel *comment = (UILabel *)[cell viewWithTag:103];
-        UILabel *questionVideoName = (UILabel *)[cell viewWithTag:104];
-        
-        userProfilePicture.image = [UIImage imageWithData:
-                                    [NSData dataWithContentsOfURL:
-                                     [NSURL URLWithString:
-                                      [Constants facebookProfilePictureofUser:
-                                       [object objectForKey:kActivityFromUserKey]]]]];
-        
-        description.text = [NSString stringWithFormat:@"%@ has posted a new question %@!",
-                            [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
-                            [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
-        activityType.text = [NSString stringWithFormat:@"%@", [object objectForKey:kActivityTypeKey]];
-        comment.text = [object objectForKey:kActivityDescriptionKey];
-        questionVideoName.text = [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey];
-        return cell;
-    } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
-        NSString *simpleTableIdentifier = @"registerListIdentifier";
-        
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-        }
-        
-        // Configure the cell
-        UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
-        UILabel *description = (UILabel *)[cell viewWithTag:101];
-        
-        userProfilePicture.image = [UIImage imageWithData:
-                                    [NSData dataWithContentsOfURL:
-                                     [NSURL URLWithString:
-                                      [Constants facebookProfilePictureofUser:
-                                       [object objectForKey:kActivityFromUserKey]]]]];
-        
-        description.text = [NSString stringWithFormat:@"%@ has joined Presentice!",
-                            [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
+    if (indexPath.section == self.objects.count) {
+        // this behavior is normally handled by PFQueryTableViewController, but we are using sections for each object and we must handle this ourselves
+        UITableViewCell *cell = [self tableView:tableView cellForNextPageAtIndexPath:indexPath];
         return cell;
     } else {
-        NSString *simpleTableIdentifier = @"answerListIdentifier";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"answer"]) {
+            NSString *simpleTableIdentifier = @"answerListIdentifier";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+            }
+            
+            // Configure the cell
+            UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
+            UILabel *description = (UILabel *)[cell viewWithTag:101];
+            UILabel *activityType = (UILabel *)[cell viewWithTag:102];
+            UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
+            
+            //asyn to get profile picture
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[Constants facebookProfilePictureofUser:[object objectForKey:kActivityFromUserKey]]]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    userProfilePicture.image = [UIImage imageWithData:profileImageData];
+                });
+            });
+            
+            description.text = [NSString stringWithFormat:@"%@ has posted %@!",
+                                [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
+                                [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
+            activityType.text = [NSString stringWithFormat:@"%@", [object objectForKey:kActivityTypeKey]];
+            viewsNum.text = [NSString stringWithFormat:@"view: %@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoViewsKey]];
+            return cell;
+        } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
+            NSString *simpleTableIdentifier = @"reviewListIdentifier";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+            }
+            
+            // Configure the cell
+            UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
+            UILabel *description = (UILabel *)[cell viewWithTag:101];
+            UILabel *activityType = (UILabel *)[cell viewWithTag:102];
+            UILabel *comment = (UILabel *)[cell viewWithTag:103];
+            UILabel *answerVideoName = (UILabel *)[cell viewWithTag:104];
+            
+            userProfilePicture.image = [UIImage imageWithData:
+                                        [NSData dataWithContentsOfURL:
+                                         [NSURL URLWithString:
+                                          [Constants facebookProfilePictureofUser:
+                                           [object objectForKey:kActivityFromUserKey]]]]];
+            
+            description.text = [NSString stringWithFormat:@"%@ has reviewed %@'s%@!",
+                                [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
+                                [[object objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey],
+                                [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
+            activityType.text = [NSString stringWithFormat:@"%@", [object objectForKey:kActivityTypeKey]];
+            comment.text = [object objectForKey:kActivityDescriptionKey];
+            answerVideoName.text = [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey];
+            return cell;
+        } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
+            NSString *simpleTableIdentifier = @"postQuestionListIdentifier";
+            
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+            }
+            
+            // Configure the cell
+            UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
+            UILabel *description = (UILabel *)[cell viewWithTag:101];
+            UILabel *activityType = (UILabel *)[cell viewWithTag:102];
+            UILabel *comment = (UILabel *)[cell viewWithTag:103];
+            UILabel *questionVideoName = (UILabel *)[cell viewWithTag:104];
+            
+            userProfilePicture.image = [UIImage imageWithData:
+                                        [NSData dataWithContentsOfURL:
+                                         [NSURL URLWithString:
+                                          [Constants facebookProfilePictureofUser:
+                                           [object objectForKey:kActivityFromUserKey]]]]];
+            
+            description.text = [NSString stringWithFormat:@"%@ has posted a new question %@!",
+                                [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
+                                [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
+            activityType.text = [NSString stringWithFormat:@"%@", [object objectForKey:kActivityTypeKey]];
+            comment.text = [object objectForKey:kActivityDescriptionKey];
+            questionVideoName.text = [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey];
+            return cell;
+        } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
+            NSString *simpleTableIdentifier = @"registerListIdentifier";
+            
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+            }
+            
+            // Configure the cell
+            UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
+            UILabel *description = (UILabel *)[cell viewWithTag:101];
+            
+            userProfilePicture.image = [UIImage imageWithData:
+                                        [NSData dataWithContentsOfURL:
+                                         [NSURL URLWithString:
+                                          [Constants facebookProfilePictureofUser:
+                                           [object objectForKey:kActivityFromUserKey]]]]];
+            
+            description.text = [NSString stringWithFormat:@"%@ has joined Presentice!",
+                                [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
+            return cell;
+        } else {
+            NSString *simpleTableIdentifier = @"answerListIdentifier";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+            }
+            return cell;
         }
-        return cell;
     }
 }
 
@@ -270,7 +321,7 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         VideoViewController *destViewController = segue.destinationViewController;
         
-        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        PFObject *object = [self.objects objectAtIndex:indexPath.section];
         PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
         
         destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
@@ -281,7 +332,7 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         VideoViewController *destViewController = segue.destinationViewController;
         
-        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        PFObject *object = [self.objects objectAtIndex:indexPath.section];
         PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
         
         destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
@@ -292,7 +343,7 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         QuestionDetailViewController *destViewController = segue.destinationViewController;
         
-        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        PFObject *object = [self.objects objectAtIndex:indexPath.section];
         PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
         
         destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
@@ -303,7 +354,7 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         UserProfileViewController *destViewController = segue.destinationViewController;
         
-        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        PFObject *object = [self.objects objectAtIndex:indexPath.section];
         PFUser *userObj = [object objectForKey:kActivityFromUserKey];
         
         NSLog(@"answer video object: %@", userObj);
