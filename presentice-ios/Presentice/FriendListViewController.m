@@ -85,10 +85,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-}
-
 - (PFQuery *)queryForTable {
 //    PFQuery *questionListQuery = [PFQuery queryWithClassName:self.parseClassName];
     PFQuery *friendListQuery = [PFUser query];

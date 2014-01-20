@@ -22,6 +22,8 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)showLeftMenu:(id)sender;
-- (IBAction)showRightMenu:(id)sender;
+- (IBAction)addQuestion:(id)sender;
+
+//@property (strong, nonatomic) IBOutlet UIBarButtonItem *addQuestion;
 
 @end

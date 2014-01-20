@@ -97,9 +97,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-}
 
 - (PFQuery *)queryForTable {
     PFQuery *messageListQuery = [PFQuery queryWithClassName:self.parseClassName];
@@ -118,20 +115,6 @@
 }
 
 #pragma table methods
-/**
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [messageList count];
-}
-
- - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
- static NSString *fileListIdentifier = @"messageListIdentifier";
- UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:fileListIdentifier];
- 
- cell.textLabel.text = [object objectForKey:@"content"];
- return cell;
- }
-**/
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *cellIdentifier = @"messageListIdentifier";

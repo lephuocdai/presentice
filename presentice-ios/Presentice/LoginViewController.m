@@ -14,48 +14,20 @@
 
 @implementation LoginViewController
 
-//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-//    if (self) {
-//        // Custom initialization
-//    }
-//    return self;
-//}
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     //if user already login, redirect to MainViewController
-	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]){
-        //get main storyboard
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-        
-//        //create side menu
-        MainViewController *mainViewController = [storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-        UINavigationController *mainNavigationController = [[UINavigationController alloc]initWithRootViewController:mainViewController];
-        
-        QuestionListViewController *questionListViewController = [storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
-        UINavigationController *questionListNavigationController = [[UINavigationController alloc]initWithRootViewController:questionListViewController];
-        
-        MyListViewController *myListViewController = [storyboard instantiateViewControllerWithIdentifier:@"myListViewController"];
-        UINavigationController *myListNavigationController = [[UINavigationController alloc]initWithRootViewController:myListViewController];
-        
-        NotificationListViewController *notificationListViewController = [storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
-        UINavigationController *notificationListNavigationController = [[UINavigationController alloc]initWithRootViewController:notificationListViewController];
-        
-        UITabBarController *tabBarController = [[UITabBarController alloc] init];
-        [tabBarController setViewControllers:[NSArray arrayWithObjects:mainNavigationController, questionListNavigationController, myListNavigationController, notificationListNavigationController, nil]];
-    
-        LeftSideMenuViewController *leftSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
-        RightSideMenuViewController *rightSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
-        
-        MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
-                                                        containerWithCenterViewController:tabBarController
-                                                        leftMenuViewController:leftSideMenuController
-                                                        rightMenuViewController:rightSideMenuController];
-        
-        [self.navigationController presentViewController:container animated:NO completion:nil];
-    }
+	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]])
+        [self navigateToHomeScreen];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -113,16 +85,8 @@
     NSString *password = self.tbPassword.text;
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error) {
         if(!error){
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
             
-            UINavigationController *centerViewController = [storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
-            
-            UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
-            UIViewController *rightSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
-            
-            MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController containerWithCenterViewController:centerViewController
-                                                                                                         leftMenuViewController:leftSideMenuViewController rightMenuViewController:rightSideMenuViewController];
-            [self.navigationController presentViewController:container animated:YES completion:nil];
+            [self navigateToHomeScreen];
             
             // subscribe user default channel for notification.
             PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -179,19 +143,9 @@
                         if (!error && [objects count] != 0) {
                             //redirect using storyboard
                             //if user already login, redirect to MainViewController
-                            if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]){
-                                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-                                
-                                UINavigationController *centerViewController = [storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
-                                
-                                UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
-                                UIViewController *rightSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
-                                
-                                MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController containerWithCenterViewController:centerViewController
-                                                                                                                             leftMenuViewController:leftSideMenuViewController rightMenuViewController:rightSideMenuViewController];
-                                [self.navigationController presentViewController:container animated:YES completion:nil];
-                            }
-                            
+                            if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]])
+                                [self navigateToHomeScreen];
+
                         } else {
                             //redirecto to register screen using storyboard
                             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
@@ -206,7 +160,7 @@
                         
                         NSLog(@"currentInstallation: %@", currentInstallation);
                         
-                        //dismiss hub
+                        // dismiss hub
                         [MBProgressHUD hideHUDForView:self.view animated:YES];
                     }];
                     
@@ -236,4 +190,40 @@
     //show navigator
 
 }
+
+/**
+* Set side menu navigation
+**/
+
+- (void)navigateToHomeScreen {
+    //get main storyboard
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    
+    //create side menu
+    MainViewController *mainViewController = [storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+    UINavigationController *mainNavigationController = [[UINavigationController alloc]initWithRootViewController:mainViewController];
+    
+    QuestionListViewController *questionListViewController = [storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
+    UINavigationController *questionListNavigationController = [[UINavigationController alloc]initWithRootViewController:questionListViewController];
+    
+    MyListViewController *myListViewController = [storyboard instantiateViewControllerWithIdentifier:@"myListViewController"];
+    UINavigationController *myListNavigationController = [[UINavigationController alloc]initWithRootViewController:myListViewController];
+    
+    NotificationListViewController *notificationListViewController = [storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
+    UINavigationController *notificationListNavigationController = [[UINavigationController alloc]initWithRootViewController:notificationListViewController];
+    
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    [tabBarController setViewControllers:[NSArray arrayWithObjects:mainNavigationController, questionListNavigationController, myListNavigationController, notificationListNavigationController, nil]];
+    
+    LeftSideMenuViewController *leftSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
+    RightSideMenuViewController *rightSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
+    
+    MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
+                                                    containerWithCenterViewController:tabBarController
+                                                    leftMenuViewController:leftSideMenuController
+                                                    rightMenuViewController:rightSideMenuController];
+    
+    [self.navigationController presentViewController:container animated:NO completion:nil];
+}
+
 @end

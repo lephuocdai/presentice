@@ -77,10 +77,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-}
-
 - (PFQuery *)queryForTable {
     PFQuery *questionListQuery = [PFQuery queryWithClassName:self.parseClassName];
     [questionListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
@@ -184,7 +180,21 @@
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
 
-- (IBAction)showRightMenu:(id)sender {
-    [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
+//- (IBAction)showRightMenu:(id)sender {
+//    [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
+//}
+
+- (IBAction)addQuestion:(id)sender {
+    BOOL canPostQuestion = (BOOL)[[PFUser currentUser] objectForKey:kUserCanPostQuestion];
+    if (canPostQuestion) {
+        UIAlertView *postAlert = [[UIAlertView alloc] initWithTitle:@"Post new challenge!" message:@"Do you want to add more challenges to the list?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
+        postAlert.tag = 0;
+        [postAlert show];
+    } else {
+        UIAlertView *suggestAlert = [[UIAlertView alloc] initWithTitle:@"Suggest new challenge!" message:@"Suggest a challenge and we will consider making it" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
+        suggestAlert.tag = 1;
+        [suggestAlert show];
+    }
 }
+
 @end

@@ -203,10 +203,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-}
-
 - (PFQuery *)queryForTable {
     PFQuery *answerListQuery = [PFQuery queryWithClassName:self.parseClassName];
     [answerListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier

@@ -46,6 +46,7 @@
 #define kUserFacebookIdKey @"facebookId"
 #define kUserProfileKey @"profile"
 #define kUserPushPermission @"pushPermission"
+#define kUserCanPostQuestion @"canPostQuestion"
 
 #pragma Table Video
 #define kVideoClassKey @"Video"
@@ -72,14 +73,6 @@
 #define kActivityTargetVideoKey @"targetVideo"  // Pointer to the video that this activity was taken on
 
 #define kActivityTypeFollow @"follow"   //type = follow
-
-//#pragma Table Review
-//#define kReviewClassKey @"Review"
-//#define kReviewFromUserKey @"fromUser"
-//#define kReviewToUserKey @"toUser"
-//#define kReviewTargetVideoKey @"targetVideo"
-//#define kReviewContentKey @"content"
-//#define kReviewCommentKey @"comment"
 
 #pragma Table Message
 #define kMessageClassKey @"Message"
