@@ -88,7 +88,7 @@
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-
+    NSLog(@"AppDelegate didFailToRegisterForRemoteNotificationsWithError: %@", error);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

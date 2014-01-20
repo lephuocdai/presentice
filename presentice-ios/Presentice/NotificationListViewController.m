@@ -38,6 +38,12 @@
         // The number of objects to show per page
         self.objectsPerPage = 5;
     }
+    
+    if ([PFInstallation currentInstallation]) {
+        if ([PFInstallation currentInstallation].badge > 0) {
+            [self.tabBarItem setBadgeValue:[NSString stringWithFormat:@"%ld",(long)[PFInstallation currentInstallation].badge]];
+        }
+    }
     return self;
 }
 
