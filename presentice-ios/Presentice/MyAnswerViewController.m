@@ -255,6 +255,8 @@
                                  [NSURL URLWithString:
                                   [Constants facebookProfilePictureofUser:
                                    [object objectForKey:kReviewFromUserKey]]]]];
+    userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
+    userProfilePicture.layer.masksToBounds = YES;
     
     userName.text = [[object objectForKey:kReviewFromUserKey] objectForKey:kUserDisplayNameKey];
     

@@ -104,43 +104,73 @@
 - (PFQuery *)queryForTable {
     PFQuery *messageListQuery = [PFQuery queryWithClassName:self.parseClassName];
     [messageListQuery includeKey:kMessageUsersKey];
+    [messageListQuery includeKey:kMessageFromUserKey];
+    [messageListQuery includeKey:kMessageToUserKey];
     [messageListQuery whereKey:kMessageUsersKey containsAllObjectsInArray:@[[PFUser currentUser]]];
-//    PFQuery *questionListQuery = [PFUser query];
-    // Now we don't have any algorithm about showing user list. Just show all users
-    /**
-     [questionListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
-     [questionListQuery whereKey:kVideoTypeKey equalTo:@"question"];
-     **/
+    
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
     if ([self.objects count] == 0) {
         messageListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
-    [messageListQuery orderByAscending:kUpdatedAtKey];
+    [messageListQuery orderByDescending:kUpdatedAtKey];
     return messageListQuery;
 }
 
 #pragma table methods
 /**
- * delegage method
- * number of rows of table
- */
-/**
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [messageList count];
 }
+
+ - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+ static NSString *fileListIdentifier = @"messageListIdentifier";
+ UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:fileListIdentifier];
+ 
+ cell.textLabel.text = [object objectForKey:@"content"];
+ return cell;
+ }
 **/
-/**
- * delegate method
- * build table view
- */
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
-    static NSString *fileListIdentifier = @"messageListIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:fileListIdentifier];
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    static NSString *cellIdentifier = @"messageListIdentifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
     
-    cell.textLabel.text = [object objectForKey:@"content"];
+    UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
+    UILabel *userName = (UILabel *)[cell viewWithTag:101];
+    UILabel *description = (UILabel *)[cell viewWithTag:102];
+    
+    //asyn to get profile picture
+    NSMutableArray *users = [[object objectForKey:kMessageUsersKey] mutableCopy];
+    NSLog(@"users count before = %d", [users count]);
+    
+    NSUInteger currentUserIndex = [self indexOfObjectwithKey:[[PFUser currentUser] objectId] inArray:users];
+    NSLog(@"currentUserIndex = %lu", (unsigned long)currentUserIndex);
+    
+    [users removeObjectAtIndex:currentUserIndex];
+    
+    NSLog(@"users count after = %d", [users count]);
+    PFUser *toUser = [users lastObject];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[Constants facebookProfilePictureofUser:toUser]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            userProfilePicture.image = [UIImage imageWithData:profileImageData];
+            userProfilePicture.highlightedImage = [UIImage imageWithData:profileImageData];
+            userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
+            userProfilePicture.layer.masksToBounds = YES;
+        });
+    });
+    userName.text = [toUser objectForKey:kUserDisplayNameKey];
+    description.text = [[[object objectForKey:kMessageContentKey] lastObject] objectForKey:@"text"];
+    
+//    cell.textLabel.text = [[[object objectForKey:kMessageContentKey] lastObject] objectForKey:@"text"];
     return cell;
 }
+
 
 - (void) objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];

@@ -184,6 +184,8 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             userProfilePicture.image = [UIImage imageWithData:profileImageData];
             userProfilePicture.highlightedImage = [UIImage imageWithData:profileImageData];
+            userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
+            userProfilePicture.layer.masksToBounds = YES;
         });
     });
     

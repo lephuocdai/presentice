@@ -114,13 +114,16 @@
     }
     
     // Configure the cell
-//    UILabel *userName = (UILabel *)[cell viewWithTag:100];
-//    UILabel *email = (UILabel *)[cell viewWithTag:101];
-//
-//    userName.text = [object objectForKey:kUserDisplayNameKey];
-//    email.text = [object objectForKey:kUserEmailKey];
-    cell.textLabel.text = [object objectForKey:kUserDisplayNameKey];
-    
+    UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
+    UILabel *userName = (UILabel *)[cell viewWithTag:101];
+    userProfilePicture.image = [UIImage imageWithData:
+                                [NSData dataWithContentsOfURL:
+                                 [NSURL URLWithString:
+                                  [Constants facebookProfilePictureofUser:(PFUser*)object]]]];
+    userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
+    userProfilePicture.layer.masksToBounds = YES;
+    userName.text = [object objectForKey:kUserDisplayNameKey];
+
     return cell;
 }
 

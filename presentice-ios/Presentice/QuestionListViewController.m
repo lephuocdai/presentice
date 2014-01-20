@@ -120,6 +120,8 @@
                                  [NSURL URLWithString:
                                   [Constants facebookProfilePictureofUser:
                                    [object objectForKey:kVideoUserKey]]]]];
+    userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
+    userProfilePicture.layer.masksToBounds = YES;
     return cell;
 }
 

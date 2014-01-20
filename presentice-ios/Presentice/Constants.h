@@ -85,6 +85,8 @@
 #define kMessageClassKey @"Message"
 #define kMessageUsersKey @"users"
 #define kMessageFromUserKey @"fromUser"
+#define kMessageToUserKey @"toUser"
+#define kMessageContentKey @"content"
 
 
 #define REVIEW_MAX_VALUE 5

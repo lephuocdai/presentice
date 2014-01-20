@@ -171,13 +171,13 @@
         return 70;
     } else {
         if ([[[self.objects objectAtIndex:indexPath.section] objectForKey:kActivityTypeKey] isEqualToString:@"answer"] ) {
-            return 90;
+            return 70;
         } else if ([[[self.objects objectAtIndex:indexPath.section] objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
-            return 120;
+            return 110;
         } else if ([[[self.objects objectAtIndex:indexPath.section] objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
-            return 120;
+            return 110;
         } else if ([[[self.objects objectAtIndex:indexPath.section] objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
-            return 72;
+            return 50;
         } else {
             return 120;
         }
@@ -215,6 +215,8 @@
                 NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[Constants facebookProfilePictureofUser:[object objectForKey:kActivityFromUserKey]]]];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     userProfilePicture.image = [UIImage imageWithData:profileImageData];
+                    userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
+                    userProfilePicture.layer.masksToBounds = YES;
                 });
             });
             
@@ -243,7 +245,8 @@
                                          [NSURL URLWithString:
                                           [Constants facebookProfilePictureofUser:
                                            [object objectForKey:kActivityFromUserKey]]]]];
-            
+            userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
+            userProfilePicture.layer.masksToBounds = YES;
             description.text = [NSString stringWithFormat:@"%@ has reviewed %@'s%@!",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                                 [[object objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey],
@@ -272,7 +275,8 @@
                                          [NSURL URLWithString:
                                           [Constants facebookProfilePictureofUser:
                                            [object objectForKey:kActivityFromUserKey]]]]];
-            
+            userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
+            userProfilePicture.layer.masksToBounds = YES;
             description.text = [NSString stringWithFormat:@"%@ has posted a new question %@!",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                                 [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
@@ -297,7 +301,8 @@
                                          [NSURL URLWithString:
                                           [Constants facebookProfilePictureofUser:
                                            [object objectForKey:kActivityFromUserKey]]]]];
-            
+            userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
+            userProfilePicture.layer.masksToBounds = YES;
             description.text = [NSString stringWithFormat:@"%@ has joined Presentice!",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
             return cell;
