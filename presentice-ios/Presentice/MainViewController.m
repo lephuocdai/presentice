@@ -366,7 +366,7 @@
         
         destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
         NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :videoObj]);
-        NSLog(@"answer video object: %@", videoObj);
+        NSLog(@"question video object: %@", videoObj);
         destViewController.questionVideoObj = videoObj;
     } else if ([segue.identifier isEqualToString:@"showUserFromRegisterDescription"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
@@ -375,7 +375,7 @@
         PFObject *object = [self.objects objectAtIndex:indexPath.section];
         PFUser *userObj = [object objectForKey:kActivityFromUserKey];
         
-        NSLog(@"answer video object: %@", userObj);
+        NSLog(@"user object: %@", userObj);
         destViewController.userObj = userObj;
     }
 }
