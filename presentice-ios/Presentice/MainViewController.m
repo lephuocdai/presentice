@@ -69,11 +69,6 @@
 
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    // Hid all HUD after all objects appered
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -335,6 +330,8 @@
 
 - (void) objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

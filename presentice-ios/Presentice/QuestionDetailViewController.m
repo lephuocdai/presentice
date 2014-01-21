@@ -69,6 +69,71 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
+    // Set up movieController
+    self.movieController = [[MPMoviePlayerController alloc] init];
+    [self.movieController setContentURL:self.movieURL];
+    [self.movieController.view setFrame:CGRectMake(0, 0, 320, 380)];
+    [self.videoView addSubview:self.movieController.view];
+    
+    // Using the Movie Player Notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.movieController];
+    self.movieController.controlStyle =  MPMovieControlStyleEmbedded;
+    self.movieController.shouldAutoplay = YES;
+    self.movieController.repeatMode = NO;
+    [self.movieController prepareToPlay];
+    [self.movieController play];
+    
+    // If currentUser is not the video's owner
+    if (![[[PFUser currentUser] objectId] isEqualToString:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId]]) {
+        // Send a notification to the device with channel contain questionVideo's userId
+        NSLog(@"viewd push = %@", [[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"]);
+        if ([[[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"] isEqualToString:@"yes"]) {
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+            [params setObject:[self.questionVideoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
+            [params setObject:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
+            [params setObject:@"viewed" forKey:@"pushType"];
+            [PFCloud callFunction:@"sendPushNotification" withParameters:params];
+        }
+        
+        PFQuery *activityQuery = [PFQuery queryWithClassName:kActivityClassKey];
+        [activityQuery whereKey:kActivityTypeKey equalTo:@"view"];
+        [activityQuery whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
+        [activityQuery whereKey:kActivityToUserKey equalTo:[self.questionVideoObj objectForKey:kVideoUserKey]];
+        [activityQuery whereKey:kActivityTargetVideoKey equalTo:self.questionVideoObj];
+        [activityQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!error) {
+                // Found activity record, so just overwrote it
+                NSMutableDictionary *views = [[NSMutableDictionary alloc]initWithDictionary:[object objectForKey:kActivityContentKey]];
+                [views setObject:@{@"date": [NSDate date]} forKey:[NSString stringWithFormat:@"%d", [[views allKeys] count]]];
+                [object setObject:views forKey:kActivityContentKey];
+                [object saveInBackground];
+            } else {
+                // No activity record, so create a new activity
+                PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
+                [activity setObject:@"view" forKey:kActivityTypeKey];
+                [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+                [activity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
+                [activity setObject:self.questionVideoObj forKey:kActivityTargetVideoKey];
+                [activity setObject:@{@"0":@{@"date": [NSDate date]}} forKey:kActivityContentKey];
+                [activity saveInBackground];
+            }
+        }];
+        
+        
+        // Increment views: need to be revised
+        int viewsNum = [[self.questionVideoObj objectForKey:kVideoViewsKey] intValue];
+        [self.questionVideoObj setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
+        PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
+        [query getObjectInBackgroundWithId:[self.questionVideoObj objectId] block:^(PFObject *object, NSError *error) {
+            [object setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
+            [object saveInBackground];
+        }];
+        [self.questionVideoObj saveInBackground];
+    }
+    
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
     // Initiate S3 bucket access
     if(self.tm == nil){
         if(![ACCESS_KEY_ID isEqualToString:@"CHANGE ME"]){
@@ -114,79 +179,21 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     
-    // Set up movieController
-    self.movieController = [[MPMoviePlayerController alloc] init];
-    [self.movieController setContentURL:self.movieURL];
-    [self.movieController.view setFrame:CGRectMake(0, 0, 320, 380)];
-    [self.videoView addSubview:self.movieController.view];
-    
-    // Using the Movie Player Notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.movieController];
-    self.movieController.controlStyle =  MPMovieControlStyleEmbedded;
-    self.movieController.shouldAutoplay = YES;
-    self.movieController.repeatMode = NO;
-    [self.movieController prepareToPlay];
-    [self.movieController play];
-    
-    // If currentUser is not the video's owner
-    if (![[[PFUser currentUser] objectId] isEqualToString:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId]]) {
-        // Send a notification to the device with channel contain questionVideo's userId
-        NSLog(@"viewd push = %@", [[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"]);
-        if ([[[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"] isEqualToString:@"yes"]) {
-            NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-            [params setObject:[self.questionVideoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
-            [params setObject:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
-            [params setObject:@"viewed" forKey:@"pushType"];
-            [PFCloud callFunction:@"sendPushNotification" withParameters:params];
-        }
-        
-        // Register view activity in to Acitivity Table
-//        PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
-//        [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
-//        [activity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
-//        [activity setObject:@"view" forKey:kActivityTypeKey];
-//        [activity setObject:self.questionVideoObj forKey:kActivityTargetVideoKey];
-//        [activity saveInBackground];
-        PFQuery *activityQuery = [PFQuery queryWithClassName:kActivityClassKey];
-        [activityQuery whereKey:kActivityTypeKey equalTo:@"view"];
-        [activityQuery whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
-        [activityQuery whereKey:kActivityToUserKey equalTo:[self.questionVideoObj objectForKey:kVideoUserKey]];
-        [activityQuery whereKey:kActivityTargetVideoKey equalTo:self.questionVideoObj];
-        [activityQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            if (!error) {
-                // Found activity record, so just overwrote it
-                NSMutableDictionary *views = [[NSMutableDictionary alloc]initWithDictionary:[object objectForKey:kActivityContentKey]];
-                [views setObject:@{@"date": [NSDate date]} forKey:[NSString stringWithFormat:@"%d", [[views allKeys] count]]];
-                [object setObject:views forKey:kActivityContentKey];
-                [object saveInBackground];
-            } else {
-                // No activity record, so create a new activity
-                PFObject *activity = [PFObject objectWithClassName:kActivityClassKey];
-                [activity setObject:@"view" forKey:kActivityTypeKey];
-                [activity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
-                [activity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
-                [activity setObject:self.questionVideoObj forKey:kActivityTargetVideoKey];
-                [activity setObject:@{@"0":@{@"date": [NSDate date]}} forKey:kActivityContentKey];
-                [activity saveInBackground];
-            }
-        }];
-        
-        
-        // Increment views: need to be revised
-        int viewsNum = [[self.questionVideoObj objectForKey:kVideoViewsKey] intValue];
-        [self.questionVideoObj setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
-        PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
-        [query getObjectInBackgroundWithId:[self.questionVideoObj objectId] block:^(PFObject *object, NSError *error) {
-            [object setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
-            [object saveInBackground];
-        }];
-        [self.questionVideoObj saveInBackground];
-    }
-
-    // Hid all HUD after all objects appered
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
-
+-(void) viewWillDisappear:(BOOL)animated {
+    
+    //stop playing video
+    if([self.navigationController.viewControllers indexOfObject:self] == NSNotFound){
+        //Release any retained subviews of the main view.
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
+        
+        //release movie controller
+        [self.movieController stop];
+        [self.movieController.view removeFromSuperview];
+        self.movieController = nil;
+    }
+    [super viewWillDisappear:animated];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -196,13 +203,6 @@
     // Reload the recipes
     [self loadObjects];
 }
-
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
-}
-
 - (PFQuery *)queryForTable {
     PFQuery *answerListQuery = [PFQuery queryWithClassName:self.parseClassName];
     [answerListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
@@ -298,12 +298,6 @@
 - (void)moviePlayBackDidFinish:(NSNotification *)notification {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
 }
-- (void) viewWillDisappear:(BOOL)animated {
-    [self.movieController stop];
-    [self.movieController.view removeFromSuperview];
-    self.movieController = nil;
-}
-
 - (IBAction)takeAnswer:(id)sender {
     NSLog(@"push Take Answer");
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Answer this question!"
