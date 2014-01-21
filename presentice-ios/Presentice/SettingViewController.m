@@ -25,19 +25,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    // Set the menu's display
-    self.menuItems = [[NSMutableArray alloc] init];
-    [self setMenuItems];
-    
+    //load information in background
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Set the menu's display
+        self.menuItems = [[NSMutableArray alloc] init];
+        [self setMenuItems];
+        [self.tableView reloadData];
+        // Hid all HUD after all objects appered
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    });
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     // Hid all HUD after all objects appered
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    //[MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 
@@ -172,23 +176,4 @@
     [self.menuItems insertObject:pushPermission atIndex:4];    
     [self.tableView reloadData];
 }
-/**
-* get facebook profile picture after logged in
-*/
-//- (void) getFacebookProfilePicture{
-////    __block NSString *pictureURL = [[NSString alloc]init];
-//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"picture.type(large)",@"fields",nil];
-//    [FBRequestConnection startWithGraphPath:@"me"
-//                         parameters:params
-//                         HTTPMethod:@"GET"
-//                         completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-//                             if (!error) {
-//                                 profilePictureURL = [[[result objectForKey:@"picture"] objectForKey:@"data"] objectForKey:@"url"];
-//                                 NSLog(@"pictureURL before = %@", profilePictureURL);
-////                                 [[self.menuItems firstObject] setObject:profilePictureURL forKey:@"image"];
-//                                 [self.tableView reloadData];
-//                             }
-//                          }];
-//}
-
 @end

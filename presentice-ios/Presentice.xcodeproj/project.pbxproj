@@ -967,7 +967,7 @@
 				INFOPLIST_FILE = "Presentice/Presentice-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = Presentice;
-				PROVISIONING_PROFILE = "6FFF1F59-56DD-44CC-8D8F-3071BD105391";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -992,7 +992,7 @@
 				INFOPLIST_FILE = "Presentice/Presentice-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = Presentice;
-				PROVISIONING_PROFILE = "6FFF1F59-56DD-44CC-8D8F-3071BD105391";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
