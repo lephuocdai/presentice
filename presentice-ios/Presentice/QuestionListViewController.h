@@ -14,16 +14,25 @@
 #import <AWSRuntime/AWSRuntime.h>
 #import <AWSS3/AWSS3.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import <MediaPlayer/MediaPlayer.h>
+#import <MobileCoreServices/UTCoreTypes.h>
 
 #import "QuestionDetailViewController.h"
 
 
-@interface QuestionListViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface QuestionListViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate, UIImagePickerControllerDelegate>
 
+// For display question list
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)showLeftMenu:(id)sender;
-- (IBAction)addQuestion:(id)sender;
 
-//@property (strong, nonatomic) IBOutlet UIBarButtonItem *addQuestion;
+
+// For adding more question
+- (IBAction)addQuestion:(id)sender;
+@property (nonatomic, strong) S3TransferManager *tm;
+- (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
+- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
+@property (strong, nonatomic) NSString *questionVideoName;
+
 
 @end

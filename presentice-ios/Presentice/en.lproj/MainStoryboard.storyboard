@@ -1247,7 +1247,7 @@
                                 <action selector="showLeftMenu:" destination="pEw-m6-w8R" id="xfw-je-LEt"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="qQl-li-bdf">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="qQl-li-bdf">
                             <connections>
                                 <action selector="addQuestion:" destination="pEw-m6-w8R" id="6lj-mR-dey"/>
                             </connections>

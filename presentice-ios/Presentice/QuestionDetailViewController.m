@@ -507,10 +507,6 @@
         [answerActivity setObject:newVideo forKey:kActivityTargetVideoKey];
         [answerActivity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
         [answerActivity saveInBackground];
-        
-        
-        
-        
     }];
     
     // Increment answers
