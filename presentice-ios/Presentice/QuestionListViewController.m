@@ -172,13 +172,11 @@
 
     if ([segue.identifier isEqualToString:@"showQuestionDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-//        QuestionViewController *destViewController = segue.destinationViewController;
         QuestionDetailViewController *destViewController = segue.destinationViewController;
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
         NSLog(@"sent object = %@", object);
         destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
-//        destViewController.questionVideoId = [object objectId];
         destViewController.questionVideoObj = object;
     }
 }
@@ -224,7 +222,8 @@
 
 - (IBAction)addQuestion:(id)sender {
     BOOL canPostQuestion = (BOOL)[[PFUser currentUser] objectForKey:kUserCanPostQuestion];
-    if (canPostQuestion) {
+    NSLog(@"canPostQuestion = %@", [[PFUser currentUser] objectForKey:kUserCanPostQuestion]);
+    if (canPostQuestion == 1) {
         UIAlertView *postAlert = [[UIAlertView alloc] initWithTitle:@"Post a new challenge"
                                                         message:@"You can add new challenge by the following options."
                                                        delegate:self
@@ -235,8 +234,10 @@
         [[postAlert textFieldAtIndex:0] setPlaceholder:@"Title of the challenge"];
         [postAlert show];
     } else {
-        UIAlertView *suggestAlert = [[UIAlertView alloc] initWithTitle:@"Suggest new challenge!" message:@"Suggest a challenge and we will consider making it" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
+        UIAlertView *suggestAlert = [[UIAlertView alloc] initWithTitle:@"Suggest new challenge!" message:@"Suggest a challenge and we will consider making it" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Post", nil];
         suggestAlert.tag = 1;
+        [suggestAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        [[suggestAlert textFieldAtIndex:0] setPlaceholder:@"Details"];
         [suggestAlert show];
     }
 }
@@ -258,6 +259,33 @@
         } else if (buttonIndex == 2) {  // Record from camera
             NSLog(@"Record from Camera");
             [self startCameraControllerFromViewController:self usingDelegate:self];
+        }
+    } else if (alertView.tag == 1) {
+        PFObject *newSuggest = [PFObject objectWithClassName:kActivityClassKey];
+        [newSuggest setObject:@"suggestQuestion" forKey:kActivityTypeKey];
+        [newSuggest setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+        [newSuggest setObject:[alertView textFieldAtIndex:0].text forKey:kActivityDescriptionKey];
+        [newSuggest saveInBackground];
+        
+    } else if (alertView.tag == 2) {
+        NSLog(@"clickedButton");
+        NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+        if ([title isEqualToString:@"YES"]) {
+            NSLog(@"Wait to upload to server!");
+            
+            self.pathForFileFromLibrary = recordedVideoPath;
+            // Format date to string
+            
+            NSDate *date = [NSDate date];
+            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+            [dateFormat setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
+            NSString *stringFromDate = [dateFormat stringFromDate:date];
+            
+            uploadFilename = [NSString stringWithFormat:@"%@_%@_question_%@.mov",[[PFUser currentUser] objectId],[[PFUser currentUser] objectForKey:kUserNameKey], stringFromDate];
+            
+            if(self.uploadFromLibrary == nil || (self.uploadFromLibrary.isFinished && !self.uploadFromLibrary.isPaused)){
+                self.uploadFromLibrary = [self.tm uploadFile:self.pathForFileFromLibrary bucket: [Constants transferManagerBucket] key: uploadFilename];
+            }
         }
     }
 }
@@ -345,7 +373,7 @@
                                                        delegate:self
                                               cancelButtonTitle:@"NO"
                                               otherButtonTitles:@"YES", nil];
-        alert.tag = 1;      // Set alert tag is important in case of existence of many alerts
+        alert.tag = 2;      // Set alert tag is important in case of existence of many alerts
         [alert show];
     }
 }
@@ -358,12 +386,10 @@
 
 -(void)request:(AmazonServiceRequest *)request didSendData:(long long) bytesWritten totalBytesWritten:(long long)totalBytesWritten totalBytesExpectedToWrite:(long long)totalBytesExpectedToWrite {
     double percent = ((double)totalBytesWritten/(double)totalBytesExpectedToWrite)*100;
-//    self.putObjectTextField.text = [NSString stringWithFormat:@"%.2f%%", percent];
     NSLog(@"totalBytesWritten = %.2f%%", percent);
 }
 
 -(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response {
-//    self.putObjectTextField.text = @"Done";
     
     NSLog(@"upload file url: %@", response);
     
@@ -392,7 +418,7 @@
         
         // Register postQuestionActivity in to Activity Table
         PFObject *postQuestionActivity = [PFObject objectWithClassName:kActivityClassKey];
-        [postQuestionActivity setObject:@"postQuestioin" forKey:kActivityTypeKey];
+        [postQuestionActivity setObject:@"postQuestion" forKey:kActivityTypeKey];
         [postQuestionActivity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
         [postQuestionActivity setObject:newVideo forKey:kActivityTargetVideoKey];
         [postQuestionActivity saveInBackground];
