@@ -56,7 +56,24 @@
     PFACL *defaultACL = [PFACL ACL];
     // Optionally enable public read access while disabling public write access.
     [defaultACL setPublicReadAccess:YES];
+    [defaultACL setPublicWriteAccess:YES];
     [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+    
+//    // Make a new role for administrators
+//    PFACL *roleACL = [PFACL ACL];
+//    [roleACL setPublicReadAccess:YES];
+//    PFRole *role = [PFRole roleWithName:@"Administrator" acl:defaultACL];
+//    [role.users addObject:[PFUser currentUser]];
+//    [role saveInBackground];
+    
+//    // Add to role
+//    PFQuery *queryRole = [PFRole query];
+//    [queryRole whereKey:@"name" equalTo:@"Administrator"];
+//    [queryRole getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+//        PFRole *role = (PFRole *)object;
+//        [role.users addObject:[PFUser currentUser]];
+//        [role saveInBackground];
+//    }];
     
     return YES;
 }
