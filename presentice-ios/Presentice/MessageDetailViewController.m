@@ -215,7 +215,14 @@
         [messageObj setObject:users forKey:kMessageUsersKey];
         [messageObj setObject:[PFUser currentUser] forKey:kMessageFromUserKey];
         [messageObj setObject:self.toUser forKey:kMessageToUserKey];
-
+        
+        // Set ACL for messageObj
+        PFACL *messageACL = [PFACL ACL];
+        [messageACL setReadAccess:YES forUser:[PFUser currentUser]];
+        [messageACL setReadAccess:YES forUser:self.toUser];
+        [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
+        [messageACL setWriteAccess:YES forUser:self.toUser];
+        messageObj.ACL = messageACL;
         
         // Show HUD view
         [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
