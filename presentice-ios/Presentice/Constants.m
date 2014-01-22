@@ -32,9 +32,9 @@
     return [[[contents filteredArrayUsingPredicate:filter] firstObject] objectForKey:@"content"];
 }
 
-+ (NSString*)facebookProfilePictureofUser:(PFUser*)user{
-    NSString* userFBID = [user objectForKey:kUserFacebookIdKey];
-    return [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=square", userFBID];
-}
+//+ (NSString*)facebookProfilePictureofUser:(PFUser*)user{
+//    NSString* userFBID = [user objectForKey:kUserFacebookIdKey];
+//    return [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=square", userFBID];
+//}
 
 @end

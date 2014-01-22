@@ -11,6 +11,9 @@
 #import <Parse/Parse.h>
 #import "MBProgressHUD.h"
 #import "Constants.h"
+#import "PresenticeUtitily.h"
+
+
 #import "PushPermissionViewController.h"
 
 @interface SettingViewController : UITableViewController <PushPermissionViewDataDelegate>

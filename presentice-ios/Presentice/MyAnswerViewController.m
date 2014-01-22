@@ -164,7 +164,7 @@
     userProfilePicture.image = [UIImage imageWithData:
                                 [NSData dataWithContentsOfURL:
                                  [NSURL URLWithString:
-                                  [Constants facebookProfilePictureofUser:
+                                  [PresenticeUtitily facebookProfilePictureofUser:
                                    [object objectForKey:kActivityFromUserKey]]]]];
     
     userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;

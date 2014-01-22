@@ -66,37 +66,75 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    static NSString *simpleTableIdentifier = @"info";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
-    
-    // Configure the cell
-    UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:100];
-    if ([[[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"] lowercaseString] hasPrefix:@"http://"]) {
-        thumbnailImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]]]];
+    if (indexPath.row == 0) {
+        NSString *simpleTableIdentifier = @"facebook";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        }
+        
+        // Configure the cell
+        UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:100];
+        if ([[[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"] lowercaseString] hasPrefix:@"http://"]) {
+            thumbnailImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]]]];
+        } else {
+            thumbnailImageView.image = [UIImage imageNamed:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]];
+        }
+        thumbnailImageView.highlightedImage = thumbnailImageView.image;
+        
+        UILabel *info = (UILabel *)[cell viewWithTag:101];
+        NSLog(@"%@",[self.menuItems objectAtIndex:indexPath.row]);
+        if([[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"] != nil) {
+            info.text = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"];
+            [info setTextAlignment:NSTextAlignmentLeft];
+            info.lineBreakMode = NSLineBreakByWordWrapping;
+            [info setNumberOfLines:0];
+            [info sizeToFit];
+        }
+        return cell;
+        
+    } else if (indexPath.row == 1) {
+        NSString *simpleTableIdentifier = @"changePassword";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        }
+        return cell;
+        
     } else {
-        thumbnailImageView.image = [UIImage imageNamed:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]];
+        NSString *simpleTableIdentifier = @"otherInfo";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        }
+        
+        UILabel *type = (UILabel *)[cell viewWithTag:300];
+        UILabel *content = (UILabel *)[cell viewWithTag:301];
+        
+        if([[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"] != nil) {
+            type.text = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"type"];
+            content.text = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"];
+            [content setTextAlignment:NSTextAlignmentLeft];
+            content.lineBreakMode = NSLineBreakByWordWrapping;
+            [content setNumberOfLines:0];
+            [content sizeToFit];
+        }
+        return cell;
     }
-    
-    UILabel *info = (UILabel *)[cell viewWithTag:101];
-    NSLog(@"%@",[self.menuItems objectAtIndex:indexPath.row]);
-    if([[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"] != nil) {
-        info.text = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"];
-        [info setTextAlignment:NSTextAlignmentLeft];
-        info.lineBreakMode = NSLineBreakByWordWrapping;
-        [info setNumberOfLines:0];
-        [info sizeToFit];
-    }
-    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"type = %@", [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"type"]);
-    if ([[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"type"] isEqual:@"pushPermission"] ) {
+    
+    NSString *cellType = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"type"];
+    NSLog(@"cellType = %@", cellType);
+    if ([cellType isEqualToString:@"username"]) {
+        [self.navigationController pushViewController:[PresenticeUtitily facebookPageOfUser:[PFUser currentUser]] animated:YES];
+    } else if ([cellType isEqualToString:@"changePassword"]) {
+        // Do nothing here
+    } else if ([cellType isEqual:@"pushPermission"] ) {
         NSLog(@"get in side");
         PushPermissionViewController *destViewController = [[PushPermissionViewController alloc] initWithStyle:UITableViewStyleGrouped];
         if ([destViewController isKindOfClass:[PushPermissionViewController class]]) {
@@ -110,6 +148,13 @@
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"toLoginView"]) {
         [PFUser logOut];
+    } else if ([segue.identifier isEqualToString:@"changePassword"]){
+        [PFUser requestPasswordResetForEmailInBackground:[PFUser currentUser].email];
+        NSString *alertMessage = [NSString stringWithFormat:@"An email from our provider Parse has been sent to you. Please check you email: %@", [PFUser currentUser].email];
+        UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:@"Confirmation email sent" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        passwordResetAlert.tag = 0;
+        [passwordResetAlert show];
+        [PFUser logOut];
     }
 }
 
@@ -119,8 +164,14 @@
         NSMutableDictionary *username = [[NSMutableDictionary alloc] init];
         [username setObject:@"username" forKey:@"type"];
         [username setObject:[[PFUser currentUser] objectForKey:kUserDisplayNameKey] forKey:@"info"];
-        [username setObject:[Constants facebookProfilePictureofUser:[PFUser currentUser]] forKey:@"image"];
+        [username setObject:[PresenticeUtitily facebookProfilePictureofUser:[PFUser currentUser]] forKey:@"image"];
         [self.menuItems addObject:username];
+     
+        
+        NSMutableDictionary *changePassword = [[NSMutableDictionary alloc] init];
+        [changePassword setObject:@"changePassword" forKey:@"type"];
+        [changePassword setObject:@"Change Password" forKey:@"info"];
+        [self.menuItems addObject:changePassword];
     }
     
     if([[PFUser currentUser] objectForKey:kUserEmailKey]){
@@ -179,4 +230,5 @@
     [self.menuItems insertObject:pushPermission atIndex:4];    
     [self.tableView reloadData];
 }
+
 @end

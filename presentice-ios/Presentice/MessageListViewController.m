@@ -139,7 +139,7 @@
     NSLog(@"users count after = %d", [users count]);
     PFUser *toUser = [users lastObject];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[Constants facebookProfilePictureofUser:toUser]]];
+        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:toUser]]];
         dispatch_async(dispatch_get_main_queue(), ^{
             userProfilePicture.image = [UIImage imageWithData:profileImageData];
             userProfilePicture.highlightedImage = [UIImage imageWithData:profileImageData];

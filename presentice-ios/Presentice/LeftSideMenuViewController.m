@@ -80,7 +80,7 @@
         UIImage *image = [UIImage imageWithData:
                           [NSData dataWithContentsOfURL:
                            [NSURL URLWithString:
-                            [Constants facebookProfilePictureofUser:
+                            [PresenticeUtitily facebookProfilePictureofUser:
                              [PFUser currentUser]]]]];
         if (image != nil) {
             UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];

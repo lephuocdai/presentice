@@ -215,7 +215,7 @@
             
             //asyn to get profile picture
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[Constants facebookProfilePictureofUser:[object objectForKey:kActivityFromUserKey]]]];
+                NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:[object objectForKey:kActivityFromUserKey]]]];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     userProfilePicture.image = [UIImage imageWithData:profileImageData];
                     userProfilePicture.highlightedImage = userProfilePicture.image;
@@ -247,7 +247,7 @@
             userProfilePicture.image = [UIImage imageWithData:
                                         [NSData dataWithContentsOfURL:
                                          [NSURL URLWithString:
-                                          [Constants facebookProfilePictureofUser:
+                                          [PresenticeUtitily facebookProfilePictureofUser:
                                            [object objectForKey:kActivityFromUserKey]]]]];
             userProfilePicture.highlightedImage = userProfilePicture.image;
             userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
@@ -278,7 +278,7 @@
             userProfilePicture.image = [UIImage imageWithData:
                                         [NSData dataWithContentsOfURL:
                                          [NSURL URLWithString:
-                                          [Constants facebookProfilePictureofUser:
+                                          [PresenticeUtitily facebookProfilePictureofUser:
                                            [object objectForKey:kActivityFromUserKey]]]]];
             userProfilePicture.highlightedImage = userProfilePicture.image;
             userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
@@ -305,7 +305,7 @@
             userProfilePicture.image = [UIImage imageWithData:
                                         [NSData dataWithContentsOfURL:
                                          [NSURL URLWithString:
-                                          [Constants facebookProfilePictureofUser:
+                                          [PresenticeUtitily facebookProfilePictureofUser:
                                            [object objectForKey:kActivityFromUserKey]]]]];
             userProfilePicture.highlightedImage = userProfilePicture.image;
             userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;

@@ -23,4 +23,10 @@
 // Query all users that a user is following
 + (PFQuery *)followingFriendsOfUser:(PFUser*)aUser;
 
+
+
+// Show facebook
++ (NSString*)facebookProfilePictureofUser:(PFUser*)user;
++ (UIViewController *)facebookPageOfUser:(PFUser*)aUser;
+
 @end

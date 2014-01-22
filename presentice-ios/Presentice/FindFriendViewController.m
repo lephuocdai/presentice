@@ -122,7 +122,7 @@ typedef enum {
     
     //asyn to get profile picture
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[Constants facebookProfilePictureofUser:(PFUser*)object]]];
+        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:(PFUser*)object]]];
         dispatch_async(dispatch_get_main_queue(), ^{
             cell.profilePicture.image = [UIImage imageWithData:profileImageData];
         });

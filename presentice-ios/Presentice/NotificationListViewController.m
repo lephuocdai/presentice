@@ -191,7 +191,7 @@
     
     //asyn to get profile picture
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[Constants facebookProfilePictureofUser:[object objectForKey:kActivityFromUserKey]]]];
+        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:[object objectForKey:kActivityFromUserKey]]]];
         dispatch_async(dispatch_get_main_queue(), ^{
             userProfilePicture.image = [UIImage imageWithData:profileImageData];
             userProfilePicture.highlightedImage = [UIImage imageWithData:profileImageData];

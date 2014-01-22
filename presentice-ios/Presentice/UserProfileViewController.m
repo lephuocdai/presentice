@@ -121,7 +121,7 @@
         NSMutableDictionary *username = [[NSMutableDictionary alloc] init];
         [username setObject:@"username" forKey:@"type"];
         [username setObject:[self.userObj objectForKey:kUserDisplayNameKey] forKey:@"info"];
-        [username setObject:[Constants facebookProfilePictureofUser:self.userObj] forKey:@"image"];
+        [username setObject:[PresenticeUtitily facebookProfilePictureofUser:self.userObj] forKey:@"image"];
         [self.menuItems addObject:username];
     }
     
@@ -185,7 +185,6 @@
     [self.followBtn setTitle:@"Unfollow" forState:UIControlStateNormal];
     [self.followBtn addTarget:self action:@selector(doUnfollowAction:)forControlEvents:UIControlEventTouchDown];
 }
-
 
 - (IBAction)sendMessage:(id)sender {
     UIAlertView *sendMessageAlert = [[UIAlertView alloc] initWithTitle:@"Send Private Message" message:@"Send to this user a private message" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];

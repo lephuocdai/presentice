@@ -41,7 +41,7 @@
     profileView.image = [UIImage imageWithData:
                          [NSData dataWithContentsOfURL:
                           [NSURL URLWithString:
-                           [Constants facebookProfilePictureofUser:
+                           [PresenticeUtitily facebookProfilePictureofUser:
                             [self.reviewObject objectForKey:kActivityFromUserKey]]]]];
     profileView.layer.cornerRadius = profileView.frame.size.width / 2;
     profileView.layer.masksToBounds = YES;

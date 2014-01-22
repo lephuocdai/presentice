@@ -95,6 +95,6 @@
 
 + (NSString *)getConstantbyClass:(NSString *)className forType:(NSString *)typeName withName:(NSString *)name;
 
-+ (NSString*)facebookProfilePictureofUser:(PFUser*)user;
+//+ (NSString*)facebookProfilePictureofUser:(PFUser*)user;
 
 @end

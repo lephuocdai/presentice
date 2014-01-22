@@ -88,6 +88,7 @@
     }];
 }
 
+
 + (PFQuery*)followingFriendsOfUser:(PFUser *)aUser {
     PFQuery *followingFriendQuery = [PFQuery queryWithClassName:kActivityClassKey];
     [followingFriendQuery whereKey:kActivityTypeKey equalTo:kActivityTypeFollow];
@@ -96,6 +97,23 @@
     followingFriendQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     followingFriendQuery.limit = 1000;
     return followingFriendQuery;
+}
+
++ (NSString*)facebookProfilePictureofUser:(PFUser*)user{
+    NSString* userFBID = [user objectForKey:kUserFacebookIdKey];
+    return [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=square", userFBID];
+}
+
++ (UIViewController *)facebookPageOfUser:(PFUser*)aUser {
+    UIViewController *webViewController = [[UIViewController alloc] init];
+    
+    UIWebView *uiWebView = [[UIWebView alloc] initWithFrame: CGRectMake(0,0,320,480)];
+    NSURL *facebooURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.facebook.com/%@/", [aUser objectForKey:kUserFacebookIdKey]]];
+    [uiWebView loadRequest:[NSURLRequest requestWithURL:facebooURL]];
+    
+    [webViewController.view addSubview:uiWebView];
+    
+    return webViewController;
 }
 
 @end
