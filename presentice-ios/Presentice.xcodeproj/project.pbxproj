@@ -52,6 +52,8 @@
 		F0628D70188F533400E9C7A3 /* ico_newsfeed.png in Resources */ = {isa = PBXBuildFile; fileRef = F0628D6C188F533400E9C7A3 /* ico_newsfeed.png */; };
 		F0628D71188F533400E9C7A3 /* ico_notification.png in Resources */ = {isa = PBXBuildFile; fileRef = F0628D6D188F533400E9C7A3 /* ico_notification.png */; };
 		F0628D73188F605200E9C7A3 /* add_friends_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F0628D72188F605200E9C7A3 /* add_friends_icon.png */; };
+		F0628D7A188FBCE700E9C7A3 /* UITabBarController+hidable.m in Sources */ = {isa = PBXBuildFile; fileRef = F0628D79188FBCE700E9C7A3 /* UITabBarController+hidable.m */; };
+		F0628D7D188FC82200E9C7A3 /* HideTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0628D7C188FC82200E9C7A3 /* HideTabBarViewController.m */; };
 		F06E4BF418864EA100FB9333 /* ReviewDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F06E4BF318864EA100FB9333 /* ReviewDetailViewController.m */; };
 		F06E4BF71886DC9D00FB9333 /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F06E4BF61886DC9D00FB9333 /* UserProfileViewController.m */; };
 		F0718CB0185ABF23009014A0 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0718CAF185ABF23009014A0 /* SWRevealViewController.m */; };
@@ -179,6 +181,10 @@
 		F0628D6C188F533400E9C7A3 /* ico_newsfeed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ico_newsfeed.png; sourceTree = "<group>"; };
 		F0628D6D188F533400E9C7A3 /* ico_notification.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ico_notification.png; sourceTree = "<group>"; };
 		F0628D72188F605200E9C7A3 /* add_friends_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_friends_icon.png; sourceTree = "<group>"; };
+		F0628D78188FBCE700E9C7A3 /* UITabBarController+hidable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+hidable.h"; sourceTree = "<group>"; };
+		F0628D79188FBCE700E9C7A3 /* UITabBarController+hidable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+hidable.m"; sourceTree = "<group>"; };
+		F0628D7B188FC82200E9C7A3 /* HideTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HideTabBarViewController.h; sourceTree = "<group>"; };
+		F0628D7C188FC82200E9C7A3 /* HideTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HideTabBarViewController.m; sourceTree = "<group>"; };
 		F06E4BF218864EA100FB9333 /* ReviewDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewDetailViewController.h; sourceTree = "<group>"; };
 		F06E4BF318864EA100FB9333 /* ReviewDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewDetailViewController.m; sourceTree = "<group>"; };
 		F06E4BF51886DC9D00FB9333 /* UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfileViewController.h; sourceTree = "<group>"; };
@@ -390,9 +396,10 @@
 		F03486CB187EEB60001BE459 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F0628D7F188FCE0900E9C7A3 /* MessageFooter */,
+				F0628D7E188FCDF000E9C7A3 /* FindFriendCell */,
+				F0628D74188FB8EF00E9C7A3 /* HideTabBar */,
 				F0AE3F8A188CD0CF00B0E83E /* UILabel+Boldify */,
-				F03486C2187E8C69001BE459 /* MessageFooterView.h */,
-				F03486C3187E8C69001BE459 /* MessageFooterView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -430,6 +437,35 @@
 				F0628D6D188F533400E9C7A3 /* ico_notification.png */,
 			);
 			path = homeMenu;
+			sourceTree = "<group>";
+		};
+		F0628D74188FB8EF00E9C7A3 /* HideTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				F0628D78188FBCE700E9C7A3 /* UITabBarController+hidable.h */,
+				F0628D79188FBCE700E9C7A3 /* UITabBarController+hidable.m */,
+				F0628D7B188FC82200E9C7A3 /* HideTabBarViewController.h */,
+				F0628D7C188FC82200E9C7A3 /* HideTabBarViewController.m */,
+			);
+			name = HideTabBar;
+			sourceTree = "<group>";
+		};
+		F0628D7E188FCDF000E9C7A3 /* FindFriendCell */ = {
+			isa = PBXGroup;
+			children = (
+				A72AB051188A876E00C12A74 /* FindFriendCell.h */,
+				A72AB052188A876E00C12A74 /* FindFriendCell.m */,
+			);
+			name = FindFriendCell;
+			sourceTree = "<group>";
+		};
+		F0628D7F188FCE0900E9C7A3 /* MessageFooter */ = {
+			isa = PBXGroup;
+			children = (
+				F03486C2187E8C69001BE459 /* MessageFooterView.h */,
+				F03486C3187E8C69001BE459 /* MessageFooterView.m */,
+			);
+			name = MessageFooter;
 			sourceTree = "<group>";
 		};
 		F0718CBF185ACE8B009014A0 /* Share */ = {
@@ -523,8 +559,6 @@
 				F06E4BF318864EA100FB9333 /* ReviewDetailViewController.m */,
 				A72AB04E188A82F600C12A74 /* FindFriendViewController.h */,
 				A72AB04F188A82F600C12A74 /* FindFriendViewController.m */,
-				A72AB051188A876E00C12A74 /* FindFriendCell.h */,
-				A72AB052188A876E00C12A74 /* FindFriendCell.m */,
 			);
 			name = NewsFeed;
 			sourceTree = "<group>";
@@ -821,6 +855,7 @@
 				F00006A6186BA98C00E69027 /* MessageListViewController.m in Sources */,
 				A78E9D5C185DA16B00ACCC54 /* TTTTimeIntervalFormatter.m in Sources */,
 				F00006A9186BA9AC00E69027 /* MessageDetailViewController.m in Sources */,
+				F0628D7A188FBCE700E9C7A3 /* UITabBarController+hidable.m in Sources */,
 				F0A5A74A1871D9DF004E24A3 /* QuestionListViewController.m in Sources */,
 				A73D5A1418653BF700087F27 /* LoginViewController.m in Sources */,
 				F4EECF1E177C99F400778578 /* main.m in Sources */,
@@ -852,6 +887,7 @@
 				F03486C7187E8D80001BE459 /* PresenticeUtitily.m in Sources */,
 				A72AB053188A876E00C12A74 /* FindFriendCell.m in Sources */,
 				A7E995A51867D197009E48CA /* RegisterViewController.m in Sources */,
+				F0628D7D188FC82200E9C7A3 /* HideTabBarViewController.m in Sources */,
 				F4EECF6E177FD51400778578 /* ShareViewController.m in Sources */,
 				F0DDAB84187BD460002BDC67 /* VideoViewController.m in Sources */,
 				F03486CF1880166D001BE459 /* PushPermissionViewController.m in Sources */,

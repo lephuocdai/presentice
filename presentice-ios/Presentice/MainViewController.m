@@ -16,8 +16,6 @@
     AmazonS3Client *s3Client;
 }
 
-
-
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
     if (self) {
@@ -36,7 +34,7 @@
         self.paginationEnabled = YES;
         
         // The number of objects to show per page
-        self.objectsPerPage = 5;
+        self.objectsPerPage = 10;
     }
     return self;
 }
@@ -84,6 +82,9 @@
     // Release any retained subviews of the main view.
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
 }
+
+
+#pragma query table objects
 
 - (PFQuery *)queryForTable {
     

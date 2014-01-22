@@ -15,13 +15,15 @@
 #import <AWSS3/AWSS3.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
+
+#import "UILabel+Boldify.h"
+#import "HideTabBarViewController.h"
+
 #import "VideoViewController.h"
 #import "QuestionDetailViewController.h"
 #import "UserProfileViewController.h"
 
-#import "UILabel+Boldify.h"
-
-@interface NotificationListViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface NotificationListViewController : HideTabBarViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)showLeftMenu:(id)sender;

@@ -36,7 +36,10 @@
         self.paginationEnabled = YES;
         
         // The number of objects to show per page
-        self.objectsPerPage = 5;
+        self.objectsPerPage = 10;
+        
+//#pragma hide tab bar
+//        hidden = NO;
     }
     
     if ([PFInstallation currentInstallation].badge > 0) {
@@ -46,13 +49,13 @@
     return self;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+//    if (self) {
+//        // Custom initialization
+//    }
+//    return self;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -65,26 +68,21 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
+    // Reset badge
+    if ([self.tabBarItem badgeValue]) {
+        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+        if (currentInstallation.badge != 0) {
+            currentInstallation.badge = 0;
+            [currentInstallation saveEventually];
+        }
+        [self.tabBarItem setBadgeValue:nil];
+    }
+    
     // Set refreshTable notification
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refreshTable:)
                                                  name:@"refreshTable"
                                                object:nil];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    
-    if ([self.tabBarItem badgeValue]) {
-        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-        if (currentInstallation.badge != 0) {
-               currentInstallation.badge = 0;
-               [currentInstallation saveEventually];
-        }
-        [self.tabBarItem setBadgeValue:nil];
-    }
-    
-    // Hid all HUD after all objects appered
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 /**
@@ -224,7 +222,8 @@
 
 - (void) objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
-    NSLog(@"error: %@", [error localizedDescription]);
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 /**

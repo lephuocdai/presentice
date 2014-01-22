@@ -214,6 +214,7 @@
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     [tabBarController setViewControllers:[NSArray arrayWithObjects:mainNavigationController, questionListNavigationController, myListNavigationController, notificationListNavigationController, nil]];
+//    [tabBarController setTabBarHidden:NO animated:YES];
     
     LeftSideMenuViewController *leftSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
     RightSideMenuViewController *rightSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
