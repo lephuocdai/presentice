@@ -88,11 +88,7 @@
 - (PFQuery *)queryForTable {
     
     // Query all followActivities where toUser is followed by the currentUser
-    PFQuery *followingFriendQuery = [PFQuery queryWithClassName:kActivityClassKey];
-    [followingFriendQuery whereKey:kActivityTypeKey equalTo:@"follow"];
-    [followingFriendQuery whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
-    followingFriendQuery.cachePolicy = kPFCachePolicyNetworkOnly;
-    followingFriendQuery.limit = 1000;
+    PFQuery *followingFriendQuery = [PresenticeUtitily followingFriendsOfUser:[PFUser currentUser]];
     
     // Query all the activities where fromUser is followingFriend
     PFQuery *followingFromUserQuery = [PFQuery queryWithClassName:self.parseClassName];

@@ -86,9 +86,16 @@
             [activity deleteEventually];
         }
     }];
-//    for (PFUser *user in users) {
-//        [[PAPCache sharedCache] setFollowStatus:NO user:user];
-//    }
+}
+
++ (PFQuery*)followingFriendsOfUser:(PFUser *)aUser {
+    PFQuery *followingFriendQuery = [PFQuery queryWithClassName:kActivityClassKey];
+    [followingFriendQuery whereKey:kActivityTypeKey equalTo:kActivityTypeFollow];
+    [followingFriendQuery whereKey:kActivityFromUserKey equalTo:aUser];
+    [followingFriendQuery includeKey:kActivityToUserKey];
+    followingFriendQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    followingFriendQuery.limit = 1000;
+    return followingFriendQuery;
 }
 
 @end

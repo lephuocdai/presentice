@@ -18,4 +18,9 @@
 + (void)followUsersEventually:(NSArray *)users block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 + (void)unfollowUserEventually:(PFUser *)user;
 + (void)unfollowUsersEventually:(NSArray *)users;
+
+
+// Query all users that a user is following
++ (PFQuery *)followingFriendsOfUser:(PFUser*)aUser;
+
 @end
