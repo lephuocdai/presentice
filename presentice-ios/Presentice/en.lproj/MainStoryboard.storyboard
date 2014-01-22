@@ -584,7 +584,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7IJ-Rt-MhR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-264" y="-2908"/>
+            <point key="canvasLocation" x="-285" y="-2908"/>
         </scene>
         <!--Right Side Menu View Controller - Contact List-->
         <scene sceneID="53L-Wn-AbA">
@@ -651,7 +651,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Onp-3i-QYe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-752" y="-2952"/>
+            <point key="canvasLocation" x="-772" y="-2908"/>
         </scene>
         <!--Register View Controller - Presentice-->
         <scene sceneID="gq6-6x-iUq">
@@ -1868,16 +1868,16 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ico_challenges.png" width="96" height="72"/>
+        <image name="ico_challenges.png" width="48" height="32"/>
         <image name="ico_head_friendsList.png" width="44" height="31"/>
         <image name="ico_head_globalmenu.png" width="44" height="31"/>
         <image name="ico_home.png" width="70" height="70"/>
         <image name="ico_home_on.png" width="70" height="70"/>
         <image name="ico_message.png" width="70" height="70"/>
         <image name="ico_message_on.png" width="70" height="70"/>
-        <image name="ico_mylibrary.png" width="96" height="72"/>
-        <image name="ico_newsfeed.png" width="96" height="72"/>
-        <image name="ico_notification.png" width="96" height="72"/>
+        <image name="ico_mylibrary.png" width="48" height="32"/>
+        <image name="ico_newsfeed.png" width="48" height="32"/>
+        <image name="ico_notification.png" width="48" height="32"/>
         <image name="ico_profile.png" width="70" height="70"/>
         <image name="ico_profile_on.png" width="70" height="70"/>
         <image name="ico_setting.png" width="70" height="70"/>
@@ -1898,10 +1898,10 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="V3E-HQ-x7v"/>
-        <segue reference="Dgk-9J-N99"/>
-        <segue reference="och-ue-P3p"/>
-        <segue reference="mBi-jE-RWx"/>
+        <segue reference="xiV-62-4g4"/>
         <segue reference="wqw-1d-BIa"/>
         <segue reference="6kH-cL-B2Y"/>
+        <segue reference="och-ue-P3p"/>
+        <segue reference="mBi-jE-RWx"/>
     </inferredMetricsTieBreakers>
 </document>
