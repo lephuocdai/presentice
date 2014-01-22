@@ -54,6 +54,7 @@
 		F0628D73188F605200E9C7A3 /* add_friends_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F0628D72188F605200E9C7A3 /* add_friends_icon.png */; };
 		F0628D7A188FBCE700E9C7A3 /* UITabBarController+hidable.m in Sources */ = {isa = PBXBuildFile; fileRef = F0628D79188FBCE700E9C7A3 /* UITabBarController+hidable.m */; };
 		F0628D7D188FC82200E9C7A3 /* HideTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0628D7C188FC82200E9C7A3 /* HideTabBarViewController.m */; };
+		F0628DA6188FF2E000E9C7A3 /* libQuickDialog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0628DA3188FF2BA00E9C7A3 /* libQuickDialog.a */; };
 		F06E4BF418864EA100FB9333 /* ReviewDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F06E4BF318864EA100FB9333 /* ReviewDetailViewController.m */; };
 		F06E4BF71886DC9D00FB9333 /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F06E4BF61886DC9D00FB9333 /* UserProfileViewController.m */; };
 		F0718CB0185ABF23009014A0 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0718CAF185ABF23009014A0 /* SWRevealViewController.m */; };
@@ -115,6 +116,30 @@
 		F4EECF72177FE9BA00778578 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF71177FE9BA00778578 /* MapKit.framework */; };
 		F4EECF75177FF90600778578 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EECF74177FF90600778578 /* SettingViewController.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F0628DA0188FF2BA00E9C7A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F0628D9B188FF2B900E9C7A3 /* QuickDialog.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D80B0E3313E052DF00FA85CA;
+			remoteInfo = QuickDialogExample;
+		};
+		F0628DA2188FF2BA00E9C7A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F0628D9B188FF2B900E9C7A3 /* QuickDialog.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2C542393145ADEBD0026A152;
+			remoteInfo = QuickDialog;
+		};
+		F0628DA4188FF2D800E9C7A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F0628D9B188FF2B900E9C7A3 /* QuickDialog.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C542392145ADEBD0026A152;
+			remoteInfo = QuickDialog;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		A72AB04B188A4D8100C12A74 /* Credentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Credentials.h; sourceTree = "<group>"; };
@@ -185,6 +210,7 @@
 		F0628D79188FBCE700E9C7A3 /* UITabBarController+hidable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+hidable.m"; sourceTree = "<group>"; };
 		F0628D7B188FC82200E9C7A3 /* HideTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HideTabBarViewController.h; sourceTree = "<group>"; };
 		F0628D7C188FC82200E9C7A3 /* HideTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HideTabBarViewController.m; sourceTree = "<group>"; };
+		F0628D9B188FF2B900E9C7A3 /* QuickDialog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QuickDialog.xcodeproj; path = QuickDialog/QuickDialog.xcodeproj; sourceTree = "<group>"; };
 		F06E4BF218864EA100FB9333 /* ReviewDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewDetailViewController.h; sourceTree = "<group>"; };
 		F06E4BF318864EA100FB9333 /* ReviewDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewDetailViewController.m; sourceTree = "<group>"; };
 		F06E4BF51886DC9D00FB9333 /* UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfileViewController.h; sourceTree = "<group>"; };
@@ -275,6 +301,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0628DA6188FF2E000E9C7A3 /* libQuickDialog.a in Frameworks */,
 				A78E9D4F185D9F2C00ACCC54 /* CFNetwork.framework in Frameworks */,
 				A78E9D4D185D9F2700ACCC54 /* SystemConfiguration.framework in Frameworks */,
 				F0718CCC185ACEF3009014A0 /* MobileCoreServices.framework in Frameworks */,
@@ -468,6 +495,15 @@
 			name = MessageFooter;
 			sourceTree = "<group>";
 		};
+		F0628D9C188FF2B900E9C7A3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F0628DA1188FF2BA00E9C7A3 /* QuickDialogExample.app */,
+				F0628DA3188FF2BA00E9C7A3 /* libQuickDialog.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		F0718CBF185ACE8B009014A0 /* Share */ = {
 			isa = PBXGroup;
 			children = (
@@ -646,6 +682,7 @@
 		F4EECF10177C99F400778578 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F0628D9B188FF2B900E9C7A3 /* QuickDialog.xcodeproj */,
 				F4EECF71177FE9BA00778578 /* MapKit.framework */,
 				F4EECF6F177FE9B400778578 /* CoreLocation.framework */,
 				A78E9D4E185D9F2C00ACCC54 /* CFNetwork.framework */,
@@ -757,6 +794,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				F0628DA5188FF2D800E9C7A3 /* PBXTargetDependency */,
 			);
 			name = Presentice;
 			productName = SidebarDemo;
@@ -792,12 +830,35 @@
 			mainGroup = F4EECF05177C99F400778578;
 			productRefGroup = F4EECF0F177C99F400778578 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F0628D9C188FF2B900E9C7A3 /* Products */;
+					ProjectRef = F0628D9B188FF2B900E9C7A3 /* QuickDialog.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				F4EECF0D177C99F400778578 /* Presentice */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F0628DA1188FF2BA00E9C7A3 /* QuickDialogExample.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = QuickDialogExample.app;
+			remoteRef = F0628DA0188FF2BA00E9C7A3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F0628DA3188FF2BA00E9C7A3 /* libQuickDialog.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libQuickDialog.a;
+			remoteRef = F0628DA2188FF2BA00E9C7A3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		F4EECF0C177C99F400778578 /* Resources */ = {
@@ -897,6 +958,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		F0628DA5188FF2D800E9C7A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = QuickDialog;
+			targetProxy = F0628DA4188FF2D800E9C7A3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		F4EECF1A177C99F400778578 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -990,7 +1059,7 @@
 		F4EECF32177C99F400778578 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1006,8 +1075,10 @@
 				);
 				INFOPLIST_FILE = "Presentice/Presentice-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Presentice;
 				PROVISIONING_PROFILE = "6FFF1F59-56DD-44CC-8D8F-3071BD105391";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/QuickDialog\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1015,7 +1086,7 @@
 		F4EECF33177C99F400778578 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1031,8 +1102,10 @@
 				);
 				INFOPLIST_FILE = "Presentice/Presentice-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Presentice;
 				PROVISIONING_PROFILE = "6FFF1F59-56DD-44CC-8D8F-3071BD105391";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/QuickDialog\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
