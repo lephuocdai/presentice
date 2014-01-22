@@ -10,6 +10,7 @@
 
 @interface QuestionDetailViewController ()
 
+#pragma upload answer video
 @property (nonatomic, strong) S3TransferOperation *uploadDidRecord;
 @property (nonatomic, strong) S3TransferOperation *uploadFromLibrary;
 @property (nonatomic, strong) NSString *pathForFileFromLibrary;
@@ -17,10 +18,13 @@
 @end
 
 @implementation QuestionDetailViewController {
+    
+#pragma upload answer video
     NSString *uploadFilename;
     bool isUploadFromLibrary;
     NSString *recordedVideoPath;
     AmazonS3Client *s3Client;
+    
 }
 
 @synthesize videoNameLabel;
@@ -49,6 +53,7 @@
     return self;
 }
 
+/**
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -56,6 +61,7 @@
     }
     return self;
 }
+**/
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -68,7 +74,9 @@
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+
     
+#pragma play movie
     // Set up movieController
     self.movieController = [[MPMoviePlayerController alloc] init];
     [self.movieController setContentURL:self.movieURL];
@@ -77,12 +85,59 @@
     
     // Using the Movie Player Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.movieController];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterFullScreen:) name:MPMoviePlayerWillEnterFullscreenNotification object:nil];
+    
     self.movieController.controlStyle =  MPMovieControlStyleEmbedded;
     self.movieController.shouldAutoplay = YES;
     self.movieController.repeatMode = NO;
     [self.movieController prepareToPlay];
     [self.movieController play];
+
     
+#pragma upload answer video
+    // Initiate S3 bucket access
+    if(self.tm == nil){
+        if(![ACCESS_KEY_ID isEqualToString:@"CHANGE ME"]){
+            
+            // Initialize the S3 Client.
+            AmazonS3Client *s3 = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
+            s3.endpoint = [AmazonEndpoints s3Endpoint:US_WEST_2];
+            
+            // Initialize the S3TransferManager
+            self.tm = [S3TransferManager new];
+            self.tm.s3 = s3;
+            self.tm.delegate = self;
+            
+            // Create the bucket
+            S3CreateBucketRequest *createBucketRequest = [[S3CreateBucketRequest alloc] initWithName:[Constants transferManagerBucket] andRegion: [S3Region USWest2]];
+            @try {
+                S3CreateBucketResponse *createBucketResponse = [s3 createBucket:createBucketRequest];
+                if(createBucketResponse.error != nil) {
+                    NSLog(@"Error: %@", createBucketResponse.error);
+                }
+            }@catch(AmazonServiceException *exception) {
+                if(![@"BucketAlreadyOwnedByYou" isEqualToString: exception.errorCode]) {
+                    NSLog(@"Unable to create bucket: %@ %@",exception.errorCode, exception.error);
+                }
+            }
+        }else {
+            UIAlertView *message = [[UIAlertView alloc] initWithTitle:CREDENTIALS_ERROR_TITLE
+                                                              message:CREDENTIALS_ERROR_MESSAGE
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+            [message show];
+        }
+    }
+    
+	// Set refreshTable notification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshTable:)
+                                                 name:@"refreshTable"
+                                               object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     // If currentUser is not the video's owner
     if (![[[PFUser currentUser] objectId] isEqualToString:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId]]) {
         // Send a notification to the device with channel contain questionVideo's userId
@@ -130,58 +185,15 @@
         }];
         [self.questionVideoObj saveInBackground];
     }
-    
-    // Hid all HUD after all objects appered
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    
-    // Initiate S3 bucket access
-    if(self.tm == nil){
-        if(![ACCESS_KEY_ID isEqualToString:@"CHANGE ME"]){
-            
-            // Initialize the S3 Client.
-            AmazonS3Client *s3 = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
-            s3.endpoint = [AmazonEndpoints s3Endpoint:US_WEST_2];
-            
-            // Initialize the S3TransferManager
-            self.tm = [S3TransferManager new];
-            self.tm.s3 = s3;
-            self.tm.delegate = self;
-            
-            // Create the bucket
-            S3CreateBucketRequest *createBucketRequest = [[S3CreateBucketRequest alloc] initWithName:[Constants transferManagerBucket] andRegion: [S3Region USWest2]];
-            @try {
-                S3CreateBucketResponse *createBucketResponse = [s3 createBucket:createBucketRequest];
-                if(createBucketResponse.error != nil) {
-                    NSLog(@"Error: %@", createBucketResponse.error);
-                }
-            }@catch(AmazonServiceException *exception) {
-                if(![@"BucketAlreadyOwnedByYou" isEqualToString: exception.errorCode]) {
-                    NSLog(@"Unable to create bucket: %@ %@",exception.errorCode, exception.error);
-                }
-            }
-            
-        }else {
-            UIAlertView *message = [[UIAlertView alloc] initWithTitle:CREDENTIALS_ERROR_TITLE
-                                                              message:CREDENTIALS_ERROR_MESSAGE
-                                                             delegate:nil
-                                                    cancelButtonTitle:@"OK"
-                                                    otherButtonTitles:nil];
-            [message show];
-        }
-    }
-    
-	// Set refreshTable notification
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(refreshTable:)
-                                                 name:@"refreshTable"
-                                               object:nil];
 }
 
+
 - (void)viewDidAppear:(BOOL)animated {
-    
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
+
 -(void) viewWillDisappear:(BOOL)animated {
-    
     //stop playing video
     if([self.navigationController.viewControllers indexOfObject:self] == NSNotFound){
         //Release any retained subviews of the main view.
@@ -194,6 +206,7 @@
     }
     [super viewWillDisappear:animated];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -218,6 +231,18 @@
     [answerListQuery orderByAscending:kUpdatedAtKey];
     return answerListQuery;
 }
+
+#pragma play movie
+
+- (void)moviePlayBackDidFinish:(NSNotification *)notification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+}
+
+- (void)willEnterFullScreen:(NSNotification *)notification {
+    NSLog(@"Enter full screen mode");
+}
+
+#pragma mark - Table view data source
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *simpleTableIdentifier = @"answerListIdentifier";
@@ -254,6 +279,12 @@
     NSLog(@"error: %@", [error localizedDescription]);
 }
 
+/**
+ * segue for table cell
+ * click to direct to video review
+ * pass video object
+ */
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {    
     if ([segue.identifier isEqualToString:@"showAnswerFromQuestion"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
@@ -266,6 +297,8 @@
         destViewController.answerVideoObj = object;
     }
 }
+
+#pragma upload answer video
 
 - (NSURL*)s3URL: (NSString*)bucketName :(PFObject*)object {
     // Init connection with S3Client
@@ -295,9 +328,6 @@
     }
 }
 
-- (void)moviePlayBackDidFinish:(NSNotification *)notification {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
-}
 - (IBAction)takeAnswer:(id)sender {
     NSLog(@"push Take Answer");
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Answer this question!"
@@ -316,29 +346,31 @@
         NSLog(@"clickedButton");
         NSLog(@"Text field 1: %@", [alertView textFieldAtIndex:0].text);
         self.answerVideoName = [alertView textFieldAtIndex:0].text;
-        if (buttonIndex == 1) {
-            NSLog(@"Upload from Library");
-            isUploadFromLibrary = true;
-            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-            picker.delegate = self;
-            picker.allowsEditing = YES;
-            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            picker.mediaTypes = [NSArray arrayWithObject:(NSString *)kUTTypeMovie];
-            
-            [self presentViewController:picker animated:YES completion:NULL];
-        } else if (buttonIndex == 2) {
-            NSLog(@"Record from Camera");
-            [self startCameraControllerFromViewController:self usingDelegate:self];
+        if (buttonIndex > 0) {
+            if (buttonIndex == 1) {
+                NSLog(@"Upload from Library");
+                isUploadFromLibrary = true;
+                UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                picker.delegate = self;
+                picker.allowsEditing = YES;
+                picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                picker.mediaTypes = [NSArray arrayWithObject:(NSString *)kUTTypeMovie];
+                
+                [self presentViewController:picker animated:YES completion:NULL];
+            } else if (buttonIndex == 2) {
+                NSLog(@"Record from Camera");
+                [self startCameraControllerFromViewController:self usingDelegate:self];
+            }
+            // Call another alert after this alert executed
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Seclect Visibility!"
+                                                            message:@"Decide who can view this video"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"open"
+                                                  otherButtonTitles:@"friendOnly", @"onlyMe", nil];
+            alert.tag = 2;  // Set alert tag is important in case of existence of many alerts
+            [alert show];
         }
-        
-        // Call another alert after this alert executed
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Seclect Visibility!"
-                                                        message:@"Decide who can view this video"
-                                                       delegate:self
-                                              cancelButtonTitle:@"open"
-                                              otherButtonTitles:@"friendOnly", @"onlyMe", nil];
-        alert.tag = 2;  // Set alert tag is important in case of existence of many alerts
-        [alert show];
+        NSLog(@"cancel, buttonIndex = %d", buttonIndex);
     } else if (alertView.tag == 1) {
         NSLog(@"clickedButton");
         NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
@@ -462,11 +494,13 @@
 
 -(void)request:(AmazonServiceRequest *)request didSendData:(long long) bytesWritten totalBytesWritten:(long long)totalBytesWritten totalBytesExpectedToWrite:(long long)totalBytesExpectedToWrite {
     double percent = ((double)totalBytesWritten/(double)totalBytesExpectedToWrite)*100;
-    self.putObjectTextField.text = [NSString stringWithFormat:@"%.2f%%", percent];
+//    self.putObjectTextField.text = [NSString stringWithFormat:@"%.2f%%", percent];
+    NSLog(@"percent = %.2f%%", percent);
 }
 
 -(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response {
-    self.putObjectTextField.text = @"Done";
+//    self.putObjectTextField.text = @"Done";
+    NSLog(@"Upload done!");
     
     NSLog(@"upload file url: %@", response);
     

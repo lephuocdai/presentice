@@ -28,11 +28,12 @@
 @property (copy, nonatomic)NSURL *movieURL;
 @property (strong, nonatomic) PFObject *questionVideoObj;
 @property (strong, nonatomic) IBOutlet UIView *videoView;
+#pragma play movie
 @property (strong, nonatomic)MPMoviePlayerController *movieController;
 
 // For taking answerVideo
 - (IBAction)takeAnswer:(id)sender;
-@property (weak, nonatomic) IBOutlet UITextField *putObjectTextField;
+//@property (weak, nonatomic) IBOutlet UITextField *putObjectTextField;
 @property (nonatomic, strong) S3TransferManager *tm;
 - (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;

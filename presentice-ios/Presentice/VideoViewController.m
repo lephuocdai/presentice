@@ -43,6 +43,7 @@
     return self;
 }
 
+/**
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
@@ -58,6 +59,7 @@
     }
     return self;
 }
+**/
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -72,18 +74,6 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    // Set refreshTable notification
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(refreshTable:)
-                                                 name:@"refreshTable"
-                                               object:nil];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    
     // Set up movieController
     self.movieController = [[MPMoviePlayerController alloc] init];
     [self.movieController setContentURL:self.movieURL];
@@ -93,13 +83,21 @@
     // Using the Movie Player Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.movieController];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterFullScreen:) name:MPMoviePlayerWillEnterFullscreenNotification object:nil];
-
+    
     self.movieController.controlStyle =  MPMovieControlStyleEmbedded;
     self.movieController.shouldAutoplay = YES;
     self.movieController.repeatMode = NO;
     [self.movieController prepareToPlay];
     [self.movieController play];
     
+    // Set refreshTable notification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshTable:)
+                                                 name:@"refreshTable"
+                                               object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     // If currentUser is not the video's owner
     if (![[[PFUser currentUser] objectId] isEqualToString:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId]]) {
         // Send a "viewed" notification
@@ -148,9 +146,25 @@
         [self.answerVideoObj saveInBackground];
         NSLog(@"after videoObj = %@", self.answerVideoObj);
     }
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    //stop playing video
+    if([self.navigationController.viewControllers indexOfObject:self] == NSNotFound){
+        //Release any retained subviews of the main view.
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
+        
+        //release movie controller
+        [self.movieController stop];
+        [self.movieController.view removeFromSuperview];
+        self.movieController = nil;
+    }
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -163,11 +177,13 @@
     [self loadObjects];
 }
 
+/**
 - (void)viewDidUnload {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
 }
+**/
 
 - (PFQuery *)queryForTable {
     PFQuery *reviewListQuery = [PFQuery queryWithClassName:self.parseClassName];
@@ -193,11 +209,7 @@
 - (void)willEnterFullScreen:(NSNotification *)notification {
     NSLog(@"Enter full screen mode");
 }
-- (void) viewWillDisappear:(BOOL)animated {
-//    [self.movieController stop];
-//    [self.movieController.view removeFromSuperview];
-//    self.movieController = nil;
-}
+
 
 #pragma mark - Table view data source
 
