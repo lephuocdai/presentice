@@ -18,6 +18,8 @@
 
 
 @interface RightSideMenuViewController : PFQueryTableViewController
+
 - (IBAction)doClickFindFriendsBtn:(id)sender;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+
 @end

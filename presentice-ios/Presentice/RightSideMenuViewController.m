@@ -23,10 +23,10 @@
         // Custom the table
         
         // The className to query on
-        self.parseClassName = kUserClassKey;
+        self.parseClassName = kActivityClassKey;
         
         // The key of the PFObject to display in the label of the default cell style
-        self.textKey = kUserDisplayNameKey;
+        self.textKey = kActivityTypeKey;
         
         // Whether the built-in pull-to-refresh is enabled
         self.pullToRefreshEnabled = YES;
@@ -89,14 +89,22 @@
 }
 
 - (PFQuery *)queryForTable {
-    PFQuery *friendListQuery = [PFUser query];
-    [friendListQuery whereKey:kObjectIdKey notEqualTo:[[PFUser currentUser] objectId]];
+    
+    // Query all followActivities where toUser is followed by the currentUser
+    PFQuery *followingFriendQuery = [PFQuery queryWithClassName:kActivityClassKey];
+    [followingFriendQuery whereKey:kActivityTypeKey equalTo:kActivityTypeFollow];
+    [followingFriendQuery whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
+    [followingFriendQuery includeKey:kActivityToUserKey];
+//    followingFriendQuery.cachePolicy = kPFCachePolicyNetworkOnly;
+    followingFriendQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    followingFriendQuery.limit = 100;
+    
+//    PFQuery *friendListQuery = [PFUser query];
+//    [friendListQuery whereKey:kObjectIdKey notEqualTo:[[PFUser currentUser] objectId]];
 
-    if ([self.objects count] == 0) {
-        friendListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    }
-    [friendListQuery orderByAscending:kUpdatedAtKey];
-    return friendListQuery;
+    
+    [followingFriendQuery orderByAscending:kUpdatedAtKey];
+    return followingFriendQuery;
 }
 
 // Override to customize the look of a cell representing an object. The default is to display
@@ -110,11 +118,21 @@
     }
     
     // Configure the cell
-    UILabel *userName = (UILabel *)[cell viewWithTag:100];
-    UILabel *email = (UILabel *)[cell viewWithTag:101];
+    UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
+    UILabel *userName = (UILabel *)[cell viewWithTag:101];
     
-    userName.text = [object objectForKey:kUserDisplayNameKey];
-    email.text = [object objectForKey:kUserEmailKey];
+    //asyn to get profile picture
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[Constants facebookProfilePictureofUser:[object objectForKey:kActivityToUserKey]]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            userProfilePicture.image = [UIImage imageWithData:profileImageData];
+            userProfilePicture.highlightedImage = userProfilePicture.image;
+            userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
+            userProfilePicture.layer.masksToBounds = YES;
+        });
+    });
+    
+    userName.text = [[object objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey];
     return cell;
 }
 
@@ -127,7 +145,7 @@
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     if (indexPath.row < [self.objects count] ) {
         UserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
-        userProfileViewController.userObj = [self.objects objectAtIndex:indexPath.row];
+        userProfileViewController.userObj = [[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityToUserKey];
         UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
         [self.menuContainerViewController setCenterViewController:centerViewController];
         NSArray *controllers = [NSArray arrayWithObject:userProfileViewController];
