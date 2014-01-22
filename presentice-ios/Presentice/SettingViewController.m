@@ -25,6 +25,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.title = [[PFUser currentUser] objectForKey:kUserDisplayNameKey];
+    
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     

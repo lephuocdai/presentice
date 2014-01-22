@@ -34,9 +34,8 @@
 @property (strong, nonatomic) PFObject *questionVideoObj;
 @property (strong, nonatomic)MPMoviePlayerController *movieController;
 
-//@property (strong, nonatomic) NSString *fileName;
-//@property (copy, nonatomic)NSURL *movieURL;
-//@property (strong, nonatomic)MPMoviePlayerController *movieController;
-//@property (strong, nonatomic) PFObject *videoObj;
+
+// For edit video information
+- (IBAction)editVideoInfo:(id)sender;
 
 @end

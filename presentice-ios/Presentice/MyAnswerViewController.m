@@ -242,4 +242,6 @@
 }
 **/
 
+- (IBAction)editVideoInfo:(id)sender {
+}
 @end

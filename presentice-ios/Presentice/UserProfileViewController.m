@@ -33,6 +33,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.title = [self.userObj objectForKey:kUserDisplayNameKey];
+    
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
@@ -105,8 +107,8 @@
     NSLog(@"%@",[self.menuItems objectAtIndex:indexPath.row]);
     if([[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"] != nil) {
         info.text = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"];
-        [info setTextAlignment:NSTextAlignmentLeft];
-        info.lineBreakMode = NSLineBreakByWordWrapping;
+//        [info setTextAlignment:NSTextAlignmentLeft];
+//        info.lineBreakMode = NSLineBreakByWordWrapping;
         [info setNumberOfLines:0];
         [info sizeToFit];
     }
@@ -149,11 +151,11 @@
     
 }
 
-//- (IBAction)showLeftMenuPressed:(id)sender {
-//    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
-//}
+- (IBAction)showLeftMenu:(id)sender {
+    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
+}
 
-- (IBAction)showRightMenuPressed:(id)sender {
+- (IBAction)showRightMenu:(id)sender {
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
 
@@ -182,6 +184,54 @@
 - (void)configureUnfollowButton {
     [self.followBtn setTitle:@"Unfollow" forState:UIControlStateNormal];
     [self.followBtn addTarget:self action:@selector(doUnfollowAction:)forControlEvents:UIControlEventTouchDown];
+}
+
+
+- (IBAction)sendMessage:(id)sender {
+    UIAlertView *sendMessageAlert = [[UIAlertView alloc] initWithTitle:@"Send Private Message" message:@"Send to this user a private message" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    sendMessageAlert.tag = 0;
+    [sendMessageAlert show];
+}
+
+- (IBAction)reportUser:(id)sender {
+    UIAlertView *reportUserAlert = [[UIAlertView alloc] initWithTitle:@"Report this User" message:@"Did you find this user suspicious" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    [reportUserAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    [[reportUserAlert textFieldAtIndex:0] setPlaceholder:@"Reason this person is suspicious"];
+    reportUserAlert.tag = 1;
+    [reportUserAlert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 0) {
+        NSLog(@"ask send message");
+        if (buttonIndex == 1) {
+            NSLog(@"switch to message detail");
+            MessageDetailViewController *messageDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageDetailViewController"];
+            messageDetailViewController.toUser = self.userObj;
+            [self.navigationController pushViewController:messageDetailViewController animated:YES];
+        }
+    } else if (alertView.tag == 1) {
+        NSLog(@"ask report user");
+        if (buttonIndex == 1) {
+            NSString *reportDescription = [alertView textFieldAtIndex:0].text;
+            PFObject *reportActivity = [PFObject objectWithClassName:kActivityClassKey];
+            [reportActivity setObject:@"reportUser" forKey:kActivityTypeKey];
+            [reportActivity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+            [reportActivity setObject:self.userObj forKey:kActivityToUserKey];
+            [reportActivity setObject:reportDescription forKey:kActivityDescriptionKey];
+            [reportActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (error) {
+                    UIAlertView *reportErrorAlert = [[UIAlertView alloc] initWithTitle:@"Report sending error" message:@"Something went wrong! Please try it agaiin" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    reportErrorAlert.tag = 2;
+                    [reportErrorAlert show];
+                } else {
+                    UIAlertView *reportSuccessAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Successfully sent report" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    reportSuccessAlert.tag = 2;
+                    [reportSuccessAlert show];
+                }
+            }];
+        }
+    }
 }
 
 @end
