@@ -44,6 +44,8 @@
 		F01ECFEB18850563000604C3 /* QuestionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F01ECFEA18850563000604C3 /* QuestionDetailViewController.m */; };
 		F027630B1890EE85001BEA6D /* requestResetPasswordForm.json in Resources */ = {isa = PBXBuildFile; fileRef = F027630A1890EE85001BEA6D /* requestResetPasswordForm.json */; };
 		F027630F1890F18A001BEA6D /* EmailInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F027630E1890F18A001BEA6D /* EmailInfo.m */; };
+		F02763111890F7DE001BEA6D /* registerForm.json in Resources */ = {isa = PBXBuildFile; fileRef = F02763101890F7DE001BEA6D /* registerForm.json */; };
+		F027631518910131001BEA6D /* RegisterInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F027631418910131001BEA6D /* RegisterInfo.m */; };
 		F03486BC187E337A001BE459 /* FriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486BB187E337A001BE459 /* FriendListViewController.m */; };
 		F03486C4187E8C69001BE459 /* MessageFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486C3187E8C69001BE459 /* MessageFooterView.m */; };
 		F03486C7187E8D80001BE459 /* PresenticeUtitily.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486C6187E8D80001BE459 /* PresenticeUtitily.m */; };
@@ -194,6 +196,9 @@
 		F027630A1890EE85001BEA6D /* requestResetPasswordForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = requestResetPasswordForm.json; sourceTree = "<group>"; };
 		F027630D1890F18A001BEA6D /* EmailInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailInfo.h; sourceTree = "<group>"; };
 		F027630E1890F18A001BEA6D /* EmailInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailInfo.m; sourceTree = "<group>"; };
+		F02763101890F7DE001BEA6D /* registerForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = registerForm.json; sourceTree = "<group>"; };
+		F027631318910131001BEA6D /* RegisterInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterInfo.h; sourceTree = "<group>"; };
+		F027631418910131001BEA6D /* RegisterInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterInfo.m; sourceTree = "<group>"; };
 		F03486BA187E337A001BE459 /* FriendListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListViewController.h; sourceTree = "<group>"; };
 		F03486BB187E337A001BE459 /* FriendListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListViewController.m; sourceTree = "<group>"; };
 		F03486C2187E8C69001BE459 /* MessageFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageFooterView.h; sourceTree = "<group>"; };
@@ -359,6 +364,7 @@
 		A73D5A1118653BD700087F27 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				F02763101890F7DE001BEA6D /* registerForm.json */,
 				F027630A1890EE85001BEA6D /* requestResetPasswordForm.json */,
 				F0732D2E1890C38D002F4990 /* loginform.json */,
 				F0628DAB188FF76E00E9C7A3 /* AboutController.h */,
@@ -443,9 +449,19 @@
 			name = EmailInfo;
 			sourceTree = "<group>";
 		};
+		F02763121891011B001BEA6D /* RegisterInfo */ = {
+			isa = PBXGroup;
+			children = (
+				F027631318910131001BEA6D /* RegisterInfo.h */,
+				F027631418910131001BEA6D /* RegisterInfo.m */,
+			);
+			name = RegisterInfo;
+			sourceTree = "<group>";
+		};
 		F03486CB187EEB60001BE459 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F02763121891011B001BEA6D /* RegisterInfo */,
 				F027630C1890F16D001BEA6D /* EmailInfo */,
 				F0628DA7188FF5AB00E9C7A3 /* LoginInfo */,
 				F0628D7F188FCE0900E9C7A3 /* MessageFooter */,
@@ -921,6 +937,7 @@
 				F0AE3F70188CCACD00B0E83E /* ico_message.png in Resources */,
 				F09789C71890CF6D00FAE718 /* logo@2x.png in Resources */,
 				F0AE3F7A188CCACD00B0E83E /* ico_setting_on.png in Resources */,
+				F02763111890F7DE001BEA6D /* registerForm.json in Resources */,
 				F09789C61890CF6D00FAE718 /* logo.png in Resources */,
 				F0628D6F188F533400E9C7A3 /* ico_mylibrary.png in Resources */,
 				F0628D70188F533400E9C7A3 /* ico_newsfeed.png in Resources */,
@@ -958,6 +975,7 @@
 				A78E9D5B185DA16B00ACCC54 /* Reachability.m in Sources */,
 				F0628DAD188FF76E00E9C7A3 /* AboutController.m in Sources */,
 				F0718CBD185ACE27009014A0 /* Constants.m in Sources */,
+				F027631518910131001BEA6D /* RegisterInfo.m in Sources */,
 				F0759ABD1881C6310077D387 /* MFSideMenuShadow.m in Sources */,
 				F03486C4187E8C69001BE459 /* MessageFooterView.m in Sources */,
 				A72C52C518700B1B00DE8BEC /* TakeReviewViewController.m in Sources */,

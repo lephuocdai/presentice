@@ -47,6 +47,9 @@
 #define kUserProfileKey @"profile"
 #define kUserPushPermission @"pushPermission"
 #define kUserCanPostQuestion @"canPostQuestion"
+#define kUserCanComment @"canComment"
+#define kUserMyCode @"myCode"
+#define kUserReceiveCode @"receiveCode"
 
 #pragma Table Video
 #define kVideoClassKey @"Video"

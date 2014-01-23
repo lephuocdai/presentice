@@ -50,7 +50,7 @@
         self.root = [[QRootElement alloc] initWithJSONFile:@"loginform"];
         
         self.root.appearance = [self.root.appearance copy];
-        self.root.appearance.tableGroupedBackgroundColor = [UIColor colorWithRed:40.0/255 green:40.0/255 blue:50.0/255 alpha:1];
+//        self.root.appearance.tableGroupedBackgroundColor = [UIColor colorWithRed:40.0/255 green:40.0/255 blue:50.0/255 alpha:1];
         
         ((QEntryElement *)[self.root elementWithKey:@"email"]).delegate = self;
         
@@ -58,17 +58,17 @@
         
         fieldsAppearance.backgroundColorEnabled = [UIColor colorWithRed:0 green:125.0/255 blue:225.0/255 alpha:1];
         
-        [self.root elementWithKey:@"email"].appearance = fieldsAppearance;
-        [self.root elementWithKey:@"password"].appearance = fieldsAppearance;
-        [self.root elementWithKey:@"loginButton"].appearance = fieldsAppearance;
+//        [self.root elementWithKey:@"email"].appearance = fieldsAppearance;
+//        [self.root elementWithKey:@"password"].appearance = fieldsAppearance;
+//        [self.root elementWithKey:@"loginButton"].appearance = fieldsAppearance;
         
         
         [self.root elementWithKey:@"facebookLoginButton"].appearance = self.root.appearance.copy;
         [self.root elementWithKey:@"facebookLoginButton"].appearance.backgroundColorEnabled = [UIColor colorWithRed:59.0/255 green:89.0/255 blue:182.0/255 alpha:1];
         
         
-        [self.root elementWithKey:@"resetPasswordRequestButton"].appearance = self.root.appearance.copy;
-        [self.root elementWithKey:@"resetPasswordRequestButton"].appearance.backgroundColorEnabled = [UIColor greenColor];
+//        [self.root elementWithKey:@"resetPasswordRequestButton"].appearance = self.root.appearance.copy;
+//        [self.root elementWithKey:@"resetPasswordRequestButton"].appearance.backgroundColorEnabled = [UIColor greenColor];
         
         //hide navigator if in login view
         if (self.isResetingPassword == false) {

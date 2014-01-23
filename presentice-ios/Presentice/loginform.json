@@ -3,7 +3,7 @@
 	"title": "Login",
     "controllerName": "LoginViewController",
 	"sections": [
-		{ "title":"Awesome Login Form", "headerImage":"logo", "elements": [
+		{ "title":"Login", "headerImage":"icon3", "elements": [
 				{ "type":"QEntryElement", "keyboardType":"EmailAddress", "title":"Email","placeholder":"Your registered email", "bind":"textValue:email", "key":"email"},
 				{  "type":"QEntryElement", "title":"Password", "placeholder":"Password",  "secureTextEntry":true, "bind":"textValue:password","key":"password" }
 			]
