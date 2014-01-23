@@ -14,8 +14,8 @@
                 { "type":"QEntryElement", "title":"Code","placeholder":"6-digit code", "bind":"textValue:code", "key":"code"}
             ]
         }, { "title":"Some information", "elements": [
-                { "type":"University", "title":"School","placeholder":"Your lastest school", "bind":"textValue:school", "key":"school"},
-                { "type":"Country", "title":"Country","placeholder":"Where are you from (including Japan)", "bind":"textValue:country", "key":"country"}
+                { "type":"QEntryElement", "title":"School","placeholder":"Your lastest school", "bind":"textValue:school", "key":"school"},
+                { "type":"QEntryElement", "title":"Country","placeholder":"Where are you from (including Japan)", "bind":"textValue:country", "key":"country"}
             ]
         }, { "elements":[
                 { "type":"QButtonElement", "key":"button", "title":"Register", "controllerAction":"onRegister:"}
