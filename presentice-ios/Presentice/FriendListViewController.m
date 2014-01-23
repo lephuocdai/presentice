@@ -21,10 +21,10 @@
         // Custom the table
         
         // The className to query on
-        self.parseClassName = kUserClassKey;
+        self.parseClassName = kActivityToUserKey;
         
         // The key of the PFObject to display in the label of the default cell style
-        self.textKey = kUserDisplayNameKey;
+        self.textKey = kActivityTypeKey;
         
         // Whether the built-in pull-to-refresh is enabled
         self.pullToRefreshEnabled = YES;
@@ -86,17 +86,11 @@
 }
 
 - (PFQuery *)queryForTable {
-//    PFQuery *questionListQuery = [PFQuery queryWithClassName:self.parseClassName];
-    PFQuery *friendListQuery = [PFUser query];
-    // Now we don't have any algorithm about showing user list. Just show all users execept currentUser
-    [friendListQuery whereKey:kObjectIdKey notEqualTo:[[PFUser currentUser] objectId]];
-    // If no objects are loaded in memory, we look to the cache first to fill the table
-    // and then subsequently do a query against the network.
-    if ([self.objects count] == 0) {
-        friendListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    }
-    [friendListQuery orderByAscending:kUpdatedAtKey];
-    return friendListQuery;
+    // Query all followActivities where toUser is followed by the currentUser
+    PFQuery *followingFriendQuery = [PresenticeUtitily followingFriendsOfUser:[PFUser currentUser]];
+    
+    [followingFriendQuery orderByAscending:kUpdatedAtKey];
+    return followingFriendQuery;
 }
 
 // Override to customize the look of a cell representing an object. The default is to display
@@ -109,16 +103,18 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
     
+    PFUser *user = [object objectForKey:kActivityToUserKey];
+    
     // Configure the cell
     UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
     UILabel *userName = (UILabel *)[cell viewWithTag:101];
     userProfilePicture.image = [UIImage imageWithData:
                                 [NSData dataWithContentsOfURL:
                                  [NSURL URLWithString:
-                                  [PresenticeUtitily facebookProfilePictureofUser:(PFUser*)object]]]];
+                                  [PresenticeUtitily facebookProfilePictureofUser:user]]]];
     userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
     userProfilePicture.layer.masksToBounds = YES;
-    userName.text = [object objectForKey:kUserDisplayNameKey];
+    userName.text = [user objectForKey:kUserDisplayNameKey];
 
     return cell;
 }
