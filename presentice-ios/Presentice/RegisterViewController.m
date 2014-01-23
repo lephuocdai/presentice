@@ -30,6 +30,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         self.root = [[QRootElement alloc] initWithJSONFile:@"registerForm"];
+        self.resizeWhenKeyboardPresented = YES;
     }
     return self;
 }
