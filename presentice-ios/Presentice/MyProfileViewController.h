@@ -1,9 +1,9 @@
 //
-//  PhotoViewController.h
-//  SidebarDemo
+//  MyProfileViewController.h
+//  Presentice
 //
-//  Created by Simon on 30/6/13.
-//  Copyright (c) 2013 Appcoda. All rights reserved.
+//  Created by レー フックダイ on 1/9/14.
+//  Copyright (c) 2014 Presentice. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -16,7 +16,7 @@
 
 #import "PushPermissionViewController.h"
 
-@interface SettingViewController : UITableViewController <PushPermissionViewDataDelegate>
+@interface MyProfileViewController : UITableViewController <PushPermissionViewDataDelegate>
 @property (strong, nonatomic) NSString *photoFilename;
 @property (nonatomic, strong) NSMutableArray *menuItems;
 - (IBAction)showLeftMenu:(id)sender;

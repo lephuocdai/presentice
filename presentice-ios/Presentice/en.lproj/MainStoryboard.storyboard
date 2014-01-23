@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
-        <!--Setting View Controller - My Account-->
+        <!--My Profile View Controller - My Account-->
         <scene sceneID="Fnp-89-UJE">
             <objects>
-                <tableViewController storyboardIdentifier="settingViewController" id="Kv7-ru-gm9" customClass="SettingViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="settingViewController" id="Kv7-ru-gm9" customClass="MyProfileViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" id="pEM-Nx-8tC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

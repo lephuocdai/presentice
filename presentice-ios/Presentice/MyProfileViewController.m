@@ -1,17 +1,17 @@
 //
-//  SettingViewController.m
+//  MyProfileViewController.m
 //  Presentice
 //
-//  Created by レー フックダイ on 12/31/13.
-//  Copyright (c) 2013 Presentice. All rights reserved.
+//  Created by レー フックダイ on 1/9/14.
+//  Copyright (c) 2014 Presentice. All rights reserved.
 //
 
-#import "SettingViewController.h"
+#import "MyProfileViewController.h"
 
-@interface SettingViewController ()
+@interface MyProfileViewController ()
 @end
 
-@implementation SettingViewController {
+@implementation MyProfileViewController {
 //    NSString *profilePictureURL;
 }
 

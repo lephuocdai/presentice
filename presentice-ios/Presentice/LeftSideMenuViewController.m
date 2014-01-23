@@ -100,10 +100,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         if(indexPath.row == 0) {
-            SettingViewController *settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];
+            MyProfileViewController *myProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];
             UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
             [self.menuContainerViewController setCenterViewController:centerViewController];
-            NSArray *controllers = [NSArray arrayWithObject:settingViewController];
+            NSArray *controllers = [NSArray arrayWithObject:myProfileViewController];
             centerViewController.viewControllers = controllers;
         } else if (indexPath.row == 1) {
             /**

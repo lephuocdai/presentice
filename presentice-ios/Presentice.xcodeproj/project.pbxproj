@@ -116,14 +116,13 @@
 		F4EECF1C177C99F400778578 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4EECF1A177C99F400778578 /* InfoPlist.strings */; };
 		F4EECF1E177C99F400778578 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EECF1D177C99F400778578 /* main.m */; };
 		F4EECF22177C99F400778578 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EECF21177C99F400778578 /* AppDelegate.m */; };
-		F4EECF4A177DF87700778578 /* SidebarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EECF49177DF87700778578 /* SidebarViewController.m */; };
 		F4EECF67177F4AB000778578 /* nav_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EECF65177F4AB000778578 /* nav_bg.png */; };
 		F4EECF6A177F4C0200778578 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EECF68177F4C0200778578 /* menu.png */; };
 		F4EECF6B177F4C0200778578 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EECF69177F4C0200778578 /* menu@2x.png */; };
 		F4EECF6E177FD51400778578 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EECF6D177FD51300778578 /* ShareViewController.m */; };
 		F4EECF70177FE9B400778578 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF6F177FE9B400778578 /* CoreLocation.framework */; };
 		F4EECF72177FE9BA00778578 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF71177FE9BA00778578 /* MapKit.framework */; };
-		F4EECF75177FF90600778578 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EECF74177FF90600778578 /* SettingViewController.m */; };
+		F4EECF75177FF90600778578 /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EECF74177FF90600778578 /* MyProfileViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -254,7 +253,7 @@
 		F0759AC41881CB1C0077D387 /* RightSideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightSideMenuViewController.m; sourceTree = "<group>"; };
 		F09789C41890CF6D00FAE718 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		F09789C51890CF6D00FAE718 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
-		F09EBCE118694164009C2BC9 /* SettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		F09EBCE118694164009C2BC9 /* MyProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyProfileViewController.h; sourceTree = "<group>"; };
 		F0A5A7481871D9DF004E24A3 /* QuestionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionListViewController.h; sourceTree = "<group>"; };
 		F0A5A7491871D9DF004E24A3 /* QuestionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionListViewController.m; sourceTree = "<group>"; };
 		F0A5A74B187276CD004E24A3 /* MyListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyListViewController.h; sourceTree = "<group>"; };
@@ -299,8 +298,6 @@
 		F4EECF20177C99F400778578 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F4EECF21177C99F400778578 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		F4EECF2A177C99F400778578 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		F4EECF48177DF87700778578 /* SidebarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarViewController.h; sourceTree = "<group>"; };
-		F4EECF49177DF87700778578 /* SidebarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarViewController.m; sourceTree = "<group>"; };
 		F4EECF65177F4AB000778578 /* nav_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_bg.png; sourceTree = "<group>"; };
 		F4EECF68177F4C0200778578 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		F4EECF69177F4C0200778578 /* menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu@2x.png"; sourceTree = "<group>"; };
@@ -308,7 +305,7 @@
 		F4EECF6D177FD51300778578 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
 		F4EECF6F177FE9B400778578 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F4EECF71177FE9BA00778578 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		F4EECF74177FF90600778578 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		F4EECF74177FF90600778578 /* MyProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyProfileViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -623,8 +620,8 @@
 		F09EBCD218691D91009C2BC9 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				F09EBCE118694164009C2BC9 /* SettingViewController.h */,
-				F4EECF74177FF90600778578 /* SettingViewController.m */,
+				F09EBCE118694164009C2BC9 /* MyProfileViewController.h */,
+				F4EECF74177FF90600778578 /* MyProfileViewController.m */,
 				F03486CD1880166D001BE459 /* PushPermissionViewController.h */,
 				F03486CE1880166D001BE459 /* PushPermissionViewController.m */,
 			);
@@ -788,8 +785,6 @@
 				F4EECF1F177C99F400778578 /* Presentice-Prefix.pch */,
 				F4EECF20177C99F400778578 /* AppDelegate.h */,
 				F4EECF21177C99F400778578 /* AppDelegate.m */,
-				F4EECF48177DF87700778578 /* SidebarViewController.h */,
-				F4EECF49177DF87700778578 /* SidebarViewController.m */,
 				F0718CBB185ACE27009014A0 /* Constants.h */,
 				F0718CBC185ACE27009014A0 /* Constants.m */,
 				F03486C5187E8D80001BE459 /* PresenticeUtitily.h */,
@@ -992,7 +987,6 @@
 				F0759ABC1881C6310077D387 /* MFSideMenuContainerViewController.m in Sources */,
 				F0759ABE1881C6310077D387 /* UIViewController+MFSideMenuAdditions.m in Sources */,
 				A72AB050188A82F600C12A74 /* FindFriendViewController.m in Sources */,
-				F4EECF4A177DF87700778578 /* SidebarViewController.m in Sources */,
 				F01ECFEB18850563000604C3 /* QuestionDetailViewController.m in Sources */,
 				A78E9D5A185DA16B00ACCC54 /* MBProgressHUD.m in Sources */,
 				A72AB04D188A4D8100C12A74 /* Credentials.m in Sources */,
@@ -1005,7 +999,7 @@
 				F4EECF6E177FD51400778578 /* ShareViewController.m in Sources */,
 				F0DDAB84187BD460002BDC67 /* VideoViewController.m in Sources */,
 				F03486CF1880166D001BE459 /* PushPermissionViewController.m in Sources */,
-				F4EECF75177FF90600778578 /* SettingViewController.m in Sources */,
+				F4EECF75177FF90600778578 /* MyProfileViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

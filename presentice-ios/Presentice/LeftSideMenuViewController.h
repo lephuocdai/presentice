@@ -13,7 +13,7 @@
 
 #import "MainViewController.h"
 #import "ShareViewController.h"
-#import "SettingViewController.h"
+#import "MyProfileViewController.h"
 #import "QuestionListViewController.h"
 #import "MyListViewController.h"
 #import "MessageListViewController.h"
