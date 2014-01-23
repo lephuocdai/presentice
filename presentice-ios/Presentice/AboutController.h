@@ -12,11 +12,11 @@
 // permissions and limitations under the License.
 //
 
-#import "quickdialog/QuickDialog.h"
+#import "LoginViewController.h"
 
-@interface LoginController : QuickDialogController <QuickDialogEntryElementDelegate> {
-
+// Subclassing from LoginController in order to inherit the quickDialogTableview style settings.
+@interface AboutController : LoginViewController {
+  
 }
 
-+ (QRootElement *)createDetailsForm;
 @end

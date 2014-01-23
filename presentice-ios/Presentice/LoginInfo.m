@@ -12,11 +12,12 @@
 // permissions and limitations under the License.
 //
 
-#import "quickdialog/QuickDialog.h"
+#import "LoginInfo.h"
 
-@interface LoginController : QuickDialogController <QuickDialogEntryElementDelegate> {
+@implementation LoginInfo
 
-}
+@synthesize password = _password;
+@synthesize email = _email;
 
-+ (QRootElement *)createDetailsForm;
+
 @end

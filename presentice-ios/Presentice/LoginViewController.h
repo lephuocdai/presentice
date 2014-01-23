@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import "MBProgressHUD.h"
-
+#import "quickdialog/QuickDialog.h"
 #import "MFSideMenuContainerViewController.h"
 
 #import "LeftSideMenuViewController.h"
 #import "RightSideMenuViewController.h"
+
+#import "LoginInfo.h"
+#import "EmailInfo.h"
 
 #import "MainViewController.h"
 #import "QuestionListViewController.h"
@@ -23,14 +26,9 @@
 
 //#import "UITabBarController+HideTabBar.h"
 
-@interface LoginViewController : UIViewController
-
-@property (weak, nonatomic) IBOutlet UITextField *tbUsername;
-@property (weak, nonatomic) IBOutlet UITextField *tbPassword;
-@property (weak, nonatomic) IBOutlet UIButton *btnRegister;
-@property (weak, nonatomic) IBOutlet UIButton *btnFBLogin;
-
-- (IBAction)didPressLoginButton:(id)sender;
-- (IBAction)didPressRegisterButton:(id)sender;
+//@interface LoginViewController : UIViewController
+@interface LoginViewController : QuickDialogController <QuickDialogEntryElementDelegate> {
+    
+}
 
 @end

@@ -14,11 +14,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="facebook" rowHeight="50" id="evx-Xt-R02">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="facebook" rowHeight="50" id="evx-Xt-R02">
                                 <rect key="frame" x="0.0" y="86" width="320" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="evx-Xt-R02" id="Hrl-01-sqr">
-                                    <rect key="frame" x="0.0" y="0.0" width="287" height="49"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="101" contentMode="left" text="info" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3Jj-y9-Xt3">
@@ -33,11 +33,11 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="changePassword" rowHeight="50" id="sOo-eZ-dld">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="changePassword" rowHeight="50" id="sOo-eZ-dld">
                                 <rect key="frame" x="0.0" y="136" width="320" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sOo-eZ-dld" id="8qd-AC-73a">
-                                    <rect key="frame" x="0.0" y="0.0" width="287" height="49"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Change Password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3Xn-bf-3We">
@@ -50,7 +50,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="B1c-Gu-Hqa" kind="push" identifier="changePassword" id="oqM-4j-qBy"/>
+                                    <segue destination="kcp-rS-XHE" kind="push" identifier="changePassword" id="cGE-Xc-B1N"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="otherInfo" rowHeight="50" id="Gch-rb-0iy">
@@ -89,7 +89,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Logout" id="lQy-2s-yKW">
                             <connections>
-                                <segue destination="B1c-Gu-Hqa" kind="push" identifier="toLoginView" id="och-ue-P3p"/>
+                                <segue destination="kcp-rS-XHE" kind="push" identifier="toLoginView" id="caN-zf-xcd"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -128,7 +128,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oc8-Mk-iVP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-191" y="-3272"/>
+            <point key="canvasLocation" x="-1219" y="-3596"/>
         </scene>
         <!--Share View Controller - Share-->
         <scene sceneID="gbA-tY-N7d">
@@ -345,6 +345,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kzf-FN-pD4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="733" y="-2161"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="YnR-Qg-cSi">
+            <objects>
+                <viewController id="kcp-rS-XHE" customClass="LoginViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="W2a-6T-rrO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="uP1-mU-e3s"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dOU-yu-kpM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="191" y="-2860"/>
         </scene>
         <!--Review Detail View Controller - Review Detail-->
         <scene sceneID="M5w-qD-zIu">
@@ -779,122 +794,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mdp-30-Of8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1119" y="-1167"/>
-        </scene>
-        <!--Table View Controller-->
-        <scene sceneID="vkY-eJ-gUN">
-            <objects>
-                <tableViewController id="O5e-IG-Z1R" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="8ch-92-YFS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="QrA-00-EIq">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QrA-00-EIq" id="LnO-4v-beJ">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="O5e-IG-Z1R" id="2Yc-WQ-yfe"/>
-                            <outlet property="delegate" destination="O5e-IG-Z1R" id="jbx-gM-jKa"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="syU-ia-bpc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1128" y="-2379"/>
-        </scene>
-        <!--Login View Controller - Login-->
-        <scene sceneID="y9c-x9-gVr">
-            <objects>
-                <viewController storyboardIdentifier="loginViewController" id="B1c-Gu-Hqa" customClass="LoginViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="XQ2-sW-dY0">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qek-De-G98">
-                                <rect key="frame" x="68" y="226" width="184" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.91945482336956519" green="0.36563520163012481" blue="0.058725413447501713" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
-                                <state key="normal" title="Log In">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="didPressLoginButton:" destination="B1c-Gu-Hqa" eventType="touchUpInside" id="Pr2-9O-d55"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" id="22G-i6-ncS">
-                                <rect key="frame" x="20" y="112" width="280" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration" hint="" label="Username"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" id="gto-gc-ffB">
-                                <rect key="frame" x="20" y="168" width="280" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
-                            </textField>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="I1L-dE-Atl">
-                                <rect key="frame" x="20" y="369" width="280" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="Don't have an account?">
-                                        <attributes>
-                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <font key="NSFont" size="17" name="HelveticaNeue-Bold"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s0i-CJ-ReR">
-                                <rect key="frame" x="30" y="473" width="261" height="54"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="Don't worry! We will never post any thing on your Facebook!">
-                                        <attributes>
-                                            <color key="NSColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                            <font key="NSFont" size="17" name="HelveticaNeue"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6vZ-bZ-6Jq">
-                                <rect key="frame" x="68" y="423" width="184" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.1199965195892978" green="0.32989883854211083" blue="0.63682489809782616" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Register with facebook">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="didPressRegisterButton:" destination="B1c-Gu-Hqa" eventType="touchUpInside" id="YuT-Oi-g2Y"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Login" id="7XT-NV-mbO"/>
-                    <connections>
-                        <outlet property="btnFBLogin" destination="qek-De-G98" id="GPt-vk-neF"/>
-                        <outlet property="btnRegister" destination="6vZ-bZ-6Jq" id="KsH-BY-MSx"/>
-                        <outlet property="tbPassword" destination="gto-gc-ffB" id="APk-1o-GE5"/>
-                        <outlet property="tbUsername" destination="22G-i6-ncS" id="zmJ-n0-Blz"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="CWr-gd-eFj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1567" y="-2775"/>
+            <point key="canvasLocation" x="1239" y="-2868"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="5Z6-ag-ZQ1">
@@ -908,12 +808,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="B1c-Gu-Hqa" kind="relationship" relationship="rootViewController" id="b5z-uv-nQA"/>
+                        <segue destination="kcp-rS-XHE" kind="relationship" relationship="rootViewController" id="zb5-Jk-puT"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vOb-gn-Bt7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="559" y="-3304"/>
+            <point key="canvasLocation" x="-637" y="-3612"/>
         </scene>
         <!--Question Detail View Controller - Detail View-->
         <scene sceneID="Ops-m0-YDb">
@@ -1980,11 +1880,11 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="b5z-uv-nQA"/>
-        <segue reference="xiV-62-4g4"/>
         <segue reference="Yg1-3o-e2r"/>
+        <segue reference="xiV-62-4g4"/>
         <segue reference="wqw-1d-BIa"/>
         <segue reference="6kH-cL-B2Y"/>
+        <segue reference="caN-zf-xcd"/>
         <segue reference="mBi-jE-RWx"/>
     </inferredMetricsTieBreakers>
 </document>

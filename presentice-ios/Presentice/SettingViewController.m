@@ -132,8 +132,6 @@
     NSLog(@"cellType = %@", cellType);
     if ([cellType isEqualToString:@"username"]) {
         [self.navigationController pushViewController:[PresenticeUtitily facebookPageOfUser:[PFUser currentUser]] animated:YES];
-    } else if ([cellType isEqualToString:@"changePassword"]) {
-        // Do nothing here
     } else if ([cellType isEqual:@"pushPermission"] ) {
         NSLog(@"get in side");
         PushPermissionViewController *destViewController = [[PushPermissionViewController alloc] initWithStyle:UITableViewStyleGrouped];
@@ -149,12 +147,20 @@
     if ([segue.identifier isEqualToString:@"toLoginView"]) {
         [PFUser logOut];
     } else if ([segue.identifier isEqualToString:@"changePassword"]){
-        [PFUser requestPasswordResetForEmailInBackground:[PFUser currentUser].email];
-        NSString *alertMessage = [NSString stringWithFormat:@"An email from our provider Parse has been sent to you. Please check you email: %@", [PFUser currentUser].email];
-        UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:@"Confirmation email sent" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        passwordResetAlert.tag = 0;
-        [passwordResetAlert show];
-        [PFUser logOut];
+        [PFUser requestPasswordResetForEmailInBackground:[PFUser currentUser].email block:^(BOOL succeeded, NSError *error) {
+            if (error) {
+                NSString *alertMessage = @"Sorry for the inconvenience, please contact us at: info@presentice.com";
+                UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:@"Something went wrong" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                passwordResetAlert.tag = 0;
+                [passwordResetAlert show];
+            } else {
+                NSString *alertMessage = [NSString stringWithFormat:@"An email from our provider Parse has been sent to you. Please check you email: %@", [PFUser currentUser].email];
+                UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:@"Confirmation email sent" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                passwordResetAlert.tag = 1;
+                [passwordResetAlert show];
+                [PFUser logOut];
+            }
+        }];
     }
 }
 

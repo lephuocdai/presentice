@@ -9,80 +9,104 @@
 #import "LoginViewController.h"
 
 @interface LoginViewController ()
+- (void)onLogin:(QButtonElement *)buttonElement;
+- (void)onLoginFacebook:(QButtonElement *)buttonElement;
+- (void)onRequestPasswordReset:(QButtonElement *)buttonElement;
+- (void)sendPasswordResetEmail:(QButtonElement *)buttonElement;
+//- (void)onAbout;
+
+@property (assign, nonatomic) BOOL isResetingPassword;
 
 @end
 
-@implementation LoginViewController
+@implementation LoginViewController {
+//    BOOL isResetingPassword;
+}
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+/**
+- (QuickDialogController *)initWithRoot:(QRootElement *)rootElement {
+    self = [super initWithRoot:rootElement];
     if (self) {
-        // Custom initialization
+        self.root.appearance = [self.root.appearance copy];
+        self.root.appearance.tableGroupedBackgroundColor =  [UIColor colorWithHue:40/360.f saturation:0.58f brightness:0.90f alpha:1.f];;
+        ((QEntryElement *)[self.root elementWithKey:@"login"]).delegate = self;
+        
+        QAppearance *fieldsAppearance = [self.root.appearance copy];
+        
+        fieldsAppearance.backgroundColorEnabled = [UIColor colorWithRed:0.9582 green:0.9104 blue:0.7991 alpha:1.0000];
+        [self.root elementWithKey:@"login"].appearance = fieldsAppearance;
+        [self.root elementWithKey:@"password"].appearance = fieldsAppearance;
+        
+        [self.root elementWithKey:@"button"].appearance = self.root.appearance.copy;
+        [self.root elementWithKey:@"button"].appearance.backgroundColorEnabled = [UIColor greenColor];
+    }
+    
+    return self;
+}
+**/
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super initWithCoder:aDecoder])) {
+        self.root = [[QRootElement alloc] initWithJSONFile:@"loginform"];
+        
+        self.root.appearance = [self.root.appearance copy];
+        self.root.appearance.tableGroupedBackgroundColor = [UIColor colorWithRed:40.0/255 green:40.0/255 blue:50.0/255 alpha:1];
+        
+        ((QEntryElement *)[self.root elementWithKey:@"email"]).delegate = self;
+        
+        QAppearance *fieldsAppearance = [self.root.appearance copy];
+        
+        fieldsAppearance.backgroundColorEnabled = [UIColor colorWithRed:0 green:125.0/255 blue:225.0/255 alpha:1];
+        
+        [self.root elementWithKey:@"email"].appearance = fieldsAppearance;
+        [self.root elementWithKey:@"password"].appearance = fieldsAppearance;
+        [self.root elementWithKey:@"loginButton"].appearance = fieldsAppearance;
+        
+        
+        [self.root elementWithKey:@"facebookLoginButton"].appearance = self.root.appearance.copy;
+        [self.root elementWithKey:@"facebookLoginButton"].appearance.backgroundColorEnabled = [UIColor colorWithRed:59.0/255 green:89.0/255 blue:182.0/255 alpha:1];
+        
+        
+        [self.root elementWithKey:@"resetPasswordRequestButton"].appearance = self.root.appearance.copy;
+        [self.root elementWithKey:@"resetPasswordRequestButton"].appearance.backgroundColorEnabled = [UIColor greenColor];
+        
+        //hide navigator if in login view
+        if (self.isResetingPassword == false) {
+            NSLog(@"fuck you reseting again %hhd", self.isResetingPassword);
+            [self.navigationController setNavigationBarHidden:YES animated:YES];
+        }
     }
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-    //if user already login, redirect to MainViewController
-	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]])
-        [self navigateToHomeScreen];
+//    self.navigationController.navigationBar.tintColor = nil;
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"About" style:UIBarButtonItemStylePlain target:self action:@selector(onAbout)];
 }
 
+/**
 - (void) viewWillAppear:(BOOL)animated {
     //hide navigator if in login view
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+**/
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    NSLog(@"fuck you out of Login View Controller");
 }
 
-- (void) loginFB {
-    // Set permissions required from the facebook user account
-    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location", @"email"];
+- (void)loginCompleted:(LoginInfo *)info {
+    [self loading:NO];
     
-    // Login PFUser using facebook
-    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
-        if (!user) {
-            if (!error) {
-                NSLog(@"Uh oh. The user cancelled the Facebook login.");
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error" message:@"Uh oh. The user cancelled the Facebook login." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
-                [alert show];
-            } else {
-                NSLog(@"Uh oh. An error occurred: %@", error);
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error" message:[error description] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
-                [alert show];
-            }
-        } else {
-            if (user.isNew) {
-                NSLog(@"User with facebook signed up and logged in!");
-            } else {
-                NSLog(@"User with facebook logged in!");
-            }
-            [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                if(!error){
-                    NSDictionary<FBGraphUser> *me = (NSDictionary<FBGraphUser> *)result;
-                    // Store the Facebook Id
-                    [[PFUser currentUser] setObject:[NSNumber numberWithBool:NO] forKey:@"activated"];
-                    [[PFUser currentUser] setObject:me.id forKey:@"facebookId"];
-                    [[PFUser currentUser] setObject:me.name forKey:@"displayName"];
-                    [[PFUser currentUser] setObject:[me objectForKey:@"email"] forKey:@"email"];
-                    [[PFUser currentUser] saveInBackground];
-                }
-            }];
-            [self performSegueWithIdentifier:@"toMainView" sender:self];
-        }
-    }];
-}
-
-- (IBAction)didPressLoginButton:(id)sender {
     //start loading hub
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    NSString *username = self.tbUsername.text;
-    NSString *password = self.tbPassword.text;
+    NSString *username = info.email;
+    NSString *password = info.password;
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error) {
         if(!error){
             
@@ -100,14 +124,24 @@
         //dismiss hub
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
+    
 }
 
-- (IBAction)didPressRegisterButton:(id)sender {
+- (void)onLogin:(QButtonElement *)buttonElement {
+    
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    [self loading:YES];
+    LoginInfo *info = [[LoginInfo alloc] init];
+    [self.root fetchValueUsingBindingsIntoObject:info];
+    [self performSelector:@selector(loginCompleted:) withObject:info afterDelay:2];
+}
+
+- (void)onLoginFacebook:(QButtonElement *)buttonElement {
     // Set permissions required from the facebook user account
     NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
     
-   //start loading hub
-   [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //start loading hub
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     // Login PFUser using facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
@@ -145,7 +179,7 @@
                             //if user already login, redirect to MainViewController
                             if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]])
                                 [self navigateToHomeScreen];
-
+                            
                         } else {
                             //redirecto to register screen using storyboard
                             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
@@ -166,29 +200,74 @@
                     
                 }
             }];
-            
         }
     }];
 }
 
-/**
-* end of editing
-* dissmis input keyboard
-**/
-- (void)touchesEnded: (NSSet *)touches withEvent: (UIEvent *)event {
-	for (UIView* view in self.view.subviews) {
-		if ([view isKindOfClass:[UITextField class]])
-			[view resignFirstResponder];
-	}
+- (void)onRequestPasswordReset:(QButtonElement *)buttonElement {
+    self.isResetingPassword = true;
+    
+    QRootElement *details = [self createResetPasswordRequestForm];
+    [self displayViewControllerForRoot:details];
 }
 
-- (void) redirectToScreen:(NSString *) screenId {
-    //redirect using storyboard
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:screenId];
-    [self.navigationController pushViewController:destViewController animated:YES];
-    //show navigator
+- (QRootElement *)createResetPasswordRequestForm {
+    QRootElement *details = [[QRootElement alloc] initWithJSONFile:@"requestResetPasswordForm"];
+    return details;
+}
 
+- (void)sendPasswordResetEmail:(QButtonElement *)buttonElement {
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    [self loading:YES];
+    
+    EmailInfo *info = [[EmailInfo alloc] init];
+    [self.root fetchValueUsingBindingsIntoObject:info];
+    
+    [self loading:NO];
+    NSString *email = info.email;
+    [PFUser requestPasswordResetForEmailInBackground:email block:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            NSString *alertMessage = [NSString stringWithFormat:@"The email address %@ has not been registered.", email];
+            UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:@"Email address error!" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            passwordResetAlert.tag = 0;
+            [passwordResetAlert show];
+        } else {
+            NSString *alertMessage = [NSString stringWithFormat:@"An email from our provider Parse has been sent to you. Please check you email: %@", email];
+            UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:@"Confirmation email sent" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            passwordResetAlert.tag = 1;
+            [passwordResetAlert show];
+        }
+    }];
+}
+
+- (BOOL)QEntryShouldChangeCharactersInRangeForElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell {
+    NSLog(@"Should change characters");
+    return YES;
+}
+
+- (void)QEntryEditingChangedForElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell {
+    NSLog(@"Editing changed");
+}
+
+
+- (void)QEntryMustReturnForElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell {
+    NSLog(@"Must return");
+    
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    //if user already login, redirect to MainViewController
+	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]])
+        [self navigateToHomeScreen];
+}
+
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 /**
@@ -214,7 +293,7 @@
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     [tabBarController setViewControllers:[NSArray arrayWithObjects:mainNavigationController, questionListNavigationController, myListNavigationController, notificationListNavigationController, nil]];
-//    [tabBarController setTabBarHidden:NO animated:YES];
+    [tabBarController setTabBarHidden:NO animated:YES];
     
     LeftSideMenuViewController *leftSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
     RightSideMenuViewController *rightSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];

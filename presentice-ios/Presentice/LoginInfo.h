@@ -12,11 +12,16 @@
 // permissions and limitations under the License.
 //
 
-#import "quickdialog/QuickDialog.h"
+#import <Foundation/Foundation.h>
 
-@interface LoginController : QuickDialogController <QuickDialogEntryElementDelegate> {
+@interface LoginInfo : NSObject {
 
+@private
+    NSString *_password;
+    NSString *_email;
 }
 
-+ (QRootElement *)createDetailsForm;
+@property(strong) NSString *email;
+@property(strong) NSString *password;
+
 @end

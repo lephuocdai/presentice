@@ -12,11 +12,18 @@
 // permissions and limitations under the License.
 //
 
-#import "quickdialog/QuickDialog.h"
 
-@interface LoginController : QuickDialogController <QuickDialogEntryElementDelegate> {
+#import "LoginController.h"
+#import "AboutController.h"
 
+
+@implementation AboutController
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated]; 
+    
+    self.navigationItem.rightBarButtonItem = nil;
 }
 
-+ (QRootElement *)createDetailsForm;
+
+
 @end
