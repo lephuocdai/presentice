@@ -61,7 +61,7 @@
             
             // Initialize the S3 Client.
             AmazonS3Client *s3 = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
-            s3.endpoint = [AmazonEndpoints s3Endpoint:US_WEST_2];
+            s3.endpoint = [AmazonEndpoints s3Endpoint:AP_NORTHEAST_1];
             
             // Initialize the S3TransferManager
             self.tm = [S3TransferManager new];
@@ -69,7 +69,7 @@
             self.tm.delegate = self;
             
             // Create the bucket
-            S3CreateBucketRequest *createBucketRequest = [[S3CreateBucketRequest alloc] initWithName:[Constants transferManagerBucket] andRegion: [S3Region USWest2]];
+            S3CreateBucketRequest *createBucketRequest = [[S3CreateBucketRequest alloc] initWithName:[Constants transferManagerBucket] andRegion: [S3Region APJapan]];
             @try {
                 S3CreateBucketResponse *createBucketResponse = [s3 createBucket:createBucketRequest];
                 if(createBucketResponse.error != nil) {
@@ -221,9 +221,11 @@
 }
 
 - (IBAction)addQuestion:(id)sender {
-    BOOL canPostQuestion = (BOOL)[[PFUser currentUser] objectForKey:kUserCanPostQuestion];
-    NSLog(@"canPostQuestion = %@", [[PFUser currentUser] objectForKey:kUserCanPostQuestion]);
-    if (canPostQuestion == 1) {
+    NSNumber *canPostQuestion = [[PFUser currentUser] objectForKey:kUserCanPostQuestion];
+    bool canPost = [canPostQuestion boolValue];
+//    NSLog(@"canPostQuestion = %hhd", canPost);
+    
+    if (canPost == true) {
         UIAlertView *postAlert = [[UIAlertView alloc] initWithTitle:@"Post a new challenge"
                                                         message:@"You can add new challenge by the following options."
                                                        delegate:self
@@ -261,30 +263,34 @@
             [self startCameraControllerFromViewController:self usingDelegate:self];
         }
     } else if (alertView.tag == 1) {
-        PFObject *newSuggest = [PFObject objectWithClassName:kActivityClassKey];
-        [newSuggest setObject:@"suggestQuestion" forKey:kActivityTypeKey];
-        [newSuggest setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
-        [newSuggest setObject:[alertView textFieldAtIndex:0].text forKey:kActivityDescriptionKey];
-        [newSuggest saveInBackground];
-        
+        if (buttonIndex == 1) {
+            NSLog(@"clicked Post Button");
+            PFObject *newSuggest = [PFObject objectWithClassName:kActivityClassKey];
+            [newSuggest setObject:@"suggestQuestion" forKey:kActivityTypeKey];
+            [newSuggest setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+            [newSuggest setObject:[alertView textFieldAtIndex:0].text forKey:kActivityDescriptionKey];
+            [newSuggest saveInBackground];
+        }
     } else if (alertView.tag == 2) {
-        NSLog(@"clickedButton");
-        NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-        if ([title isEqualToString:@"YES"]) {
-            NSLog(@"Wait to upload to server!");
-            
-            self.pathForFileFromLibrary = recordedVideoPath;
-            // Format date to string
-            
-            NSDate *date = [NSDate date];
-            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-            [dateFormat setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
-            NSString *stringFromDate = [dateFormat stringFromDate:date];
-            
-            uploadFilename = [NSString stringWithFormat:@"%@_%@_question_%@.mov",[[PFUser currentUser] objectId],[[PFUser currentUser] objectForKey:kUserNameKey], stringFromDate];
-            
-            if(self.uploadFromLibrary == nil || (self.uploadFromLibrary.isFinished && !self.uploadFromLibrary.isPaused)){
-                self.uploadFromLibrary = [self.tm uploadFile:self.pathForFileFromLibrary bucket: [Constants transferManagerBucket] key: uploadFilename];
+        if (buttonIndex == 1) {
+            NSLog(@"clicked YES Button");
+            NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+            if ([title isEqualToString:@"YES"]) {
+                NSLog(@"Wait to upload to server!");
+                
+                self.pathForFileFromLibrary = recordedVideoPath;
+                // Format date to string
+                
+                NSDate *date = [NSDate date];
+                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                [dateFormat setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
+                NSString *stringFromDate = [dateFormat stringFromDate:date];
+                
+                uploadFilename = [NSString stringWithFormat:@"%@_%@_question_%@.mov",[[PFUser currentUser] objectId],[[PFUser currentUser] objectForKey:kUserNameKey], stringFromDate];
+                
+                if(self.uploadFromLibrary == nil || (self.uploadFromLibrary.isFinished && !self.uploadFromLibrary.isPaused)){
+                    self.uploadFromLibrary = [self.tm uploadFile:self.pathForFileFromLibrary bucket:[Constants transferManagerBucket] key:uploadFilename];
+                }
             }
         }
     }

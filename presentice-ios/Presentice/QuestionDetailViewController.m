@@ -101,7 +101,7 @@
             
             // Initialize the S3 Client.
             AmazonS3Client *s3 = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
-            s3.endpoint = [AmazonEndpoints s3Endpoint:US_WEST_2];
+            s3.endpoint = [AmazonEndpoints s3Endpoint:AP_NORTHEAST_1];
             
             // Initialize the S3TransferManager
             self.tm = [S3TransferManager new];
@@ -109,7 +109,7 @@
             self.tm.delegate = self;
             
             // Create the bucket
-            S3CreateBucketRequest *createBucketRequest = [[S3CreateBucketRequest alloc] initWithName:[Constants transferManagerBucket] andRegion: [S3Region USWest2]];
+            S3CreateBucketRequest *createBucketRequest = [[S3CreateBucketRequest alloc] initWithName:[Constants transferManagerBucket] andRegion: [S3Region APJapan]];
             @try {
                 S3CreateBucketResponse *createBucketResponse = [s3 createBucket:createBucketRequest];
                 if(createBucketResponse.error != nil) {

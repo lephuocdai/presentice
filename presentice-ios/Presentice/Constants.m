@@ -21,6 +21,10 @@
     return [[NSString stringWithFormat:@"%@-%@", S3TRANSFERMANAGER_BUCKET, ACCESS_KEY_ID] lowercaseString];
 }
 
+//+ (NSString *)transferManagerBucket {
+//    return @"presentice";
+//}
+
 + (NSString *)getConstantbyClass:(NSString *)className forType:(NSString *)typeName withName:(NSString *)name {
     PFQuery *query = [PFQuery queryWithClassName:@"Constant"];
     [query whereKey:@"class" equalTo:className];
