@@ -174,6 +174,9 @@
     destViewController.toUser = toUser;
     destViewController.messageObj = selectedObject;
     
+    // Start loading HUD
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
 //    NSLog(@"destViewController.messageObj = %@",destViewController.messageObj);
     [self.navigationController pushViewController:destViewController animated:YES];
 }

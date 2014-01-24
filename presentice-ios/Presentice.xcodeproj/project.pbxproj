@@ -168,6 +168,9 @@
 		F0DD71D218921FE60070DF95 /* message-received.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F0DD719518921FE50070DF95 /* message-received.aiff */; };
 		F0DD71D318921FE60070DF95 /* message-sent.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F0DD719618921FE50070DF95 /* message-sent.aiff */; };
 		F0DD71D418921FE60070DF95 /* JSQSystemSoundPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DD719918921FE50070DF95 /* JSQSystemSoundPlayer.m */; };
+		F0DD71D6189264DC0070DF95 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0DD71D5189264DC0070DF95 /* NewRelicAgent.framework */; };
+		F0DD71D8189264FE0070DF95 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0DD71D7189264FE0070DF95 /* CoreTelephony.framework */; };
+		F0DD71DA189265120070DF95 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F0DD71D9189265120070DF95 /* libz.dylib */; };
 		F0DDAB84187BD460002BDC67 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DDAB83187BD460002BDC67 /* VideoViewController.m */; };
 		F4EECF12177C99F400778578 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF11177C99F400778578 /* UIKit.framework */; };
 		F4EECF14177C99F400778578 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF13177C99F400778578 /* Foundation.framework */; };
@@ -418,6 +421,9 @@
 		F0DD719618921FE50070DF95 /* message-sent.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "message-sent.aiff"; sourceTree = "<group>"; };
 		F0DD719818921FE50070DF95 /* JSQSystemSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQSystemSoundPlayer.h; sourceTree = "<group>"; };
 		F0DD719918921FE50070DF95 /* JSQSystemSoundPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQSystemSoundPlayer.m; sourceTree = "<group>"; };
+		F0DD71D5189264DC0070DF95 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
+		F0DD71D7189264FE0070DF95 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		F0DD71D9189265120070DF95 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		F0DDAB82187BD460002BDC67 /* VideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewController.h; sourceTree = "<group>"; };
 		F0DDAB83187BD460002BDC67 /* VideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewController.m; sourceTree = "<group>"; };
 		F4EECF0E177C99F400778578 /* Presentice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Presentice.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -446,10 +452,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0DD71DA189265120070DF95 /* libz.dylib in Frameworks */,
+				A78E9D4D185D9F2700ACCC54 /* SystemConfiguration.framework in Frameworks */,
+				F0DD71D8189264FE0070DF95 /* CoreTelephony.framework in Frameworks */,
 				A78E9D4B185D9F1300ACCC54 /* AudioToolbox.framework in Frameworks */,
 				F0628DA6188FF2E000E9C7A3 /* libQuickDialog.a in Frameworks */,
 				A78E9D4F185D9F2C00ACCC54 /* CFNetwork.framework in Frameworks */,
-				A78E9D4D185D9F2700ACCC54 /* SystemConfiguration.framework in Frameworks */,
 				F0718CCC185ACEF3009014A0 /* MobileCoreServices.framework in Frameworks */,
 				A78E9D49185D9F0900ACCC54 /* Security.framework in Frameworks */,
 				F0718CC4185ACECC009014A0 /* QuartzCore.framework in Frameworks */,
@@ -471,6 +479,7 @@
 				F0718CC6185ACED5009014A0 /* CoreMedia.framework in Frameworks */,
 				F4EECF72177FE9BA00778578 /* MapKit.framework in Frameworks */,
 				A78E9D32185D99D900ACCC54 /* FacebookSDK.framework in Frameworks */,
+				F0DD71D6189264DC0070DF95 /* NewRelicAgent.framework in Frameworks */,
 				A78E9D33185D99DA00ACCC54 /* Parse.framework in Frameworks */,
 				F0718CD2185ACF36009014A0 /* AWSS3.framework in Frameworks */,
 				F4EECF12177C99F400778578 /* UIKit.framework in Frameworks */,
@@ -1049,6 +1058,9 @@
 		F4EECF10177C99F400778578 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F0DD71D9189265120070DF95 /* libz.dylib */,
+				F0DD71D7189264FE0070DF95 /* CoreTelephony.framework */,
+				F0DD71D5189264DC0070DF95 /* NewRelicAgent.framework */,
 				F0628D9B188FF2B900E9C7A3 /* QuickDialog.xcodeproj */,
 				F4EECF71177FE9BA00778578 /* MapKit.framework */,
 				F4EECF6F177FE9B400778578 /* CoreLocation.framework */,
@@ -1492,6 +1504,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Presentice/**",
 					"$(SRCROOT)/External/**",
+					"/Users/lephuocdai/Dropbox/Presentice/dev/Presentice/presentice-ios",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Presentice/Presentice-Prefix.pch";
@@ -1519,6 +1532,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Presentice/**",
 					"$(SRCROOT)/External/**",
+					"/Users/lephuocdai/Dropbox/Presentice/dev/Presentice/presentice-ios",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Presentice/Presentice-Prefix.pch";
