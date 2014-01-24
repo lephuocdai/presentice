@@ -7,15 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
-
-#import "MessageFooterView.h"
-
 #import "Constants.h"
 #import <Parse/Parse.h>
 #import "MBProgressHUD.h"
+#import "JSMessagesViewController.h"
 
-@interface MessageDetailViewController : PFQueryTableViewController <UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+#import "MessageFooterView.h"
+
+@interface MessageDetailViewController : JSMessagesViewController <JSDismissiveTextViewDelegate, JSMessagesViewDataSource, JSMessagesViewDelegate, JSDismissiveTextViewDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
 @property (strong, nonatomic) PFUser *toUser;
+@property (strong, nonatomic) PFObject *messageObj;
+
+@property (strong, nonatomic) NSMutableArray *messages;
+@property (strong, nonatomic) NSDictionary *avatars;
 
 @end

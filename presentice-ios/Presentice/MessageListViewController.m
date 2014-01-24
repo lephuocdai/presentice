@@ -35,6 +35,7 @@
         // The number of objects to show per page
         self.objectsPerPage = 5;
     }
+    self.tabBarController.hidesBottomBarWhenPushed = YES;
     return self;
 }
 
@@ -100,10 +101,10 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *messageListQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [messageListQuery whereKey:kMessageUsersKey containsAllObjectsInArray:@[[PFUser currentUser]]];
     [messageListQuery includeKey:kMessageUsersKey];
     [messageListQuery includeKey:kMessageFromUserKey];
     [messageListQuery includeKey:kMessageToUserKey];
-    [messageListQuery whereKey:kMessageUsersKey containsAllObjectsInArray:@[[PFUser currentUser]]];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
@@ -129,14 +130,14 @@
     
     //asyn to get profile picture
     NSMutableArray *users = [[object objectForKey:kMessageUsersKey] mutableCopy];
-    NSLog(@"users count before = %d", [users count]);
+//    NSLog(@"users count before = %d", [users count]);
     
     NSUInteger currentUserIndex = [self indexOfObjectwithKey:[[PFUser currentUser] objectId] inArray:users];
-    NSLog(@"currentUserIndex = %lu", (unsigned long)currentUserIndex);
+//    NSLog(@"currentUserIndex = %lu", (unsigned long)currentUserIndex);
     
     [users removeObjectAtIndex:currentUserIndex];
     
-    NSLog(@"users count after = %d", [users count]);
+//    NSLog(@"users count after = %d", [users count]);
     PFUser *toUser = [users lastObject];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:toUser]]];
@@ -160,38 +161,30 @@
     NSLog(@"objectsDidLoad message list error: %@", [error localizedDescription]);
 }
 
-/**
- * segue for table cell
- * click to direct to video play view
- * pass video name, video url
- */
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showMessageFromMessageList"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        MessageDetailViewController *destViewController = segue.destinationViewController;
-        
-        NSMutableArray *users = [[[self.objects objectAtIndex:indexPath.row] objectForKey:kMessageUsersKey] mutableCopy];
-        NSLog(@"users count before = %d", [users count]);
-        
-        NSUInteger currentUserIndex = [self indexOfObjectwithKey:[[PFUser currentUser] objectId] inArray:users];
-        NSLog(@"currentUserIndex = %lu", (unsigned long)currentUserIndex);
-        
-        [users removeObjectAtIndex:currentUserIndex];
-        
-        NSLog(@"users count after = %d", [users count]);
-        PFUser *toUser = [users lastObject];
-        destViewController.toUser = toUser;
-        NSLog(@"toUser = %@ \n currentUser = %@", toUser, [PFUser currentUser]);
-    }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    PFObject *selectedObject = [self objectAtIndexPath:indexPath];
+    
+    MessageDetailViewController *destViewController = [[MessageDetailViewController alloc] init];
+    
+    NSMutableArray *users = [[selectedObject objectForKey:kMessageUsersKey] mutableCopy];
+    NSUInteger currentUserIndex = [self indexOfObjectwithKey:[[PFUser currentUser] objectId] inArray:users];
+    [users removeObjectAtIndex:currentUserIndex];
+    PFUser *toUser = [users lastObject];
+    destViewController.toUser = toUser;
+    destViewController.messageObj = selectedObject;
+    
+//    NSLog(@"destViewController.messageObj = %@",destViewController.messageObj);
+    [self.navigationController pushViewController:destViewController animated:YES];
 }
 
 - (NSUInteger)indexOfObjectwithKey:(NSString*)key inArray: (NSArray*)array {
-    NSLog(@"key = %@", key);
-    NSLog(@"array = %@", array);
+//    NSLog(@"key = %@", key);
+//    NSLog(@"array = %@", array);
     
     for (NSUInteger i = 0; i < [array count]; i++) {
         NSString *objectId = [[array objectAtIndex:i] valueForKey:@"objectId"];
-        NSLog(@"i = %d objectId = %@", i, objectId);
+//        NSLog(@"i = %d objectId = %@", i, objectId);
         if ([objectId isEqualToString:key]) {
             return i;
         }

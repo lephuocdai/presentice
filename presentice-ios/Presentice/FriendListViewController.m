@@ -21,7 +21,7 @@
         // Custom the table
         
         // The className to query on
-        self.parseClassName = kActivityToUserKey;
+        self.parseClassName = kActivityClassKey;
         
         // The key of the PFObject to display in the label of the default cell style
         self.textKey = kActivityTypeKey;
@@ -35,6 +35,7 @@
         // The number of objects to show per page
         self.objectsPerPage = 5;
     }
+    self.tabBarController.hidesBottomBarWhenPushed = YES;
     return self;
 }
 
@@ -124,14 +125,60 @@
     NSLog(@"objectsDidLoad message list error: %@", [error localizedDescription]);
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-
-    if ([segue.identifier isEqualToString:@"showMessageFromContactList"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        MessageDetailViewController *destViewController = segue.destinationViewController;
-        destViewController.toUser = [self.objects objectAtIndex:indexPath.row];
-    }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    PFUser *toUser = [[self objectAtIndexPath:indexPath] objectForKey:kActivityToUserKey];
+    
+    MessageDetailViewController *destViewController = [[MessageDetailViewController alloc] init];
+    
+    PFQuery *messageQuery = [PFQuery queryWithClassName:kMessageClassKey];
+    [messageQuery whereKey:kMessageUsersKey containsAllObjectsInArray:@[[PFUser currentUser], toUser]];
+    [messageQuery includeKey:kMessageUsersKey];
+    [messageQuery includeKey:kMessageFromUserKey];
+    [messageQuery includeKey:kMessageToUserKey];
+    
+    [messageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            if (objects.count == 0) {
+//                NSLog(@"fuck there is no object");
+                PFObject *messageObj = [PFObject objectWithClassName:kMessageClassKey];
+                
+                NSMutableArray *users = [[NSMutableArray alloc] initWithArray:@[[PFUser currentUser],toUser]];    // Add two users to the "users" field
+                NSSortDescriptor *aSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"objectId" ascending:YES];
+                [users sortUsingDescriptors:[NSArray arrayWithObject:aSortDescriptor]];
+                
+                [messageObj setObject:users forKey:kMessageUsersKey];
+                [messageObj setObject:[PFUser currentUser] forKey:kMessageFromUserKey];
+                [messageObj setObject:toUser forKey:kMessageToUserKey];
+                
+                NSMutableArray *messages = [[NSMutableArray alloc] init];
+                [messageObj setObject:messages forKey:kMessageContentKey];
+                
+                PFACL *messageACL = [PFACL ACL];
+                [messageACL setReadAccess:YES forUser:[PFUser currentUser]];
+                [messageACL setReadAccess:YES forUser:toUser];
+                [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
+                [messageACL setWriteAccess:YES forUser:toUser];
+                messageObj.ACL = messageACL;
+                
+                destViewController.messageObj = messageObj;
+            } else {
+//                NSLog(@"fuck there is %d object", objects.count);
+                destViewController.messageObj = [objects lastObject];
+            }
+            
+//            NSLog(@"destViewController.messageObj = %@",destViewController.messageObj);
+            
+            destViewController.toUser = toUser;
+            
+            [self.navigationController pushViewController:destViewController animated:YES];
+        } else {
+            // Log details of the failure
+            NSLog(@"Could not find message Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
+
 - (IBAction)showLeftMenu:(id)sender {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
