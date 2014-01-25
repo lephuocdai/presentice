@@ -42,9 +42,7 @@
 		F00006B8186EB9BF00E69027 /* icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = F00006B6186EB9BF00E69027 /* icon_1.png */; };
 		F00006B9186EB9BF00E69027 /* icon_2.png in Resources */ = {isa = PBXBuildFile; fileRef = F00006B7186EB9BF00E69027 /* icon_2.png */; };
 		F01ECFEB18850563000604C3 /* QuestionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F01ECFEA18850563000604C3 /* QuestionDetailViewController.m */; };
-		F027630B1890EE85001BEA6D /* requestResetPasswordForm.json in Resources */ = {isa = PBXBuildFile; fileRef = F027630A1890EE85001BEA6D /* requestResetPasswordForm.json */; };
 		F027630F1890F18A001BEA6D /* EmailInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F027630E1890F18A001BEA6D /* EmailInfo.m */; };
-		F02763111890F7DE001BEA6D /* registerForm.json in Resources */ = {isa = PBXBuildFile; fileRef = F02763101890F7DE001BEA6D /* registerForm.json */; };
 		F027631518910131001BEA6D /* RegisterInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F027631418910131001BEA6D /* RegisterInfo.m */; };
 		F03486BC187E337A001BE459 /* FriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486BB187E337A001BE459 /* FriendListViewController.m */; };
 		F03486C4187E8C69001BE459 /* MessageFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486C3187E8C69001BE459 /* MessageFooterView.m */; };
@@ -69,7 +67,6 @@
 		F0718CCE185ACEFC009014A0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0718CCD185ACEFC009014A0 /* AssetsLibrary.framework */; };
 		F0718CD1185ACF36009014A0 /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0718CCF185ACF36009014A0 /* AWSRuntime.framework */; };
 		F0718CD2185ACF36009014A0 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0718CD0185ACF36009014A0 /* AWSS3.framework */; };
-		F0732D2F1890C38D002F4990 /* loginform.json in Resources */ = {isa = PBXBuildFile; fileRef = F0732D2E1890C38D002F4990 /* loginform.json */; };
 		F0759ABC1881C6310077D387 /* MFSideMenuContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0759AB71881C6310077D387 /* MFSideMenuContainerViewController.m */; };
 		F0759ABD1881C6310077D387 /* MFSideMenuShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = F0759AB91881C6310077D387 /* MFSideMenuShadow.m */; };
 		F0759ABE1881C6310077D387 /* UIViewController+MFSideMenuAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F0759ABB1881C6310077D387 /* UIViewController+MFSideMenuAdditions.m */; };
@@ -259,10 +256,8 @@
 		F00006B7186EB9BF00E69027 /* icon_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_2.png; sourceTree = "<group>"; };
 		F01ECFE918850563000604C3 /* QuestionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionDetailViewController.h; sourceTree = "<group>"; };
 		F01ECFEA18850563000604C3 /* QuestionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionDetailViewController.m; sourceTree = "<group>"; };
-		F027630A1890EE85001BEA6D /* requestResetPasswordForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = requestResetPasswordForm.json; sourceTree = "<group>"; };
 		F027630D1890F18A001BEA6D /* EmailInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailInfo.h; sourceTree = "<group>"; };
 		F027630E1890F18A001BEA6D /* EmailInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailInfo.m; sourceTree = "<group>"; };
-		F02763101890F7DE001BEA6D /* registerForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = registerForm.json; sourceTree = "<group>"; };
 		F027631318910131001BEA6D /* RegisterInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterInfo.h; sourceTree = "<group>"; };
 		F027631418910131001BEA6D /* RegisterInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterInfo.m; sourceTree = "<group>"; };
 		F03486BA187E337A001BE459 /* FriendListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListViewController.h; sourceTree = "<group>"; };
@@ -300,7 +295,6 @@
 		F0718CCD185ACEFC009014A0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		F0718CCF185ACF36009014A0 /* AWSRuntime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSRuntime.framework; path = External/AWSRuntime.framework; sourceTree = "<group>"; };
 		F0718CD0185ACF36009014A0 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = External/AWSS3.framework; sourceTree = "<group>"; };
-		F0732D2E1890C38D002F4990 /* loginform.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loginform.json; sourceTree = "<group>"; };
 		F0759AB51881C6310077D387 /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
 		F0759AB61881C6310077D387 /* MFSideMenuContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenuContainerViewController.h; sourceTree = "<group>"; };
 		F0759AB71881C6310077D387 /* MFSideMenuContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFSideMenuContainerViewController.m; sourceTree = "<group>"; };
@@ -512,9 +506,6 @@
 		A73D5A1118653BD700087F27 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				F02763101890F7DE001BEA6D /* registerForm.json */,
-				F027630A1890EE85001BEA6D /* requestResetPasswordForm.json */,
-				F0732D2E1890C38D002F4990 /* loginform.json */,
 				F0628DAB188FF76E00E9C7A3 /* AboutController.h */,
 				F0628DAC188FF76E00E9C7A3 /* AboutController.m */,
 				A73D5A1218653BF700087F27 /* LoginViewController.h */,
@@ -1259,7 +1250,6 @@
 				F0DD71C418921FE60070DF95 /* bubble.png in Resources */,
 				A747D5C21882817600FD9CF7 /* MainStoryboard.storyboard in Resources */,
 				F0DD71B518921FE50070DF95 /* bubble-classic-square-blue@2x.png in Resources */,
-				F027630B1890EE85001BEA6D /* requestResetPasswordForm.json in Resources */,
 				F0DD71C718921FE60070DF95 /* input-bar-background@2x.png in Resources */,
 				F0DD71AF18921FE50070DF95 /* bubble-classic-green@2x.png in Resources */,
 				F0B1EA5A18939D1100D41B1D /* ico_head_globalmenu.png in Resources */,
@@ -1277,7 +1267,6 @@
 				F0AE3F7C188CCACD00B0E83E /* menu_message_on.png in Resources */,
 				F0B1EA5018936B8900D41B1D /* ico_challenges@2x.png in Resources */,
 				F0DD71BC18921FE60070DF95 /* bubble-min.png in Resources */,
-				F0732D2F1890C38D002F4990 /* loginform.json in Resources */,
 				F0AE3F7D188CCACD00B0E83E /* menu_messages_on.png in Resources */,
 				F0718CB6185AC168009014A0 /* icon.png in Resources */,
 				F0AE3F6F188CCACD00B0E83E /* ico_home.png in Resources */,
@@ -1315,7 +1304,6 @@
 				F0DD71BA18921FE60070DF95 /* bubble-min-tailless.png in Resources */,
 				F0DD71C018921FE60070DF95 /* bubble-stroked.png in Resources */,
 				F0AE3F7A188CCACD00B0E83E /* ico_setting_on.png in Resources */,
-				F02763111890F7DE001BEA6D /* registerForm.json in Resources */,
 				F09789C61890CF6D00FAE718 /* logo.png in Resources */,
 				F0DD71D018921FE60070DF95 /* input-bar-flat.png in Resources */,
 				F0DD71AD18921FE50070DF95 /* bubble-classic-gray@2x.png in Resources */,

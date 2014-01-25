@@ -39,6 +39,8 @@
 // S3URL of a video object
 + (NSURL*)s3URLForObject:(PFObject*)object;
 
++ (NSURL*)s3URLWithFileName:(NSString*)filename;
+
 // Start recording from camera
 + (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
 

@@ -29,7 +29,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
-        self.root = [[QRootElement alloc] initWithJSONFile:@"registerForm"];
+        self.root = [[QRootElement alloc] initWithJSONURL:[PresenticeUtitily s3URLWithFileName:@"registerForm.json"] andData:nil];
         self.resizeWhenKeyboardPresented = YES;
     }
     return self;

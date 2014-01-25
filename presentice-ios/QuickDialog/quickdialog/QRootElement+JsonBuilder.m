@@ -46,6 +46,19 @@
     return self;
 }
 
+- (QRootElement *)initWithJSONURL:(NSURL *)jsonPath andData:(id)data{
+    
+    Class JSONSerialization = [QRootElement JSONParserClass];
+    NSAssert(JSONSerialization != NULL, @"No JSON serializer available!");
+    
+    NSError *jsonParsingError = nil;
+    //NSString *filePath = [[NSBundle mainBundle] pathForResource:jsonPath ofType:@"json"];
+    NSDictionary *jsonRoot = [JSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:jsonPath] options:0 error:&jsonParsingError];
+    
+    self = [self initWithJSON:jsonRoot andData:data];
+    return self;
+}
+
 - (QRootElement *)initWithJSON:(id)jsonRoot andData:(id)data {
 
     self = [[QRootBuilder new] buildWithObject:jsonRoot];

@@ -47,7 +47,9 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
-        self.root = [[QRootElement alloc] initWithJSONFile:@"loginform"];
+        
+        
+        self.root = [[QRootElement alloc] initWithJSONURL:[PresenticeUtitily s3URLWithFileName:@"loginform.json"] andData:nil];
         
         self.root.appearance = [self.root.appearance copy];
 //        self.root.appearance.tableGroupedBackgroundColor = [UIColor colorWithRed:40.0/255 green:40.0/255 blue:50.0/255 alpha:1];
@@ -78,6 +80,7 @@
     }
     return self;
 }
+
 
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -212,7 +215,7 @@
 }
 
 - (QRootElement *)createResetPasswordRequestForm {
-    QRootElement *details = [[QRootElement alloc] initWithJSONFile:@"requestResetPasswordForm"];
+    QRootElement *details = [[QRootElement alloc] initWithJSONURL:[PresenticeUtitily s3URLWithFileName:@"requestResetPasswordForm.json"] andData:nil];
     return details;
 }
 

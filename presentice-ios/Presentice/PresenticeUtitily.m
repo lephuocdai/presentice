@@ -156,10 +156,38 @@
         // Set the content type so that the browser will treat the URL as an image.
         S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
         override.contentType = @" ";
-        // Request a pre-signed URL to picture that has been uplaoded.
+        // Request a pre-signed URL to picture that has been uploaded.
         S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
         // Video name
         gpsur.key = [NSString stringWithFormat:@"%@", [object objectForKey:kVideoURLKey]];
+        //bucket name
+        gpsur.bucket  = [Constants transferManagerBucket];
+        // Added an hour's worth of seconds to the current time.
+        gpsur.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600];
+        
+        gpsur.responseHeaderOverrides = override;
+        
+        // Get the URL
+        NSError *error;
+        NSURL *url = [s3Client getPreSignedURL:gpsur error:&error];
+        return url;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Cannot list S3 %@",exception);
+    }
+}
+
++ (NSURL*)s3URLWithFileName:(NSString *)filename {
+    // Init connection with S3Client
+    AmazonS3Client *s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
+    @try {
+        // Set the content type so that the browser will treat the URL as an image.
+        S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
+        override.contentType = @" ";
+        // Request a pre-signed URL to picture that has been uplaoded.
+        S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
+        // Video name
+        gpsur.key = [NSString stringWithFormat:@"%@", filename];
         //bucket name
         gpsur.bucket  = [Constants transferManagerBucket];
         // Added an hour's worth of seconds to the current time.
