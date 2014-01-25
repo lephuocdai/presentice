@@ -129,6 +129,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
     [newUser setObject:fbInfo forKey:kUserProfileKey];
     [newUser setObject:[NSNumber numberWithBool:NO] forKey:kUserCanPostQuestion];
     [newUser setObject:[NSNumber numberWithBool:NO] forKey:kUserCanComment];
+    [newUser setObject:info.code forKey:kUserReceiveCode];
     
     NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
     NSMutableString *code = [NSMutableString stringWithCapacity:20];
@@ -138,19 +139,16 @@ NSDictionary<FBGraphUser>  *fbInfo;
         [code appendFormat:@"%C", c];
     }
     
-//    [newUser setObject:code forKey:kUserMyCode];
-//    if (!info.code) {
-//        [newUser setObject:info.code forKey:kUserReceiveCode];
-//    }
-    NSLog(@"info.code = %@", info.code);
-    
     NSMutableDictionary *pushPermission = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"answered", @"yes", @"reviewed", @"yes", @"viewed", @"no", @"message", @"yes", nil];
     
     [newUser setObject:pushPermission forKey:kUserPushPermission];
     
     [newUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
-            NSLog(@"register succeed!");
+            
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+            [params setObject:info.code forKey:@"receiveCode"];
+            [PFCloud callFunction:@"onRegistered" withParameters:params];
             
             //show succeeded alert
             UIAlertView *succeedAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Succeeded" message:@"Click OK to go to main screen" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
