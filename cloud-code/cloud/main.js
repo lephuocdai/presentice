@@ -1,3 +1,7 @@
+var INIT_POINT = 100;
+var INIT_LEVEL = 0;
+var POINT_REGISTER_WITH_MYCODE = 50;
+
 Parse.Cloud.define("sendPushNotification", function(request, response) {
 	var pushType = request.params.pushType;
 	if (pushType == "message") {
@@ -38,11 +42,42 @@ Parse.Cloud.define("sendPushNotification", function(request, response) {
 	}
 });
 
-Parse.Cloud.beforeSave(Parse.User, function(request, response) {
-    request.object.set("myCode", Math.uuid(6, 16));	//set myCode to an unique 6 characters, base=16
-    response.success();
-});
+/**
+** cloud code call when user registered successfully
+** step1: save promotion information of user
+** step2: save promotion information for user have myCode as code entered by registered user
+**/
+Parse.Cloud.define("onRegistered", function(request, response){
+	var user = request.user;
+	var receiveCode = request.params.receiveCode;
 
+	//save promotion info of user
+	var promotion = new Parse.Object("Promotion");
+	promotion.set("user", user);
+	promotion.set("myCode", Math.uuid(6, 16));	//generate myCode to an unique 6 characters, base=16
+    promotion.set("points", INIT_POINT);   //set init point to user
+    promotion.set("level", INIT_LEVEL);	//set init level to user
+    promotion.set("receiveCode", receiveCode);
+    promotion.save();
+
+    //find promotion of users which have myCode as code entered by other user
+    var query = new Parse.Query("Promotion");
+	query.equalTo("myCode", receiveCode);
+	query.find({
+		success: function(results){
+			//increase points to each user
+			for(var i = 0; i < results.length; i++){
+				var promotion = results[0];
+				var points = promotion.get("points") + POINT_REGISTER_WITH_MYCODE
+				promotion.set("points", points);
+				promotion.save();
+			}
+		},
+		error: function(error){
+			console.error("Got an error " + error.code + " : " + error.message);
+		}
+	});
+});
 
  Math.uuid = function (len, radix) {
  	// Private array of chars to use
