@@ -132,58 +132,17 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    NSLog(@"HERE %@", self.objects);
-    //[self s3DirectoryListing:[Constants transferManagerBucket] :self.objects];
     if ([segue.identifier isEqualToString:@"showAnswerDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         MyAnswerViewController *destViewController = segue.destinationViewController;
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
-        NSLog(@"sent object = %@", object);
-//        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
         destViewController.movieURL = [PresenticeUtitily s3URLForObject:object];
         destViewController.answerVideoObj = object;
         destViewController.questionPostedUser = [object objectForKey:kVideoToUserKey];
         destViewController.questionVideoObj = [object objectForKey:kVideoAsAReplyTo];
     }
 }
-
-/**
- * get the URL from S3
- * param: bucket name
- * param: Parse Video object (JSON)
- * This one is the modified one of the commented-out above
- 
- - (NSURL*)s3URL: (NSString*)bucketName :(PFObject*)object {
-    // Init connection with S3Client
-    s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
-    @try {
-        // Set the content type so that the browser will treat the URL as an image.
-        S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
-        override.contentType = @" ";
-        // Request a pre-signed URL to picture that has been uplaoded.
-        S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
-        // Video name
-        gpsur.key = [NSString stringWithFormat:@"%@", [object objectForKey:kVideoURLKey]];
-        //bucket name
-        gpsur.bucket  = bucketName;
-        // Added an hour's worth of seconds to the current time.
-        gpsur.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600];
-        
-        gpsur.responseHeaderOverrides = override;
-        
-        // Get the URL
-        NSError *error;
-        NSURL *url = [s3Client getPreSignedURL:gpsur error:&error];
-        return url;
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Cannot list S3 %@",exception);
-    }
-}
- **/
-
-
 
 - (IBAction)showLeftMenu:(id)sender {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];

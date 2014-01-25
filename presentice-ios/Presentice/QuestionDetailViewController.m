@@ -88,12 +88,7 @@
         if(![ACCESS_KEY_ID isEqualToString:@"CHANGE ME"]){
             self.tm = [PresenticeUtitily getS3TransferManagerForDelegate:self withEndPoint:AP_NORTHEAST_1 andRegion:[S3Region APJapan]];
         }else {
-            UIAlertView *message = [[UIAlertView alloc] initWithTitle:CREDENTIALS_ERROR_TITLE
-                                                              message:CREDENTIALS_ERROR_MESSAGE
-                                                             delegate:nil
-                                                    cancelButtonTitle:@"OK"
-                                                    otherButtonTitles:nil];
-            [message show];
+            [PresenticeUtitily alertBucketCreatingError];
         }
     }
     

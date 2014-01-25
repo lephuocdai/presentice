@@ -13,7 +13,6 @@
 @end
 
 @implementation MainViewController {
-    AmazonS3Client *s3Client;
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -339,11 +338,9 @@
         PFObject *object = [self.objects objectAtIndex:indexPath.section];
         PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
         
-//        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
         destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
-//        NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :videoObj]);
-//        NSLog(@"answer video object: %@", videoObj);
         destViewController.answerVideoObj = videoObj;
+        
     } else if ([segue.identifier isEqualToString:@"showAnswerFromReviewDescription"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         VideoViewController *destViewController = segue.destinationViewController;
@@ -351,11 +348,9 @@
         PFObject *object = [self.objects objectAtIndex:indexPath.section];
         PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
         
-//        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
         destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
-//        NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :videoObj]);
-//        NSLog(@"answer video object: %@", videoObj);
         destViewController.answerVideoObj = videoObj;
+        
     } else if ([segue.identifier isEqualToString:@"showQuestionFromQuestionDescription"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         QuestionDetailViewController *destViewController = segue.destinationViewController;
@@ -363,11 +358,9 @@
         PFObject *object = [self.objects objectAtIndex:indexPath.section];
         PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
         
-//        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
         destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
-//        NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :videoObj]);
-//        NSLog(@"question video object: %@", videoObj);
         destViewController.questionVideoObj = videoObj;
+        
     } else if ([segue.identifier isEqualToString:@"showUserFromRegisterDescription"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         UserProfileViewController *destViewController = segue.destinationViewController;
@@ -406,14 +399,5 @@
 -(void)request:(AmazonServiceRequest *)request didFailWithServiceException:(NSException *)exception {
     NSLog(@"didFailWithServiceException called: %@", exception);
 }
-
-#pragma Amazon implemented methods
-
-/**
- * get the URL from S3
- * param: bucket name
- * param: Parse Video object (JSON)
- * This one is the modified one of the commented-out above
- **/
 
 @end

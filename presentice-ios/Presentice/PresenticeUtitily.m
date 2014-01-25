@@ -128,10 +128,8 @@
    
    // Create the bucket
    S3CreateBucketRequest *createBucketRequest = [[S3CreateBucketRequest alloc] initWithName:[Constants transferManagerBucket] andRegion:region];
-//   NSLog(@"S3CreateBucketRequest = %@", createBucketRequest);
    @try {
        S3CreateBucketResponse *createBucketResponse = [s3 createBucket:createBucketRequest];
-//       NSLog(@"create bucket response");
        if(createBucketResponse.error != nil) {
            NSLog(@"Error: %@", createBucketResponse.error);
        }
@@ -143,6 +141,16 @@
     return manager;
 }
 
++ (void)alertBucketCreatingError {
+    UIAlertView *message = [[UIAlertView alloc] initWithTitle:CREDENTIALS_ERROR_TITLE
+                                                      message:CREDENTIALS_ERROR_MESSAGE
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+    [message show];
+}
+
+#pragma Amazon implemented methods
 /**
  * get the URL from S3
  * param: bucket name

@@ -36,6 +36,8 @@
 // Initiate S3TransferManager bucket
 + (S3TransferManager *)getS3TransferManagerForDelegate:(id)delegate withEndPoint:(AmazonRegion)endPoint andRegion:(S3Region *)region;
 
++ (void)alertBucketCreatingError;
+
 // S3URL of a video object
 + (NSURL*)s3URLForObject:(PFObject*)object;
 

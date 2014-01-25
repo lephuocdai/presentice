@@ -13,7 +13,6 @@
 @end
 
 @implementation NotificationListViewController {
-    AmazonS3Client *s3Client;
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -37,25 +36,13 @@
         
         // The number of objects to show per page
         self.objectsPerPage = 10;
-        
-//#pragma hide tab bar
-//        hidden = NO;
     }
     
     if ([PFInstallation currentInstallation].badge > 0) {
             [self.tabBarItem setBadgeValue:[NSString stringWithFormat:@"%ld",(long)[PFInstallation currentInstallation].badge]];
         }
-    
     return self;
 }
-
-//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-//    if (self) {
-//        // Custom initialization
-//    }
-//    return self;
-//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -240,7 +227,6 @@
             VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
             PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
             
-//            destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
             destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
             destViewController.answerVideoObj = videoObj;
             
@@ -250,7 +236,6 @@
             VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
             PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
             
-//            destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
             destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
             destViewController.answerVideoObj = videoObj;
             
@@ -260,7 +245,6 @@
             QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
             PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
             
-//            destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
             destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
             destViewController.questionVideoObj = videoObj;
             
@@ -286,20 +270,6 @@
         }
     }
 }
-
-/**
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showQuestionDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        QuestionViewController *destViewController = segue.destinationViewController;
-        destViewController.fileName = [questionList objectAtIndex:indexPath.row][@"fileName"];
-        destViewController.movieURL = [questionList objectAtIndex:indexPath.row][@"fileURL"];
-        destViewController.userName = [questionList objectAtIndex:indexPath.row][@"userName"];
-    }
-}
-**/
-
-
 
 - (IBAction)showLeftMenu:(id)sender {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
@@ -329,41 +299,5 @@
 }
 
 #pragma Amazon implemented methods
-
-/**
- * get the URL from S3
- * param: bucket name
- * param: Parse Video object (JSON)
- * This one is the modified one of the commented-out above
- 
- - (NSURL*)s3URL: (NSString*)bucketName :(PFObject*)object {
-    // Init connection with S3Client
-    s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
-    @try {
-        // Set the content type so that the browser will treat the URL as an image.
-        S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
-        override.contentType = @" ";
-        // Request a pre-signed URL to picture that has been uplaoded.
-        S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
-        // Video name
-        gpsur.key = [NSString stringWithFormat:@"%@", [object objectForKey:kVideoURLKey]];
-        //bucket name
-        gpsur.bucket  = bucketName;
-        // Added an hour's worth of seconds to the current time.
-        gpsur.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600];
-        
-        gpsur.responseHeaderOverrides = override;
-        
-        // Get the URL
-        NSError *error;
-        NSURL *url = [s3Client getPreSignedURL:gpsur error:&error];
-        return url;
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Cannot list S3 %@",exception);
-    }
-}
-**/
-
 
 @end
