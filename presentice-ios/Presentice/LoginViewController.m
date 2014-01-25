@@ -90,18 +90,13 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
+    //hide navigator if in login view
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
     [super viewWillAppear:animated];
     
 //    self.navigationController.navigationBar.tintColor = nil;
 //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"About" style:UIBarButtonItemStylePlain target:self action:@selector(onAbout)];
 }
-
-/**
-- (void) viewWillAppear:(BOOL)animated {
-    //hide navigator if in login view
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-}
-**/
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -266,7 +261,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     //if user already login, redirect to MainViewController
 	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]])
         [self navigateToHomeScreen];
