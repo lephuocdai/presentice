@@ -111,6 +111,10 @@
 		F0B1EA5918939D1100D41B1D /* ico_head_friendsList@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0B1EA5518939D1100D41B1D /* ico_head_friendsList@2x.png */; };
 		F0B1EA5A18939D1100D41B1D /* ico_head_globalmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = F0B1EA5618939D1100D41B1D /* ico_head_globalmenu.png */; };
 		F0B1EA5B18939D1100D41B1D /* ico_head_globalmenu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0B1EA5718939D1100D41B1D /* ico_head_globalmenu@2x.png */; };
+		F0B1EA5F1893C26A00D41B1D /* loginform.json in Resources */ = {isa = PBXBuildFile; fileRef = F0B1EA5C1893C26A00D41B1D /* loginform.json */; };
+		F0B1EA601893C26A00D41B1D /* registerForm.json in Resources */ = {isa = PBXBuildFile; fileRef = F0B1EA5D1893C26A00D41B1D /* registerForm.json */; };
+		F0B1EA611893C26A00D41B1D /* requestResetPasswordForm.json in Resources */ = {isa = PBXBuildFile; fileRef = F0B1EA5E1893C26A00D41B1D /* requestResetPasswordForm.json */; };
+		F0B1EA651893CA9F00D41B1D /* facebook_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F0B1EA641893CA9F00D41B1D /* facebook_icon.png */; };
 		F0DD719A18921FE50070DF95 /* NSString+JSMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DD714618921FE50070DF95 /* NSString+JSMessagesView.m */; };
 		F0DD719B18921FE50070DF95 /* UIColor+JSMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DD714818921FE50070DF95 /* UIColor+JSMessagesView.m */; };
 		F0DD719C18921FE50070DF95 /* UIImage+JSMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DD714A18921FE50070DF95 /* UIImage+JSMessagesView.m */; };
@@ -350,6 +354,10 @@
 		F0B1EA5518939D1100D41B1D /* ico_head_friendsList@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_head_friendsList@2x.png"; sourceTree = "<group>"; };
 		F0B1EA5618939D1100D41B1D /* ico_head_globalmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ico_head_globalmenu.png; sourceTree = "<group>"; };
 		F0B1EA5718939D1100D41B1D /* ico_head_globalmenu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_head_globalmenu@2x.png"; sourceTree = "<group>"; };
+		F0B1EA5C1893C26A00D41B1D /* loginform.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loginform.json; sourceTree = "<group>"; };
+		F0B1EA5D1893C26A00D41B1D /* registerForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = registerForm.json; sourceTree = "<group>"; };
+		F0B1EA5E1893C26A00D41B1D /* requestResetPasswordForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = requestResetPasswordForm.json; sourceTree = "<group>"; };
+		F0B1EA641893CA9F00D41B1D /* facebook_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook_icon.png; sourceTree = "<group>"; };
 		F0DD714518921FE50070DF95 /* NSString+JSMessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JSMessagesView.h"; sourceTree = "<group>"; };
 		F0DD714618921FE50070DF95 /* NSString+JSMessagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JSMessagesView.m"; sourceTree = "<group>"; };
 		F0DD714718921FE50070DF95 /* UIColor+JSMessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+JSMessagesView.h"; sourceTree = "<group>"; };
@@ -506,6 +514,9 @@
 		A73D5A1118653BD700087F27 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				F0B1EA5C1893C26A00D41B1D /* loginform.json */,
+				F0B1EA5D1893C26A00D41B1D /* registerForm.json */,
+				F0B1EA5E1893C26A00D41B1D /* requestResetPasswordForm.json */,
 				F0628DAB188FF76E00E9C7A3 /* AboutController.h */,
 				F0628DAC188FF76E00E9C7A3 /* AboutController.m */,
 				A73D5A1218653BF700087F27 /* LoginViewController.h */,
@@ -1147,6 +1158,7 @@
 		F4EECF53177F37CB00778578 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F0B1EA641893CA9F00D41B1D /* facebook_icon.png */,
 				F0628D69188F533400E9C7A3 /* homeMenu */,
 				F0AE3F4F188CCACD00B0E83E /* globalMenu */,
 				F0AE3F68188CCACD00B0E83E /* icon_header */,
@@ -1242,6 +1254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0DD71BB18921FE60070DF95 /* bubble-min-tailless@2x.png in Resources */,
+				F0B1EA651893CA9F00D41B1D /* facebook_icon.png in Resources */,
 				F0B1EA45189367EF00D41B1D /* ico_mylibrary.png in Resources */,
 				F0DD71B818921FE50070DF95 /* bubble-classic-square-selected.png in Resources */,
 				F0B1EA44189367EF00D41B1D /* ico_challenges.png in Resources */,
@@ -1273,9 +1286,11 @@
 				F0DD71B418921FE50070DF95 /* bubble-classic-square-blue.png in Resources */,
 				F0628D73188F605200E9C7A3 /* add_friends_icon.png in Resources */,
 				F0DD71CF18921FE60070DF95 /* button-photo@2x.png in Resources */,
+				F0B1EA611893C26A00D41B1D /* requestResetPasswordForm.json in Resources */,
 				F0DD71B018921FE50070DF95 /* bubble-classic-selected.png in Resources */,
 				F0AE3F89188CCACD00B0E83E /* Default@2x.png in Resources */,
 				F0DD71C518921FE60070DF95 /* bubble@2x.png in Resources */,
+				F0B1EA601893C26A00D41B1D /* registerForm.json in Resources */,
 				F0DD71B618921FE50070DF95 /* bubble-classic-square-gray.png in Resources */,
 				F0AE3F7B188CCACD00B0E83E /* menu_home_on.png in Resources */,
 				F0DD71C318921FE60070DF95 /* bubble-tailless@2x.png in Resources */,
@@ -1318,6 +1333,7 @@
 				F4EECF67177F4AB000778578 /* nav_bg.png in Resources */,
 				F0B1EA5918939D1100D41B1D /* ico_head_friendsList@2x.png in Resources */,
 				F0DD71CE18921FE60070DF95 /* button-photo.png in Resources */,
+				F0B1EA5F1893C26A00D41B1D /* loginform.json in Resources */,
 				F0AE3F74188CCACD00B0E83E /* menu_messages.png in Resources */,
 				F0DD71C218921FE60070DF95 /* bubble-tailless.png in Resources */,
 				F4EECF6A177F4C0200778578 /* menu.png in Resources */,

@@ -48,8 +48,9 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         
+        self.root = [[QRootElement alloc] initWithJSONFile:@"loginform"];
         
-        self.root = [[QRootElement alloc] initWithJSONURL:[PresenticeUtitily s3URLWithFileName:@"loginform.json"] andData:nil];
+//        self.root = [[QRootElement alloc] initWithJSONURL:[PresenticeUtitily s3URLWithFileName:@"loginform.json"] andData:nil];
         
         self.root.appearance = [self.root.appearance copy];
 //        self.root.appearance.tableGroupedBackgroundColor = [UIColor colorWithRed:40.0/255 green:40.0/255 blue:50.0/255 alpha:1];
@@ -64,19 +65,24 @@
 //        [self.root elementWithKey:@"password"].appearance = fieldsAppearance;
 //        [self.root elementWithKey:@"loginButton"].appearance = fieldsAppearance;
         
+        QLabelElement *facebookLoginLabel = (QLabelElement*)[self.root elementWithKey:@"facebookLoginLabel"];
+        facebookLoginLabel.image = [UIImage imageNamed:@"facebook_icon"];
+        [self.root elementWithKey:@"facebookLoginLabel"].appearance = self.root.appearance.copy;
+        [self.root elementWithKey:@"facebookLoginLabel"].appearance.backgroundColorEnabled = [UIColor colorWithRed:59.0/255 green:89.0/255 blue:182.0/255 alpha:1];
         
-        [self.root elementWithKey:@"facebookLoginButton"].appearance = self.root.appearance.copy;
-        [self.root elementWithKey:@"facebookLoginButton"].appearance.backgroundColorEnabled = [UIColor colorWithRed:59.0/255 green:89.0/255 blue:182.0/255 alpha:1];
+        [self.root elementWithKey:@"loginButton"].appearance = self.root.appearance.copy;
+        [self.root elementWithKey:@"loginButton"].appearance = fieldsAppearance;
         
         
+//        QLabelElement *resetPasswordRequestButton = (QLabelElement*)[self.root elementWithKey:@"resetPasswordRequestButton"];
 //        [self.root elementWithKey:@"resetPasswordRequestButton"].appearance = self.root.appearance.copy;
-//        [self.root elementWithKey:@"resetPasswordRequestButton"].appearance.backgroundColorEnabled = [UIColor greenColor];
         
         //hide navigator if in login view
         if (self.isResetingPassword == false) {
             NSLog(@"fuck you reseting again %hhd", self.isResetingPassword);
             [self.navigationController setNavigationBarHidden:YES animated:YES];
         }
+        self.resizeWhenKeyboardPresented = YES;
     }
     return self;
 }

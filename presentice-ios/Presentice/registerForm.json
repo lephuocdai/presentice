@@ -1,0 +1,21 @@
+{
+	"grouped": true,
+	"title": "Register Your Account",
+    "controllerName": "RegisterViewController",
+	"sections": [
+		{ "title":"Confirm your account information", "headerImage":"logo", "footer":"Your email will be your account for the next time login.", "elements": [
+				{ "type":"QEntryElement", "keyboardType":"EmailAddress", "title":"Login","placeholder":"Login or email", "bind":"textValue:email", "key":"email"}
+			]
+        }, { "title":"Password", "elements": [
+                {  "type":"QEntryElement", "title":"Password", "placeholder":"Password",  "secureTextEntry":true, "bind":"textValue:password","key":"password" },
+                {  "type":"QEntryElement", "title":"Password Again", "placeholder":"Please type password again",  "secureTextEntry":true, "bind":"textValue:password","key":"passwordConfirm" }
+            ]
+        }, { "title":"Promotion code from your friend, if you have", "elements": [
+                { "type":"QEntryElement", "title":"Code","placeholder":"6-digit code", "bind":"textValue:code", "key":"code"}
+            ]
+        }, { "elements":[
+                { "type":"QButtonElement", "key":"button", "title":"Register", "controllerAction":"onRegister:"}
+			]
+		}
+	]
+}

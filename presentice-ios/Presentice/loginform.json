@@ -1,0 +1,24 @@
+{
+	"grouped": true,
+	"title": "Login",
+    "controllerName": "LoginViewController",
+	"sections": [
+        { "headerImage":"facebook_icon", "footer":"Don't worry! We never post anything on your Facebook.", "elements":[
+                { "type":"QLabelElement", "key":"facebookLoginLabel","title":"Login with Facebook", "controllerAction":"onLoginFacebook:"}
+            ]
+        },
+		{ "title":"Login", "headerImage":"icon3", "elements": [
+				{ "type":"QEntryElement", "keyboardType":"EmailAddress", "title":"Email","placeholder":"Your registered email", "bind":"textValue:email", "key":"email"},
+				{  "type":"QEntryElement", "title":"Password", "placeholder":"Password",  "secureTextEntry":true, "bind":"textValue:password","key":"password" }
+			]
+		},
+        { "elements":[
+                { "type":"QLabelElement", "key":"loginButton", "title":"Login with Email", "controllerAction":"onLogin:"}
+            ]
+        },
+        { "title":"Forgot your password?", "elements":[
+                 { "type":"QLabelElement", "key":"resetPasswordRequestButton", "title":"Request a password reset", "controllerAction":"onRequestPasswordReset:"}
+            ]
+        }
+	]
+}
