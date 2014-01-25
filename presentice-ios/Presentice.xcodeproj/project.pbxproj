@@ -35,6 +35,7 @@
 		A78E9D5A185DA16B00ACCC54 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A78E9D53185DA16B00ACCC54 /* MBProgressHUD.m */; };
 		A78E9D5B185DA16B00ACCC54 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = A78E9D56185DA16B00ACCC54 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A78E9D5C185DA16B00ACCC54 /* TTTTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = A78E9D59185DA16B00ACCC54 /* TTTTimeIntervalFormatter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A791D5521893E0270000599B /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A791D5511893E0270000599B /* NewRelicAgent.framework */; };
 		A7E995A51867D197009E48CA /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E995A41867D197009E48CA /* RegisterViewController.m */; };
 		F00006A6186BA98C00E69027 /* MessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F00006A5186BA98C00E69027 /* MessageListViewController.m */; };
 		F00006A9186BA9AC00E69027 /* MessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F00006A8186BA9AC00E69027 /* MessageDetailViewController.m */; };
@@ -248,6 +249,7 @@
 		A78E9D56185DA16B00ACCC54 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		A78E9D58185DA16B00ACCC54 /* TTTTimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTTimeIntervalFormatter.h; sourceTree = "<group>"; };
 		A78E9D59185DA16B00ACCC54 /* TTTTimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTTimeIntervalFormatter.m; sourceTree = "<group>"; };
+		A791D5511893E0270000599B /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
 		A7E995A31867D196009E48CA /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		A7E995A41867D197009E48CA /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		F00006A4186BA98C00E69027 /* MessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListViewController.h; sourceTree = "<group>"; };
@@ -486,6 +488,7 @@
 				A78E9D35185D9E8800ACCC54 /* StoreKit.framework in Frameworks */,
 				F0718CCE185ACEFC009014A0 /* AssetsLibrary.framework in Frameworks */,
 				F0718CCA185ACEE7009014A0 /* MediaPlayer.framework in Frameworks */,
+				A791D5521893E0270000599B /* NewRelicAgent.framework in Frameworks */,
 				F0718CD1185ACF36009014A0 /* AWSRuntime.framework in Frameworks */,
 				F0718CC6185ACED5009014A0 /* CoreMedia.framework in Frameworks */,
 				F4EECF72177FE9BA00778578 /* MapKit.framework in Frameworks */,
@@ -1075,6 +1078,7 @@
 		F4EECF10177C99F400778578 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A791D5511893E0270000599B /* NewRelicAgent.framework */,
 				F0DD71D9189265120070DF95 /* libz.dylib */,
 				F0DD71D7189264FE0070DF95 /* CoreTelephony.framework */,
 				F0DD71D5189264DC0070DF95 /* NewRelicAgent.framework */,
@@ -1527,6 +1531,7 @@
 					"$(SRCROOT)/Presentice/**",
 					"$(SRCROOT)/External/**",
 					"/Users/lephuocdai/Dropbox/Presentice/dev/Presentice/presentice-ios",
+					"/Users/phuongnq/startup/github/presentice/presentice-ios",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Presentice/Presentice-Prefix.pch";
@@ -1539,7 +1544,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Presentice;
-				PROVISIONING_PROFILE = "6FFF1F59-56DD-44CC-8D8F-3071BD105391";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/QuickDialog\"/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1555,6 +1560,7 @@
 					"$(SRCROOT)/Presentice/**",
 					"$(SRCROOT)/External/**",
 					"/Users/lephuocdai/Dropbox/Presentice/dev/Presentice/presentice-ios",
+					"/Users/phuongnq/startup/github/presentice/presentice-ios",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Presentice/Presentice-Prefix.pch";
@@ -1567,7 +1573,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Presentice;
-				PROVISIONING_PROFILE = "6FFF1F59-56DD-44CC-8D8F-3071BD105391";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/QuickDialog\"/**";
 				WRAPPER_EXTENSION = app;
 			};
