@@ -205,7 +205,7 @@
     }
 }
 
-+ (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate {
++ (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate withTimeLimit:(NSTimeInterval)timeLimit {
     // Validations
     if (([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO)
         || (delegate == nil)
@@ -215,6 +215,8 @@
     
     // Get imagePicker
     UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
+    [cameraUI setVideoMaximumDuration:timeLimit];
+    
     cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
     
     // Display a controller that allows user to choose movie capture
@@ -229,6 +231,17 @@
     return YES;
 }
 
++ (void)startImagePickerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate withTimeLimit:(NSTimeInterval)timeLimit {
+    
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    [picker setVideoMaximumDuration:timeLimit];
+    picker.delegate = delegate;
+    picker.allowsEditing = YES;
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.mediaTypes = [NSArray arrayWithObject:(NSString *)kUTTypeMovie];
+    
+    [controller presentViewController:picker animated:YES completion:NULL];
+}
 
 
 @end

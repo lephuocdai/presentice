@@ -34,10 +34,11 @@
 
 // For taking answerVideo
 - (IBAction)takeAnswer:(id)sender;
-//@property (weak, nonatomic) IBOutlet UITextField *putObjectTextField;
+
 @property (nonatomic, strong) S3TransferManager *tm;
-//- (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
+
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
+
 @property (strong, nonatomic) NSString *answerVideoName;
 @property (strong, nonatomic) NSString *answerVideoVisibility;
 

@@ -42,6 +42,8 @@
 + (NSURL*)s3URLWithFileName:(NSString*)filename;
 
 // Start recording from camera
-+ (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
++ (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate withTimeLimit:(NSTimeInterval)timeLimit;
+
++ (void)startImagePickerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate withTimeLimit:(NSTimeInterval)timeLimit;
 
 @end

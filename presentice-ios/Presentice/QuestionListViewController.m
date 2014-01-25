@@ -20,7 +20,6 @@
     NSString *uploadFilename;
     bool isUploadFromLibrary;
     NSString *recordedVideoPath;
-//    AmazonS3Client *s3Client;
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -160,41 +159,6 @@
 }
 
 #pragma Amazon implemented methods
-/**
- * get the URL from S3
- * param: bucket name
- * param: Parse Video object (JSON)
- * This one is the modified one of the commented-out above
-
-
-- (NSURL*)s3URL: (NSString*)bucketName :(PFObject*)object {
-    // Init connection with S3Client
-    s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
-    @try {
-        // Set the content type so that the browser will treat the URL as an image.
-        S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
-        override.contentType = @" ";
-        // Request a pre-signed URL to picture that has been uplaoded.
-        S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
-        // Video name
-        gpsur.key = [NSString stringWithFormat:@"%@", [object objectForKey:kVideoURLKey]];
-        //bucket name
-        gpsur.bucket  = bucketName;
-        // Added an hour's worth of seconds to the current time.
-        gpsur.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600];
-        
-        gpsur.responseHeaderOverrides = override;
-        
-        // Get the URL
-        NSError *error;
-        NSURL *url = [s3Client getPreSignedURL:gpsur error:&error];
-        return url;
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Cannot list S3 %@",exception);
-    }
-}
- **/
 
 - (IBAction)showLeftMenu:(id)sender {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
@@ -231,17 +195,11 @@
         if (buttonIndex == 1) {         // Upload from library
             NSLog(@"Upload from Library");
             isUploadFromLibrary = true;
-            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-            picker.delegate = self;
-            picker.allowsEditing = YES;
-            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            picker.mediaTypes = [NSArray arrayWithObject:(NSString *)kUTTypeMovie];
-            
-            [self presentViewController:picker animated:YES completion:NULL];
+            [PresenticeUtitily startImagePickerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
         } else if (buttonIndex == 2) {  // Record from camera
             NSLog(@"Record from Camera");
             isUploadFromLibrary = false;
-            [PresenticeUtitily startCameraControllerFromViewController:self usingDelegate:self];
+            [PresenticeUtitily startCameraControllerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
         }
     } else if (alertView.tag == 1) {
         if (buttonIndex == 1) {
@@ -327,32 +285,6 @@
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
-/**
-- (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate {
-    // Validations
-    if (([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO)
-        || (delegate == nil)
-        || (controller == nil)) {
-        return NO;
-    }
-    
-    // Get imagePicker
-    UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
-    cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
-    
-    // Display a controller that allows user to choose movie capture
-    cameraUI.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *) kUTTypeMovie, nil];
-    
-    // Hides the controls for moving & scaling pictures, or for trimming movies. To instead show the controls, use YES.
-    cameraUI.allowsEditing = NO;
-    cameraUI.delegate = delegate;
-    
-    // Display image picker
-    [controller presentViewController:cameraUI animated:YES completion:nil];
-    return YES;
-}
-**/
-
 -(void)video:(NSString*)videoPath didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo {
     if (error) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Video Saving Failed"
@@ -425,24 +357,4 @@
     NSLog(@"didFailWithServiceException called: %@", exception);
 }
 
-#pragma mark - Helpers
-/**
--(NSString *)generateTempFile: (NSString *)filename : (long long)approximateFileSize {
-    NSFileManager *fm = [NSFileManager defaultManager];
-    NSString * filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:filename];
-    if (![fm fileExistsAtPath:filePath]) {
-        NSOutputStream * os= [NSOutputStream outputStreamToFileAtPath:filePath append:NO];
-        NSString * dataString = @"S3TransferManager_V2 ";
-        const uint8_t *bytes = [dataString dataUsingEncoding:NSUTF8StringEncoding].bytes;
-        long fileSize = 0;
-        [os open];
-        while(fileSize < approximateFileSize){
-            [os write:bytes maxLength:dataString.length];
-            fileSize += dataString.length;
-        }
-        [os close];
-    }
-    return filePath;
-}
-**/
 @end

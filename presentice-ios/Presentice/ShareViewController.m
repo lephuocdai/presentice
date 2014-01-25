@@ -47,18 +47,12 @@
 
 - (IBAction)upload:(id)sender {
     isUploadFromLibrary = true;
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-    picker.allowsEditing = YES;
-    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    picker.mediaTypes = [NSArray arrayWithObject:(NSString *)kUTTypeMovie];
-    
-    [self presentViewController:picker animated:YES completion:NULL];
+    [PresenticeUtitily startImagePickerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
 }
 
 - (IBAction)record:(id)sender {
 //    [self startCameraControllerFromViewController:self usingDelegate:self];
-    [PresenticeUtitily startCameraControllerFromViewController:self usingDelegate:self];
+    [PresenticeUtitily startCameraControllerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
 }
 
 /**

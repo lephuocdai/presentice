@@ -88,6 +88,7 @@
 #define REVIEW_MAX_VALUE 5
 #define REVIEW_MIN_VALUE 1
 
+#define VIDEO_TIME_LIMIT 120.0f     // 2 minutes
 
 @interface Constants : NSObject
 

@@ -23,8 +23,6 @@
     NSString *uploadFilename;
     bool isUploadFromLibrary;
     NSString *recordedVideoPath;
-    AmazonS3Client *s3Client;
-    
 }
 
 @synthesize videoNameLabel;
@@ -52,16 +50,6 @@
     }
     return self;
 }
-
-/**
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-**/
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -300,17 +288,11 @@
             if (buttonIndex == 1) {
                 NSLog(@"Upload from Library");
                 isUploadFromLibrary = true;
-                UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-                picker.delegate = self;
-                picker.allowsEditing = YES;
-                picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-                picker.mediaTypes = [NSArray arrayWithObject:(NSString *)kUTTypeMovie];
-                
-                [self presentViewController:picker animated:YES completion:NULL];
+                [PresenticeUtitily startImagePickerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
             } else if (buttonIndex == 2) {
                 NSLog(@"Record from Camera");
-//                [self startCameraControllerFromViewController:self usingDelegate:self];
-                [PresenticeUtitily startCameraControllerFromViewController:self usingDelegate:self];
+                isUploadFromLibrary = false;
+                [PresenticeUtitily startCameraControllerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
             }
             // Call another alert after this alert executed
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Seclect Visibility!"
