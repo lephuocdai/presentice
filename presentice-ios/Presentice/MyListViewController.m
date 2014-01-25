@@ -140,7 +140,8 @@
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
         NSLog(@"sent object = %@", object);
-        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
+//        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
+        destViewController.movieURL = [PresenticeUtitily s3URLForObject:object];
         destViewController.answerVideoObj = object;
         destViewController.questionPostedUser = [object objectForKey:kVideoToUserKey];
         destViewController.questionVideoObj = [object objectForKey:kVideoAsAReplyTo];
@@ -152,9 +153,8 @@
  * param: bucket name
  * param: Parse Video object (JSON)
  * This one is the modified one of the commented-out above
- **/
-
-- (NSURL*)s3URL: (NSString*)bucketName :(PFObject*)object {
+ 
+ - (NSURL*)s3URL: (NSString*)bucketName :(PFObject*)object {
     // Init connection with S3Client
     s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
     @try {
@@ -181,6 +181,9 @@
         NSLog(@"Cannot list S3 %@",exception);
     }
 }
+ **/
+
+
 
 - (IBAction)showLeftMenu:(id)sender {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];

@@ -20,7 +20,7 @@
     NSString *uploadFilename;
     bool isUploadFromLibrary;
     NSString *recordedVideoPath;
-    AmazonS3Client *s3Client;
+//    AmazonS3Client *s3Client;
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -58,30 +58,8 @@
     // Initiate S3 bucket access
     if(self.tm == nil){
         if(![ACCESS_KEY_ID isEqualToString:@"CHANGE ME"]){
-            
-            // Initialize the S3 Client.
-            AmazonS3Client *s3 = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
-            s3.endpoint = [AmazonEndpoints s3Endpoint:AP_NORTHEAST_1];
-            
-            // Initialize the S3TransferManager
-            self.tm = [S3TransferManager new];
-            self.tm.s3 = s3;
-            self.tm.delegate = self;
-            
-            // Create the bucket
-            S3CreateBucketRequest *createBucketRequest = [[S3CreateBucketRequest alloc] initWithName:[Constants transferManagerBucket] andRegion: [S3Region APJapan]];
-            @try {
-                S3CreateBucketResponse *createBucketResponse = [s3 createBucket:createBucketRequest];
-                if(createBucketResponse.error != nil) {
-                    NSLog(@"Error: %@", createBucketResponse.error);
-                }
-            }@catch(AmazonServiceException *exception) {
-                if(![@"BucketAlreadyOwnedByYou" isEqualToString: exception.errorCode]) {
-                    NSLog(@"Unable to create bucket: %@ %@",exception.errorCode, exception.error);
-                }
-            }
-            
-        }else {
+            self.tm = [PresenticeUtitily getS3TransferManagerForDelegate:self withEndPoint:AP_NORTHEAST_1 andRegion:[S3Region APJapan]];
+        } else {
             UIAlertView *message = [[UIAlertView alloc] initWithTitle:CREDENTIALS_ERROR_TITLE
                                                               message:CREDENTIALS_ERROR_MESSAGE
                                                              delegate:nil
@@ -176,7 +154,7 @@
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
         NSLog(@"sent object = %@", object);
-        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :object];
+        destViewController.movieURL = [PresenticeUtitily s3URLForObject:object];
         destViewController.questionVideoObj = object;
     }
 }
@@ -187,7 +165,7 @@
  * param: bucket name
  * param: Parse Video object (JSON)
  * This one is the modified one of the commented-out above
- **/
+
 
 - (NSURL*)s3URL: (NSString*)bucketName :(PFObject*)object {
     // Init connection with S3Client
@@ -216,6 +194,8 @@
         NSLog(@"Cannot list S3 %@",exception);
     }
 }
+ **/
+
 - (IBAction)showLeftMenu:(id)sender {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
@@ -260,7 +240,8 @@
             [self presentViewController:picker animated:YES completion:NULL];
         } else if (buttonIndex == 2) {  // Record from camera
             NSLog(@"Record from Camera");
-            [self startCameraControllerFromViewController:self usingDelegate:self];
+            isUploadFromLibrary = false;
+            [PresenticeUtitily startCameraControllerFromViewController:self usingDelegate:self];
         }
     } else if (alertView.tag == 1) {
         if (buttonIndex == 1) {
@@ -299,6 +280,7 @@
 #pragma mark - Image Picker Controller delegate methods
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (isUploadFromLibrary) {  //upload file from Library
+        NSLog(@"upload from library");
         NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
         if ([mediaType isEqualToString:(NSString *)kUTTypeMovie]) {
             NSURL *urlVideo = [info objectForKey:UIImagePickerControllerMediaURL];
@@ -326,6 +308,7 @@
             }
         }
     } else {    //capture a video
+        NSLog(@"call camera");
         NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
         [self dismissViewControllerAnimated:NO completion:nil];
         // Handle a movie capture
@@ -344,6 +327,7 @@
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
+/**
 - (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate {
     // Validations
     if (([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO)
@@ -367,6 +351,7 @@
     [controller presentViewController:cameraUI animated:YES completion:nil];
     return YES;
 }
+**/
 
 -(void)video:(NSString*)videoPath didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo {
     if (error) {
@@ -409,7 +394,8 @@
     
     [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         NSLog(@"saved to Parse");
-        
+        UIAlertView *savedToParseSuccess = [[UIAlertView alloc] initWithTitle:@"Upload Success" message:@"Your video has been uploaded successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [savedToParseSuccess show];
 /**
         // Send a notification to the device with channel contain video's userId
         NSLog(@"viewd push = %@", [[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"answered"]);
@@ -440,7 +426,7 @@
 }
 
 #pragma mark - Helpers
-
+/**
 -(NSString *)generateTempFile: (NSString *)filename : (long long)approximateFileSize {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSString * filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:filename];
@@ -458,5 +444,5 @@
     }
     return filePath;
 }
-
+**/
 @end

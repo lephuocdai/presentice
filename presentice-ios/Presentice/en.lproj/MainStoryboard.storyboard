@@ -1733,8 +1733,8 @@
     </scenes>
     <resources>
         <image name="ico_challenges.png" width="48" height="32"/>
-        <image name="ico_head_friendsList.png" width="44" height="31"/>
-        <image name="ico_head_globalmenu.png" width="44" height="31"/>
+        <image name="ico_head_friendsList.png" width="28" height="20"/>
+        <image name="ico_head_globalmenu.png" width="28" height="20"/>
         <image name="ico_home.png" width="70" height="70"/>
         <image name="ico_home_on.png" width="70" height="70"/>
         <image name="ico_message.png" width="70" height="70"/>
@@ -1761,10 +1761,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="CKV-lI-NZs"/>
+        <segue reference="xiV-62-4g4"/>
         <segue reference="hyQ-RK-lqM"/>
         <segue reference="zb5-Jk-puT"/>
-        <segue reference="CKV-lI-NZs"/>
-        <segue reference="Yg1-3o-e2r"/>
-        <segue reference="xiV-62-4g4"/>
+        <segue reference="V3E-HQ-x7v"/>
     </inferredMetricsTieBreakers>
 </document>

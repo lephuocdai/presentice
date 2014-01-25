@@ -34,7 +34,7 @@
 // For adding more question
 - (IBAction)addQuestion:(id)sender;
 @property (nonatomic, strong) S3TransferManager *tm;
-- (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
+//- (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
 @property (strong, nonatomic) NSString *questionVideoName;
 

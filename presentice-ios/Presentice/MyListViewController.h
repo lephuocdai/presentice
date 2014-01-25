@@ -20,6 +20,7 @@
 
 #import "MyAnswerViewController.h"
 
+
 @interface MyListViewController : HideTabBarViewController < UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;

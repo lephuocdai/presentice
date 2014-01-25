@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
+#import <AWSRuntime/AWSRuntime.h>
+#import <AWSS3/AWSS3.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+
 #import "Constants.h"
 #import "PresenticeCache.h"
 
@@ -24,9 +28,18 @@
 + (PFQuery *)followingFriendsOfUser:(PFUser*)aUser;
 
 
-
 // Show facebook
 + (NSString*)facebookProfilePictureofUser:(PFUser*)user;
 + (UIViewController *)facebookPageOfUser:(PFUser*)aUser;
+
+
+// Initiate S3TransferManager bucket
++ (S3TransferManager *)getS3TransferManagerForDelegate:(id)delegate withEndPoint:(AmazonRegion)endPoint andRegion:(S3Region *)region;
+
+// S3URL of a video object
++ (NSURL*)s3URLForObject:(PFObject*)object;
+
+// Start recording from camera
++ (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
 
 @end

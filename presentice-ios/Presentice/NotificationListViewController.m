@@ -240,7 +240,8 @@
             VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
             PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
             
-            destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+//            destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+            destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
             destViewController.answerVideoObj = videoObj;
             
             [self.navigationController pushViewController:destViewController animated:YES];
@@ -249,7 +250,8 @@
             VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
             PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
             
-            destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+//            destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+            destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
             destViewController.answerVideoObj = videoObj;
             
             [self.navigationController pushViewController:destViewController animated:YES];
@@ -258,7 +260,8 @@
             QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
             PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
             
-            destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+//            destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+            destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
             destViewController.questionVideoObj = videoObj;
             
             [self.navigationController pushViewController:destViewController animated:YES];
@@ -332,9 +335,8 @@
  * param: bucket name
  * param: Parse Video object (JSON)
  * This one is the modified one of the commented-out above
-**/
-
-- (NSURL*)s3URL: (NSString*)bucketName :(PFObject*)object {
+ 
+ - (NSURL*)s3URL: (NSString*)bucketName :(PFObject*)object {
     // Init connection with S3Client
     s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
     @try {
@@ -361,4 +363,7 @@
         NSLog(@"Cannot list S3 %@",exception);
     }
 }
+**/
+
+
 @end

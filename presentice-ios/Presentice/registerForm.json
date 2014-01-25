@@ -3,7 +3,7 @@
 	"title": "Register Your Account",
     "controllerName": "RegisterViewController",
 	"sections": [
-		{ "title":"Confirm your account information", "footer":"Your email will be your account for the next time login.", "elements": [
+		{ "title":"Confirm your account information", "headerImage":"logo", "footer":"Your email will be your account for the next time login.", "elements": [
 				{ "type":"QEntryElement", "keyboardType":"EmailAddress", "title":"Login","placeholder":"Login or email", "bind":"textValue:email", "key":"email"}
 			]
         }, { "title":"Password", "elements": [

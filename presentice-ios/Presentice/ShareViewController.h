@@ -8,15 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "MFSideMenu.h"
+#import "Constants.h"
+#import <Parse/Parse.h>
+#import "PresenticeUtitily.h"
 
 #import <AWSRuntime/AWSRuntime.h>
 #import <AWSS3/AWSS3.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <MobileCoreServices/UTCoreTypes.h>
-#import "Constants.h"
 
-#import <Parse/Parse.h>
 
 @interface ShareViewController : UIViewController <UINavigationControllerDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
 
@@ -28,7 +29,7 @@
 - (IBAction)record:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *putObjectTextField;
 
-- (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
+//- (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate;
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
 - (IBAction)showLeftMenu:(id)sender;
 - (IBAction)showRightMenu:(id)sender;

@@ -339,9 +339,10 @@
         PFObject *object = [self.objects objectAtIndex:indexPath.section];
         PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
         
-        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
-        NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :videoObj]);
-        NSLog(@"answer video object: %@", videoObj);
+//        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+        destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+//        NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :videoObj]);
+//        NSLog(@"answer video object: %@", videoObj);
         destViewController.answerVideoObj = videoObj;
     } else if ([segue.identifier isEqualToString:@"showAnswerFromReviewDescription"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
@@ -350,9 +351,10 @@
         PFObject *object = [self.objects objectAtIndex:indexPath.section];
         PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
         
-        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
-        NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :videoObj]);
-        NSLog(@"answer video object: %@", videoObj);
+//        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+        destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+//        NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :videoObj]);
+//        NSLog(@"answer video object: %@", videoObj);
         destViewController.answerVideoObj = videoObj;
     } else if ([segue.identifier isEqualToString:@"showQuestionFromQuestionDescription"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
@@ -361,9 +363,10 @@
         PFObject *object = [self.objects objectAtIndex:indexPath.section];
         PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
         
-        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
-        NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :videoObj]);
-        NSLog(@"question video object: %@", videoObj);
+//        destViewController.movieURL = [self s3URL:[Constants transferManagerBucket] :videoObj];
+        destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+//        NSLog(@"video url: %@", [self s3URL:[Constants transferManagerBucket] :videoObj]);
+//        NSLog(@"question video object: %@", videoObj);
         destViewController.questionVideoObj = videoObj;
     } else if ([segue.identifier isEqualToString:@"showUserFromRegisterDescription"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
@@ -412,33 +415,5 @@
  * param: Parse Video object (JSON)
  * This one is the modified one of the commented-out above
  **/
-
-- (NSURL*)s3URL: (NSString*)bucketName :(PFObject*)object {
-    // Init connection with S3Client
-    s3Client = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
-    @try {
-        // Set the content type so that the browser will treat the URL as an image.
-        S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init];
-        override.contentType = @" ";
-        // Request a pre-signed URL to picture that has been uplaoded.
-        S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init];
-        // Video name
-        gpsur.key = [NSString stringWithFormat:@"%@", [object objectForKey:kVideoURLKey]];
-        //bucket name
-        gpsur.bucket  = bucketName;
-        // Added an hour's worth of seconds to the current time.
-        gpsur.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600];
-        
-        gpsur.responseHeaderOverrides = override;
-        
-        // Get the URL
-        NSError *error;
-        NSURL *url = [s3Client getPreSignedURL:gpsur error:&error];
-        return url;
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Cannot list S3 %@",exception);
-    }
-}
 
 @end

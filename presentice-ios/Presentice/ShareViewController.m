@@ -57,7 +57,8 @@
 }
 
 - (IBAction)record:(id)sender {
-    [self startCameraControllerFromViewController:self usingDelegate:self];
+//    [self startCameraControllerFromViewController:self usingDelegate:self];
+    [PresenticeUtitily startCameraControllerFromViewController:self usingDelegate:self];
 }
 
 /**
@@ -68,29 +69,7 @@
     // Initiate S3 bucket access
     if(self.tm == nil){
         if(![ACCESS_KEY_ID isEqualToString:@"CHANGE ME"]){
-            
-            // Initialize the S3 Client.
-            AmazonS3Client *s3 = [[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY];
-            s3.endpoint = [AmazonEndpoints s3Endpoint:AP_NORTHEAST_1];
-            
-            // Initialize the S3TransferManager
-            self.tm = [S3TransferManager new];
-            self.tm.s3 = s3;
-            self.tm.delegate = self;
-            
-            // Create the bucket
-            S3CreateBucketRequest *createBucketRequest = [[S3CreateBucketRequest alloc] initWithName:[Constants transferManagerBucket] andRegion: [S3Region APJapan]];
-            @try {
-                S3CreateBucketResponse *createBucketResponse = [s3 createBucket:createBucketRequest];
-                if(createBucketResponse.error != nil) {
-                    NSLog(@"Error: %@", createBucketResponse.error);
-                }
-            }@catch(AmazonServiceException *exception) {
-                if(![@"BucketAlreadyOwnedByYou" isEqualToString: exception.errorCode]) {
-                    NSLog(@"Unable to create bucket: %@ %@",exception.errorCode, exception.error);
-                }
-            }
-            
+            self.tm = [PresenticeUtitily getS3TransferManagerForDelegate:self withEndPoint:AP_NORTHEAST_1 andRegion:[S3Region APJapan]];
         }else {
             UIAlertView *message = [[UIAlertView alloc] initWithTitle:CREDENTIALS_ERROR_TITLE
                                                               message:CREDENTIALS_ERROR_MESSAGE
@@ -211,30 +190,6 @@
         [os close];
     }
     return filePath;
-}
-
-- (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate {
-    // Validations
-    if (([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO)
-        || (delegate == nil)
-        || (controller == nil)) {
-        return NO;
-    }
-    
-    // Get imagePicker
-    UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
-    cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
-    
-    // Display a controller that allows user to choose movie capture
-    cameraUI.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *) kUTTypeMovie, nil];
-    
-    // Hides the controls for moving & scaling pictures, or for trimming movies. To instead show the controls, use YES.
-    cameraUI.allowsEditing = NO;
-    cameraUI.delegate = delegate;
-    
-    // Display image picker
-    [controller presentViewController:cameraUI animated:YES completion:nil];
-    return YES;
 }
 
 -(void)video:(NSString*)videoPath didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo {
