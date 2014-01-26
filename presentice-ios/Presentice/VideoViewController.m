@@ -265,6 +265,7 @@
     if ([segue.identifier isEqualToString:@"toReviewView"]) {
         TakeReviewViewController *destViewController = segue.destinationViewController;
         destViewController.videoObj = self.answerVideoObj;
+        NSLog(@"sent videoObject = %@", destViewController.videoObj);
     } else if ([segue.identifier isEqualToString:@"showReviewDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         ReviewDetailViewController *destViewController = segue.destinationViewController;

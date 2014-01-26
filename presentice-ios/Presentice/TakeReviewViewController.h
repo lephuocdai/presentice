@@ -10,21 +10,17 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Parse/Parse.h>
 #import "MBProgressHUD.h"
+#import "quickdialog/QuickDialog.h"
+#import "QPickerElement.h"
 
 #import "Constants.h"
 
 
-@interface TakeReviewViewController : UIViewController
-
-@property (weak, nonatomic) IBOutlet UISlider *organizationPoint;
-@property (weak, nonatomic) IBOutlet UISlider *understandPoint;
-@property (weak, nonatomic) IBOutlet UISlider *appearancePoint;
-@property (weak, nonatomic) IBOutlet UITextView *commentTextView;
-@property (weak, nonatomic) IBOutlet UILabel *organizationLabel;
-@property (weak, nonatomic) IBOutlet UILabel *understandLabel;
-
-@property (weak, nonatomic) IBOutlet UILabel *appearanceLabel;
+@interface TakeReviewViewController : QuickDialogController <QuickDialogEntryElementDelegate> {
+    
+}
 
 @property (weak, nonatomic) PFObject *videoObj;
-- (IBAction)didPressSendButton:(id)sender;
+@property BOOL didReview;
+
 @end
