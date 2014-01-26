@@ -161,7 +161,7 @@ PFObject *reviewObj;
                     [content setObject:rating.value forKey:rating.key];
                     NSLog(@"Title: %@ - %@ = %@ \n", rating.title, rating.key, rating.value);
                 }
-                [reviewObj setObject:content forKey:kActivityContentKey];
+                [object setObject:content forKey:kActivityContentKey];
                 
                 [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if(!error){
