@@ -156,11 +156,6 @@ PFObject *reviewObj;
                 
                 [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if(!error){
-                        if(comment.textValue != nil){
-                            NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-                            [params setObject:[[self.videoObj objectForKey:kVideoToUserKey] objectId] forKey:@"toUser"];
-                            [PFCloud callFunction:@"onReviewedWithComment" withParameters:params];
-                        }
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Update Review Succeeded" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
                         [alert show];
                         
