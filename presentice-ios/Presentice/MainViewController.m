@@ -108,6 +108,7 @@
     [activitiesQuery includeKey:@"targetVideo.user"];
     [activitiesQuery includeKey:@"targetVideo.asAReplyTo"];
     [activitiesQuery includeKey:@"targetVideo.toUser"];
+    [activitiesQuery includeKey:@"targetVideo.reviews"];
     [activitiesQuery includeKey:kActivityToUserKey];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table

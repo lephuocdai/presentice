@@ -116,6 +116,8 @@
 		F0B1EA601893C26A00D41B1D /* registerForm.json in Resources */ = {isa = PBXBuildFile; fileRef = F0B1EA5D1893C26A00D41B1D /* registerForm.json */; };
 		F0B1EA611893C26A00D41B1D /* requestResetPasswordForm.json in Resources */ = {isa = PBXBuildFile; fileRef = F0B1EA5E1893C26A00D41B1D /* requestResetPasswordForm.json */; };
 		F0B1EA651893CA9F00D41B1D /* facebook_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F0B1EA641893CA9F00D41B1D /* facebook_icon.png */; };
+		F0C9351B1894AE4300DE4EE9 /* reviewForm.json in Resources */ = {isa = PBXBuildFile; fileRef = F0C9351A1894AE4300DE4EE9 /* reviewForm.json */; };
+		F0C9351E1894B13900DE4EE9 /* ReviewInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C9351D1894B13900DE4EE9 /* ReviewInfo.m */; };
 		F0DD719A18921FE50070DF95 /* NSString+JSMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DD714618921FE50070DF95 /* NSString+JSMessagesView.m */; };
 		F0DD719B18921FE50070DF95 /* UIColor+JSMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DD714818921FE50070DF95 /* UIColor+JSMessagesView.m */; };
 		F0DD719C18921FE50070DF95 /* UIImage+JSMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F0DD714A18921FE50070DF95 /* UIImage+JSMessagesView.m */; };
@@ -360,6 +362,9 @@
 		F0B1EA5D1893C26A00D41B1D /* registerForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = registerForm.json; sourceTree = "<group>"; };
 		F0B1EA5E1893C26A00D41B1D /* requestResetPasswordForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = requestResetPasswordForm.json; sourceTree = "<group>"; };
 		F0B1EA641893CA9F00D41B1D /* facebook_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook_icon.png; sourceTree = "<group>"; };
+		F0C9351A1894AE4300DE4EE9 /* reviewForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reviewForm.json; sourceTree = "<group>"; };
+		F0C9351C1894B13900DE4EE9 /* ReviewInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewInfo.h; sourceTree = "<group>"; };
+		F0C9351D1894B13900DE4EE9 /* ReviewInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewInfo.m; sourceTree = "<group>"; };
 		F0DD714518921FE50070DF95 /* NSString+JSMessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JSMessagesView.h"; sourceTree = "<group>"; };
 		F0DD714618921FE50070DF95 /* NSString+JSMessagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JSMessagesView.m"; sourceTree = "<group>"; };
 		F0DD714718921FE50070DF95 /* UIColor+JSMessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+JSMessagesView.h"; sourceTree = "<group>"; };
@@ -517,6 +522,7 @@
 		A73D5A1118653BD700087F27 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				F0C9351A1894AE4300DE4EE9 /* reviewForm.json */,
 				F0B1EA5C1893C26A00D41B1D /* loginform.json */,
 				F0B1EA5D1893C26A00D41B1D /* registerForm.json */,
 				F0B1EA5E1893C26A00D41B1D /* requestResetPasswordForm.json */,
@@ -616,6 +622,7 @@
 		F03486CB187EEB60001BE459 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F0C9351F1894B14100DE4EE9 /* ReviewInfo */,
 				F02763121891011B001BEA6D /* RegisterInfo */,
 				F027630C1890F16D001BEA6D /* EmailInfo */,
 				F0628DA7188FF5AB00E9C7A3 /* LoginInfo */,
@@ -869,6 +876,15 @@
 				F0AE3F8C188CD12900B0E83E /* UILabel+Boldify.m */,
 			);
 			name = "UILabel+Boldify";
+			sourceTree = "<group>";
+		};
+		F0C9351F1894B14100DE4EE9 /* ReviewInfo */ = {
+			isa = PBXGroup;
+			children = (
+				F0C9351C1894B13900DE4EE9 /* ReviewInfo.h */,
+				F0C9351D1894B13900DE4EE9 /* ReviewInfo.m */,
+			);
+			name = ReviewInfo;
 			sourceTree = "<group>";
 		};
 		F0DD714218921FE50070DF95 /* JSMessagesViewController */ = {
@@ -1282,6 +1298,7 @@
 				F0DD71BF18921FE60070DF95 /* bubble-stroked-tailless@2x.png in Resources */,
 				F0AE3F76188CCACD00B0E83E /* menu_settings.png in Resources */,
 				F0AE3F7C188CCACD00B0E83E /* menu_message_on.png in Resources */,
+				F0C9351B1894AE4300DE4EE9 /* reviewForm.json in Resources */,
 				F0B1EA5018936B8900D41B1D /* ico_challenges@2x.png in Resources */,
 				F0DD71BC18921FE60070DF95 /* bubble-min.png in Resources */,
 				F0AE3F7D188CCACD00B0E83E /* menu_messages_on.png in Resources */,
@@ -1394,6 +1411,7 @@
 				F0AE3F8D188CD12900B0E83E /* UILabel+Boldify.m in Sources */,
 				F0628DAA188FF5B800E9C7A3 /* LoginInfo.m in Sources */,
 				A72AB056188A8D3800C12A74 /* PresenticeCache.m in Sources */,
+				F0C9351E1894B13900DE4EE9 /* ReviewInfo.m in Sources */,
 				F03486BC187E337A001BE459 /* FriendListViewController.m in Sources */,
 				F0A5A74D187276CD004E24A3 /* MyListViewController.m in Sources */,
 				F0DD71A218921FE50070DF95 /* JSMessage.m in Sources */,

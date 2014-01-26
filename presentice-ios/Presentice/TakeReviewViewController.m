@@ -14,22 +14,32 @@ PFObject *reviewObj;
 
 @end
 
-@implementation TakeReviewViewController
+@implementation TakeReviewViewController {
+}
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super initWithCoder:aDecoder])) {
+
+        self.root = [[QRootElement alloc] initWithJSONFile:@"reviewForm"];
+
+        self.resizeWhenKeyboardPresented = YES;
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self initDesign];
-    [self initSlider];
-    [self queryCurrentReview];
     
+    [self getCurrentReview];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    NSLog(@"fuck you out of Login View Controller");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,150 +47,171 @@ PFObject *reviewObj;
     // Dispose of any resources that can be recreated.
 }
 
--(void) initDesign {
-    self.commentTextView.layer.borderWidth = 0.5f;
-    self.commentTextView.layer.borderColor = [[UIColor grayColor] CGColor];
+- (BOOL)QEntryShouldChangeCharactersInRangeForElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell {
+    NSLog(@"Should change characters");
+    return YES;
 }
 
-- (void) initSlider {
-    
-    self.organizationPoint.minimumValue = REVIEW_MIN_VALUE;
-    self.organizationPoint.maximumValue = REVIEW_MAX_VALUE;
-    self.organizationPoint.continuous = YES;
-    [self.organizationPoint addTarget:self action:@selector(sliderChanged:)
-       forControlEvents:UIControlEventValueChanged];
-    
-    self.understandPoint.minimumValue = REVIEW_MIN_VALUE;
-    self.understandPoint.maximumValue = REVIEW_MAX_VALUE;
-    self.understandPoint.continuous = YES;
-    [self.understandPoint addTarget:self action:@selector(sliderChanged:)
-                     forControlEvents:UIControlEventValueChanged];
-    
-    self.appearancePoint.minimumValue = REVIEW_MIN_VALUE;
-    self.appearancePoint.maximumValue = REVIEW_MAX_VALUE;
-    self.appearancePoint.continuous = YES;
-    [self.appearancePoint addTarget:self action:@selector(sliderChanged:)
-                   forControlEvents:UIControlEventValueChanged];
-}
-- (void) sliderChanged:(id)sender {
-    self.organizationLabel.text = [NSString stringWithFormat:@"%d",(int)self.organizationPoint.value];
-    self.understandLabel.text = [NSString stringWithFormat:@"%d", (int)self.understandPoint.value];
-    self.appearanceLabel.text = [NSString stringWithFormat:@"%d", (int)self.appearancePoint.value];
-}
-/**
- * end of editing
- * dissmis input keyboard
- **/
-- (void)touchesEnded: (NSSet *)touches withEvent: (UIEvent *)event {
-	for (UIView* view in self.view.subviews) {
-		if ([view isKindOfClass:[UITextView class]])
-			[view resignFirstResponder];
-	}
+- (void)QEntryEditingChangedForElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell {
+    NSLog(@"Editing changed");
+
 }
 
-- (IBAction)didPressSendButton:(id)sender {
-    //start loading hub
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+- (void)QEntryMustReturnForElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell {
+    NSLog(@"Must return");
+}
+
+
+- (void)onSendReview:(QButtonElement *)buttonElement {
+    [self loading:YES];
     
-    NSLog(@"%@", reviewObj);
+    NSArray *sections = self.root.sections;
+    QMultilineElement *comment = [((QSection*)[sections objectAtIndex:1]).elements firstObject];
+    NSArray *ratings = [NSArray arrayWithArray:((QSection*)[sections firstObject]).elements];
+    NSLog(@"%@ = %@ \n",comment.key, comment.textValue);
+    
+    for (QPickerElement *rating in ratings) {
+        if (!rating.value) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Rating missed" message:[NSString stringWithFormat:@"You have not rated for %@",rating.title] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+            [self loading:NO];
+            return;
+        }
+    }
     
     if(!reviewObj){
         reviewObj = [PFObject objectWithClassName:kActivityClassKey];
         NSLog(@"assert reviewObj %@", reviewObj);
-    }
-    
-    [reviewObj setObject:@"review" forKey:kActivityTypeKey];
-    [reviewObj setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
-    [reviewObj setObject:self.commentTextView.text forKey:kActivityDescriptionKey];
-    [reviewObj setObject:self.videoObj forKey:kActivityTargetVideoKey];
-    [reviewObj setObject:[self.videoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
-    
-    NSMutableDictionary *content = [[NSMutableDictionary alloc] init ];
-    [content setObject:self.organizationLabel.text forKey:@"organization"];
-    [content setObject:self.understandLabel.text forKey:@"understandability"];
-    [content setObject:self.appearanceLabel.text forKey:@"appearance"];
-    [reviewObj setObject:content forKey:kActivityContentKey];
-    
-    NSLog(@"reviewObj before save = %@", reviewObj);
-    
-    [reviewObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if(!error){
-            if(self.commentTextView.text != nil){
-                NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-                [params setObject:[[self.videoObj objectForKey:kVideoToUserKey] objectId] forKey:@"toUser"];
-                [PFCloud callFunction:@"onReviewedWithComment" withParameters:params];
+        
+        [reviewObj setObject:@"review" forKey:kActivityTypeKey];
+        [reviewObj setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+        if (comment.textValue)
+            [reviewObj setObject:comment.textValue forKey:kActivityDescriptionKey];
+        [reviewObj setObject:self.videoObj forKey:kActivityTargetVideoKey];
+        [reviewObj setObject:[self.videoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
+        
+        NSMutableDictionary *content = [[NSMutableDictionary alloc] init ];
+        for (QPickerElement *rating in ratings) {
+            [content setObject:rating.value forKey:rating.key];
+            NSLog(@"Title: %@ - %@ = %@ \n", rating.title, rating.key, rating.value);
+        }
+        [reviewObj setObject:content forKey:kActivityContentKey];
+        
+        NSLog(@"reviewObj before save = %@", reviewObj);
+        
+        [reviewObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if(!error){
+                if(comment.textValue != nil){
+                    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+                    [params setObject:[[self.videoObj objectForKey:kVideoToUserKey] objectId] forKey:@"toUser"];
+                    [PFCloud callFunction:@"onReviewedWithComment" withParameters:params];
+                }
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save Review Succeeded" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
+                [alert show];
+                
+                // Send a notification to the device with channel contain video's userId
+                if ([[[[self.videoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"reviewed"] isEqualToString:@"yes"]) {
+                    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+                    [params setObject:[self.videoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
+                    [params setObject:[[self.videoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
+                    [params setObject:@"reviewed" forKey:@"pushType"];
+                    [PFCloud callFunction:@"sendPushNotification" withParameters:params];
+                }
+                NSLog(@"reviewObj after save = %@", reviewObj);
+                
+                // Add this review to the reviews list of the answerVideo
+                NSMutableArray *reviews = [[NSMutableArray alloc] initWithArray:[self.videoObj objectForKey:kVideoReviewsKey]];
+                [reviews addObject:reviewObj];
+                [self.videoObj setObject:reviews forKey:kVideoReviewsKey];
+                
+                PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
+                [query getObjectInBackgroundWithId:self.videoObj.objectId block:^(PFObject *answerVideo, NSError *error) {
+                    if (!error) {
+                        [answerVideo setObject:reviews forKey:kVideoReviewsKey];
+                        [answerVideo saveInBackground];
+                    } else {
+                        // Did not find any answerVideo in server for self.videoObj
+                        NSLog(@"update self.videoObj error : %@", error);
+                    }
+                }];
+            } else{
+                NSLog(@"saveInBackgroundWithBlock error = %@", error);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save Review Failed" message:@"Please try again later." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
+                [alert show];
             }
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save Review Succeeded" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
-            [alert show];
-            
-            // Send a notification to the device with channel contain video's userId
-            if ([[[[self.videoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"reviewed"] isEqualToString:@"yes"]) {
-                NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-                [params setObject:[self.videoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
-                [params setObject:[[self.videoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
-                [params setObject:@"reviewed" forKey:@"pushType"];
-                [PFCloud callFunction:@"sendPushNotification" withParameters:params];
+        }];
+    } else {
+        PFQuery *query = [PFQuery queryWithClassName:kActivityClassKey];
+        [query getObjectInBackgroundWithId:reviewObj.objectId block:^(PFObject *object, NSError *error) {
+            if (!error) {
+                if (comment.textValue)
+                    [object setObject:comment.textValue forKey:kActivityDescriptionKey];
+                
+                NSMutableDictionary *content = [[NSMutableDictionary alloc] init ];
+                for (QPickerElement *rating in ratings) {
+                    [content setObject:rating.value forKey:rating.key];
+                    NSLog(@"Title: %@ - %@ = %@ \n", rating.title, rating.key, rating.value);
+                }
+                [object setObject:content forKey:kActivityContentKey];
+                
+                [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if(!error){
+                        if(comment.textValue != nil){
+                            NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+                            [params setObject:[[self.videoObj objectForKey:kVideoToUserKey] objectId] forKey:@"toUser"];
+                            [PFCloud callFunction:@"onReviewedWithComment" withParameters:params];
+                        }
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Update Review Succeeded" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
+                        [alert show];
+                        
+                        // Send a notification to the device with channel contain video's userId
+                        if ([[[[self.videoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"reviewed"] isEqualToString:@"yes"]) {
+                            NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+                            [params setObject:[self.videoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
+                            [params setObject:[[self.videoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
+                            [params setObject:@"reviewed" forKey:@"pushType"];
+                            [PFCloud callFunction:@"sendPushNotification" withParameters:params];
+                        }
+                    } else{
+                        NSLog(@"saveInBackgroundWithBlock error = %@", error);
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Update Review Failed" message:@"Please try again later." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
+                        [alert show];
+                    }
+                }];
+            } else {
+                NSLog(@"getObjectInBackgroundWithId error = %@", error);
             }
-        } else{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save Review Failed" message:@"Please try again later." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
-            [alert show];
-            
-        }
-    }];
-    
-    NSLog(@"reviewObj after save = %@", reviewObj);
-    
-    // Add this review to the reviews list of the answerVideo
-    NSMutableArray *reviews = [[NSMutableArray alloc]init];
-    
-    if ([self.videoObj objectForKey:kVideoReviewsKey]) {
-        for (PFObject *review in [self.videoObj objectForKey:kVideoReviewsKey]) {
-            [reviews addObject:review];
-        }
+        }];
     }
-
-    [reviews addObject:reviewObj];
-
-    [self.videoObj setObject:reviews forKey:kVideoReviewsKey];
-    
-    PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
-    
-    [query whereKey:kObjectIdKey equalTo:[self.videoObj objectId]];
-    
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject *answerVideo, NSError *error) {
-        if (!error) {
-            [answerVideo setObject:reviews forKey:kVideoReviewsKey];
-            [answerVideo saveInBackground];
-            NSLog(@"answerVideo = %@", answerVideo);
-        } else {
-            // Did not find any answerVideo in server for self.videoObj
-            NSLog(@"Error: %@", error);
-        }
-    }];
-    
-    //dismiss hub
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self loading:NO];
 }
 
-- (void) queryCurrentReview {
+- (void) getCurrentReview {
+    NSArray *reviews = [self.videoObj objectForKey:kVideoReviewsKey];
     
-    NSArray *reviews = [self.videoObj objectForKey:kActivityClassKey];
-    
-    NSLog(@"queryCurrentReview reviews = %@", reviews);
-
-    PFQuery *review = [PFQuery queryWithClassName:kActivityClassKey];
-    [review whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
-    [review whereKey:kActivityTargetVideoKey equalTo:self.videoObj];
-    [review getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if(!error && object != nil){
-            reviewObj = object;
-            NSDictionary *content = [reviewObj objectForKey:kActivityContentKey];
-            self.organizationLabel.text = [content objectForKey:@"appearance"];
-            self.understandLabel.text = [content objectForKey:@"understandability"];
-            self.appearanceLabel.text = [content objectForKey:@"appearance"];
-            self.commentTextView.text = [reviewObj objectForKey:kActivityDescriptionKey];
+    NSLog(@"getCurrentReview reviews = %@", reviews);
+    self.didReview = false;
+    for (PFObject *review in reviews) {
+        // In case the currentUser already reviewed this video before
+        if ([[[review objectForKey:kActivityFromUserKey] objectId] isEqualToString:[PFUser currentUser].objectId]) {
+            reviewObj = review;            
+            self.didReview = true;
+            self.root.title = @"Edit Review";
+            ((QButtonElement*)[self.root elementWithKey:@"sendReviewButton"]).title = @"Update this review";
+            
+            QMultilineElement *comment = [((QSection*)[self.root.sections objectAtIndex:1]).elements firstObject];
+            if ([review objectForKey:kActivityDescriptionKey]) {
+                comment.textValue = [review objectForKey:kActivityDescriptionKey];
+                comment.title = @"Last comment";
+            }
+            NSArray *ratings = [NSArray arrayWithArray:((QSection*)[self.root.sections firstObject]).elements];
+            for (QPickerElement *rating in ratings) {
+                rating.value = [[review objectForKey:kActivityContentKey] objectForKey:rating.key];
+            }
         }
-    }];
-    NSLog(@"queryCurrentReview reviewObject = %@", reviewObj);
+    }
+    
+    NSLog(@"reviewObject = %@", reviewObj);
 }
+
 @end

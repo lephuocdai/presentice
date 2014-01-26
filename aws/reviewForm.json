@@ -1,0 +1,21 @@
+{
+	"grouped": true,
+	"title": "Review",
+    "controllerName": "TakeReviewViewController",
+	"sections": [
+		{ "title":"Rating", "elements": [
+				{"type":"QPickerElement", "title":"身だしなみ",  "items":[[1, 2, 3, 4, 5]]},
+                {"type":"QPickerElement", "title":"分かりやすさ",  "items":[[1, 2, 3, 4, 5]]},
+                {"type":"QPickerElement", "title":"構成",  "items":[[1, 2, 3, 4, 5]]}
+			]
+		},
+        { "footer":"Don't worry! We never post anything on your Facebook.", "elements":[
+                { "type":"QMultilineElement", "key":"comment", "title":"Give a comment"}
+            ]
+        },
+        { "elements":[
+                { "type":"QButtonElement", "key":"sendReviewButton", "title":"Send this review", "controllerAction":"onSendReview:"}
+            ]
+        }
+	]
+}
