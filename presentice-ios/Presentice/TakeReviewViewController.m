@@ -84,7 +84,8 @@ PFObject *reviewObj;
         
         [reviewObj setObject:@"review" forKey:kActivityTypeKey];
         [reviewObj setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
-        [reviewObj setObject:comment.textValue forKey:kActivityDescriptionKey];
+        if (comment.textValue)
+            [reviewObj setObject:comment.textValue forKey:kActivityDescriptionKey];
         [reviewObj setObject:self.videoObj forKey:kActivityTargetVideoKey];
         [reviewObj setObject:[self.videoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
         
@@ -138,7 +139,8 @@ PFObject *reviewObj;
         PFQuery *query = [PFQuery queryWithClassName:kActivityClassKey];
         [query getObjectInBackgroundWithId:reviewObj.objectId block:^(PFObject *object, NSError *error) {
             if (!error) {
-                [object setObject:comment.textValue forKey:kActivityDescriptionKey];
+                if (comment.textValue)
+                    [object setObject:comment.textValue forKey:kActivityDescriptionKey];
                 
                 NSMutableDictionary *content = [[NSMutableDictionary alloc] init ];
                 for (QPickerElement *rating in ratings) {
@@ -191,9 +193,10 @@ PFObject *reviewObj;
             ((QButtonElement*)[self.root elementWithKey:@"sendReviewButton"]).title = @"Update this review";
             
             QMultilineElement *comment = [((QSection*)[self.root.sections objectAtIndex:1]).elements firstObject];
-            comment.textValue = [review objectForKey:kActivityDescriptionKey];
-            comment.title = @"Last comment";
-            
+            if ([review objectForKey:kActivityDescriptionKey]) {
+                comment.textValue = [review objectForKey:kActivityDescriptionKey];
+                comment.title = @"Last comment";
+            }
             NSArray *ratings = [NSArray arrayWithArray:((QSection*)[self.root.sections firstObject]).elements];
             for (QPickerElement *rating in ratings) {
                 rating.value = [[review objectForKey:kActivityContentKey] objectForKey:rating.key];
