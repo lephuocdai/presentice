@@ -101,11 +101,14 @@ PFObject *reviewObj;
         
         [reviewObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if(!error){
-                if(comment.textValue != nil){
-                    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-                    [params setObject:[[self.videoObj objectForKey:kVideoToUserKey] objectId] forKey:@"toUser"];
-                    [PFCloud callFunction:@"onReviewedWithComment" withParameters:params];
-                }
+                
+                //call cloud code and set Promotion
+                NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+                [params setObject:[[self.videoObj objectForKey:kVideoToUserKey] objectId] forKey:@"toUser"];
+                [params setObject:comment.textValue forKey:@"comment"];
+                NSLog(@"params: %@", params);
+                [PFCloud callFunction:@"onReviewed" withParameters:params];
+
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save Review Succeeded" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
                 [alert show];
                 
