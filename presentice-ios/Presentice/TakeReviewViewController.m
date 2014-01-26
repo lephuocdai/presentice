@@ -43,6 +43,7 @@ PFObject *reviewObj;
 }
 
 - (void) initSlider {
+    
     self.organizationPoint.minimumValue = REVIEW_MIN_VALUE;
     self.organizationPoint.maximumValue = REVIEW_MAX_VALUE;
     self.organizationPoint.continuous = YES;
@@ -104,7 +105,11 @@ PFObject *reviewObj;
     
     [reviewObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if(!error){
-            NSLog(@"save succeeded");
+            if(self.commentTextView.text != nil){
+                NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+                [params setObject:[[self.videoObj objectForKey:kVideoToUserKey] objectId] forKey:@"toUser"];
+                [PFCloud callFunction:@"onReviewedWithComment" withParameters:params];
+            }
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save Review Succeeded" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
             [alert show];
             

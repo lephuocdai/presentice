@@ -1,6 +1,8 @@
 var INIT_POINT = 100;
 var INIT_LEVEL = 0;
 var POINT_REGISTER_WITH_MYCODE = 50;
+var POINT_PLUS_ON_REVIEW = 50;
+var POINT_MINUS_ON_REVIEWED = 50;
 
 Parse.Cloud.define("sendPushNotification", function(request, response) {
 	var pushType = request.params.pushType;
@@ -67,7 +69,7 @@ Parse.Cloud.define("onRegistered", function(request, response){
 		success: function(results){
 			//increase points to each user
 			for(var i = 0; i < results.length; i++){
-				var promotion = results[0];
+				var promotion = results[i];
 				var points = promotion.get("points") + POINT_REGISTER_WITH_MYCODE
 				promotion.set("points", points);
 				promotion.save();
@@ -77,6 +79,53 @@ Parse.Cloud.define("onRegistered", function(request, response){
 			console.error("Got an error " + error.code + " : " + error.message);
 		}
 	});
+});
+
+/**
+** review with comment
+**/
+Parse.Cloud.define("onReviewedWithComment", function (request, response){
+	var fromUser = request.user;
+	var toUserId = request.params.toUser;
+	
+	//step1: find promotion of fromUser and plus points
+	var query = new Parse.Query("Promotion");
+	query.equalTo("user", fromUser);
+	query.find({
+		success: function(results){
+			//for each user do review -> plus some points
+			for(var i =0; i < results.length; i++){
+				var promotion = results[i];
+				var points = promotion.get("points") + POINT_PLUS_ON_REVIEW;
+				promotion.set("points", points);
+				promotion.save();
+			}
+		}
+	});
+
+	//step2: find promotion of toUser and minus points
+
+	//get toUser from id
+	var toUser = new Parse.User();
+	toUser.id = toUserId;
+
+	//query toUser and minus points
+	var query2 = new Parse.Query("Promotion");
+	query2.equalTo("user", toUser);
+	query2.find({
+		success: function(results){
+			//for each user do review -> plus some points
+			console.log(results);
+			for(var i =0; i < results.length; i++){
+				var promotion = results[i];
+				var points = promotion.get("points") - POINT_MINUS_ON_REVIEWED;
+				if(points < 0) points = 0;
+				promotion.set("points", points);
+				promotion.save();
+			}
+		}
+	});
+
 });
 
  Math.uuid = function (len, radix) {
