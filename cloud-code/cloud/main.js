@@ -1,8 +1,15 @@
 var INIT_POINT = 100;
 var INIT_LEVEL = 0;
+var INIT_CONTRIBUTION = 0;
+
 var POINT_REGISTER_WITH_MYCODE = 50;
+
 var POINT_PLUS_ON_REVIEW = 50;
 var POINT_MINUS_ON_REVIEWED = 50;
+
+var CONTRIBUTION_PLUS_ON_REVIEW = 1;
+
+var CONTRIBUTION_TO_LEVEL_UP = 10*1;
 
 Parse.Cloud.define("sendPushNotification", function(request, response) {
 	var pushType = request.params.pushType;
@@ -82,11 +89,17 @@ Parse.Cloud.define("onRegistered", function(request, response){
 });
 
 /**
-** review with comment
+** user fromUser review video of toUser
+** step1: find promotion of fromUser and
+** 		  if there is comment: plus points
+** 		  plus contribution (+1)
+** step2: find promotion of toUser and 
+** 		  if there is comment: minus points
 **/
-Parse.Cloud.define("onReviewedWithComment", function (request, response){
+Parse.Cloud.define("onReviewed", function (request, response){
 	var fromUser = request.user;
 	var toUserId = request.params.toUser;
+	var comment = request.params.comment;
 	
 	//step1: find promotion of fromUser and plus points
 	var query = new Parse.Query("Promotion");
@@ -96,14 +109,32 @@ Parse.Cloud.define("onReviewedWithComment", function (request, response){
 			//for each user do review -> plus some points
 			for(var i =0; i < results.length; i++){
 				var promotion = results[i];
-				var points = promotion.get("points") + POINT_PLUS_ON_REVIEW;
-				promotion.set("points", points);
+
+				if(comment != null && comment != ""){
+					var points = promotion.get("points") + POINT_PLUS_ON_REVIEW;
+					promotion.set("points", points);
+				}
+
+				var contribution = promotion.get("contribution");
+				contribution = contribution + CONTRIBUTION_PLUS_ON_REVIEW;
+				promotion.set("contribution", contribution);
+
+				//if contribution > a number -> level up
+				if(contribution > CONTRIBUTION_TO_LEVEL_UP){
+					var level = promotion.get("level");
+					level++;
+					promotion.set("level", level);
+				}
+				
 				promotion.save();
 			}
 		}
 	});
 
 	//step2: find promotion of toUser and minus points
+
+	//if there is no comment, do noting
+	if(comment == null || comment == "") return;
 
 	//get toUser from id
 	var toUser = new Parse.User();
