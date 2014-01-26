@@ -54,6 +54,7 @@ PFObject *reviewObj;
 
 - (void)QEntryEditingChangedForElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell {
     NSLog(@"Editing changed");
+
 }
 
 - (void)QEntryMustReturnForElement:(QEntryElement *)element andCell:(QEntryTableViewCell *)cell {
@@ -100,7 +101,11 @@ PFObject *reviewObj;
         
         [reviewObj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if(!error){
-                NSLog(@"save succeeded");
+                if(comment.textValue != nil){
+                    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+                    [params setObject:[[self.videoObj objectForKey:kVideoToUserKey] objectId] forKey:@"toUser"];
+                    [PFCloud callFunction:@"onReviewedWithComment" withParameters:params];
+                }
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save Review Succeeded" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
                 [alert show];
                 
@@ -151,7 +156,6 @@ PFObject *reviewObj;
                 
                 [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if(!error){
-                        NSLog(@"save succeeded");
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Update Review Succeeded" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
                         [alert show];
                         
@@ -181,13 +185,11 @@ PFObject *reviewObj;
     NSArray *reviews = [self.videoObj objectForKey:kVideoReviewsKey];
     
     NSLog(@"getCurrentReview reviews = %@", reviews);
-    
     self.didReview = false;
     for (PFObject *review in reviews) {
         // In case the currentUser already reviewed this video before
         if ([[[review objectForKey:kActivityFromUserKey] objectId] isEqualToString:[PFUser currentUser].objectId]) {
-            reviewObj = review;
-            
+            reviewObj = review;            
             self.didReview = true;
             self.root.title = @"Edit Review";
             ((QButtonElement*)[self.root elementWithKey:@"sendReviewButton"]).title = @"Update this review";

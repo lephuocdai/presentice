@@ -129,7 +129,6 @@ NSDictionary<FBGraphUser>  *fbInfo;
     [newUser setObject:fbInfo forKey:kUserProfileKey];
     [newUser setObject:[NSNumber numberWithBool:NO] forKey:kUserCanPostQuestion];
     [newUser setObject:[NSNumber numberWithBool:NO] forKey:kUserCanComment];
-    [newUser setObject:info.code forKey:kUserReceiveCode];
     
     NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
     NSMutableString *code = [NSMutableString stringWithCapacity:20];
