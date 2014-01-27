@@ -33,15 +33,7 @@
         self.paginationEnabled = YES;
         
         // The number of objects to show per page
-        self.objectsPerPage = 10;
-    }
-    return self;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+        self.objectsPerPage = 5;
     }
     return self;
 }
@@ -330,7 +322,7 @@
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
-
+/**
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showAnswerfromAnswerDescription"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
@@ -371,6 +363,38 @@
         
         NSLog(@"user object: %@", userObj);
         destViewController.userObj = userObj;
+    }
+}
+**/
+/**
+ * segue for table cell
+ * click to direct to video play view
+ * pass video name, video url
+ */
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    if (indexPath.section < [self.objects count] ) {
+        PFObject *activityObject = [self.objects objectAtIndex:indexPath.section];
+        if ([@[@"answer", @"review"] containsObject:[activityObject objectForKey:kActivityTypeKey]]) {
+            VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
+            PFObject *videoObj = [activityObject objectForKey:kActivityTargetVideoKey];
+            destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+            destViewController.answerVideoObj = videoObj;
+            [self.navigationController pushViewController:destViewController animated:YES];
+        } else if ([[activityObject objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
+            QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
+            PFObject *videoObj = [activityObject objectForKey:kActivityTargetVideoKey];
+            destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+            destViewController.questionVideoObj = videoObj;
+            [self.navigationController pushViewController:destViewController animated:YES];
+        } else if ([[activityObject objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
+            UserProfileViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
+            destViewController.userObj = [activityObject objectForKey:kActivityFromUserKey];
+            [self.navigationController pushViewController:destViewController animated:YES];
+        }
+    } else {
+        [self loadNextPage];
     }
 }
 

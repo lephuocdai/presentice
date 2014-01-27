@@ -1461,9 +1461,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="GHB-MB-EgD" kind="push" identifier="showAnswerfromAnswerDescription" id="wqw-1d-BIa"/>
-                                </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reviewListIdentifier" rowHeight="110" id="bCp-bh-K6T">
                                 <rect key="frame" x="0.0" y="189" width="320" height="110"/>
@@ -1506,9 +1503,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="GHB-MB-EgD" kind="push" identifier="showAnswerFromReviewDescription" id="CKV-lI-NZs"/>
-                                </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="postQuestionListIdentifier" rowHeight="110" id="l0A-p1-6Lg">
                                 <rect key="frame" x="0.0" y="299" width="320" height="110"/>
@@ -1551,9 +1545,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="sY4-KH-oYL" kind="push" identifier="showQuestionFromQuestionDescription" id="xiV-62-4g4"/>
-                                </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="registerListIdentifier" rowHeight="50" id="zQb-k0-JtC">
                                 <rect key="frame" x="0.0" y="409" width="320" height="50"/>
@@ -1575,9 +1566,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="KLi-xi-ZeY" kind="push" identifier="showUserFromRegisterDescription" id="Yg1-3o-e2r"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -1655,10 +1643,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="zb5-Jk-puT"/>
         <segue reference="hyQ-RK-lqM"/>
-        <segue reference="Dgk-9J-N99"/>
-        <segue reference="CKV-lI-NZs"/>
-        <segue reference="Yg1-3o-e2r"/>
+        <segue reference="zb5-Jk-puT"/>
     </inferredMetricsTieBreakers>
 </document>
