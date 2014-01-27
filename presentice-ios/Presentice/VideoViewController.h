@@ -22,6 +22,7 @@
 @interface VideoViewController : PFQueryTableViewController <UINavigationControllerDelegate, UINavigationBarDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
 
 // For display answerVideo
+@property (strong, nonatomic) IBOutlet UIImageView *userProfilePicture;
 @property (strong, nonatomic) IBOutlet UILabel *videoNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *postedUserLabel;
 @property (strong, nonatomic) IBOutlet UILabel *viewNumLabel;

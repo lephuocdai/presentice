@@ -11,8 +11,6 @@
 
 @interface MessageDetailViewController ()
 
-
-
 @end
 
 

@@ -43,29 +43,22 @@
     return self;
 }
 
-/**
-- (id)initWithStyle:(UITableViewStyle)style {
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-**/
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    //asyn to get profile picture
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:[self.answerVideoObj objectForKey:kVideoUserKey]]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.userProfilePicture.image = [UIImage imageWithData:profileImageData];
+            self.userProfilePicture.highlightedImage = self.userProfilePicture.image;
+            self.userProfilePicture.layer.cornerRadius = self.userProfilePicture.frame.size.width / 2;
+            self.userProfilePicture.layer.masksToBounds = YES;
+        });
+    });
     
     videoNameLabel.text = [self.answerVideoObj objectForKey:kVideoNameKey];
     postedUserLabel.text = [[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
