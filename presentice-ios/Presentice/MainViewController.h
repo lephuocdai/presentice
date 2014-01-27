@@ -16,13 +16,12 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 
 #import "UILabel+Boldify.h"
-#import "HideTabBarViewController.h"
 
 #import "VideoViewController.h"
 #import "QuestionDetailViewController.h"
 #import "UserProfileViewController.h"
 
-@interface MainViewController : HideTabBarViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface MainViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)showLeftMenu:(id)sender;

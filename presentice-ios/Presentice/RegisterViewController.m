@@ -183,89 +183,10 @@ NSDictionary<FBGraphUser>  *fbInfo;
     [currentInstallation saveInBackground];
     
 }
-/**
-- (IBAction)didClickRegisterButton:(id)sender {
-    //check email
-    if(![Validate NSStringIsValidEmail:self.emailField.text]){
-        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Error" message:@"Email Invalid. Please check input email again!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
-        [errorAlert show];
-        return;
-    }
-    
-    //check password
-    if(![Validate NSSTringISValidPassword:self.passwordField.text]){
-        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Error" message:@"Password Invalid. Password must be more than 5 digits!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
-        [errorAlert show];
-        return;
-    }
-    
-    //check password
-    if(![self.passwordField.text isEqualToString:self.confirmPasswordField.text]){
-        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Error" message:@"Password not matched. Please check input password again!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
-        [errorAlert show];
-        return;
-    }
-
-    PFUser *newUser = [PFUser currentUser];
-    newUser.username = in;
-    newUser.password = self.passwordField.text;
-    newUser.email = self.emailField.text;
-    [newUser setObject:[NSNumber numberWithBool:NO] forKey:kUserActivatedKey];
-    [newUser setObject:fbInfo.id forKey:kUserFacebookIdKey];
-    [newUser setObject:fbInfo.name forKey:kUserDisplayNameKey];
-    [newUser setObject:fbInfo forKey:kUserProfileKey];
-    
-    NSMutableDictionary *pushPermission = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"answered", @"yes", @"reviewed", @"yes", @"viewed", @"yes", @"message", @"yes", nil];
-    
-    [newUser setObject:pushPermission forKey:kUserPushPermission];
-    
-    [newUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            NSLog(@"register succeed!");
-            
-            //show succeeded alert
-            UIAlertView *succeedAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Succeeded" message:@"Click OK to go to main screen" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [succeedAlert show];
-            
-            } else {
-                //error message
-                NSString *errorString = [error userInfo][@"error"];
-                
-                //show errored alert
-                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [errorAlert show];
-                
-            // Register registerActivity to Actitivy Table
-                
-                
-                PFObject *registerActivity = [PFObject objectWithClassName:kActivityClassKey];
-                [registerActivity setObject:@"register" forKey:kActivityTypeKey];
-                [registerActivity setObject:newUser forKey:kActivityFromUserKey];
-                
-                NSMutableDictionary *content = [[NSMutableDictionary alloc] init ];
-                [content setObject:[newUser objectForKey:kUserFacebookIdKey] forKey:@"facebookId"];
-                [content setObject:[newUser objectForKey:kUserActivatedKey] forKey:@"activated"];
-                [content setObject:[newUser objectForKey:kUserTypeKey] forKey:@"type"];
-                [registerActivity setObject:content forKey:kActivityContentKey];
-                
-                [registerActivity saveInBackground];
-        }
-    }];
-    
-    // subscribe user default channel for notification.
-    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-    [currentInstallation addUniqueObject:[newUser objectId] forKey:@"channels"];
-    [currentInstallation saveInBackground];
-
-}
- **/
 
 #pragma alertDelegate
 // redirect to Login View Controller
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-//    MainViewController *destViewController = (MainViewController *)[storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-//    [self.navigationController pushViewController:destViewController animated:YES];
     [self navigateToHomeScreen];
 }
 
@@ -288,7 +209,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     [tabBarController setViewControllers:[NSArray arrayWithObjects:mainNavigationController, questionListNavigationController, myListNavigationController, notificationListNavigationController, nil]];
-    [tabBarController setTabBarHidden:NO animated:YES];
+//    [tabBarController setTabBarHidden:NO animated:YES];
     
     LeftSideMenuViewController *leftSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
     RightSideMenuViewController *rightSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];

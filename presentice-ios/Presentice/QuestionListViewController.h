@@ -19,12 +19,11 @@
 #import <MobileCoreServices/UTCoreTypes.h>
 
 #import "UILabel+Boldify.h"
-#import "HideTabBarViewController.h"
 
 #import "QuestionDetailViewController.h"
 
 
-@interface QuestionListViewController : HideTabBarViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate, UIImagePickerControllerDelegate>
+@interface QuestionListViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate, UIImagePickerControllerDelegate>
 
 // For display question list
 @property (strong, nonatomic) IBOutlet UITableView *tableView;

@@ -51,8 +51,6 @@
 		F03486CF1880166D001BE459 /* PushPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486CE1880166D001BE459 /* PushPermissionViewController.m */; };
 		F0578ED0187A723400573CD2 /* MyAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0578ECF187A723400573CD2 /* MyAnswerViewController.m */; };
 		F0628D73188F605200E9C7A3 /* add_friends_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F0628D72188F605200E9C7A3 /* add_friends_icon.png */; };
-		F0628D7A188FBCE700E9C7A3 /* UITabBarController+hidable.m in Sources */ = {isa = PBXBuildFile; fileRef = F0628D79188FBCE700E9C7A3 /* UITabBarController+hidable.m */; };
-		F0628D7D188FC82200E9C7A3 /* HideTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0628D7C188FC82200E9C7A3 /* HideTabBarViewController.m */; };
 		F0628DA6188FF2E000E9C7A3 /* libQuickDialog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0628DA3188FF2BA00E9C7A3 /* libQuickDialog.a */; };
 		F0628DAA188FF5B800E9C7A3 /* LoginInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F0628DA9188FF5B800E9C7A3 /* LoginInfo.m */; };
 		F0628DAD188FF76E00E9C7A3 /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0628DAC188FF76E00E9C7A3 /* AboutController.m */; };
@@ -279,10 +277,6 @@
 		F0578ECE187A723400573CD2 /* MyAnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnswerViewController.h; sourceTree = "<group>"; };
 		F0578ECF187A723400573CD2 /* MyAnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnswerViewController.m; sourceTree = "<group>"; };
 		F0628D72188F605200E9C7A3 /* add_friends_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_friends_icon.png; sourceTree = "<group>"; };
-		F0628D78188FBCE700E9C7A3 /* UITabBarController+hidable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+hidable.h"; sourceTree = "<group>"; };
-		F0628D79188FBCE700E9C7A3 /* UITabBarController+hidable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+hidable.m"; sourceTree = "<group>"; };
-		F0628D7B188FC82200E9C7A3 /* HideTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HideTabBarViewController.h; sourceTree = "<group>"; };
-		F0628D7C188FC82200E9C7A3 /* HideTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HideTabBarViewController.m; sourceTree = "<group>"; };
 		F0628D9B188FF2B900E9C7A3 /* QuickDialog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QuickDialog.xcodeproj; path = QuickDialog/QuickDialog.xcodeproj; sourceTree = "<group>"; };
 		F0628DA8188FF5B800E9C7A3 /* LoginInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginInfo.h; sourceTree = "<group>"; };
 		F0628DA9188FF5B800E9C7A3 /* LoginInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginInfo.m; sourceTree = "<group>"; };
@@ -628,7 +622,6 @@
 				F0628DA7188FF5AB00E9C7A3 /* LoginInfo */,
 				F0628D7F188FCE0900E9C7A3 /* MessageFooter */,
 				F0628D7E188FCDF000E9C7A3 /* FindFriendCell */,
-				F0628D74188FB8EF00E9C7A3 /* HideTabBar */,
 				F0AE3F8A188CD0CF00B0E83E /* UILabel+Boldify */,
 			);
 			name = View;
@@ -671,17 +664,6 @@
 				F0B1EA43189367EF00D41B1D /* ico_notification.png */,
 			);
 			path = homeMenu;
-			sourceTree = "<group>";
-		};
-		F0628D74188FB8EF00E9C7A3 /* HideTabBar */ = {
-			isa = PBXGroup;
-			children = (
-				F0628D78188FBCE700E9C7A3 /* UITabBarController+hidable.h */,
-				F0628D79188FBCE700E9C7A3 /* UITabBarController+hidable.m */,
-				F0628D7B188FC82200E9C7A3 /* HideTabBarViewController.h */,
-				F0628D7C188FC82200E9C7A3 /* HideTabBarViewController.m */,
-			);
-			name = HideTabBar;
 			sourceTree = "<group>";
 		};
 		F0628D7E188FCDF000E9C7A3 /* FindFriendCell */ = {
@@ -1380,7 +1362,6 @@
 				F00006A6186BA98C00E69027 /* MessageListViewController.m in Sources */,
 				A78E9D5C185DA16B00ACCC54 /* TTTTimeIntervalFormatter.m in Sources */,
 				F00006A9186BA9AC00E69027 /* MessageDetailViewController.m in Sources */,
-				F0628D7A188FBCE700E9C7A3 /* UITabBarController+hidable.m in Sources */,
 				F0DD719B18921FE50070DF95 /* UIColor+JSMessagesView.m in Sources */,
 				F0A5A74A1871D9DF004E24A3 /* QuestionListViewController.m in Sources */,
 				A73D5A1418653BF700087F27 /* LoginViewController.m in Sources */,
@@ -1431,7 +1412,6 @@
 				A72AB053188A876E00C12A74 /* FindFriendCell.m in Sources */,
 				F0DD719A18921FE50070DF95 /* NSString+JSMessagesView.m in Sources */,
 				A7E995A51867D197009E48CA /* RegisterViewController.m in Sources */,
-				F0628D7D188FC82200E9C7A3 /* HideTabBarViewController.m in Sources */,
 				F4EECF6E177FD51400778578 /* ShareViewController.m in Sources */,
 				F0DDAB84187BD460002BDC67 /* VideoViewController.m in Sources */,
 				F03486CF1880166D001BE459 /* PushPermissionViewController.m in Sources */,
