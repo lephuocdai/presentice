@@ -265,7 +265,6 @@
         } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"view"]) {
             UserProfileViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
             destViewController.userObj = [notificationObj objectForKey:kActivityFromUserKey];
-            
             [self.navigationController pushViewController:destViewController animated:YES];
         }
     }

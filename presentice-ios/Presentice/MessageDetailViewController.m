@@ -19,7 +19,6 @@
 @implementation MessageDetailViewController {
     NSString* kCurrentUser;
     NSString* kToUser;
-    NSString* kSubtitleCook;
 }
 
 #pragma mark - View lifecycle
@@ -29,7 +28,6 @@
     
     kCurrentUser = [[PFUser currentUser] objectForKey:kUserDisplayNameKey];
     kToUser = [self.toUser objectForKey:kUserDisplayNameKey];
-    kSubtitleCook = @"Mr. Cook";
     
     self.delegate = self;
     self.dataSource = self;
@@ -82,7 +80,7 @@
     }
     else {
         [JSMessageSoundEffect playMessageReceivedSound];
-        message.sender = arc4random_uniform(100) % 2 ? kSubtitleCook : kToUser;
+        message.sender = kCurrentUser;
     }
     
     NSMutableArray *messages = [[NSMutableArray alloc] init];
