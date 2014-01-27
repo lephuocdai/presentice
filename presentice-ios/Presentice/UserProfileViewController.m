@@ -14,18 +14,25 @@
 
 @implementation UserProfileViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+- (id)initWithCoder:(NSCoder *)aCoder {
+    self = [super initWithCoder:aCoder];
     if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (id)initWithStyle:(UITableViewStyle)style {
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
+        // Custom the table
+        
+        // The className to query on
+        self.parseClassName = kVideoClassKey;
+        
+        // The key of the PFObject to display in the label of the default cell style
+        self.textKey = kVideoNameKey;
+        
+        // Whether the built-in pull-to-refresh is enabled
+        self.pullToRefreshEnabled = YES;
+        
+        // Whether the built-in pagination is enabled
+        self.paginationEnabled = YES;
+        
+        // The number of objects to show per page
+        self.objectsPerPage = 5;
     }
     return self;
 }
@@ -33,14 +40,94 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = [self.userObj objectForKey:kUserDisplayNameKey];
+//    self.title = [self.userObj objectForKey:kUserDisplayNameKey];
     
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    // Set the menu's display
-    self.menuItems = [[NSMutableArray alloc] init];
-    [self setMenuItems];
+    //asyn to get profile picture
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:self.userObj]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.userProfilePicture.image = [UIImage imageWithData:profileImageData];
+            self.userProfilePicture.highlightedImage = self.userProfilePicture.image;
+        });
+    });
+    self.userNameLabel.text = [self.userObj objectForKey:kUserDisplayNameKey];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+}
+
+-(void) viewWillDisappear:(BOOL)animated {
+    //stop playing video
+    if([self.navigationController.viewControllers indexOfObject:self] == NSNotFound){
+        //Release any retained subviews of the main view.
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
+    }
+    [super viewWillDisappear:animated];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)refreshTable:(NSNotification *) notification {
+    // Reload the recipes
+    [self loadObjects];
+}
+
+- (PFQuery *)queryForTable {
+    PFQuery *videoListQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [videoListQuery whereKey:kVideoUserKey equalTo:self.userObj];
+    if (self.isFollowing) {
+        [videoListQuery whereKey:kVideoVisibilityKey containedIn:@[@"global", @"open", @"friendOnly"]];
+    } else {
+        [videoListQuery whereKey:kVideoVisibilityKey containedIn:@[@"global", @"open"]];
+    }
+    [videoListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
+    [videoListQuery includeKey:kVideoReviewsKey];
+    [videoListQuery includeKey:kVideoAsAReplyTo];
+    [videoListQuery includeKey:kVideoToUserKey];
+    
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    if ([self.objects count] == 0) {
+        videoListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    }
+    [videoListQuery orderByAscending:kUpdatedAtKey];
+    return videoListQuery;
+}
+
+#pragma mark - Table view data source
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    static NSString *simpleTableIdentifier = @"videoListIdentifier";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    }
+    
+    // Configure the cell
+    UILabel *videoType = (UILabel *)[cell viewWithTag:100];
+    UILabel *videoName = (UILabel *)[cell viewWithTag:101];
+    videoType.text = [[object objectForKey:kVideoTypeKey] capitalizedString];
+    videoName.text = [[object objectForKey:kVideoNameKey] capitalizedString];
+    
+    return cell;
+}
+
+- (void) objectsDidLoad:(NSError *)error {
+    [super objectsDidLoad:error];
+    NSLog(@"objectsDidLoad error: %@", [error localizedDescription]);
     
     // check if the currentUser is following this user
     PFQuery *queryIsFollowing = [PFQuery queryWithClassName:kActivityClassKey];
@@ -53,27 +140,39 @@
             self.followBtn = nil;
         } else {
             if (number == 0) {
+                self.isFollowing = false;
                 NSLog(@"configureFollowButton");
                 [self configureFollowButton];
             } else {
+                self.isFollowing = true;
                 NSLog(@"configureUnfollowButton");
                 [self configureUnfollowButton];
             }
         }
     }];
 }
-- (void)viewDidAppear:(BOOL)animated {
-    // Hid all HUD after all objects appered
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    if (indexPath.row < [self.objects count] ) {
+        PFObject *videoObj = [self.objects objectAtIndex:indexPath.row];
+        if ([[videoObj objectForKey:kVideoTypeKey] isEqualToString:@"question"]) {
+            NSLog(@"selected question video = %@", videoObj);
+            QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
+            destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+            destViewController.questionVideoObj = videoObj;
+            [self.navigationController pushViewController:destViewController animated:YES];
+        } else if ([[videoObj objectForKey:kVideoTypeKey] isEqualToString:@"answer"]) {
+            NSLog(@"selected answer video = %@", videoObj);
+            VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
+            destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+            destViewController.answerVideoObj = videoObj;
+            [self.navigationController pushViewController:destViewController animated:YES];
+        }
+    }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Table view data source
-
+/**
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 1;
@@ -150,7 +249,7 @@
     }
     
 }
-
+**/
 - (IBAction)showLeftMenu:(id)sender {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
@@ -178,12 +277,18 @@
 }
 - (void)configureFollowButton {
     [self.followBtn setTitle:@"Follow" forState:UIControlStateNormal];
+//    self.followBtn.titleLabel.text = @"Follow";
+    NSLog(@"self.followBtn.titleLabel.text before = %@", self.followBtn.titleLabel.text);
     [self.followBtn addTarget:self action:@selector(doFollowAction:)forControlEvents:UIControlEventTouchDown];
+    NSLog(@"self.followBtn.titleLabel.text after = %@", self.followBtn.titleLabel.text);
 }
 
 - (void)configureUnfollowButton {
-    [self.followBtn setTitle:@"Unfollow" forState:UIControlStateNormal];
+    [self.followBtn setTitle:@"Following" forState:UIControlStateSelected];
+//    self.followBtn.titleLabel.text = @"Following";
+    NSLog(@"self.followBtn.titleLabel.text before = %@", self.followBtn.titleLabel.text);
     [self.followBtn addTarget:self action:@selector(doUnfollowAction:)forControlEvents:UIControlEventTouchDown];
+    NSLog(@"self.followBtn.titleLabel.text after = %@", self.followBtn.titleLabel.text);
 }
 
 - (IBAction)sendMessage:(id)sender {

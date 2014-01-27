@@ -13,25 +13,39 @@
 #import "Constants.h"
 #import "PresenticeUtitily.h"
 
+#import <AWSRuntime/AWSRuntime.h>
+#import <AWSS3/AWSS3.h>
+
+#import "UILabel+Boldify.h"
+
 #import "MessageDetailViewController.h"
+#import "QuestionDetailViewController.h"
+#import "VideoViewController.h"
 
-@interface UserProfileViewController : UITableViewController
 
+@interface UserProfileViewController : PFQueryTableViewController <UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate, UIImagePickerControllerDelegate>
+
+// For display user info
 @property (strong, nonatomic) PFUser *userObj;
-@property (nonatomic, strong) NSMutableArray *menuItems;
+@property (strong, nonatomic) IBOutlet UIImageView *userProfilePicture;
+@property (strong, nonatomic) IBOutlet UILabel *userNameLabel;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
-//- (IBAction)showLeftMenuPressed:(id)sender;
+// Action to this user
+- (IBAction)sendMessage:(id)sender;
+- (IBAction)reportUser:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *followBtn;
 
+// For display user videos
+@property BOOL isFollowing;
+
+// Navigation button
 - (IBAction)showLeftMenu:(id)sender;
 - (IBAction)showRightMenu:(id)sender;
 
 
-//@property (strong, nonatomic) IBOutlet UIButton *sendMessage;
-//@property (strong, nonatomic) IBOutlet UIButton *reportUser;
 
-- (IBAction)sendMessage:(id)sender;
-- (IBAction)reportUser:(id)sender;
+//@property (nonatomic, strong) NSMutableArray *menuItems;
 
-@property (weak, nonatomic) IBOutlet UIButton *followBtn;
 
 @end
