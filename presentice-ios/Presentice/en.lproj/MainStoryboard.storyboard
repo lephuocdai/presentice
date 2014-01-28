@@ -429,7 +429,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3BC-10-51Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1448" y="-1149"/>
+            <point key="canvasLocation" x="1435" y="-1149"/>
         </scene>
         <!--Find Friend View Controller - Find Friends-->
         <scene sceneID="eE3-ZI-hSD">
@@ -946,7 +946,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ALZ-Yc-bEl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3465" y="-1897"/>
+            <point key="canvasLocation" x="3375" y="-1897"/>
         </scene>
         <!--Question List View Controller - Quetion List View Controller-->
         <scene sceneID="6G1-b7-LEF">
@@ -1624,7 +1624,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lh9-fG-vlq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1448" y="-1869"/>
+            <point key="canvasLocation" x="1435" y="-1869"/>
         </scene>
     </scenes>
     <resources>
@@ -1657,7 +1657,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="hyQ-RK-lqM"/>
+        <segue reference="6kH-cL-B2Y"/>
         <segue reference="caN-zf-xcd"/>
     </inferredMetricsTieBreakers>
 </document>
