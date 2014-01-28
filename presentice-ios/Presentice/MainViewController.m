@@ -167,11 +167,11 @@
         return 70;
     } else {
         if ([[[self.objects objectAtIndex:indexPath.section] objectForKey:kActivityTypeKey] isEqualToString:@"answer"] ) {
-            return 70;
+            return 50;
         } else if ([[[self.objects objectAtIndex:indexPath.section] objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
-            return 110;
+            return 85;
         } else if ([[[self.objects objectAtIndex:indexPath.section] objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
-            return 110;
+            return 85;
         } else if ([[[self.objects objectAtIndex:indexPath.section] objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
             return 50;
         } else {
@@ -203,15 +203,16 @@
             // Configure the cell
             UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
             UILabel *description = (UILabel *)[cell viewWithTag:101];
-            UILabel *activityType = (UILabel *)[cell viewWithTag:102];
-            UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
+            UILabel *viewsNum = (UILabel *)[cell viewWithTag:102];
     
             [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
-            description.text = [NSString stringWithFormat:@"%@ has posted %@s",
+            description.text = [NSString stringWithFormat:@"%@ has posted %@",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                                 [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
-            activityType.text = [NSString stringWithFormat:@"%@", [object objectForKey:kActivityTypeKey]];
-            viewsNum.text = [NSString stringWithFormat:@"view: %@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoViewsKey]];
+            [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
+            [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
+
+            viewsNum.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
             return cell;
         } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
             NSString *simpleTableIdentifier = @"reviewListIdentifier";
@@ -223,16 +224,20 @@
             // Configure the cell
             UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
             UILabel *description = (UILabel *)[cell viewWithTag:101];
-            UILabel *activityType = (UILabel *)[cell viewWithTag:102];
+            UILabel *viewsNum = (UILabel *)[cell viewWithTag:102];
             UILabel *comment = (UILabel *)[cell viewWithTag:103];
             UILabel *answerVideoName = (UILabel *)[cell viewWithTag:104];
             
             [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
-            description.text = [NSString stringWithFormat:@"%@ has reviewed %@'s%@",
+            description.text = [NSString stringWithFormat:@"%@ has reviewed %@'s %@",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                                 [[object objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey],
                                 [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
-            activityType.text = [NSString stringWithFormat:@"%@", [object objectForKey:kActivityTypeKey]];
+            [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
+            [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey]]];
+            [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
+            
+            viewsNum.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
             comment.text = [object objectForKey:kActivityDescriptionKey];
             answerVideoName.text = [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey];
             return cell;
@@ -247,7 +252,7 @@
             // Configure the cell
             UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
             UILabel *description = (UILabel *)[cell viewWithTag:101];
-            UILabel *activityType = (UILabel *)[cell viewWithTag:102];
+            UILabel *viewsNum = (UILabel *)[cell viewWithTag:102];
             UILabel *comment = (UILabel *)[cell viewWithTag:103];
             UILabel *questionVideoName = (UILabel *)[cell viewWithTag:104];
             
@@ -255,7 +260,10 @@
             description.text = [NSString stringWithFormat:@"%@ has posted a new question %@",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                                 [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
-            activityType.text = [NSString stringWithFormat:@"%@", [object objectForKey:kActivityTypeKey]];
+            [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
+            [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
+            
+            viewsNum.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
             comment.text = [object objectForKey:kActivityDescriptionKey];
             questionVideoName.text = [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey];
             return cell;
@@ -274,6 +282,8 @@
             [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
             description.text = [NSString stringWithFormat:@"%@ has joined Presentice",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
+            [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
+            
             return cell;
         } else {
             NSString *simpleTableIdentifier = @"answerListIdentifier";
