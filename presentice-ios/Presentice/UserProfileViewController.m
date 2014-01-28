@@ -45,6 +45,7 @@
     
     //asyn to get profile picture
     [PresenticeUtitily setImageView:self.userProfilePicture forUser:self.userObj];
+    
     self.userNameLabel.text = [self.userObj objectForKey:kUserDisplayNameKey];
     
     // Set tap gesture on user profile picture

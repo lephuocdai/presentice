@@ -261,7 +261,6 @@
  */
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     if ([segue.identifier isEqualToString:@"showAnswerFromQuestion"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         VideoViewController *destViewController = segue.destinationViewController;
@@ -271,6 +270,7 @@
         destViewController.movieURL = [PresenticeUtitily s3URLForObject:object];
         destViewController.answerVideoObj = object;
     }
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 #pragma upload answer video

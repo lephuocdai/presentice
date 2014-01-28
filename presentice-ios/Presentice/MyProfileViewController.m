@@ -82,6 +82,8 @@
             thumbnailImageView.image = [UIImage imageNamed:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]];
         }
         thumbnailImageView.highlightedImage = thumbnailImageView.image;
+        thumbnailImageView.layer.cornerRadius = thumbnailImageView.frame.size.width / 2;
+        thumbnailImageView.layer.masksToBounds = YES;
         
         UILabel *info = (UILabel *)[cell viewWithTag:101];
         NSLog(@"%@",[self.menuItems objectAtIndex:indexPath.row]);

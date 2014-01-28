@@ -257,7 +257,6 @@
  */
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     if ([segue.identifier isEqualToString:@"toReviewView"]) {
         TakeReviewViewController *destViewController = segue.destinationViewController;
         destViewController.videoObj = self.answerVideoObj;
@@ -266,9 +265,9 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         ReviewDetailViewController *destViewController = segue.destinationViewController;
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
-        NSLog(@"sent object = %@", object);
         destViewController.reviewObject = object;
     }
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     if ([identifier isEqualToString:@"toReviewView"]) {
