@@ -397,25 +397,6 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="setting" rowHeight="80" id="EfL-gx-QVZ">
-                                        <rect key="frame" x="0.0" y="284" width="320" height="80"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EfL-gx-QVZ" id="UQN-ZS-CuR">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ico_setting.png" highlightedImage="ico_setting_on.png" id="fMf-8D-0Lo">
-                                                    <rect key="frame" x="16" y="16" width="48" height="48"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_settings.png" highlightedImage="menu_settings_on.png" id="efU-D3-twN">
-                                                    <rect key="frame" x="80" y="31" width="80" height="18"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -1640,16 +1621,12 @@
         <image name="ico_notification.png" width="48" height="32"/>
         <image name="ico_profile.png" width="70" height="70"/>
         <image name="ico_profile_on.png" width="70" height="70"/>
-        <image name="ico_setting.png" width="70" height="70"/>
-        <image name="ico_setting_on.png" width="70" height="70"/>
         <image name="menu_home.png" width="223" height="47"/>
         <image name="menu_home_on.png" width="209" height="47"/>
         <image name="menu_messages.png" width="223" height="47"/>
         <image name="menu_messages_on.png" width="223" height="47"/>
         <image name="menu_profile.png" width="223" height="47"/>
         <image name="menu_profile_on.png" width="209" height="47"/>
-        <image name="menu_settings.png" width="223" height="47"/>
-        <image name="menu_settings_on.png" width="223" height="47"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

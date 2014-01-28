@@ -188,7 +188,6 @@
 		F4EECF67177F4AB000778578 /* nav_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EECF65177F4AB000778578 /* nav_bg.png */; };
 		F4EECF6A177F4C0200778578 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EECF68177F4C0200778578 /* menu.png */; };
 		F4EECF6B177F4C0200778578 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EECF69177F4C0200778578 /* menu@2x.png */; };
-		F4EECF6E177FD51400778578 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EECF6D177FD51300778578 /* ShareViewController.m */; };
 		F4EECF70177FE9B400778578 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF6F177FE9B400778578 /* CoreLocation.framework */; };
 		F4EECF72177FE9BA00778578 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF71177FE9BA00778578 /* MapKit.framework */; };
 		F4EECF75177FF90600778578 /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EECF74177FF90600778578 /* MyProfileViewController.m */; };
@@ -452,8 +451,6 @@
 		F4EECF65177F4AB000778578 /* nav_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_bg.png; sourceTree = "<group>"; };
 		F4EECF68177F4C0200778578 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		F4EECF69177F4C0200778578 /* menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu@2x.png"; sourceTree = "<group>"; };
-		F4EECF6C177FD51300778578 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
-		F4EECF6D177FD51300778578 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
 		F4EECF6F177FE9B400778578 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F4EECF71177FE9BA00778578 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		F4EECF74177FF90600778578 /* MyProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyProfileViewController.m; sourceTree = "<group>"; };
@@ -635,7 +632,6 @@
 				F09EBCD218691D91009C2BC9 /* Profile */,
 				F04C775D188BD4E700F56126 /* Home */,
 				F00006A2186BA95A00E69027 /* Message */,
-				F0718CBF185ACE8B009014A0 /* Share */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -701,14 +697,6 @@
 			name = LoginInfo;
 			sourceTree = "<group>";
 		};
-		F0718CBF185ACE8B009014A0 /* Share */ = {
-			isa = PBXGroup;
-			children = (
-				F09EBCD118691D6D009C2BC9 /* PostQuestion */,
-			);
-			name = Share;
-			sourceTree = "<group>";
-		};
 		F0759AB41881C6310077D387 /* MFSideMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -757,15 +745,6 @@
 				F01ECFEA18850563000604C3 /* QuestionDetailViewController.m */,
 			);
 			name = Question;
-			sourceTree = "<group>";
-		};
-		F09EBCD118691D6D009C2BC9 /* PostQuestion */ = {
-			isa = PBXGroup;
-			children = (
-				F4EECF6C177FD51300778578 /* ShareViewController.h */,
-				F4EECF6D177FD51300778578 /* ShareViewController.m */,
-			);
-			name = PostQuestion;
 			sourceTree = "<group>";
 		};
 		F09EBCD218691D91009C2BC9 /* Profile */ = {
@@ -1412,7 +1391,6 @@
 				A72AB053188A876E00C12A74 /* FindFriendCell.m in Sources */,
 				F0DD719A18921FE50070DF95 /* NSString+JSMessagesView.m in Sources */,
 				A7E995A51867D197009E48CA /* RegisterViewController.m in Sources */,
-				F4EECF6E177FD51400778578 /* ShareViewController.m in Sources */,
 				F0DDAB84187BD460002BDC67 /* VideoViewController.m in Sources */,
 				F03486CF1880166D001BE459 /* PushPermissionViewController.m in Sources */,
 				F4EECF75177FF90600778578 /* MyProfileViewController.m in Sources */,

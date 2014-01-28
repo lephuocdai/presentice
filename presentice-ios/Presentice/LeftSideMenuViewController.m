@@ -29,20 +29,7 @@
     
     self.view.backgroundColor = [UIColor colorWithRed:40.0/255 green:40.0/255 blue:50.0/255 alpha:1];
     
-    _menuItems = @[@"profile", @"home", @"message", @"setting"];
-    
-/**
-    // Set my List videoNum
-    self.videoNumLabel.text = @"undefined";
-    
-    // Set notification badge
-    if ([PFInstallation currentInstallation]) {
-        self.notifyNumLabel.text = [NSString stringWithFormat:@"%ld",(long)[PFInstallation currentInstallation].badge];
-    } else {
-        self.notifyNumLabel.text = @"0";
-    }
-**/
-    
+    _menuItems = @[@"profile", @"home", @"message"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,23 +39,6 @@
 
 #pragma mark -
 #pragma mark - UITableViewDataSource
-/**
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return [NSString stringWithFormat:@"Left %d", section];
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.menuItems count];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60;
-}
-**/
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
@@ -150,13 +120,6 @@
             UINavigationController *navigationController = (UINavigationController *)tabBarController.selectedViewController;
             NSArray *controllers = [NSArray arrayWithObject:messageListViewController];
             navigationController.viewControllers = controllers;
-            
-        } else if(indexPath.row == 3){
-            ShareViewController *shareViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"shareViewController"];
-            UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
-            [self.menuContainerViewController setCenterViewController:centerViewController];
-            NSArray *controllers = [NSArray arrayWithObject:shareViewController];
-            centerViewController.viewControllers = controllers;
         }
     }
     [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
