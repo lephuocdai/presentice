@@ -27,6 +27,14 @@
 // Query all users that a user is following
 + (PFQuery *)followingFriendsOfUser:(PFUser*)aUser;
 
+// Query all videos that a user can view
++ (PFQuery *)videosCanBeViewedByUser:(PFUser*)aUser;
+
+// Check following
++ (BOOL)isUser:(PFUser*)userA followUser:(PFUser*)userB;
++ (BOOL)canUser:(PFUser*)aUser viewVideo:(PFObject*)aVideo;
+//+ (BOOL)canUser:(PFUser*)aUser viewActivity:(PFObject*)anActivity;
+
 // Show facebook
 + (NSString*)facebookProfilePictureofUser:(PFUser*)user;
 + (UIViewController *)facebookPageOfUser:(PFUser*)aUser;

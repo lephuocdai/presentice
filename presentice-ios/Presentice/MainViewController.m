@@ -92,9 +92,13 @@
     [followingToUserQuery whereKey:kActivityToUserKey matchesKey:kActivityToUserKey inQuery:followingFriendQuery];
     [followingToUserQuery whereKey:kActivityFromUserKey notEqualTo:[PFUser currentUser]];
     
+    PFQuery *visibleVideoQuery = [PresenticeUtitily videosCanBeViewedByUser:[PFUser currentUser]];
+    
     // Combine the two queries above
     PFQuery *activitiesQuery = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:followingToUserQuery, followingFromUserQuery, nil]];
     [activitiesQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review", @"postQuestion", @"register"]];
+    [activitiesQuery whereKey:kActivityTargetVideoKey matchesQuery:visibleVideoQuery];
+    
     [activitiesQuery includeKey:kActivityFromUserKey];
     [activitiesQuery includeKey:kActivityTargetVideoKey];
     [activitiesQuery includeKey:@"targetVideo.user"];
@@ -102,6 +106,7 @@
     [activitiesQuery includeKey:@"targetVideo.toUser"];
     [activitiesQuery includeKey:@"targetVideo.reviews"];
     [activitiesQuery includeKey:kActivityToUserKey];
+    
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
@@ -213,6 +218,9 @@
             [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
 
             viewsNum.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
+            
+            NSLog(@"can currentUser view this video = %hhd", [PresenticeUtitily canUser:[PFUser currentUser] viewVideo:object]);
+            
             return cell;
         } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
             NSString *simpleTableIdentifier = @"reviewListIdentifier";
@@ -356,11 +364,17 @@
     if (indexPath.section < [self.objects count] ) {
         PFObject *activityObject = [self.objects objectAtIndex:indexPath.section];
         if ([@[@"answer", @"review"] containsObject:[activityObject objectForKey:kActivityTypeKey]]) {
-            VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
             PFObject *videoObj = [activityObject objectForKey:kActivityTargetVideoKey];
-            destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
-            destViewController.answerVideoObj = videoObj;
-            [self.navigationController pushViewController:destViewController animated:YES];
+            if ([[videoObj objectForKey:kVideoVisibilityKey] isEqualToString:@"onlyMe"]) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't view video" message:@"This video owner does not allow you to view it. Request her by sending a message" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+                [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+            } else if ([[videoObj objectForKey:kVideoVisibilityKey] isEqualToString:@"open"]) {
+                VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
+                destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+                destViewController.answerVideoObj = videoObj;
+                [self.navigationController pushViewController:destViewController animated:YES];
+            }
         } else if ([[activityObject objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
             QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
             PFObject *videoObj = [activityObject objectForKey:kActivityTargetVideoKey];

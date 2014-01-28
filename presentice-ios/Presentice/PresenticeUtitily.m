@@ -95,8 +95,48 @@
     [followingFriendQuery whereKey:kActivityFromUserKey equalTo:aUser];
     [followingFriendQuery includeKey:kActivityToUserKey];
     followingFriendQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [followingFriendQuery orderByDescending:kUpdatedAtKey];
     followingFriendQuery.limit = 1000;
     return followingFriendQuery;
+}
+
++ (PFQuery*)videosCanBeViewedByUser:(PFUser *)aUser {
+    PFQuery *followingFriendQuery = [self followingFriendsOfUser:aUser];
+    
+    PFQuery *friendOnlyVideoQuery = [PFQuery queryWithClassName:kVideoClassKey];
+    [friendOnlyVideoQuery whereKey:kVideoVisibilityKey equalTo:@"friendOnly"];
+    [friendOnlyVideoQuery whereKey:kVideoUserKey matchesKey:kActivityToUserKey inQuery:followingFriendQuery];
+    
+    PFQuery *openVideoQuery = [PFQuery queryWithClassName:kVideoClassKey];
+    [openVideoQuery whereKey:kVideoVisibilityKey containedIn:@[@"open", @"global"]];
+    
+    PFQuery *videosQuery = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:friendOnlyVideoQuery, openVideoQuery, nil]];
+    videosQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [videosQuery orderByDescending:kUpdatedAtKey];
+    
+    videosQuery.limit = 1000;
+    return videosQuery;
+}
+
++ (BOOL)isUser:(PFUser *)userA followUser:(PFUser *)userB {
+    PFQuery *followingFriendQuery = [PFQuery queryWithClassName:kActivityClassKey];
+    [followingFriendQuery whereKey:kActivityTypeKey equalTo:kActivityTypeFollow];
+    [followingFriendQuery whereKey:kActivityFromUserKey equalTo:userA];
+    [followingFriendQuery whereKey:kActivityToUserKey equalTo:userB];
+    if ([followingFriendQuery countObjects] > 0)
+        return true;
+    else
+        return false;
+}
+
++ (BOOL)canUser:(PFUser *)aUser viewVideo:(PFObject *)aVideo {
+    if ([@[@"open", @"global"] containsObject:[aVideo objectForKey:kVideoVisibilityKey]]) {
+        return true;
+    } else if ([[aVideo objectForKey:kVideoVisibilityKey] isEqualToString:@"friendOnly"]) {
+        return [self isUser:aUser followUser:[aVideo objectForKey:kVideoUserKey]];
+    } else {
+        return false;
+    }
 }
 
 + (NSString*)facebookProfilePictureofUser:(PFUser*)user{
