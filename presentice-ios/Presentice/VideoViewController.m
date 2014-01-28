@@ -50,23 +50,21 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     //asyn to get profile picture
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:[self.answerVideoObj objectForKey:kVideoUserKey]]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.userProfilePicture.image = [UIImage imageWithData:profileImageData];
-            self.userProfilePicture.highlightedImage = self.userProfilePicture.image;
-            self.userProfilePicture.layer.cornerRadius = self.userProfilePicture.frame.size.width / 2;
-            self.userProfilePicture.layer.masksToBounds = YES;
-        });
-    });
-    
+    [PresenticeUtitily setImageView:self.userProfilePicture forUser:[self.answerVideoObj objectForKey:kVideoUserKey]];
     videoNameLabel.text = [self.answerVideoObj objectForKey:kVideoNameKey];
     postedUserLabel.text = [[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     viewNumLabel.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:self.answerVideoObj];
     
+    // Set tap gesture on user profile picture
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnImageView)];
+    [singleTap setNumberOfTapsRequired:1];
+    self.userProfilePicture.userInteractionEnabled = YES;
+    [self.userProfilePicture addGestureRecognizer:singleTap];
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
+#pragma play movie
     // Set up movieController
     self.movieController = [[MPMoviePlayerController alloc] init];
     [self.movieController setContentURL:self.movieURL];
@@ -88,6 +86,12 @@
                                              selector:@selector(refreshTable:)
                                                  name:@"refreshTable"
                                                object:nil];
+}
+
+- (void)actionHandleTapOnImageView {
+    UserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
+    userProfileViewController.userObj = [self.answerVideoObj objectForKey:kVideoUserKey];
+    [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

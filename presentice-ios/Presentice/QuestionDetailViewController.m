@@ -58,14 +58,18 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     [PresenticeUtitily setImageView:self.userProfilePicture forUser:[self.questionVideoObj objectForKey:kVideoUserKey]];
-    
-    videoNameLabel.text = [self.questionVideoObj objectForKey:kVideoNameKey];
     postedUserLabel.text = [[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
+    videoNameLabel.text = [self.questionVideoObj objectForKey:kVideoNameKey];
+    
+    // Set tap gesture on user profile picture
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnImageView)];
+    [singleTap setNumberOfTapsRequired:1];
+    self.userProfilePicture.userInteractionEnabled = YES;
+    [self.userProfilePicture addGestureRecognizer:singleTap];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
 
-    
 #pragma play movie
     // Set up movieController
     self.movieController = [[MPMoviePlayerController alloc] init];
@@ -99,6 +103,12 @@
                                              selector:@selector(refreshTable:)
                                                  name:@"refreshTable"
                                                object:nil];
+}
+
+- (void)actionHandleTapOnImageView {
+    UserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
+    userProfileViewController.userObj = [self.questionVideoObj objectForKey:kVideoUserKey];
+    [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

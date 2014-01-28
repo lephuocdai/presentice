@@ -12,6 +12,8 @@
 #import "Constants.h"
 #import "PresenticeUtitily.h"
 
+#import "UserProfileViewController.h"
+
 
 @interface ReviewDetailViewController : UITableViewController
 

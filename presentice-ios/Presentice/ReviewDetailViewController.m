@@ -52,7 +52,21 @@
     
     NSLog(@"%@", commentView);
     criteria = [[NSMutableArray alloc] initWithArray:[[self.reviewObject objectForKey:kActivityContentKey] allKeys]];
+    
+    // Set tap gesture on user profile picture
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnImageView)];
+    [singleTap setNumberOfTapsRequired:1];
+    self.userProfilePicture.userInteractionEnabled = YES;
+    [self.userProfilePicture addGestureRecognizer:singleTap];
+    
 }
+
+- (void)actionHandleTapOnImageView {
+    UserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
+    userProfileViewController.userObj = [self.reviewObject objectForKey:kActivityFromUserKey];
+    [self.navigationController pushViewController:userProfileViewController animated:YES];
+}
+
 
 - (void)viewDidAppear:(BOOL)animated {
     // Hid all HUD after all objects appered

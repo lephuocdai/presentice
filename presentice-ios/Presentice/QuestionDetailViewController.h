@@ -19,6 +19,7 @@
 #import <MobileCoreServices/UTCoreTypes.h>
 
 #import "VideoViewController.h"
+#import "UserProfileViewController.h"
 
 @interface QuestionDetailViewController : PFQueryTableViewController <UINavigationControllerDelegate, UINavigationBarDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
 

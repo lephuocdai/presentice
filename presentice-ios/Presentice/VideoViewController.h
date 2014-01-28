@@ -18,6 +18,7 @@
 
 #import "TakeReviewViewController.h"
 #import "ReviewDetailViewController.h"
+#import "UserProfileViewController.h"
 
 @interface VideoViewController : PFQueryTableViewController <UINavigationControllerDelegate, UINavigationBarDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
 

@@ -47,9 +47,19 @@
     [PresenticeUtitily setImageView:self.userProfilePicture forUser:self.userObj];
     self.userNameLabel.text = [self.userObj objectForKey:kUserDisplayNameKey];
     
+    // Set tap gesture on user profile picture
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnImageView)];
+    [singleTap setNumberOfTapsRequired:1];
+    self.userProfilePicture.userInteractionEnabled = YES;
+    [self.userProfilePicture addGestureRecognizer:singleTap];
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    
+}
+
+- (void)actionHandleTapOnImageView {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.navigationController pushViewController:[PresenticeUtitily facebookPageOfUser:self.userObj] animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

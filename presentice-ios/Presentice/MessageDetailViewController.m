@@ -23,7 +23,6 @@
 
 - (void)viewDidLoad
 {
-    
     kCurrentUser = [[PFUser currentUser] objectForKey:kUserDisplayNameKey];
     kToUser = [self.toUser objectForKey:kUserDisplayNameKey];
     
@@ -64,15 +63,13 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.messages.count;
 }
 
 #pragma mark - Messages view delegate: REQUIRED
 
-- (void)didSendMessage:(JSMessage *)message
-{
+- (void)didSendMessage:(JSMessage *)message {
     if ((self.messages.count - 1) % 2) {
         [JSMessageSoundEffect playMessageSentSound];
     }
@@ -143,15 +140,13 @@
     [self scrollToBottomAnimated:YES];
 }
 
-- (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath {
     JSMessage *message = [self.messages objectAtIndex:indexPath.row];
     return ([message.sender isEqualToString:kToUser]) ? JSBubbleMessageTypeIncoming : JSBubbleMessageTypeOutgoing;
 }
 
 - (UIImageView *)bubbleImageViewWithType:(JSBubbleMessageType)type
-                       forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+                       forRowAtIndexPath:(NSIndexPath *)indexPath {
     JSMessage *message = [self.messages objectAtIndex:indexPath.row];
     if ([message.sender isEqualToString:kToUser]) {
         return [JSBubbleImageViewFactory bubbleImageViewForType:type
@@ -162,15 +157,13 @@
                                                       color:[UIColor js_bubbleBlueColor]];
 }
 
-- (JSMessageInputViewStyle)inputViewStyle
-{
+- (JSMessageInputViewStyle)inputViewStyle {
     return JSMessageInputViewStyleFlat;
 }
 
 #pragma mark - Messages view delegate: OPTIONAL
 
-- (BOOL)shouldDisplayTimestampForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (BOOL)shouldDisplayTimestampForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row % 3 == 0) {
         return YES;
     }
@@ -232,7 +225,22 @@
 
 - (UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath sender:(NSString *)sender {
     UIImage *image = [self.avatars objectForKey:sender];
-    return [[UIImageView alloc] initWithImage:image];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    if ([sender isEqualToString:kToUser]) {
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnImageView)];
+        [singleTap setNumberOfTapsRequired:1];
+        imageView.userInteractionEnabled = YES;
+        [imageView addGestureRecognizer:singleTap];
+    }
+    return imageView;
+}
+
+- (void)actionHandleTapOnImageView {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:[NSBundle mainBundle]];
+    UserProfileViewController *userProfileViewController = [storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
+    
+    userProfileViewController.userObj = self.toUser;
+    [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 
 @end

@@ -137,7 +137,6 @@
     userName.text = [toUser objectForKey:kUserDisplayNameKey];
     description.text = [[[object objectForKey:kMessageContentKey] lastObject] objectForKey:@"text"];
     
-//    cell.textLabel.text = [[[object objectForKey:kMessageContentKey] lastObject] objectForKey:@"text"];
     return cell;
 }
 
@@ -163,7 +162,6 @@
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-//    NSLog(@"destViewController.messageObj = %@",destViewController.messageObj);
     [self.navigationController pushViewController:destViewController animated:YES];
 }
 

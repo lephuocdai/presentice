@@ -14,6 +14,8 @@
 
 #import "MessageFooterView.h"
 
+#import "UserProfileViewController.h"
+
 @interface MessageDetailViewController : JSMessagesViewController <JSDismissiveTextViewDelegate, JSMessagesViewDataSource, JSMessagesViewDelegate, JSDismissiveTextViewDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
 @property (strong, nonatomic) PFUser *toUser;
