@@ -128,26 +128,12 @@
     UILabel *userName = (UILabel *)[cell viewWithTag:101];
     UILabel *description = (UILabel *)[cell viewWithTag:102];
     
-    //asyn to get profile picture
     NSMutableArray *users = [[object objectForKey:kMessageUsersKey] mutableCopy];
-//    NSLog(@"users count before = %d", [users count]);
-    
     NSUInteger currentUserIndex = [self indexOfObjectwithKey:[[PFUser currentUser] objectId] inArray:users];
-//    NSLog(@"currentUserIndex = %lu", (unsigned long)currentUserIndex);
-    
     [users removeObjectAtIndex:currentUserIndex];
-    
-//    NSLog(@"users count after = %d", [users count]);
     PFUser *toUser = [users lastObject];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:toUser]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            userProfilePicture.image = [UIImage imageWithData:profileImageData];
-            userProfilePicture.highlightedImage = [UIImage imageWithData:profileImageData];
-            userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
-            userProfilePicture.layer.masksToBounds = YES;
-        });
-    });
+    [PresenticeUtitily setImageView:userProfilePicture forUser:toUser];
+
     userName.text = [toUser objectForKey:kUserDisplayNameKey];
     description.text = [[[object objectForKey:kMessageContentKey] lastObject] objectForKey:@"text"];
     

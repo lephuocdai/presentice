@@ -175,29 +175,20 @@
     UILabel *description = (UILabel *)[cell viewWithTag:101];
     
     //asyn to get profile picture
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:[object objectForKey:kActivityFromUserKey]]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            userProfilePicture.image = [UIImage imageWithData:profileImageData];
-            userProfilePicture.highlightedImage = [UIImage imageWithData:profileImageData];
-            userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
-            userProfilePicture.layer.masksToBounds = YES;
-        });
-    });
-    
+    [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
     NSString *type = [object objectForKey:kActivityTypeKey];
     if ([type isEqualToString:@"postQuestion"]) {
-        description.text = [NSString stringWithFormat:@"%@ has posted new question %@!",
+        description.text = [NSString stringWithFormat:@"%@ has posted new question %@",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
     } else if ([type isEqualToString:@"follow"]) {
-        description.text = [NSString stringWithFormat:@"%@ has followed you!",
+        description.text = [NSString stringWithFormat:@"%@ has followed you",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
     } else {
-        description.text = [NSString stringWithFormat:@"%@ has %@ed your %@!",
+        description.text = [NSString stringWithFormat:@"%@ has %@ed your %@",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                             [object objectForKey:kActivityTypeKey],
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];

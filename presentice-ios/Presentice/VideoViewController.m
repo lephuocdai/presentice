@@ -62,7 +62,7 @@
     
     videoNameLabel.text = [self.answerVideoObj objectForKey:kVideoNameKey];
     postedUserLabel.text = [[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-    viewNumLabel.text = [NSString stringWithFormat:@"views: %@",[self.answerVideoObj objectForKey:kVideoViewsKey]];
+    viewNumLabel.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:self.answerVideoObj];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -206,6 +206,14 @@
 
 #pragma mark - Table view data source
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return @"Reviews of this video";
+    } else {
+        return @"";
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *simpleTableIdentifier = @"reviewListIdentifier";
     
@@ -217,8 +225,6 @@
     // Configure the cell
     UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
     UILabel *userName = (UILabel *)[cell viewWithTag:101];
-    UILabel *pointDetail = (UILabel *)[cell viewWithTag:102];
-    UILabel *pointSum = (UILabel *)[cell viewWithTag:103];
     UILabel *comment = (UILabel *)[cell viewWithTag:104];
     
     userProfilePicture.image = [UIImage imageWithData:
@@ -230,16 +236,8 @@
     userProfilePicture.layer.masksToBounds = YES;
     
     userName.text = [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey];
-    
-    NSMutableDictionary *points = [object objectForKey:kActivityContentKey];
-    pointDetail.text = [NSString stringWithFormat:@"app: %@, org: %@, und: %@",
-                        [points objectForKey:@"appearance"],
-                        [points objectForKey:@"organization"],
-                        [points objectForKey:@"understandability"]];
-    NSLog(@"points = %@ \n object= %@", points, object);
-    pointSum.text = @"undefined";
-    
     comment.text = [object objectForKey:kActivityDescriptionKey];
+    
     return cell;
 }
 
@@ -255,6 +253,7 @@
  */
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     if ([segue.identifier isEqualToString:@"toReviewView"]) {
         TakeReviewViewController *destViewController = segue.destinationViewController;
         destViewController.videoObj = self.answerVideoObj;

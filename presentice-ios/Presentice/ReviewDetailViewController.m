@@ -20,7 +20,6 @@
 @synthesize answerVideoNameLabel;
 @synthesize answerVideoPosterUserNameLabel;
 @synthesize commentView;
-@synthesize profileView;
 
 //@synthesize thankYouLabel;
 
@@ -38,18 +37,12 @@
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    profileView.image = [UIImage imageWithData:
-                         [NSData dataWithContentsOfURL:
-                          [NSURL URLWithString:
-                           [PresenticeUtitily facebookProfilePictureofUser:
-                            [self.reviewObject objectForKey:kActivityFromUserKey]]]]];
-    profileView.layer.cornerRadius = profileView.frame.size.width / 2;
-    profileView.layer.masksToBounds = YES;
+    [PresenticeUtitily setImageView:self.userProfilePicture forUser:[self.reviewObject objectForKey:kActivityFromUserKey]];
     
     reviewerNameLabel.text = [[self.reviewObject objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey];
     answerVideoNameLabel.text = [[self.reviewObject objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey];
     answerVideoPosterUserNameLabel.text = [[self.reviewObject objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey];
-    UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
+    UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, 200)];
     commentLabel.text = [self.reviewObject objectForKey:kActivityDescriptionKey];
     commentLabel.numberOfLines = 0;
     [commentLabel setTextAlignment:NSTextAlignmentLeft];

@@ -115,23 +115,19 @@
     }
     
     // Configure the cell
-    UILabel *postedUser = (UILabel *)[cell viewWithTag:100];
-    UILabel *videoName = (UILabel *)[cell viewWithTag:101];
-    UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:102];
+    UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
+    UILabel *postedUser = (UILabel *)[cell viewWithTag:101];
+    UILabel *videoName = (UILabel *)[cell viewWithTag:102];
     UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
     UILabel *answersNum = (UILabel *)[cell viewWithTag:104];
     
+    [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kVideoUserKey]];
     postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     videoName.text = [object objectForKey:kVideoNameKey];
-    viewsNum.text = [NSString stringWithFormat:@"view: %@",[object objectForKey:kVideoViewsKey]];
-    answersNum.text = [NSString stringWithFormat:@"answers: %@", [object objectForKey:kVideoAnswersKey]];
-    userProfilePicture.image = [UIImage imageWithData:
-                                [NSData dataWithContentsOfURL:
-                                 [NSURL URLWithString:
-                                  [PresenticeUtitily facebookProfilePictureofUser:
-                                   [object objectForKey:kVideoUserKey]]]]];
-    userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
-    userProfilePicture.layer.masksToBounds = YES;
+    
+    viewsNum.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:object];
+    answersNum.text = [PresenticeUtitily stringNumberOfKey:kVideoAnswersKey inObject:object];
+    
     return cell;
 }
 

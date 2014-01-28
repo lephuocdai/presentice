@@ -109,12 +109,7 @@
     // Configure the cell
     UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
     UILabel *userName = (UILabel *)[cell viewWithTag:101];
-    userProfilePicture.image = [UIImage imageWithData:
-                                [NSData dataWithContentsOfURL:
-                                 [NSURL URLWithString:
-                                  [PresenticeUtitily facebookProfilePictureofUser:user]]]];
-    userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
-    userProfilePicture.layer.masksToBounds = YES;
+    [PresenticeUtitily setImageView:userProfilePicture forUser:user];
     userName.text = [user objectForKey:kUserDisplayNameKey];
 
     return cell;

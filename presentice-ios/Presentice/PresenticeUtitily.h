@@ -27,15 +27,12 @@
 // Query all users that a user is following
 + (PFQuery *)followingFriendsOfUser:(PFUser*)aUser;
 
-
 // Show facebook
 + (NSString*)facebookProfilePictureofUser:(PFUser*)user;
 + (UIViewController *)facebookPageOfUser:(PFUser*)aUser;
 
-
 // Initiate S3TransferManager bucket
 + (S3TransferManager *)getS3TransferManagerForDelegate:(id)delegate withEndPoint:(AmazonRegion)endPoint andRegion:(S3Region *)region;
-
 + (void)alertBucketCreatingError;
 
 // S3URL of a video object
@@ -47,5 +44,10 @@
 + (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate withTimeLimit:(NSTimeInterval)timeLimit;
 
 + (void)startImagePickerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate withTimeLimit:(NSTimeInterval)timeLimit;
+
+// Video information
++ (NSString *)stringNumberOfKey:(NSString*)key inObject:(PFObject*)object;
++ (void)setImageView:(UIImageView*)imageView forUser:(PFUser*)user;
+
 
 @end

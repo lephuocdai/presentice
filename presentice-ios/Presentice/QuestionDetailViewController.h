@@ -24,8 +24,12 @@
 
 
 // For display questionVideo
-@property (strong, nonatomic) IBOutlet UILabel *videoNameLabel;
+
+
+@property (strong, nonatomic) IBOutlet UIImageView *userProfilePicture;
 @property (strong, nonatomic) IBOutlet UILabel *postedUserLabel;
+@property (strong, nonatomic) IBOutlet UILabel *videoNameLabel;
+
 @property (copy, nonatomic)NSURL *movieURL;
 @property (strong, nonatomic) PFObject *questionVideoObj;
 @property (strong, nonatomic) IBOutlet UIView *videoView;

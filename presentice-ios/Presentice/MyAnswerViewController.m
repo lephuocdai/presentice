@@ -196,6 +196,7 @@
  */
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     if ([segue.identifier isEqualToString:@"showReviewDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         ReviewDetailViewController *destViewController = segue.destinationViewController;

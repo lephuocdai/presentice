@@ -251,5 +251,26 @@
     [controller presentViewController:picker animated:YES completion:NULL];
 }
 
++ (NSString*)stringNumberOfKey:(NSString *)key inObject:(PFObject *)object {
+    if ([object objectForKey:key]) {
+        return [NSString stringWithFormat:@"%@: %@", key, [object objectForKey:key]];
+    } else {
+        return [NSString stringWithFormat:@"%@: 0", key];
+    }
+}
+
++ (void)setImageView:(UIImageView *)imageView forUser:(PFUser *)user {
+    //asyn to get image
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:user]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            imageView.image = [UIImage imageWithData:profileImageData];
+            imageView.highlightedImage = imageView.image;
+            imageView.layer.cornerRadius = imageView.frame.size.width / 2;
+            imageView.layer.masksToBounds = YES;
+        });
+    });
+}
+
 
 @end

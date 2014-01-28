@@ -205,19 +205,9 @@
             UILabel *description = (UILabel *)[cell viewWithTag:101];
             UILabel *activityType = (UILabel *)[cell viewWithTag:102];
             UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
-            
-            //asyn to get profile picture
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:[object objectForKey:kActivityFromUserKey]]]];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    userProfilePicture.image = [UIImage imageWithData:profileImageData];
-                    userProfilePicture.highlightedImage = userProfilePicture.image;
-                    userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
-                    userProfilePicture.layer.masksToBounds = YES;
-                });
-            });
-            
-            description.text = [NSString stringWithFormat:@"%@ has posted %@!",
+    
+            [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
+            description.text = [NSString stringWithFormat:@"%@ has posted %@s",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                                 [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
             activityType.text = [NSString stringWithFormat:@"%@", [object objectForKey:kActivityTypeKey]];
@@ -237,15 +227,8 @@
             UILabel *comment = (UILabel *)[cell viewWithTag:103];
             UILabel *answerVideoName = (UILabel *)[cell viewWithTag:104];
             
-            userProfilePicture.image = [UIImage imageWithData:
-                                        [NSData dataWithContentsOfURL:
-                                         [NSURL URLWithString:
-                                          [PresenticeUtitily facebookProfilePictureofUser:
-                                           [object objectForKey:kActivityFromUserKey]]]]];
-            userProfilePicture.highlightedImage = userProfilePicture.image;
-            userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
-            userProfilePicture.layer.masksToBounds = YES;
-            description.text = [NSString stringWithFormat:@"%@ has reviewed %@'s%@!",
+            [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
+            description.text = [NSString stringWithFormat:@"%@ has reviewed %@'s%@",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                                 [[object objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey],
                                 [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
@@ -268,15 +251,8 @@
             UILabel *comment = (UILabel *)[cell viewWithTag:103];
             UILabel *questionVideoName = (UILabel *)[cell viewWithTag:104];
             
-            userProfilePicture.image = [UIImage imageWithData:
-                                        [NSData dataWithContentsOfURL:
-                                         [NSURL URLWithString:
-                                          [PresenticeUtitily facebookProfilePictureofUser:
-                                           [object objectForKey:kActivityFromUserKey]]]]];
-            userProfilePicture.highlightedImage = userProfilePicture.image;
-            userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
-            userProfilePicture.layer.masksToBounds = YES;
-            description.text = [NSString stringWithFormat:@"%@ has posted a new question %@!",
+            [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
+            description.text = [NSString stringWithFormat:@"%@ has posted a new question %@",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                                 [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
             activityType.text = [NSString stringWithFormat:@"%@", [object objectForKey:kActivityTypeKey]];
@@ -295,15 +271,8 @@
             UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
             UILabel *description = (UILabel *)[cell viewWithTag:101];
             
-            userProfilePicture.image = [UIImage imageWithData:
-                                        [NSData dataWithContentsOfURL:
-                                         [NSURL URLWithString:
-                                          [PresenticeUtitily facebookProfilePictureofUser:
-                                           [object objectForKey:kActivityFromUserKey]]]]];
-            userProfilePicture.highlightedImage = userProfilePicture.image;
-            userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
-            userProfilePicture.layer.masksToBounds = YES;
-            description.text = [NSString stringWithFormat:@"%@ has joined Presentice!",
+            [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
+            description.text = [NSString stringWithFormat:@"%@ has joined Presentice",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
             return cell;
         } else {

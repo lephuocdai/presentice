@@ -57,6 +57,8 @@
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
+    [PresenticeUtitily setImageView:self.userProfilePicture forUser:[self.questionVideoObj objectForKey:kVideoUserKey]];
+    
     videoNameLabel.text = [self.questionVideoObj objectForKey:kVideoNameKey];
     postedUserLabel.text = [[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     
@@ -206,6 +208,14 @@
 
 #pragma mark - Table view data source
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return @"Answers of this challenge";
+    } else {
+        return @"";
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *simpleTableIdentifier = @"answerListIdentifier";
     
@@ -221,14 +231,7 @@
     UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
     UILabel *reviewNum = (UILabel *)[cell viewWithTag:104];
     
-    userProfilePicture.image = [UIImage imageWithData:
-                                [NSData dataWithContentsOfURL:
-                                 [NSURL URLWithString:
-                                  [PresenticeUtitily facebookProfilePictureofUser:
-                                   [object objectForKey:kVideoUserKey]]]]];
-    userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
-    userProfilePicture.layer.masksToBounds = YES;
-    
+    [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kVideoUserKey]];
     userName.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     videoName.text = [object objectForKey:kVideoNameKey];
     viewsNum.text = [NSString stringWithFormat:@"view: %@",[object objectForKey:kVideoViewsKey]];
@@ -247,7 +250,8 @@
  * pass video object
  */
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {    
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     if ([segue.identifier isEqualToString:@"showAnswerFromQuestion"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         VideoViewController *destViewController = segue.destinationViewController;

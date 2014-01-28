@@ -39,20 +39,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-//    self.title = [self.userObj objectForKey:kUserDisplayNameKey];
     
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     //asyn to get profile picture
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:self.userObj]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.userProfilePicture.image = [UIImage imageWithData:profileImageData];
-            self.userProfilePicture.highlightedImage = self.userProfilePicture.image;
-        });
-    });
+    [PresenticeUtitily setImageView:self.userProfilePicture forUser:self.userObj];
     self.userNameLabel.text = [self.userObj objectForKey:kUserDisplayNameKey];
     
     self.tableView.delegate = self;
@@ -108,6 +100,14 @@
 
 #pragma mark - Table view data source
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return @"Videos of this user";
+    } else {
+        return @"";
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *simpleTableIdentifier = @"videoListIdentifier";
     
@@ -119,9 +119,10 @@
     // Configure the cell
     UILabel *videoType = (UILabel *)[cell viewWithTag:100];
     UILabel *videoName = (UILabel *)[cell viewWithTag:101];
+    UILabel *viewsNumLabel = (UILabel *)[cell viewWithTag:102];
     videoType.text = [[object objectForKey:kVideoTypeKey] capitalizedString];
     videoName.text = [[object objectForKey:kVideoNameKey] capitalizedString];
-    
+    viewsNumLabel.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:object];
     return cell;
 }
 
