@@ -102,8 +102,8 @@
             UITabBarController *homeTabBarController = [[UITabBarController alloc] init];
             [homeTabBarController setViewControllers:[NSArray arrayWithObjects:mainNavigationController, questionListNavigationController, myListNavigationController, notificationListNavigationController, nil]];
             [self.menuContainerViewController setCenterViewController:homeTabBarController];
-            UITabBarController *tabBarController = self.menuContainerViewController.centerViewController;
-            UINavigationController *navigationController = (UINavigationController *)tabBarController.selectedViewController;
+            
+            UINavigationController *navigationController = (UINavigationController *)homeTabBarController.selectedViewController;
             NSArray *controllers = [NSArray arrayWithObject:mainViewController];
             navigationController.viewControllers = controllers;
         } else if (indexPath.row == 2) {
@@ -116,8 +116,7 @@
             UITabBarController *messageTabBarController = [[UITabBarController alloc] init];
             [messageTabBarController setViewControllers:[NSArray arrayWithObjects:messageListNavigationController, friendListNavigationController, nil]];
             [self.menuContainerViewController setCenterViewController:messageTabBarController];
-            UITabBarController *tabBarController = self.menuContainerViewController.centerViewController;
-            UINavigationController *navigationController = (UINavigationController *)tabBarController.selectedViewController;
+            UINavigationController *navigationController = (UINavigationController *)messageTabBarController.selectedViewController;
             NSArray *controllers = [NSArray arrayWithObject:messageListViewController];
             navigationController.viewControllers = controllers;
         }

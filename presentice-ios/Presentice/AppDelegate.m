@@ -27,7 +27,7 @@
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
     
-//    [NewRelicAgent startWithApplicationToken:@"AA4b3424f28d790e4a3b434b4f431f0f7bffd45f17"];
+    [NewRelicAgent startWithApplicationToken:@"AA4b3424f28d790e4a3b434b4f431f0f7bffd45f17"];
     
     // Extract the notification data
 //    NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -44,15 +44,13 @@
         }
     }
     
-    UIImage *navBackgroundImage = [UIImage imageNamed:@"nav_bg"];
-    [[UINavigationBar appearance] setBackgroundImage:navBackgroundImage forBarMetrics:UIBarMetricsDefault];
     
     [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-                                                           [UIColor colorWithRed:10.0/255.0 green:10.0/255.0 blue:10.0/255.0 alpha:1.0], UITextAttributeTextColor,
+                                                           [UIColor colorWithRed:0.0/255.0 green:125.0/255.0 blue:225.0/255.0 alpha:1.0], UITextAttributeTextColor,
                                                            [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8],UITextAttributeTextShadowColor,
                                                            [NSValue valueWithUIOffset:UIOffsetMake(0, 0)],
                                                            UITextAttributeTextShadowOffset,
-                                                           [UIFont fontWithName:@"Helvetica-Light" size:20.0], UITextAttributeFont, nil]];
+                                                           [UIFont fontWithName:@"Helvetica-Light" size:15.0], UITextAttributeFont, nil]];
     
     [PFUser enableAutomaticUser];
     PFACL *defaultACL = [PFACL ACL];
