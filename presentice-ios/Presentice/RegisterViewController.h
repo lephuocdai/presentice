@@ -18,17 +18,9 @@
 #import "Validate.h"
 
 
-//@interface RegisterViewController : UIViewController<UIAlertViewDelegate>
 @interface RegisterViewController : QuickDialogController <QuickDialogEntryElementDelegate> {
     
 }
-
-//@property (weak, nonatomic) IBOutlet UITextField *tbEmail;
-//- (IBAction)didClickRegisterButton:(id)sender;
-//
-//@property (weak, nonatomic) IBOutlet UITextField *emailField;
-//@property (weak, nonatomic) IBOutlet UITextField *passwordField;
-//@property (weak, nonatomic) IBOutlet UITextField *confirmPasswordField;
 
 @property NSString *email;
 

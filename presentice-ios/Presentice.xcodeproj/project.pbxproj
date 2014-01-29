@@ -56,6 +56,7 @@
 		F0628DAD188FF76E00E9C7A3 /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0628DAC188FF76E00E9C7A3 /* AboutController.m */; };
 		F0661E141898A41D004F28F6 /* NSDate+TimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = F0661E131898A41D004F28F6 /* NSDate+TimeAgo.m */; };
 		F0661E161898A834004F28F6 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F0661E151898A834004F28F6 /* NSDateTimeAgo.bundle */; };
+		F0661E1C1898E233004F28F6 /* EditNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0661E1B1898E233004F28F6 /* EditNoteViewController.m */; };
 		F06E4BF418864EA100FB9333 /* ReviewDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F06E4BF318864EA100FB9333 /* ReviewDetailViewController.m */; };
 		F06E4BF71886DC9D00FB9333 /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F06E4BF61886DC9D00FB9333 /* UserProfileViewController.m */; };
 		F0718CB6185AC168009014A0 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F0718CB1185AC168009014A0 /* icon.png */; };
@@ -286,6 +287,8 @@
 		F0661E121898A41D004F28F6 /* NSDate+TimeAgo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TimeAgo.h"; sourceTree = "<group>"; };
 		F0661E131898A41D004F28F6 /* NSDate+TimeAgo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TimeAgo.m"; sourceTree = "<group>"; };
 		F0661E151898A834004F28F6 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
+		F0661E1A1898E233004F28F6 /* EditNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditNoteViewController.h; sourceTree = "<group>"; };
+		F0661E1B1898E233004F28F6 /* EditNoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditNoteViewController.m; sourceTree = "<group>"; };
 		F06E4BF218864EA100FB9333 /* ReviewDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewDetailViewController.h; sourceTree = "<group>"; };
 		F06E4BF318864EA100FB9333 /* ReviewDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewDetailViewController.m; sourceTree = "<group>"; };
 		F06E4BF51886DC9D00FB9333 /* UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfileViewController.h; sourceTree = "<group>"; };
@@ -747,6 +750,8 @@
 				F0A5A74C187276CD004E24A3 /* MyListViewController.m */,
 				F0578ECE187A723400573CD2 /* MyAnswerViewController.h */,
 				F0578ECF187A723400573CD2 /* MyAnswerViewController.m */,
+				F0661E1A1898E233004F28F6 /* EditNoteViewController.h */,
+				F0661E1B1898E233004F28F6 /* EditNoteViewController.m */,
 			);
 			name = MyList;
 			sourceTree = "<group>";
@@ -1393,6 +1398,7 @@
 				F03486BC187E337A001BE459 /* FriendListViewController.m in Sources */,
 				F0A5A74D187276CD004E24A3 /* MyListViewController.m in Sources */,
 				F0DD71A218921FE50070DF95 /* JSMessage.m in Sources */,
+				F0661E1C1898E233004F28F6 /* EditNoteViewController.m in Sources */,
 				F0759AC51881CB1C0077D387 /* RightSideMenuViewController.m in Sources */,
 				F0759ABC1881C6310077D387 /* MFSideMenuContainerViewController.m in Sources */,
 				F0759ABE1881C6310077D387 /* UIViewController+MFSideMenuAdditions.m in Sources */,

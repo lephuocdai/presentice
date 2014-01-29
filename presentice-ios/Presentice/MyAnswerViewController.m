@@ -15,8 +15,7 @@
 @implementation MyAnswerViewController {
 }
 
-@synthesize questionVideoLabel;
-@synthesize questionVideoPostedUserLabel;
+@synthesize videoNameLabel;
 @synthesize viewNumLabel;
 @synthesize noteView;
 
@@ -43,30 +42,14 @@
     return self;
 }
 
-- (id)initWithStyle:(UITableViewStyle)style {
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    questionVideoLabel.text = [self.questionVideoObj objectForKey:kVideoNameKey];
-    questionVideoPostedUserLabel.text = [self.questionPostedUser objectForKey:kUserDisplayNameKey];
+    videoNameLabel.text = [self.answerVideoObj objectForKey:kVideoNameKey];
+
     viewNumLabel.text = [NSString stringWithFormat:@"views: %@",[self.answerVideoObj objectForKey:kVideoViewsKey]];
     noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
     [noteView boldSubstring:@"Note for viewer:"];
@@ -90,10 +73,11 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+#pragma play movie
     // Set up movieController
     self.movieController = [[MPMoviePlayerController alloc] init];
     [self.movieController setContentURL:self.movieURL];
-    [self.movieController.view setFrame:CGRectMake(0, 0, 320, 380)];
+    [self.movieController.view setFrame:CGRectMake(0, 0, 320, 405)];
     [self.videoView addSubview:self.movieController.view];
     
     // Using the Movie Player Notifications
@@ -111,6 +95,7 @@
 - (void)refreshTable:(NSNotification *) notification {
     // Reload the recipes
     [self loadObjects];
+    noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
 }
 
 - (void)viewDidUnload {
@@ -140,9 +125,17 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
 }
 - (void) viewWillDisappear:(BOOL)animated {
-    [self.movieController stop];
-    [self.movieController.view removeFromSuperview];
-    self.movieController = nil;
+    //stop playing video
+    if([self.navigationController.viewControllers indexOfObject:self] == NSNotFound){
+        //Release any retained subviews of the main view.
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
+        
+        //release movie controller
+        [self.movieController stop];
+        [self.movieController.view removeFromSuperview];
+        self.movieController = nil;
+    }
+    [super viewWillDisappear:animated];
 }
 
 #pragma mark - Table view data source
@@ -252,5 +245,22 @@
 **/
 
 - (IBAction)editVideoInfo:(id)sender {
+    UIAlertView *editAlert = [[UIAlertView alloc] initWithTitle:@"Edit Video Information" message:@"Which information do you want to edit" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Note for viewer", nil];
+    editAlert.tag = 0;
+    [editAlert show];
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 0) {
+        if (buttonIndex == 1) {
+            EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
+            editNoteViewController.note = [self.answerVideoObj objectForKey:kVideoNoteKey];
+            editNoteViewController.videoObj = self.answerVideoObj;
+            
+            [self.navigationController pushViewController:editNoteViewController animated:YES];
+        }
+    }
+}
+
+
 @end

@@ -68,23 +68,6 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-#pragma play movie
-    // Set up movieController
-    self.movieController = [[MPMoviePlayerController alloc] init];
-    [self.movieController setContentURL:self.movieURL];
-    [self.movieController.view setFrame:CGRectMake(0, 0, 320, 380)];
-    [self.videoView addSubview:self.movieController.view];
-    
-    // Using the Movie Player Notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.movieController];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterFullScreen:) name:MPMoviePlayerWillEnterFullscreenNotification object:nil];
-    
-    self.movieController.controlStyle =  MPMovieControlStyleEmbedded;
-    self.movieController.shouldAutoplay = YES;
-    self.movieController.repeatMode = NO;
-    [self.movieController prepareToPlay];
-    [self.movieController play];
-    
     // Set refreshTable notification
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refreshTable:)
@@ -150,6 +133,23 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+#pragma play movie
+    // Set up movieController
+    self.movieController = [[MPMoviePlayerController alloc] init];
+    [self.movieController setContentURL:self.movieURL];
+    [self.movieController.view setFrame:CGRectMake(0, 0, 320, 380)];
+    [self.videoView addSubview:self.movieController.view];
+    
+    // Using the Movie Player Notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.movieController];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterFullScreen:) name:MPMoviePlayerWillEnterFullscreenNotification object:nil];
+    
+    self.movieController.controlStyle =  MPMovieControlStyleEmbedded;
+    self.movieController.shouldAutoplay = YES;
+    self.movieController.repeatMode = NO;
+    [self.movieController prepareToPlay];
+    [self.movieController play];
+    
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }

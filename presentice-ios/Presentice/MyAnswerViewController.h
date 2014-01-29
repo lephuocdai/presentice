@@ -17,13 +17,15 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MediaPlayer/MediaPlayer.h>
 
+#import "UILabel+Boldify.h"
+
 #import "ReviewDetailViewController.h"
+#import "EditNoteViewController.h"
 
 @interface MyAnswerViewController : PFQueryTableViewController <UINavigationControllerDelegate, UINavigationBarDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
 
 // For display answerVideo
-@property (strong, nonatomic) IBOutlet UILabel *questionVideoLabel;
-@property (strong, nonatomic) IBOutlet UILabel *questionVideoPostedUserLabel;
+@property (strong, nonatomic) IBOutlet UILabel *videoNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *viewNumLabel;
 @property (strong, nonatomic) IBOutlet UIView *videoView;
 @property (strong, nonatomic) IBOutlet UILabel *noteView;
