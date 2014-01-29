@@ -82,22 +82,18 @@
     // Query all followActivities where toUser is followed by the currentUser
     PFQuery *followingFriendQuery = [PresenticeUtitily followingFriendsOfUser:[PFUser currentUser]];
     
-    // Query all the activities where fromUser is followingFriend
-    PFQuery *followingFromUserQuery = [PFQuery queryWithClassName:self.parseClassName];
-    [followingFromUserQuery whereKey:kActivityFromUserKey matchesKey:kActivityToUserKey inQuery:followingFriendQuery];
-    [followingFromUserQuery whereKey:kActivityToUserKey notEqualTo:[PFUser currentUser]];
-    
-    // Query all the activities where toUser is followingFriend
-    PFQuery *followingToUserQuery = [PFQuery queryWithClassName:self.parseClassName];
-    [followingToUserQuery whereKey:kActivityToUserKey matchesKey:kActivityToUserKey inQuery:followingFriendQuery];
-    [followingToUserQuery whereKey:kActivityFromUserKey notEqualTo:[PFUser currentUser]];
-    
+    // Get all videos that are viewable from the currentUser
     PFQuery *visibleVideoQuery = [PresenticeUtitily videosCanBeViewedByUser:[PFUser currentUser]];
     
-    // Combine the two queries above
-    PFQuery *activitiesQuery = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:followingToUserQuery, followingFromUserQuery, nil]];
-    [activitiesQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review", @"postQuestion", @"register"]];
-    [activitiesQuery whereKey:kActivityTargetVideoKey matchesQuery:visibleVideoQuery];
+    PFQuery *videoRelatedActivityQuery = [PresenticeUtitily activitiesRelatedToFriendsOfUser:[PFUser currentUser]];
+    [videoRelatedActivityQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review", @"postQuestion"]];
+    [videoRelatedActivityQuery whereKey:kActivityTargetVideoKey matchesQuery:visibleVideoQuery];
+    
+    PFQuery *registerActivityQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [registerActivityQuery whereKey:kActivityTypeKey equalTo:@"register"];
+    [registerActivityQuery whereKey:kActivityFromUserKey matchesKey:kActivityToUserKey inQuery:followingFriendQuery];
+    
+    PFQuery *activitiesQuery = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:videoRelatedActivityQuery, registerActivityQuery, nil]];
     
     [activitiesQuery includeKey:kActivityFromUserKey];
     [activitiesQuery includeKey:kActivityTargetVideoKey];
@@ -106,7 +102,6 @@
     [activitiesQuery includeKey:@"targetVideo.toUser"];
     [activitiesQuery includeKey:@"targetVideo.reviews"];
     [activitiesQuery includeKey:kActivityToUserKey];
-    
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.

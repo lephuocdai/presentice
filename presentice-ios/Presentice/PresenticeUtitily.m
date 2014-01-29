@@ -100,6 +100,26 @@
     return followingFriendQuery;
 }
 
++ (PFQuery*)activitiesRelatedToFriendsOfUser:(PFUser *)aUser {
+    // Query all followActivities where toUser is followed by aUser
+    PFQuery *followingFriendQuery = [PresenticeUtitily followingFriendsOfUser:aUser];
+    
+    // Query all the activities where fromUser is followingFriend
+    PFQuery *followingFromUserQuery = [PFQuery queryWithClassName:kActivityClassKey];
+    [followingFromUserQuery whereKey:kActivityFromUserKey matchesKey:kActivityToUserKey inQuery:followingFriendQuery];
+    [followingFromUserQuery whereKey:kActivityToUserKey notEqualTo:aUser];
+    
+    // Query all the activities where toUser is followingFriend
+    PFQuery *followingToUserQuery = [PFQuery queryWithClassName:kActivityClassKey];
+    [followingToUserQuery whereKey:kActivityToUserKey matchesKey:kActivityToUserKey inQuery:followingFriendQuery];
+    [followingToUserQuery whereKey:kActivityFromUserKey notEqualTo:aUser];
+    
+    // Combine the two queries above
+    PFQuery *activitiesQuery = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:followingToUserQuery, followingFromUserQuery, nil]];
+//    activitiesQuery.limit = 1000;
+    return activitiesQuery;
+}
+
 + (PFQuery*)videosCanBeViewedByUser:(PFUser *)aUser {
     PFQuery *followingFriendQuery = [self followingFriendsOfUser:aUser];
     

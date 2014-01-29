@@ -26,6 +26,7 @@
 
 // Query all users that a user is following
 + (PFQuery *)followingFriendsOfUser:(PFUser*)aUser;
++ (PFQuery *)activitiesRelatedToFriendsOfUser:(PFUser*)aUser;
 
 // Query all videos that a user can view
 + (PFQuery *)videosCanBeViewedByUser:(PFUser*)aUser;
