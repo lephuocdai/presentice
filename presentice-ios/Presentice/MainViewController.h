@@ -16,6 +16,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 
 #import "UILabel+Boldify.h"
+#import "NSDate+TimeAgo.h"
 
 #import "VideoViewController.h"
 #import "QuestionDetailViewController.h"

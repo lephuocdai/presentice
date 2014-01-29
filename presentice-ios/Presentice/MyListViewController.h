@@ -16,6 +16,8 @@
 #import <AWSS3/AWSS3.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
+#import "NSDate+TimeAgo.h"
+
 #import "MyAnswerViewController.h"
 
 

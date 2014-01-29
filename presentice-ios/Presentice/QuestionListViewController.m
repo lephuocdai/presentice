@@ -117,14 +117,15 @@
     // Configure the cell
     UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
     UILabel *postedUser = (UILabel *)[cell viewWithTag:101];
-    UILabel *videoName = (UILabel *)[cell viewWithTag:102];
-    UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
-    UILabel *answersNum = (UILabel *)[cell viewWithTag:104];
+    UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
+    UILabel *videoName = (UILabel *)[cell viewWithTag:103];
+    UILabel *viewsNum = (UILabel *)[cell viewWithTag:104];
+    UILabel *answersNum = (UILabel *)[cell viewWithTag:105];
     
     [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kVideoUserKey]];
     postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     videoName.text = [object objectForKey:kVideoNameKey];
-    
+    postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
     viewsNum.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:object];
     answersNum.text = [PresenticeUtitily stringNumberOfKey:kVideoAnswersKey inObject:object];
     

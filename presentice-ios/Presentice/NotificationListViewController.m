@@ -173,7 +173,7 @@
     // Configure the cell
     UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
     UILabel *description = (UILabel *)[cell viewWithTag:101];
-    
+    UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
     //asyn to get profile picture
     [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
     NSString *type = [object objectForKey:kActivityTypeKey];
@@ -195,6 +195,8 @@
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
     }
+    postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
+    
     return cell;
 }
 

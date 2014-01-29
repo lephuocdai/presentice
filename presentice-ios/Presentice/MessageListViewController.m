@@ -127,6 +127,7 @@
     UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
     UILabel *userName = (UILabel *)[cell viewWithTag:101];
     UILabel *description = (UILabel *)[cell viewWithTag:102];
+    UILabel *postedTime = (UILabel *)[cell viewWithTag:103];
     
     NSMutableArray *users = [[object objectForKey:kMessageUsersKey] mutableCopy];
     NSUInteger currentUserIndex = [self indexOfObjectwithKey:[[PFUser currentUser] objectId] inArray:users];
@@ -136,6 +137,8 @@
 
     userName.text = [toUser objectForKey:kUserDisplayNameKey];
     description.text = [[[object objectForKey:kMessageContentKey] lastObject] objectForKey:@"text"];
+    postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:[[[object objectForKey:kMessageContentKey] lastObject] objectForKey:@"date"]] dateTimeUntilNow]];
+    
     
     return cell;
 }

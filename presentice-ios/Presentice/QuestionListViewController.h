@@ -19,6 +19,7 @@
 #import <MobileCoreServices/UTCoreTypes.h>
 
 #import "UILabel+Boldify.h"
+#import "NSDate+TimeAgo.h"
 
 #import "QuestionDetailViewController.h"
 

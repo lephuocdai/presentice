@@ -12,6 +12,8 @@
 #import "MFSideMenu.h"
 #import "Constants.h"
 
+#import "NSDate+TimeAgo.h"
+
 #import "MessageDetailViewController.h"
 
 @interface MessageListViewController : PFQueryTableViewController < UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
