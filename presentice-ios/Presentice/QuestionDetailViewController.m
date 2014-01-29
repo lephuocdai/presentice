@@ -27,6 +27,7 @@
 
 @synthesize videoNameLabel;
 @synthesize postedUserLabel;
+@synthesize noteView;
 
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
@@ -60,6 +61,9 @@
     [PresenticeUtitily setImageView:self.userProfilePicture forUser:[self.questionVideoObj objectForKey:kVideoUserKey]];
     postedUserLabel.text = [[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     videoNameLabel.text = [self.questionVideoObj objectForKey:kVideoNameKey];
+    noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.questionVideoObj objectForKey:kVideoNoteKey]];
+    [noteView boldSubstring:@"Note for viewer:"];
+    
     
     // Set tap gesture on user profile picture
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnImageView)];

@@ -26,7 +26,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *questionVideoPostedUserLabel;
 @property (strong, nonatomic) IBOutlet UILabel *viewNumLabel;
 @property (strong, nonatomic) IBOutlet UIView *videoView;
-@property (strong, nonatomic) IBOutlet UITextView *noteView;
+@property (strong, nonatomic) IBOutlet UILabel *noteView;
 
 
 @property (copy, nonatomic)NSURL *movieURL;

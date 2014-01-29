@@ -28,6 +28,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *postedUserLabel;
 @property (strong, nonatomic) IBOutlet UILabel *viewNumLabel;
 @property (strong, nonatomic) IBOutlet UIView *videoView;
+@property (strong, nonatomic) IBOutlet UILabel *noteView;
 
 @property (copy, nonatomic)NSURL *movieURL;
 @property (strong, nonatomic) PFObject *answerVideoObj;

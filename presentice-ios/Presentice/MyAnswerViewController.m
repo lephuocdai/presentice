@@ -68,7 +68,8 @@
     questionVideoLabel.text = [self.questionVideoObj objectForKey:kVideoNameKey];
     questionVideoPostedUserLabel.text = [self.questionPostedUser objectForKey:kUserDisplayNameKey];
     viewNumLabel.text = [NSString stringWithFormat:@"views: %@",[self.answerVideoObj objectForKey:kVideoViewsKey]];
-    noteView.text = [self.answerVideoObj objectForKey:kVideoNoteKey];
+    noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
+    [noteView boldSubstring:@"Note for viewer:"];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -145,6 +146,13 @@
 }
 
 #pragma mark - Table view data source
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return @"Reviews of this video";
+    } else {
+        return @"";
+    }
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *simpleTableIdentifier = @"reviewListIdentifier";
