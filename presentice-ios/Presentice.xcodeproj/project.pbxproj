@@ -188,8 +188,6 @@
 		F4EECF1C177C99F400778578 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4EECF1A177C99F400778578 /* InfoPlist.strings */; };
 		F4EECF1E177C99F400778578 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EECF1D177C99F400778578 /* main.m */; };
 		F4EECF22177C99F400778578 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EECF21177C99F400778578 /* AppDelegate.m */; };
-		F4EECF6A177F4C0200778578 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EECF68177F4C0200778578 /* menu.png */; };
-		F4EECF6B177F4C0200778578 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EECF69177F4C0200778578 /* menu@2x.png */; };
 		F4EECF70177FE9B400778578 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF6F177FE9B400778578 /* CoreLocation.framework */; };
 		F4EECF72177FE9BA00778578 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4EECF71177FE9BA00778578 /* MapKit.framework */; };
 		F4EECF75177FF90600778578 /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EECF74177FF90600778578 /* MyProfileViewController.m */; };
@@ -455,8 +453,6 @@
 		F4EECF20177C99F400778578 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F4EECF21177C99F400778578 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		F4EECF2A177C99F400778578 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		F4EECF68177F4C0200778578 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
-		F4EECF69177F4C0200778578 /* menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu@2x.png"; sourceTree = "<group>"; };
 		F4EECF6F177FE9B400778578 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F4EECF71177FE9BA00778578 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		F4EECF74177FF90600778578 /* MyProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyProfileViewController.m; sourceTree = "<group>"; };
@@ -1168,8 +1164,6 @@
 				F09789C41890CF6D00FAE718 /* logo.png */,
 				F09789C51890CF6D00FAE718 /* logo@2x.png */,
 				F0718CB1185AC168009014A0 /* icon.png */,
-				F4EECF68177F4C0200778578 /* menu.png */,
-				F4EECF69177F4C0200778578 /* menu@2x.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -1336,14 +1330,12 @@
 				F0B1EA5F1893C26A00D41B1D /* loginform.json in Resources */,
 				F0AE3F74188CCACD00B0E83E /* menu_messages.png in Resources */,
 				F0DD71C218921FE60070DF95 /* bubble-tailless.png in Resources */,
-				F4EECF6A177F4C0200778578 /* menu.png in Resources */,
 				F0DD71B718921FE50070DF95 /* bubble-classic-square-gray@2x.png in Resources */,
 				F0DD71AE18921FE50070DF95 /* bubble-classic-green.png in Resources */,
 				F0AE3F72188CCACD00B0E83E /* ico_setting.png in Resources */,
 				F0B1EA5218936B8900D41B1D /* ico_newsfeed@2x.png in Resources */,
 				F0DD71D218921FE60070DF95 /* message-received.aiff in Resources */,
 				F0DD71AA18921FE50070DF95 /* bubble-classic-blue.png in Resources */,
-				F4EECF6B177F4C0200778578 /* menu@2x.png in Resources */,
 				F0DD71C818921FE60070DF95 /* input-field-cover.png in Resources */,
 				F0AE3F77188CCACD00B0E83E /* ico_home_on.png in Resources */,
 			);

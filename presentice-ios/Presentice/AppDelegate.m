@@ -50,7 +50,7 @@
                                                            [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8],UITextAttributeTextShadowColor,
                                                            [NSValue valueWithUIOffset:UIOffsetMake(0, 0)],
                                                            UITextAttributeTextShadowOffset,
-                                                           [UIFont fontWithName:@"Helvetica-Light" size:15.0], UITextAttributeFont, nil]];
+                                                           [UIFont fontWithName:@"Helvetica-Light" size:20.0], UITextAttributeFont, nil]];
     
     [PFUser enableAutomaticUser];
     PFACL *defaultACL = [PFACL ACL];
