@@ -319,6 +319,25 @@
     }
 }
 
++ (NSString*)visibilityOfVideo:(PFObject *)videoObj {
+    NSString *visibility = [videoObj objectForKey:kVideoVisibilityKey];
+    
+    if ([visibility isEqualToString:@"open"])
+        return @"Open in Presentice";
+    else if ([visibility isEqualToString:@"friendOnly"])
+        return @"Friends can view";
+    else if ([visibility isEqualToString:@"onlyMe"])
+        return @"Only me can view";
+    else if ([visibility isEqualToString:@"global"])    // Can be viewed outside of Presentice through a link
+        return @"Globally viewable";
+    else
+        return @"Have not set yet";
+}
+
++ (NSString*)nameOfVideo:(PFObject *)videoObj {
+    return [NSString stringWithFormat:@"Video name: %@", [videoObj objectForKey:kVideoNameKey]];
+}
+
 + (void)setImageView:(UIImageView *)imageView forUser:(PFUser *)user {
     //asyn to get image
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{

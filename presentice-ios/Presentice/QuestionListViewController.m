@@ -124,7 +124,7 @@
     
     [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kVideoUserKey]];
     postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-    videoName.text = [object objectForKey:kVideoNameKey];
+    videoName.text = [PresenticeUtitily nameOfVideo:object];
     postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
     viewsNum.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:object];
     answersNum.text = [PresenticeUtitily stringNumberOfKey:kVideoAnswersKey inObject:object];

@@ -14,6 +14,7 @@
 
 #import "Constants.h"
 #import "PresenticeCache.h"
+#import "UILabel+Boldify.h"
 
 @interface PresenticeUtitily : NSObject
 
@@ -56,6 +57,8 @@
 
 // Video information
 + (NSString *)stringNumberOfKey:(NSString*)key inObject:(PFObject*)object;
++ (NSString *)visibilityOfVideo:(PFObject*)videoObj;
++ (NSString *)nameOfVideo:(PFObject*)videoObj;
 + (void)setImageView:(UIImageView*)imageView forUser:(PFUser*)user;
 
 

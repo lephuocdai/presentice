@@ -118,11 +118,12 @@
     UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
     UILabel *visibility = (UILabel *)[cell viewWithTag:104];
     
-    videoName.text = [object objectForKey:kVideoNameKey];
+    videoName.text = [PresenticeUtitily nameOfVideo:object];
     postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
     viewsNum.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:object];
     reviewsNum.text = [NSString stringWithFormat:@"reviews: %d", [[object objectForKey:kVideoReviewsKey] count]];
-    visibility.text = [NSString stringWithFormat:@"%@", [object objectForKey:kVideoVisibilityKey]];
+    visibility.text = [PresenticeUtitily visibilityOfVideo:object];
+    
     return cell;
 }
 

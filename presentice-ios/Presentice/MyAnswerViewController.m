@@ -44,9 +44,9 @@
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    self.videoNameLabel.text = [self.answerVideoObj objectForKey:kVideoNameKey];
-    self.viewNumLabel.text = [NSString stringWithFormat:@"views: %@",[self.answerVideoObj objectForKey:kVideoViewsKey]];
-    self.visibilityLabel.text = [NSString stringWithFormat:@"%@", [self.answerVideoObj objectForKey:kVideoVisibilityKey]];
+    self.videoNameLabel.text = [PresenticeUtitily nameOfVideo:self.answerVideoObj];
+    self.viewNumLabel.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:self.answerVideoObj];
+    self.visibilityLabel.text = [PresenticeUtitily visibilityOfVideo:self.answerVideoObj];
     
     self.noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
     [self.noteView boldSubstring:@"Note for viewer:"];
@@ -255,7 +255,7 @@
             [editedVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
                     [self.answerVideoObj setObject:answerVideoVisibility forKey:kVideoVisibilityKey];
-                    self.visibilityLabel.text = [NSString stringWithFormat:@"%@", [self.answerVideoObj objectForKey:kVideoVisibilityKey]];
+                    self.visibilityLabel.text = [PresenticeUtitily visibilityOfVideo:self.answerVideoObj];
                     UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Visibility change has been saved successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                     [successAlert show];
                 } else {
