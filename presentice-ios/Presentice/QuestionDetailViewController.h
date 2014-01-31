@@ -20,23 +20,23 @@
 
 #import "VideoViewController.h"
 #import "UserProfileViewController.h"
+#import "EditNoteViewController.h"
 
 @interface QuestionDetailViewController : PFQueryTableViewController <UINavigationControllerDelegate, UINavigationBarDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
 
 
 // For display questionVideo
-
-
 @property (strong, nonatomic) IBOutlet UIImageView *userProfilePicture;
 @property (strong, nonatomic) IBOutlet UILabel *postedUserLabel;
 @property (strong, nonatomic) IBOutlet UILabel *videoNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *noteView;
+@property (strong, nonatomic) IBOutlet UIView *videoView;
 
 @property (copy, nonatomic)NSURL *movieURL;
 @property (strong, nonatomic) PFObject *questionVideoObj;
-@property (strong, nonatomic) IBOutlet UIView *videoView;
 #pragma play movie
 @property (strong, nonatomic)MPMoviePlayerController *movieController;
+
 
 // For taking answerVideo
 - (IBAction)takeAnswer:(id)sender;
@@ -47,6 +47,6 @@
 
 @property (strong, nonatomic) NSString *answerVideoName;
 @property (strong, nonatomic) NSString *answerVideoVisibility;
-
+@property (strong, nonatomic) PFObject *answerVideoObj;
 
 @end

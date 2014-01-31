@@ -289,7 +289,6 @@
 }
 - (void)configureFollowButton {
     [self.followBtn setTitle:@"Follow" forState:UIControlStateNormal];
-//    self.followBtn.titleLabel.text = @"Follow";
     NSLog(@"self.followBtn.titleLabel.text before = %@", self.followBtn.titleLabel.text);
     [self.followBtn addTarget:self action:@selector(doFollowAction:)forControlEvents:UIControlEventTouchDown];
     NSLog(@"self.followBtn.titleLabel.text after = %@", self.followBtn.titleLabel.text);
@@ -297,7 +296,6 @@
 
 - (void)configureUnfollowButton {
     [self.followBtn setTitle:@"Following" forState:UIControlStateSelected];
-//    self.followBtn.titleLabel.text = @"Following";
     NSLog(@"self.followBtn.titleLabel.text before = %@", self.followBtn.titleLabel.text);
     [self.followBtn addTarget:self action:@selector(doUnfollowAction:)forControlEvents:UIControlEventTouchDown];
     NSLog(@"self.followBtn.titleLabel.text after = %@", self.followBtn.titleLabel.text);

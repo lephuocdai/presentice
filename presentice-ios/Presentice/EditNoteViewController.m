@@ -23,23 +23,20 @@
 @synthesize noteView;
 @synthesize note;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     noteView.text = note;
     
+    // Prevent other user from edit the note
+    if (![[[self.videoObj objectForKey:kVideoUserKey] objectId] isEqualToString:[[PFUser currentUser] objectId]]) {
+        noteView.editable = NO;
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+    
 	// Do any additional setup after loading the view.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,22 +84,18 @@
 }
 
 - (IBAction)save:(id)sender {
-    UIAlertView *saveAlert = [[UIAlertView alloc] initWithTitle:@"Save Changes" message:@"Do you want to save the edited note" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    UIAlertView *saveAlert = [[UIAlertView alloc] initWithTitle:@"Save Changes" message:@"Do you want to save this note?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
     saveAlert.tag = 0;
     [saveAlert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    NSLog(@"get here -1");
     if (alertView.tag == 0) {
-        NSLog(@"get here 0");
         if (buttonIndex == 1) {
-            NSLog(@"get here 1");
             PFObject *editedVideo = [PFObject objectWithoutDataWithClassName:kVideoClassKey objectId:self.videoObj.objectId];
             [editedVideo setObject:self.noteView.text forKey:kVideoNoteKey];
             [editedVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
-                    NSLog(@"get here 2");
                     UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Note saved successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                     successAlert.tag = 1;
                     [successAlert show];

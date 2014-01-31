@@ -315,7 +315,8 @@
     [newVideo setObject:@"question" forKey:kVideoTypeKey];
     [newVideo setObject:self.questionVideoName forKey:kVideoNameKey];
     [newVideo setObject:@"open" forKey:kVideoVisibilityKey];
-    
+    [newVideo setObject:[NSNumber numberWithInt:0] forKey:kVideoViewsKey];
+    [newVideo setObject:[NSNumber numberWithInt:0] forKey:kVideoAnswersKey];
     [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         NSLog(@"saved to Parse");
         UIAlertView *savedToParseSuccess = [[UIAlertView alloc] initWithTitle:@"Upload Success" message:@"Your video has been uploaded successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];

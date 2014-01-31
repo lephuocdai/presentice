@@ -58,12 +58,18 @@
     noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
     [noteView boldSubstring:@"Note for viewer:"];
     
+    // Set tap gesture on noteview
+    UITapGestureRecognizer *singleTapForNote = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnNoteView)];
+    [singleTapForNote setNumberOfTapsRequired:1];
+    noteView.userInteractionEnabled = YES;
+    [noteView addGestureRecognizer:singleTapForNote];
+    
     
     // Set tap gesture on user profile picture
-    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnImageView)];
-    [singleTap setNumberOfTapsRequired:1];
+    UITapGestureRecognizer *singleTapForImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnImageView)];
+    [singleTapForImage setNumberOfTapsRequired:1];
     self.userProfilePicture.userInteractionEnabled = YES;
-    [self.userProfilePicture addGestureRecognizer:singleTap];
+    [self.userProfilePicture addGestureRecognizer:singleTapForImage];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -73,6 +79,12 @@
                                              selector:@selector(refreshTable:)
                                                  name:@"refreshTable"
                                                object:nil];
+}
+
+- (void)actionHandleTapOnNoteView {
+    UIAlertView *noteDisplayAlert = [[UIAlertView alloc] initWithTitle:@"Fully display note" message:@"Do you want to view this note fully" delegate:self cancelButtonTitle:@"No, it's ok" otherButtonTitles:@"Yes, show me", nil];
+    noteDisplayAlert.tag = 1;
+    [noteDisplayAlert show];
 }
 
 - (void)actionHandleTapOnImageView {
@@ -282,6 +294,18 @@
         }
     }
     return YES;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 1) {
+        if (buttonIndex == 1) {
+            EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
+            editNoteViewController.note = [self.answerVideoObj objectForKey:kVideoNoteKey];
+            editNoteViewController.videoObj = self.answerVideoObj;
+            
+            [self.navigationController pushViewController:editNoteViewController animated:YES];
+        }
+    }
 }
 
 @end

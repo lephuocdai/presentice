@@ -15,10 +15,6 @@
 @implementation MyAnswerViewController {
 }
 
-@synthesize videoNameLabel;
-@synthesize viewNumLabel;
-@synthesize noteView;
-
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
     if (self) {
@@ -48,11 +44,18 @@
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    videoNameLabel.text = [self.answerVideoObj objectForKey:kVideoNameKey];
-
-    viewNumLabel.text = [NSString stringWithFormat:@"views: %@",[self.answerVideoObj objectForKey:kVideoViewsKey]];
-    noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
-    [noteView boldSubstring:@"Note for viewer:"];
+    self.videoNameLabel.text = [self.answerVideoObj objectForKey:kVideoNameKey];
+    self.viewNumLabel.text = [NSString stringWithFormat:@"views: %@",[self.answerVideoObj objectForKey:kVideoViewsKey]];
+    self.visibilityLabel.text = [NSString stringWithFormat:@"%@", [self.answerVideoObj objectForKey:kVideoVisibilityKey]];
+    
+    self.noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
+    [self.noteView boldSubstring:@"Note for viewer:"];
+    
+    // Set tap gesture on noteview
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnNoteView)];
+    [singleTap setNumberOfTapsRequired:1];
+    self.noteView.userInteractionEnabled = YES;
+    [self.noteView addGestureRecognizer:singleTap];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -95,7 +98,7 @@
 - (void)refreshTable:(NSNotification *) notification {
     // Reload the recipes
     [self loadObjects];
-    noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
+    self.noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
 }
 
 - (void)viewDidUnload {
@@ -207,45 +210,8 @@
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
-/**
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-**/
-
 - (IBAction)editVideoInfo:(id)sender {
-    UIAlertView *editAlert = [[UIAlertView alloc] initWithTitle:@"Edit Video Information" message:@"Which information do you want to edit" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Note for viewer", nil];
+    UIAlertView *editAlert = [[UIAlertView alloc] initWithTitle:@"Edit Video Information" message:@"Which information do you want to edit" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Note for viewer", @"Visibility status",nil];
     editAlert.tag = 0;
     [editAlert show];
 }
@@ -258,9 +224,53 @@
             editNoteViewController.videoObj = self.answerVideoObj;
             
             [self.navigationController pushViewController:editNoteViewController animated:YES];
+        } else if (buttonIndex == 2) {
+            UIAlertView *visibilityEditAlert = [[UIAlertView alloc] initWithTitle:@"Visibility Selection" message:@"Decide who can view this video" delegate:self cancelButtonTitle:@"Open inside Presentice" otherButtonTitles:@"Only friends who are following me", @"Only Me", nil];
+            visibilityEditAlert.tag = 2;
+            [visibilityEditAlert show];
+        }
+    } else if (alertView.tag == 1) {
+        if (buttonIndex == 1) {
+            EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
+            editNoteViewController.note = [self.answerVideoObj objectForKey:kVideoNoteKey];
+            editNoteViewController.videoObj = self.answerVideoObj;
+            
+            [self.navigationController pushViewController:editNoteViewController animated:YES];
+        }
+    } else if (alertView.tag == 2) {
+        NSLog(@"alert = %@",[alertView buttonTitleAtIndex:buttonIndex]);
+        NSString *answerVideoVisibility = [[NSString alloc] init];
+        if (buttonIndex == 0)
+            answerVideoVisibility = @"open";
+        else if (buttonIndex == 1)
+            answerVideoVisibility = @"friendOnly";
+        else
+            answerVideoVisibility = @"onlyMe";
+        NSLog(@"visibility = %@", answerVideoVisibility);
+        if (![[self.answerVideoObj objectForKey:kVideoVisibilityKey] isEqualToString:answerVideoVisibility]) {
+            
+            
+            PFObject *editedVideo = [PFObject objectWithoutDataWithClassName:kVideoClassKey objectId:self.answerVideoObj.objectId];
+            [editedVideo setObject:answerVideoVisibility forKey:kVideoVisibilityKey];
+            [editedVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+                    [self.answerVideoObj setObject:answerVideoVisibility forKey:kVideoVisibilityKey];
+                    self.visibilityLabel.text = [NSString stringWithFormat:@"%@", [self.answerVideoObj objectForKey:kVideoVisibilityKey]];
+                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Visibility change has been saved successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [successAlert show];
+                } else {
+                    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong. Please contact us at: info@presentice.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [errorAlert show];
+                }
+            }];
         }
     }
 }
 
+- (void)actionHandleTapOnNoteView {
+    UIAlertView *noteDisplayAlert = [[UIAlertView alloc] initWithTitle:@"Fully display note" message:@"Do you want to view this note fully" delegate:self cancelButtonTitle:@"No, it's ok" otherButtonTitles:@"Yes, show me", nil];
+    noteDisplayAlert.tag = 1;
+    [noteDisplayAlert show];
+}
 
 @end

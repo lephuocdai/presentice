@@ -307,14 +307,6 @@
                 isUploadFromLibrary = false;
                 [PresenticeUtitily startCameraControllerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
             }
-            // Call another alert after this alert executed
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Seclect Visibility!"
-                                                            message:@"Decide who can view this video"
-                                                           delegate:self
-                                                  cancelButtonTitle:@"open"
-                                                  otherButtonTitles:@"friendOnly", @"onlyMe", nil];
-            alert.tag = 2;  // Set alert tag is important in case of existence of many alerts
-            [alert show];
         }
         NSLog(@"cancel, buttonIndex = %d", buttonIndex);
     } else if (alertView.tag == 1) {
@@ -338,10 +330,24 @@
             }
         }
     } else if (alertView.tag == 2) {
-        NSLog(@"clickedButton");
         NSLog(@"alert = %@",[alertView buttonTitleAtIndex:buttonIndex]);
-        self.answerVideoVisibility = [alertView buttonTitleAtIndex:buttonIndex];
+        if (buttonIndex == 0)
+            self.answerVideoVisibility = @"open";
+        else if (buttonIndex == 1)
+            self.answerVideoVisibility = @"friendOnly";
+        else
+            self.answerVideoVisibility = @"onlyMe";
         NSLog(@"visibility = %@", self.answerVideoVisibility);
+        [self saveToParse];
+        
+    } else if (alertView.tag == 3) {
+        if (buttonIndex == 1) {
+            EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
+            editNoteViewController.note = [self.answerVideoObj objectForKey:kVideoNoteKey];
+            editNoteViewController.videoObj = self.answerVideoObj;
+            
+            [self.navigationController pushViewController:editNoteViewController animated:YES];
+        }
     }
 }
 
@@ -399,13 +405,76 @@
         [alert show];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Video Saved"
-                                                        message:@"Saved To Photo Album! Upload Answer to Server?"
+                                                        message:@"Saved To Photo Album! Upload Answer to Presentice Server?"
                                                        delegate:self
                                               cancelButtonTitle:@"NO"
                                               otherButtonTitles:@"YES", nil];
         alert.tag = 1;      // Set alert tag is important in case of existence of many alerts
         [alert show];
     }
+}
+
+#pragma mark - Helpers
+
+- (void)saveToParse {
+    
+    // Register to Parser DB
+    PFObject *newVideo = [PFObject objectWithClassName:kVideoClassKey];
+    [newVideo setObject:[PFUser currentUser] forKey:kVideoUserKey];
+    [newVideo setObject:uploadFilename forKey:kVideoURLKey];
+    [newVideo setObject:@"answer" forKey:kVideoTypeKey];
+    [newVideo setObject:self.answerVideoName forKey:kVideoNameKey];
+    [newVideo setObject:self.answerVideoVisibility forKey:kVideoVisibilityKey];
+    [newVideo setObject:[NSNumber numberWithInt:0] forKey:kVideoViewsKey];
+    [newVideo setObject:self.questionVideoObj forKey:kVideoAsAReplyTo];
+    [newVideo setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kVideoToUserKey];
+    [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            NSLog(@"saved to Parse");
+            self.answerVideoObj = newVideo;
+            
+            // Send a notification to the device with channel contain video's userId
+            NSLog(@"viewd push = %@", [[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"answered"]);
+            if ([[[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"answered"] isEqualToString:@"yes"]) {
+                NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+                [params setObject:[self.questionVideoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
+                [params setObject:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
+                [params setObject:@"answered" forKey:@"pushType"];
+                [PFCloud callFunction:@"sendPushNotification" withParameters:params];
+            }
+            
+            // Register answerActivity in to Activity Table
+            PFObject *answerActivity = [PFObject objectWithClassName:kActivityClassKey];
+            [answerActivity setObject:@"answer" forKey:kActivityTypeKey];
+            [answerActivity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+            [answerActivity setObject:newVideo forKey:kActivityTargetVideoKey];
+            [answerActivity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
+            [answerActivity saveInBackground];
+            
+            // Add a note
+            UIAlertView *addNoteAlert = [[UIAlertView alloc] initWithTitle:@"Upload Success" message:@"Your video has been uploaded to Presentice successfully. Do you want to add a note for those who will view this video?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+            addNoteAlert.tag = 3;
+            [addNoteAlert show];
+
+        } else {
+            UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Upload Error" message:@"Something went wrong. Please contact us at info@presentice.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [errorAlert show];
+        }
+        
+        // Hid all HUD after saved
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    }];
+    
+    // Increment answers
+    int viewsNum = [[self.questionVideoObj objectForKey:kVideoAnswersKey] intValue];
+    [self.questionVideoObj setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoAnswersKey];
+    PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
+    [query getObjectInBackgroundWithId:[self.questionVideoObj objectId] block:^(PFObject *object, NSError *error) {
+        [object setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoAnswersKey];
+        [object saveInBackground];
+        [self.questionVideoObj saveInBackground];
+    }];
+    NSLog(@"after videoObj = %@", self.questionVideoObj);
 }
 
 #pragma mark - AmazonServiceRequestDelegate
@@ -416,62 +485,20 @@
 
 -(void)request:(AmazonServiceRequest *)request didSendData:(long long) bytesWritten totalBytesWritten:(long long)totalBytesWritten totalBytesExpectedToWrite:(long long)totalBytesExpectedToWrite {
     double percent = ((double)totalBytesWritten/(double)totalBytesExpectedToWrite)*100;
-//    self.putObjectTextField.text = [NSString stringWithFormat:@"%.2f%%", percent];
     NSLog(@"percent = %.2f%%", percent);
 }
 
 -(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response {
-//    self.putObjectTextField.text = @"Done";
     NSLog(@"Upload done!");
-    
     NSLog(@"upload file url: %@", response);
     
-    // Register to Parser DB
-    PFObject *newVideo = [PFObject objectWithClassName:kVideoClassKey];
-    [newVideo setObject:[PFUser currentUser] forKey:kVideoUserKey];
-    [newVideo setObject:uploadFilename forKey:kVideoURLKey];
-    [newVideo setObject:@"answer" forKey:kVideoTypeKey];
-    [newVideo setObject:self.answerVideoName forKey:kVideoNameKey];
-    [newVideo setObject:self.answerVideoVisibility forKey:kVideoVisibilityKey];
-    
-    NSLog(@"%@", [[PFQuery queryWithClassName:kVideoClassKey] getObjectWithId:[self.questionVideoObj objectId]]);
-    [newVideo setObject:self.questionVideoObj forKey:kVideoAsAReplyTo];
-    [newVideo setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kVideoToUserKey];
-    [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        NSLog(@"saved to Parse");
-        
-        UIAlertView *savedToParseSuccess = [[UIAlertView alloc] initWithTitle:@"Upload Success" message:@"Your video has been uploaded successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [savedToParseSuccess show];
-        
-        // Send a notification to the device with channel contain video's userId
-        NSLog(@"viewd push = %@", [[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"answered"]);
-        if ([[[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"answered"] isEqualToString:@"yes"]) {
-            NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-            [params setObject:[self.questionVideoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
-            [params setObject:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
-            [params setObject:@"answered" forKey:@"pushType"];
-            [PFCloud callFunction:@"sendPushNotification" withParameters:params];
-        }
-        
-        // Register answerActivity in to Activity Table
-        PFObject *answerActivity = [PFObject objectWithClassName:kActivityClassKey];
-        [answerActivity setObject:@"answer" forKey:kActivityTypeKey];
-        [answerActivity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
-        [answerActivity setObject:newVideo forKey:kActivityTargetVideoKey];
-        [answerActivity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
-        [answerActivity saveInBackground];
-    }];
-    
-    // Increment answers
-    int viewsNum = [[self.questionVideoObj objectForKey:kVideoAnswersKey] intValue];
-    [self.questionVideoObj setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoAnswersKey];
-    PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
-    [query getObjectInBackgroundWithId:[self.questionVideoObj objectId] block:^(PFObject *object, NSError *error) {
-        [object setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoAnswersKey];
-        [object saveInBackground];
-    }];
-    [self.questionVideoObj saveInBackground];
-    NSLog(@"after videoObj = %@", self.questionVideoObj);
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Visibility Selection"
+                                                    message:@"Decide who can view this video.\n※You can change it later."
+                                                   delegate:self
+                                          cancelButtonTitle:@"Open inside Presentice"
+                                          otherButtonTitles:@"Only friends who are following me", @"Only Me", nil];
+    alert.tag = 2;
+    [alert show];
 }
 
 -(void)request:(AmazonServiceRequest *)request didFailWithError:(NSError *)error {
@@ -480,26 +507,6 @@
 
 -(void)request:(AmazonServiceRequest *)request didFailWithServiceException:(NSException *)exception {
     NSLog(@"didFailWithServiceException called: %@", exception);
-}
-
-#pragma mark - Helpers
-
--(NSString *)generateTempFile: (NSString *)filename : (long long)approximateFileSize {
-    NSFileManager *fm = [NSFileManager defaultManager];
-    NSString * filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:filename];
-    if (![fm fileExistsAtPath:filePath]) {
-        NSOutputStream * os= [NSOutputStream outputStreamToFileAtPath:filePath append:NO];
-        NSString * dataString = @"S3TransferManager_V2 ";
-        const uint8_t *bytes = [dataString dataUsingEncoding:NSUTF8StringEncoding].bytes;
-        long fileSize = 0;
-        [os open];
-        while(fileSize < approximateFileSize){
-            [os write:bytes maxLength:dataString.length];
-            fileSize += dataString.length;
-        }
-        [os close];
-    }
-    return filePath;
 }
 
 @end
