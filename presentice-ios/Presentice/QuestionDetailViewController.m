@@ -64,6 +64,11 @@
     noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.questionVideoObj objectForKey:kVideoNoteKey]];
     [noteView boldSubstring:@"Note for viewer:"];
     
+    // Set tap gesture on noteview
+    UITapGestureRecognizer *singleTapForNote = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnNoteView)];
+    [singleTapForNote setNumberOfTapsRequired:1];
+    noteView.userInteractionEnabled = YES;
+    [noteView addGestureRecognizer:singleTapForNote];
     
     // Set tap gesture on user profile picture
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnImageView)];
@@ -107,6 +112,12 @@
                                              selector:@selector(refreshTable:)
                                                  name:@"refreshTable"
                                                object:nil];
+}
+
+- (void)actionHandleTapOnNoteView {
+    UIAlertView *noteDisplayAlert = [[UIAlertView alloc] initWithTitle:@"Fully display note" message:@"Do you want to view this note fully" delegate:self cancelButtonTitle:@"No, it's ok" otherButtonTitles:@"Yes, show me", nil];
+    noteDisplayAlert.tag = 4;
+    [noteDisplayAlert show];
 }
 
 - (void)actionHandleTapOnImageView {
@@ -194,6 +205,9 @@
     // Reload the recipes
     [self loadObjects];
 }
+
+#pragma query table objects
+
 - (PFQuery *)queryForTable {
     PFQuery *answerListQuery = [PFQuery queryWithClassName:self.parseClassName];
     [answerListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
@@ -344,6 +358,14 @@
             EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
             editNoteViewController.note = [self.newAnswerVideoObj objectForKey:kVideoNoteKey];
             editNoteViewController.videoObj = self.newAnswerVideoObj;
+            
+            [self.navigationController pushViewController:editNoteViewController animated:YES];
+        }
+    } else if (alertView.tag == 4) {
+        if (buttonIndex == 1) {
+            EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
+            editNoteViewController.note = [self.questionVideoObj objectForKey:kVideoNoteKey];
+            editNoteViewController.videoObj = self.questionVideoObj;
             
             [self.navigationController pushViewController:editNoteViewController animated:YES];
         }

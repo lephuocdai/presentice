@@ -189,13 +189,8 @@
     [self loadObjects];
 }
 
-/**
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
-}
-**/
+
+#pragma query table objects
 
 - (PFQuery *)queryForTable {
     PFQuery *reviewListQuery = [PFQuery queryWithClassName:self.parseClassName];
