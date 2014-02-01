@@ -210,11 +210,13 @@
         NSDictionary *permission = [[PFUser currentUser] objectForKey:@"pushPermission"];
         NSMutableDictionary *pushPermission = [[NSMutableDictionary alloc] init];
         [pushPermission setObject:@"pushPermission" forKey:@"type"];
-        [pushPermission setObject:[NSString stringWithFormat:@"viewed:%@, reviewed:%@, answered:%@, message:%@",
+        [pushPermission setObject:[NSString stringWithFormat:@"viewed:%@, reviewed:%@, answered:%@, messaged:%@, followed:%@, registered:%@",
                                    [permission objectForKey:@"viewed"],
                                    [permission objectForKey:@"reviewed"],
                                    [permission objectForKey:@"answered"],
-                                   [permission objectForKey:@"message"]] forKey:@"info"];
+                                   [permission objectForKey:@"messaged"],
+                                   [permission objectForKey:@"followed"],
+                                   [permission objectForKey:@"registered"]] forKey:@"info"];
         [pushPermission setObject:@"map.png" forKey:@"image"];
         [self.menuItems addObject:pushPermission];
     }
@@ -229,11 +231,13 @@
     
     NSMutableDictionary *pushPermission = [[NSMutableDictionary alloc] init];
     [pushPermission setObject:@"pushPermission" forKey:@"type"];
-    [pushPermission setObject:[NSString stringWithFormat:@"viewed:%@, reviewed:%@, answered:%@, message:%@",
+    [pushPermission setObject:[NSString stringWithFormat:@"viewed:%@, reviewed:%@, answered:%@, messaged:%@, followed:%@, registered:%@",
                                [permission objectForKey:@"viewed"],
                                [permission objectForKey:@"reviewed"],
                                [permission objectForKey:@"answered"],
-                               [permission objectForKey:@"message"]] forKey:@"info"];
+                               [permission objectForKey:@"messaged"],
+                               [permission objectForKey:@"followed"],
+                               [permission objectForKey:@"registered"]] forKey:@"info"];
     [pushPermission setObject:@"map.png" forKey:@"image"];
     [self.menuItems insertObject:pushPermission atIndex:4];    
     [self.tableView reloadData];

@@ -73,9 +73,6 @@ NSDictionary<FBGraphUser>  *fbInfo;
     [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         if(!error){
             fbInfo = (NSDictionary<FBGraphUser> *)result;
-//            self.emailField.text = [fbInfo objectForKey:@"email"];
-//            QEntryElement *email = (QEntryElement *)[self.root elementWithKey:@"email"];
-//            email.textValue = [fbInfo objectForKey:@"email"];
             ((QEntryElement *)[self.root elementWithKey:@"email"]).textValue = [fbInfo objectForKey:@"email"];
         }
     }];
@@ -85,7 +82,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     [self loading:YES];
     RegisterInfo *info = [[RegisterInfo alloc] init];
-//    [self.root fetchValueUsingBindingsIntoObject:info];
+
     [self.root fetchValueIntoObject:info];
     [self performSelector:@selector(registerCompleted:) withObject:info afterDelay:2];
 }
@@ -110,7 +107,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
         [errorAlert show];
         return;
     }
-    NSLog(@"password = %@  confirm = %@", info.password, info.passwordConfirm);
+
     //check password
     if(![info.password isEqualToString:info.passwordConfirm]){
         UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Error" message:@"Password not matched. Please check input password again!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
@@ -138,8 +135,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
         [code appendFormat:@"%C", c];
     }
     
-    NSMutableDictionary *pushPermission = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"answered", @"yes", @"reviewed", @"yes", @"viewed", @"no", @"message", @"yes", nil];
-    
+    NSDictionary *pushPermission = [NSDictionary dictionaryWithObjectsAndKeys:@"yes", @"answered", @"yes",  @"reviewed", @"no", @"viewed", @"yes", @"messaged", @"yes", @"followed", @"yes", @"registered", nil];
     [newUser setObject:pushPermission forKey:kUserPushPermission];
     
     [newUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -161,7 +157,6 @@ NSDictionary<FBGraphUser>  *fbInfo;
             NSMutableDictionary *content = [[NSMutableDictionary alloc] init ];
             [content setObject:[newUser objectForKey:kUserFacebookIdKey] forKey:@"facebookId"];
             [content setObject:[newUser objectForKey:kUserActivatedKey] forKey:@"activated"];
-//            [content setObject:[newUser objectForKey:kUserTypeKey] forKey:@"type"];
             [registerActivity setObject:content forKey:kActivityContentKey];
             
             NSLog(@"registerActivity = %@", registerActivity);
