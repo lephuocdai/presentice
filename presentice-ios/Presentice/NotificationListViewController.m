@@ -45,8 +45,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
@@ -69,18 +67,6 @@
                                                  name:@"refreshTable"
                                                object:nil];
 }
-
-/**
- * override function
- * load table for each time load view
- 
-- (void) viewWillAppear:(BOOL)animated {
-    notificationList = [[NSMutableArray alloc] init];
-    [self queryNotificationList];
-    [self.tableView reloadData];
-}
- 
- */
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -126,40 +112,9 @@
 
 // Override to customize the look of a cell representing an object. The default is to display
 // a UITableViewCellStyleDefault style cell with the label being the first key in the object.
-#pragma table methods
-/**
- * delegage method
- * number of rows of table
- */
 
-/**
+#pragma mark - UITableViewDataSource
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"answer"] ) {
-        return 120;
-    } else if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
-        return 120;
-    } else if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
-        return 120;
-    } else if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
-        return 120;
-    } else {
-        return 120;
-    }
-}
- 
-**/
-
-/**
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.objects count] + 1;
-}
-**/
-
-/**
- * delegate method
- * build table view
- */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *simpleTableIdentifier = @"notificationListIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];

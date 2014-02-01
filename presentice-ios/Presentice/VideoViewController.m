@@ -13,7 +13,6 @@
 @end
 
 @implementation VideoViewController {
-//    NSMutableArray *actionList;
 }
 
 @synthesize videoNameLabel;
