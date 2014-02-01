@@ -6,11 +6,7 @@
 //  Copyright (c) 2014 Presentice. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <Parse/Parse.h>
-#import "Constants.h"
-#import "MBProgressHUD.h"
-
+#import "PresenticeUtility.h"
 
 
 @interface EditNoteViewController : UIViewController

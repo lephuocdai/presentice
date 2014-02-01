@@ -6,21 +6,14 @@
 //  Copyright (c) 2014 Presentice. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <Parse/Parse.h>
-#import "MBProgressHUD.h"
-#import "Constants.h"
 #import "PresenticeUtility.h"
-
-#import <AWSRuntime/AWSRuntime.h>
-#import <AWSS3/AWSS3.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MediaPlayer/MediaPlayer.h>
-#import <MobileCoreServices/UTCoreTypes.h>
 
 #import "VideoViewController.h"
 #import "UserProfileViewController.h"
 #import "EditNoteViewController.h"
+
 
 @interface QuestionDetailViewController : PFQueryTableViewController <UINavigationControllerDelegate, UINavigationBarDelegate, UIAlertViewDelegate, AmazonServiceRequestDelegate, UIImagePickerControllerDelegate>
 

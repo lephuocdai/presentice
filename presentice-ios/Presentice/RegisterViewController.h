@@ -6,11 +6,8 @@
 //  Copyright (c) 2013 Appcoda. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <Parse/Parse.h>
-#import "MBProgressHUD.h"
 #import "quickdialog/QuickDialog.h"
-#import "MFSideMenuContainerViewController.h"
+#import "PresenticeUtility.h"
 
 #import "RegisterInfo.h"
 

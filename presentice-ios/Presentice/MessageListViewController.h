@@ -6,11 +6,7 @@
 //  Copyright (c) 2013 Appcoda. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <Parse/Parse.h>
-#import "MBProgressHUD.h"
-#import "MFSideMenu.h"
-#import "Constants.h"
+#import "PresenticeUtility.h"
 
 #import "NSDate+TimeAgo.h"
 

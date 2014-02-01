@@ -6,15 +6,9 @@
 //  Copyright (c) 2014 Presentice. All rights reserved.
 //
 
-#import <Parse/Parse.h>
-#import "MFSideMenu.h"
-#import "Constants.h"
-#import "MBProgressHUD.h"
+#import "PresenticeUtility.h"
 
-
-#import "MessageDetailViewController.h"
 #import "UserProfileViewController.h"
-#import "FindFriendViewController.h"
 
 
 @interface RightSideMenuViewController : PFQueryTableViewController

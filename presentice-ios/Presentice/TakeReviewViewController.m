@@ -190,25 +190,26 @@ PFObject *reviewObj;
     NSLog(@"getCurrentReview reviews = %@", reviews);
     self.didReview = false;
     for (PFObject *review in reviews) {
-        // In case the currentUser already reviewed this video before
-        if ([[[review objectForKey:kActivityFromUserKey] objectId] isEqualToString:[PFUser currentUser].objectId]) {
-            reviewObj = review;            
-            self.didReview = true;
-            self.root.title = @"Edit Review";
-            ((QButtonElement*)[self.root elementWithKey:@"sendReviewButton"]).title = @"Update this review";
-            
-            QMultilineElement *comment = [((QSection*)[self.root.sections objectAtIndex:1]).elements firstObject];
-            if ([review objectForKey:kActivityDescriptionKey]) {
-                comment.textValue = [review objectForKey:kActivityDescriptionKey];
-                comment.title = @"Last comment";
-            }
-            NSArray *ratings = [NSArray arrayWithArray:((QSection*)[self.root.sections firstObject]).elements];
-            for (QPickerElement *rating in ratings) {
-                rating.value = [[review objectForKey:kActivityContentKey] objectForKey:rating.key];
+        if (review != (id)[NSNull null]) {
+            // In case the currentUser already reviewed this video before
+            if ([[[review objectForKey:kActivityFromUserKey] objectId] isEqualToString:[[PFUser currentUser] objectId]]) {
+                reviewObj = review;
+                self.didReview = true;
+                self.root.title = @"Edit Review";
+                ((QButtonElement*)[self.root elementWithKey:@"sendReviewButton"]).title = @"Update this review";
+                
+                QMultilineElement *comment = [((QSection*)[self.root.sections objectAtIndex:1]).elements firstObject];
+                if ([review objectForKey:kActivityDescriptionKey]) {
+                    comment.textValue = [review objectForKey:kActivityDescriptionKey];
+                    comment.title = @"Last comment";
+                }
+                NSArray *ratings = [NSArray arrayWithArray:((QSection*)[self.root.sections firstObject]).elements];
+                for (QPickerElement *rating in ratings) {
+                    rating.value = [[review objectForKey:kActivityContentKey] objectForKey:rating.key];
+                }
             }
         }
     }
-    
     NSLog(@"reviewObject = %@", reviewObj);
 }
 

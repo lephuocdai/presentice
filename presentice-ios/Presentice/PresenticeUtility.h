@@ -6,15 +6,20 @@
 //  Copyright (c) 2014 Presentice. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+
 #import <Parse/Parse.h>
 #import <AWSRuntime/AWSRuntime.h>
 #import <AWSS3/AWSS3.h>
-#import <MobileCoreServices/MobileCoreServices.h>
+
+#import "MFSideMenuContainerViewController.h"
+#import "MBProgressHUD.h"
+#import "UILabel+Boldify.h"
 
 #import "Constants.h"
 #import "PresenticeCache.h"
-#import "UILabel+Boldify.h"
 
 #import "LeftSideMenuViewController.h"
 #import "RightSideMenuViewController.h"

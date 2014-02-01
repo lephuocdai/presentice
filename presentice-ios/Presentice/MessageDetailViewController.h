@@ -6,10 +6,7 @@
 //  Copyright (c) 2013 Appcoda. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "Constants.h"
-#import <Parse/Parse.h>
-#import "MBProgressHUD.h"
+#import "PresenticeUtility.h"
 #import "JSMessagesViewController.h"
 
 #import "MessageFooterView.h"

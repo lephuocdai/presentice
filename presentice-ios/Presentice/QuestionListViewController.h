@@ -5,18 +5,9 @@
 //  Created by レー フックダイ on 12/31/13.
 //  Copyright (c) 2013 Presentice. All rights reserved.
 //
-
-#import <Parse/Parse.h>
-#import "MFSideMenu.h"
-#import "MBProgressHUD.h"
-#import "Constants.h"
 #import "PresenticeUtility.h"
-
-#import <AWSRuntime/AWSRuntime.h>
-#import <AWSS3/AWSS3.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MediaPlayer/MediaPlayer.h>
-#import <MobileCoreServices/UTCoreTypes.h>
 
 #import "UILabel+Boldify.h"
 #import "NSDate+TimeAgo.h"

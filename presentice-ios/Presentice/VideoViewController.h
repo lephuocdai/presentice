@@ -6,13 +6,7 @@
 //  Copyright (c) 2014 Presentice. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "Constants.h"
-#import <Parse/Parse.h>
-#import "MBProgressHUD.h"
-
-#import <AWSRuntime/AWSRuntime.h>
-#import <AWSS3/AWSS3.h>
+#import "PresenticeUtility.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MediaPlayer/MediaPlayer.h>
 
