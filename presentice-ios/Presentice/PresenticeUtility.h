@@ -63,12 +63,10 @@
 
 // S3URL of a video object
 + (NSURL*)s3URLForObject:(PFObject*)object;
-
 + (NSURL*)s3URLWithFileName:(NSString*)filename;
 
 // Start recording from camera
 + (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate withTimeLimit:(NSTimeInterval)timeLimit;
-
 + (void)startImagePickerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate withTimeLimit:(NSTimeInterval)timeLimit;
 
 // Video information
@@ -86,5 +84,8 @@
 // Instantiate View Controller
 + (void)instantiateHomeScreenFrom:(UIViewController*)currentViewController animated:(BOOL)animated completion:(void (^)(void))completion;
 + (void)instantiateFindFriendsFrom:(UIViewController*)currentViewController animated:(BOOL)animated completion:(void (^)(void))completion;
+
+// Error message alert
++ (void) showErrorAlert:(NSError*)error;
 
 @end

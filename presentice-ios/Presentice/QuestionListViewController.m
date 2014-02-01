@@ -339,8 +339,7 @@
             [addNoteAlert show];
             
         } else {
-            UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Upload Error" message:@"Something went wrong. Please contact us at info@presentice.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [errorAlert show];
+            [PresenticeUtility showErrorAlert:error];
         }
     }];
 }

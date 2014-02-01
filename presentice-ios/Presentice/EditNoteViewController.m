@@ -100,9 +100,7 @@
                     successAlert.tag = 1;
                     [successAlert show];
                 } else {
-                    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong. Please contact us at: info@presentice.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                    errorAlert.tag = 2;
-                    [errorAlert show];
+                    [PresenticeUtility showErrorAlert:error];
                 }
             }];
             

@@ -255,14 +255,12 @@
             [reportActivity setObject:self.userObj forKey:kActivityToUserKey];
             [reportActivity setObject:reportDescription forKey:kActivityDescriptionKey];
             [reportActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (error) {
-                    UIAlertView *reportErrorAlert = [[UIAlertView alloc] initWithTitle:@"Report sending error" message:@"Something went wrong! Please try it agaiin" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                    reportErrorAlert.tag = 2;
-                    [reportErrorAlert show];
-                } else {
+                if (!error) {
                     UIAlertView *reportSuccessAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Successfully sent report" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                    reportSuccessAlert.tag = 2;
                     [reportSuccessAlert show];
+
+                } else {
+                    [PresenticeUtility showErrorAlert:error];
                 }
             }];
         }

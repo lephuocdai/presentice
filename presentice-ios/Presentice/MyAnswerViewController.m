@@ -248,8 +248,6 @@
             answerVideoVisibility = @"onlyMe";
         NSLog(@"visibility = %@", answerVideoVisibility);
         if (![[self.answerVideoObj objectForKey:kVideoVisibilityKey] isEqualToString:answerVideoVisibility]) {
-            
-            
             PFObject *editedVideo = [PFObject objectWithoutDataWithClassName:kVideoClassKey objectId:self.answerVideoObj.objectId];
             [editedVideo setObject:answerVideoVisibility forKey:kVideoVisibilityKey];
             [editedVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -259,8 +257,7 @@
                     UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Visibility change has been saved successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                     [successAlert show];
                 } else {
-                    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong. Please contact us at: info@presentice.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                    [errorAlert show];
+                    [PresenticeUtility showErrorAlert:error];
                 }
             }];
         }

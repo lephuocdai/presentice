@@ -171,9 +171,7 @@ PFObject *reviewObj;
                             [PFCloud callFunction:@"sendPushNotification" withParameters:params];
                         }
                     } else{
-                        NSLog(@"saveInBackgroundWithBlock error = %@", error);
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Update Review Failed" message:@"Please try again later." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
-                        [alert show];
+                        [PresenticeUtility showErrorAlert:error];
                     }
                 }];
             } else {

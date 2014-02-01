@@ -115,23 +115,18 @@
     
     [self.messageObj saveEventually:^(BOOL succeeded, NSError *error) {
         [timer invalidate];
-        
-        if (error && error.code == kPFErrorObjectNotFound) {
-            //                [[PAPCache sharedCache] decrementCommentCountForPhoto:self.photo];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Could not post comment", nil) message:NSLocalizedString(@"This photo is no longer available", nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-            [alert show];
-            [self.navigationController popViewControllerAnimated:YES];
+        if (!error) {
+            // Send a notification to the device with channel contain toUser's Id
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+            [params setObject:message.text forKey:@"content"];
+            [params setObject:[self.toUser objectId] forKey:@"toUser"];
+            [params setObject:@"message" forKey:@"pushType"];
+            [PFCloud callFunction:@"sendPushNotification" withParameters:params];
+            [self.tableView reloadData];
+        } else {
+            [PresenticeUtility showErrorAlert:error];
         }
-        
-        // Send a notification to the device with channel contain toUser's Id
-        NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-        [params setObject:message.text forKey:@"content"];
-        [params setObject:[self.toUser objectId] forKey:@"toUser"];
-        [params setObject:@"message" forKey:@"pushType"];
-        [PFCloud callFunction:@"sendPushNotification" withParameters:params];
-        
         [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-        [self.tableView reloadData];
     }];
     
     [self.messages addObject:message];
@@ -170,9 +165,7 @@
     return NO;
 }
 
-//
 //  *** Implement to customize cell further
-//
 - (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
@@ -196,24 +189,13 @@
     }
 }
 
-//  *** Implement to use a custom send button
-//
-//  The button's frame is set automatically for you
-//
-//  - (UIButton *)sendButtonForInputView
-//
-
 //  *** Implement to prevent auto-scrolling when message is added
-//
-- (BOOL)shouldPreventScrollToBottomWhileUserScrolling
-{
+- (BOOL)shouldPreventScrollToBottomWhileUserScrolling {
     return YES;
 }
 
 // *** Implemnt to enable/disable pan/tap todismiss keyboard
-//
-- (BOOL)allowsPanToDismissKeyboard
-{
+- (BOOL)allowsPanToDismissKeyboard {
     return YES;
 }
 
