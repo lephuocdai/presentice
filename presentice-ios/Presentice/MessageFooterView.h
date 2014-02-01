@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PresenticeUtitily.h"
+#import "PresenticeUtility.h"
 
 @interface MessageFooterView : UIView
 

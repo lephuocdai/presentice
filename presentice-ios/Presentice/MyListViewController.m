@@ -117,11 +117,11 @@
     UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
     UILabel *visibility = (UILabel *)[cell viewWithTag:104];
     
-    videoName.text = [PresenticeUtitily nameOfVideo:object];
+    videoName.text = [PresenticeUtility nameOfVideo:object];
     postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
-    viewsNum.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:object];
+    viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:object];
     reviewsNum.text = [NSString stringWithFormat:@"reviews: %d", [[object objectForKey:kVideoReviewsKey] count]];
-    visibility.text = [PresenticeUtitily visibilityOfVideo:object];
+    visibility.text = [PresenticeUtility visibilityOfVideo:object];
     
     return cell;
 }
@@ -137,7 +137,7 @@
         MyAnswerViewController *destViewController = segue.destinationViewController;
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
-        destViewController.movieURL = [PresenticeUtitily s3URLForObject:object];
+        destViewController.movieURL = [PresenticeUtility s3URLForObject:object];
         destViewController.answerVideoObj = object;
         destViewController.questionPostedUser = [object objectForKey:kVideoToUserKey];
         destViewController.questionVideoObj = [object objectForKey:kVideoAsAReplyTo];

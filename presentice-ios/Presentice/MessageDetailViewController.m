@@ -48,8 +48,8 @@
         [self.messages addObject:jsMessage];
     }
     
-    UIImage *currentUserImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:[PFUser currentUser]]]]];
-    UIImage *toUserImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:self.toUser]]]];
+    UIImage *currentUserImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtility facebookProfilePictureofUser:[PFUser currentUser]]]]];
+    UIImage *toUserImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtility facebookProfilePictureofUser:self.toUser]]]];
     self.avatars = [[NSDictionary alloc] initWithObjectsAndKeys:
                     [JSAvatarImageFactory avatarImage:currentUserImage croppedToCircle:YES], kCurrentUser,
                     [JSAvatarImageFactory avatarImage:toUserImage croppedToCircle:YES], kToUser,

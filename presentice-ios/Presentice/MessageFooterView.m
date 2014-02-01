@@ -54,7 +54,7 @@
     [super drawRect:rect];
     
     if (!hideDropShadow) {
-        [PresenticeUtitily drawSideAndBottomDropShadowForRect:mainView.frame inContext:UIGraphicsGetCurrentContext()];
+        [PresenticeUtility drawSideAndBottomDropShadowForRect:mainView.frame inContext:UIGraphicsGetCurrentContext()];
     }
 }
 

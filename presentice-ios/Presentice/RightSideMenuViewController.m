@@ -91,7 +91,7 @@
 - (PFQuery *)queryForTable {
     
     // Query all followActivities where toUser is followed by the currentUser
-    PFQuery *followingFriendQuery = [PresenticeUtitily followingFriendsOfUser:[PFUser currentUser]];
+    PFQuery *followingFriendQuery = [PresenticeUtility followingFriendsOfUser:[PFUser currentUser]];
     
     [followingFriendQuery orderByAscending:kUpdatedAtKey];
     return followingFriendQuery;
@@ -112,7 +112,7 @@
     UILabel *userName = (UILabel *)[cell viewWithTag:101];
     
     //asyn to get profile picture
-    [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityToUserKey]];
+    [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kActivityToUserKey]];
     
     userName.text = [[object objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey];
     return cell;
@@ -152,16 +152,9 @@
                               }
                               // cache friend data
                               [[PresenticeCache sharedCache] setFacebookFriends:facebookIds];
-                              //facebookFriends = [[PresenticeCache sharedCache] facebookFriends];
                           }];
 }
 - (IBAction)doClickFindFriendsBtn:(id)sender {
-    //redirect to Find Friends View
-    FindFriendViewController *findFriendViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"findFriendViewController"];
-    UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
-    [self.menuContainerViewController setCenterViewController:centerViewController];
-    NSArray *controllers = [NSArray arrayWithObject:findFriendViewController];
-    centerViewController.viewControllers = controllers;
-    [self.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+    [PresenticeUtility navigateToFindFriendsFrom:self];
 }
 @end

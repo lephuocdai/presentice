@@ -57,9 +57,9 @@
     // Initiate S3 bucket access
     if(self.tm == nil){
         if(![ACCESS_KEY_ID isEqualToString:@"CHANGE ME"]){
-            self.tm = [PresenticeUtitily getS3TransferManagerForDelegate:self withEndPoint:AP_NORTHEAST_1 andRegion:[S3Region APJapan]];
+            self.tm = [PresenticeUtility getS3TransferManagerForDelegate:self withEndPoint:AP_NORTHEAST_1 andRegion:[S3Region APJapan]];
         } else {
-            [PresenticeUtitily alertBucketCreatingError];
+            [PresenticeUtility alertBucketCreatingError];
         }
     }
     
@@ -122,12 +122,12 @@
     UILabel *viewsNum = (UILabel *)[cell viewWithTag:104];
     UILabel *answersNum = (UILabel *)[cell viewWithTag:105];
     
-    [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kVideoUserKey]];
+    [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kVideoUserKey]];
     postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-    videoName.text = [PresenticeUtitily nameOfVideo:object];
+    videoName.text = [PresenticeUtility nameOfVideo:object];
     postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
-    viewsNum.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:object];
-    answersNum.text = [PresenticeUtitily stringNumberOfKey:kVideoAnswersKey inObject:object];
+    viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:object];
+    answersNum.text = [PresenticeUtility stringNumberOfKey:kVideoAnswersKey inObject:object];
     
     return cell;
 }
@@ -145,7 +145,7 @@
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
         NSLog(@"sent object = %@", object);
-        destViewController.movieURL = [PresenticeUtitily s3URLForObject:object];
+        destViewController.movieURL = [PresenticeUtility s3URLForObject:object];
         destViewController.questionVideoObj = object;
     }
 }
@@ -187,11 +187,11 @@
         if (buttonIndex == 1) {         // Upload from library
             NSLog(@"Upload from Library");
             isUploadFromLibrary = true;
-            [PresenticeUtitily startImagePickerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
+            [PresenticeUtility startImagePickerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
         } else if (buttonIndex == 2) {  // Record from camera
             NSLog(@"Record from Camera");
             isUploadFromLibrary = false;
-            [PresenticeUtitily startCameraControllerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
+            [PresenticeUtility startCameraControllerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
         }
     } else if (alertView.tag == 1) {
         if (buttonIndex == 1) {

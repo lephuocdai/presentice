@@ -44,7 +44,7 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     //asyn to get profile picture
-    [PresenticeUtitily setImageView:self.userProfilePicture forUser:self.userObj];
+    [PresenticeUtility setImageView:self.userProfilePicture forUser:self.userObj];
     
     self.userNameLabel.text = [self.userObj objectForKey:kUserDisplayNameKey];
     
@@ -60,7 +60,7 @@
 
 - (void)actionHandleTapOnImageView {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.navigationController pushViewController:[PresenticeUtitily facebookPageOfUser:self.userObj] animated:YES];
+    [self.navigationController pushViewController:[PresenticeUtility facebookPageOfUser:self.userObj] animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -133,7 +133,7 @@
     UILabel *viewsNumLabel = (UILabel *)[cell viewWithTag:102];
     videoType.text = [[object objectForKey:kVideoTypeKey] capitalizedString];
     videoName.text = [[object objectForKey:kVideoNameKey] capitalizedString];
-    viewsNumLabel.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:object];
+    viewsNumLabel.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:object];
     return cell;
 }
 
@@ -171,97 +171,19 @@
         if ([[videoObj objectForKey:kVideoTypeKey] isEqualToString:@"question"]) {
             NSLog(@"selected question video = %@", videoObj);
             QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
-            destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+            destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
             destViewController.questionVideoObj = videoObj;
             [self.navigationController pushViewController:destViewController animated:YES];
         } else if ([[videoObj objectForKey:kVideoTypeKey] isEqualToString:@"answer"]) {
             NSLog(@"selected answer video = %@", videoObj);
             VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
-            destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+            destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
             destViewController.answerVideoObj = videoObj;
             [self.navigationController pushViewController:destViewController animated:YES];
         }
     }
 }
 
-/**
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    return [self.menuItems count];
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"info";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    UIImageView *thumbnailImageView = (UIImageView *)[cell viewWithTag:100];
-    
-    if ([[[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"] lowercaseString] hasPrefix:@"http://"]) {
-        thumbnailImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]]]];
-        thumbnailImageView.highlightedImage = thumbnailImageView.image;
-    } else {
-        thumbnailImageView.image = [UIImage imageNamed:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"image"]];
-        thumbnailImageView.highlightedImage = thumbnailImageView.image;
-    }
-    
-    thumbnailImageView.layer.cornerRadius = thumbnailImageView.frame.size.width / 2;
-    thumbnailImageView.layer.masksToBounds = YES;
-    
-    UILabel *info = (UILabel *)[cell viewWithTag:101];
-    NSLog(@"%@",[self.menuItems objectAtIndex:indexPath.row]);
-    if([[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"] != nil) {
-        info.text = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"];
-//        [info setTextAlignment:NSTextAlignmentLeft];
-//        info.lineBreakMode = NSLineBreakByWordWrapping;
-        [info setNumberOfLines:0];
-        [info sizeToFit];
-    }
-    return cell;
-}
-
-- (void) setMenuItems {
-    
-    if([self.userObj objectForKey:kUserDisplayNameKey] != nil){
-        NSMutableDictionary *username = [[NSMutableDictionary alloc] init];
-        [username setObject:@"username" forKey:@"type"];
-        [username setObject:[self.userObj objectForKey:kUserDisplayNameKey] forKey:@"info"];
-        [username setObject:[PresenticeUtitily facebookProfilePictureofUser:self.userObj] forKey:@"image"];
-        [self.menuItems addObject:username];
-    }
-    
-    if([self.userObj objectForKey:kUserEmailKey]){
-        NSMutableDictionary *email = [[NSMutableDictionary alloc] init];
-        [email setObject:@"email" forKey:@"type"];
-        [email setObject:[self.userObj objectForKey:kUserEmailKey] forKey:@"info"];
-        [email setObject:@"email.jpeg" forKey:@"image"];
-        [self.menuItems addObject:email];
-    }
-    
-    if([[self.userObj objectForKey:kUserProfileKey] objectForKey:@"location"]){
-        NSMutableDictionary *location = [[NSMutableDictionary alloc] init];
-        [location setObject:@"location" forKey:@"type"];
-        [location setObject:[[[self.userObj objectForKey:kUserProfileKey] objectForKey:@"location"] objectForKey:@"name"]  forKey:@"info"];
-        [location setObject:@"map.png" forKey:@"image"];
-        [self.menuItems addObject:location];
-    }
-    
-    if([[self.userObj objectForKey:kUserProfileKey] objectForKey:@"hometown"]){
-        NSMutableDictionary *hometown = [[NSMutableDictionary alloc] init];
-        [hometown setObject:@"hometown" forKey:@"type"];
-        [hometown setObject:[[[self.userObj objectForKey:kUserProfileKey] objectForKey:@"hometown"] objectForKey:@"name"]  forKey:@"info"];
-        [hometown setObject:@"map.png" forKey:@"image"];
-        [self.menuItems addObject:hometown];
-    }
-    
-}
-**/
 - (IBAction)showLeftMenu:(id)sender {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
@@ -274,7 +196,7 @@
     //set to unfollow button
     [self configureUnfollowButton];
     //save to parse.com
-    [PresenticeUtitily followUserEventually:self.userObj block:^(BOOL succeeded, NSError *error){
+    [PresenticeUtility followUserEventually:self.userObj block:^(BOOL succeeded, NSError *error){
         if(error){
             //set back to follow button
             [self configureFollowButton];
@@ -285,7 +207,7 @@
     //set to follow button
     [self configureFollowButton];
     //delete from parse.com
-    [PresenticeUtitily unfollowUserEventually:self.userObj];
+    [PresenticeUtility unfollowUserEventually:self.userObj];
 }
 - (void)configureFollowButton {
     [self.followBtn setTitle:@"Follow" forState:UIControlStateNormal];
@@ -293,7 +215,6 @@
     [self.followBtn addTarget:self action:@selector(doFollowAction:)forControlEvents:UIControlEventTouchDown];
     NSLog(@"self.followBtn.titleLabel.text after = %@", self.followBtn.titleLabel.text);
 }
-
 - (void)configureUnfollowButton {
     [self.followBtn setTitle:@"Following" forState:UIControlStateSelected];
     NSLog(@"self.followBtn.titleLabel.text before = %@", self.followBtn.titleLabel.text);

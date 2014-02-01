@@ -50,8 +50,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSLog(@"get in message list");
-    
     [self refreshTable:nil];
     
     // Start loading HUD
@@ -66,16 +64,6 @@
                                                  name:@"refreshTable"
                                                object:nil];
 }
-
-/**
- * override function
- * load table for each time load view
- */
-//- (void) viewWillAppear:(BOOL)animated {
-//    messageList = [[NSMutableArray alloc] init];
-//    [self queryMessageList];
-//    [self.tableView reloadData];
-//}
 
 - (void)viewDidAppear:(BOOL)animated {
     // Hid all HUD after all objects appered
@@ -133,7 +121,7 @@
     NSUInteger currentUserIndex = [self indexOfObjectwithKey:[[PFUser currentUser] objectId] inArray:users];
     [users removeObjectAtIndex:currentUserIndex];
     PFUser *toUser = [users lastObject];
-    [PresenticeUtitily setImageView:userProfilePicture forUser:toUser];
+    [PresenticeUtility setImageView:userProfilePicture forUser:toUser];
 
     userName.text = [toUser objectForKey:kUserDisplayNameKey];
     description.text = [[[object objectForKey:kMessageContentKey] lastObject] objectForKey:@"text"];
@@ -169,12 +157,9 @@
 }
 
 - (NSUInteger)indexOfObjectwithKey:(NSString*)key inArray: (NSArray*)array {
-//    NSLog(@"key = %@", key);
-//    NSLog(@"array = %@", array);
     
     for (NSUInteger i = 0; i < [array count]; i++) {
         NSString *objectId = [[array objectAtIndex:i] valueForKey:@"objectId"];
-//        NSLog(@"i = %d objectId = %@", i, objectId);
         if ([objectId isEqualToString:key]) {
             return i;
         }

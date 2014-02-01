@@ -121,7 +121,7 @@ typedef enum {
     cell.delegate = self;
     
     //asyn to get profile picture
-    [PresenticeUtitily setImageView:cell.profilePicture forUser:(PFUser*)object];
+    [PresenticeUtility setImageView:cell.profilePicture forUser:(PFUser*)object];
     
     //username
     cell.facebookName.text = [(PFUser *)object objectForKey:kUserDisplayNameKey];
@@ -203,7 +203,7 @@ typedef enum {
     }
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
     [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
-    [PresenticeUtitily followUsersEventually:self.objects block:^(BOOL succeeded, NSError *error) {
+    [PresenticeUtility followUsersEventually:self.objects block:^(BOOL succeeded, NSError *error) {
         //todo: add timer
     }];
 }
@@ -222,7 +222,7 @@ typedef enum {
     }
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
     [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
-    [PresenticeUtitily unfollowUsersEventually:self.objects];
+    [PresenticeUtility unfollowUsersEventually:self.objects];
 }
 
 //delegate method
@@ -231,12 +231,12 @@ typedef enum {
     if ([cellView.followBtn isSelected]) {
         // Unfollow
         cellView.followBtn.selected = NO;
-        [PresenticeUtitily unfollowUserEventually:cellUser];
+        [PresenticeUtility unfollowUserEventually:cellUser];
         //[[NSNotificationCenter defaultCenter] postNotificationName:PAPUtilityUserFollowingChangedNotification object:nil];
     } else {
         // Follow
         cellView.followBtn.selected = YES;
-        [PresenticeUtitily followUserEventually:cellUser block:^(BOOL succeeded, NSError *error) {
+        [PresenticeUtility followUserEventually:cellUser block:^(BOOL succeeded, NSError *error) {
             if (!error) {
                 //[[NSNotificationCenter defaultCenter] postNotificationName:PAPUtilityUserFollowingChangedNotification object:nil];
             } else {

@@ -88,7 +88,7 @@
 
 - (PFQuery *)queryForTable {
     // Query all followActivities where toUser is followed by the currentUser
-    PFQuery *followingFriendQuery = [PresenticeUtitily followingFriendsOfUser:[PFUser currentUser]];
+    PFQuery *followingFriendQuery = [PresenticeUtility followingFriendsOfUser:[PFUser currentUser]];
     
     [followingFriendQuery orderByAscending:kUpdatedAtKey];
     return followingFriendQuery;
@@ -109,7 +109,7 @@
     // Configure the cell
     UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
     UILabel *userName = (UILabel *)[cell viewWithTag:101];
-    [PresenticeUtitily setImageView:userProfilePicture forUser:user];
+    [PresenticeUtility setImageView:userProfilePicture forUser:user];
     userName.text = [user objectForKey:kUserDisplayNameKey];
 
     return cell;

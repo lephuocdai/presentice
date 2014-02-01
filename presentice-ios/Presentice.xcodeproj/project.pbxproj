@@ -47,7 +47,7 @@
 		F027631518910131001BEA6D /* RegisterInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F027631418910131001BEA6D /* RegisterInfo.m */; };
 		F03486BC187E337A001BE459 /* FriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486BB187E337A001BE459 /* FriendListViewController.m */; };
 		F03486C4187E8C69001BE459 /* MessageFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486C3187E8C69001BE459 /* MessageFooterView.m */; };
-		F03486C7187E8D80001BE459 /* PresenticeUtitily.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486C6187E8D80001BE459 /* PresenticeUtitily.m */; };
+		F03486C7187E8D80001BE459 /* PresenticeUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486C6187E8D80001BE459 /* PresenticeUtility.m */; };
 		F03486CF1880166D001BE459 /* PushPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486CE1880166D001BE459 /* PushPermissionViewController.m */; };
 		F03D53F0189CE94600789BBE /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F03D53EF189CE94600789BBE /* logo@2x.png */; };
 		F0578ED0187A723400573CD2 /* MyAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0578ECF187A723400573CD2 /* MyAnswerViewController.m */; };
@@ -267,8 +267,8 @@
 		F03486BB187E337A001BE459 /* FriendListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListViewController.m; sourceTree = "<group>"; };
 		F03486C2187E8C69001BE459 /* MessageFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageFooterView.h; sourceTree = "<group>"; };
 		F03486C3187E8C69001BE459 /* MessageFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageFooterView.m; sourceTree = "<group>"; };
-		F03486C5187E8D80001BE459 /* PresenticeUtitily.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresenticeUtitily.h; sourceTree = "<group>"; };
-		F03486C6187E8D80001BE459 /* PresenticeUtitily.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresenticeUtitily.m; sourceTree = "<group>"; };
+		F03486C5187E8D80001BE459 /* PresenticeUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresenticeUtility.h; sourceTree = "<group>"; };
+		F03486C6187E8D80001BE459 /* PresenticeUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresenticeUtility.m; sourceTree = "<group>"; };
 		F03486CD1880166D001BE459 /* PushPermissionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushPermissionViewController.h; sourceTree = "<group>"; };
 		F03486CE1880166D001BE459 /* PushPermissionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushPermissionViewController.m; sourceTree = "<group>"; };
 		F03D53EF189CE94600789BBE /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
@@ -1142,8 +1142,8 @@
 			children = (
 				F0718CBB185ACE27009014A0 /* Constants.h */,
 				F0718CBC185ACE27009014A0 /* Constants.m */,
-				F03486C5187E8D80001BE459 /* PresenticeUtitily.h */,
-				F03486C6187E8D80001BE459 /* PresenticeUtitily.m */,
+				F03486C5187E8D80001BE459 /* PresenticeUtility.h */,
+				F03486C6187E8D80001BE459 /* PresenticeUtility.m */,
 				A72AB054188A8D3700C12A74 /* PresenticeCache.h */,
 				A72AB055188A8D3700C12A74 /* PresenticeCache.m */,
 				A72C52C0186FF56D00DE8BEC /* Validate.h */,
@@ -1397,7 +1397,7 @@
 				F06E4BF418864EA100FB9333 /* ReviewDetailViewController.m in Sources */,
 				F0DD719E18921FE50070DF95 /* JSBubbleImageViewFactory.m in Sources */,
 				F0DD719F18921FE50070DF95 /* JSBubbleMessageCell.m in Sources */,
-				F03486C7187E8D80001BE459 /* PresenticeUtitily.m in Sources */,
+				F03486C7187E8D80001BE459 /* PresenticeUtility.m in Sources */,
 				A72AB053188A876E00C12A74 /* FindFriendCell.m in Sources */,
 				F0DD719A18921FE50070DF95 /* NSString+JSMessagesView.m in Sources */,
 				A7E995A51867D197009E48CA /* RegisterViewController.m in Sources */,

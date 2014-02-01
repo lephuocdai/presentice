@@ -17,16 +17,6 @@ NSDictionary<FBGraphUser>  *fbInfo;
 
 @implementation RegisterViewController
 
-/**
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-**/
-
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         self.root = [[QRootElement alloc] initWithJSONFile:@"registerForm"];
@@ -52,18 +42,6 @@ NSDictionary<FBGraphUser>  *fbInfo;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/**
- * end of editing
- * dissmis input keyboard
-
-- (void)touchesEnded: (NSSet *)touches withEvent: (UIEvent *)event {
-	for (UIView* view in self.view.subviews) {
-		if ([view isKindOfClass:[UITextField class]])
-			[view resignFirstResponder];
-	}
-}
- **/
 
 /**
 * load data from facebook
@@ -184,58 +162,8 @@ NSDictionary<FBGraphUser>  *fbInfo;
 // redirect to Login View Controller
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 0) {
-        [self navigateToFindFriends];
+        [PresenticeUtility instantiateFindFriendsFrom:self animated:NO completion:nil];
     }
 }
-
-- (void)navigateToHomeScreen {
-    //get main storyboard
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    
-    //create side menu
-    MainViewController *mainViewController = [storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-    UINavigationController *mainNavigationController = [[UINavigationController alloc]initWithRootViewController:mainViewController];
-    
-    QuestionListViewController *questionListViewController = [storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
-    UINavigationController *questionListNavigationController = [[UINavigationController alloc]initWithRootViewController:questionListViewController];
-    
-    MyListViewController *myListViewController = [storyboard instantiateViewControllerWithIdentifier:@"myListViewController"];
-    UINavigationController *myListNavigationController = [[UINavigationController alloc]initWithRootViewController:myListViewController];
-    
-    NotificationListViewController *notificationListViewController = [storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
-    UINavigationController *notificationListNavigationController = [[UINavigationController alloc]initWithRootViewController:notificationListViewController];
-    
-    UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    [tabBarController setViewControllers:[NSArray arrayWithObjects:mainNavigationController, questionListNavigationController, myListNavigationController, notificationListNavigationController, nil]];
-    
-    LeftSideMenuViewController *leftSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
-    RightSideMenuViewController *rightSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
-    
-    MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
-                                                    containerWithCenterViewController:tabBarController
-                                                    leftMenuViewController:leftSideMenuController
-                                                    rightMenuViewController:rightSideMenuController];
-    
-    [self.navigationController presentViewController:container animated:NO completion:nil];
-}
-
-- (void)navigateToFindFriends {
-    //get main storyboard
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    
-    //create side menu
-    FindFriendViewController *findFriendViewController = [storyboard instantiateViewControllerWithIdentifier:@"findFriendViewController"];
-    UINavigationController *findFriendNavigationController = [[UINavigationController alloc]initWithRootViewController:findFriendViewController];
-    
-    LeftSideMenuViewController *leftSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
-    RightSideMenuViewController *rightSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
-    MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
-                                                    containerWithCenterViewController:findFriendNavigationController
-                                                    leftMenuViewController:leftSideMenuController
-                                                    rightMenuViewController:rightSideMenuController];
-    
-    [self.navigationController presentViewController:container animated:NO completion:nil];
-}
-
 
 @end

@@ -133,7 +133,7 @@
     NSString *cellType = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"type"];
     NSLog(@"cellType = %@", cellType);
     if ([cellType isEqualToString:@"username"]) {
-        [self.navigationController pushViewController:[PresenticeUtitily facebookPageOfUser:[PFUser currentUser]] animated:YES];
+        [self.navigationController pushViewController:[PresenticeUtility facebookPageOfUser:[PFUser currentUser]] animated:YES];
     } else if ([cellType isEqual:@"pushPermission"] ) {
         NSLog(@"get in side");
         PushPermissionViewController *destViewController = [[PushPermissionViewController alloc] initWithStyle:UITableViewStyleGrouped];
@@ -172,7 +172,7 @@
         NSMutableDictionary *username = [[NSMutableDictionary alloc] init];
         [username setObject:@"username" forKey:@"type"];
         [username setObject:[[PFUser currentUser] objectForKey:kUserDisplayNameKey] forKey:@"info"];
-        [username setObject:[PresenticeUtitily facebookProfilePictureofUser:[PFUser currentUser]] forKey:@"image"];
+        [username setObject:[PresenticeUtility facebookProfilePictureofUser:[PFUser currentUser]] forKey:@"image"];
         [self.menuItems addObject:username];
      
         

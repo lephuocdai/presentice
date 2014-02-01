@@ -21,11 +21,9 @@
         // Custom the table
         
         // The className to query on
-        //        self.parseClassName = kVideoClassKey;
         self.parseClassName = kActivityClassKey;
         
         // The key of the PFObject to display in the label of the default cell style
-        //        self.textKey = kVideoURLKey;
         self.textKey = kActivityTypeKey;
         
         // Whether the built-in pull-to-refresh is enabled
@@ -174,7 +172,7 @@
     UILabel *description = (UILabel *)[cell viewWithTag:101];
     UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
     //asyn to get profile picture
-    [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
+    [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
     NSString *type = [object objectForKey:kActivityTypeKey];
     if ([type isEqualToString:@"postQuestion"]) {
         description.text = [NSString stringWithFormat:@"%@ has posted new question %@",
@@ -219,7 +217,7 @@
             VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
             PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
             
-            destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+            destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
             destViewController.answerVideoObj = videoObj;
             
             [self.navigationController pushViewController:destViewController animated:YES];
@@ -228,7 +226,7 @@
             VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
             PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
             
-            destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+            destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
             destViewController.answerVideoObj = videoObj;
             
             [self.navigationController pushViewController:destViewController animated:YES];
@@ -237,7 +235,7 @@
             QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
             PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
             
-            destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+            destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
             destViewController.questionVideoObj = videoObj;
             
             [self.navigationController pushViewController:destViewController animated:YES];

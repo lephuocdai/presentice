@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Presentice. All rights reserved.
 //
 
-#import "PresenticeUtitily.h"
+#import "PresenticeUtility.h"
 
-@implementation PresenticeUtitily
+@implementation PresenticeUtility
 
 #pragma mark - PresenticeUtitily
 #pragma mark Shadow Rendering
@@ -56,7 +56,7 @@
 
 + (void)followUsersEventually:(NSArray *)users block:(void (^)(BOOL succeeded, NSError *error))completionBlock {
     for (PFUser *user in users) {
-        [PresenticeUtitily followUserEventually:user block:completionBlock];
+        [PresenticeUtility followUserEventually:user block:completionBlock];
         //[[PresenticeCache sharedCache] setFollowStatus:YES user:user];
     }
 }
@@ -102,7 +102,7 @@
 
 + (PFQuery*)activitiesRelatedToFriendsOfUser:(PFUser *)aUser {
     // Query all followActivities where toUser is followed by aUser
-    PFQuery *followingFriendQuery = [PresenticeUtitily followingFriendsOfUser:aUser];
+    PFQuery *followingFriendQuery = [PresenticeUtility followingFriendsOfUser:aUser];
     
     // Query all the activities where fromUser is followingFriend
     PFQuery *followingFromUserQuery = [PFQuery queryWithClassName:kActivityClassKey];
@@ -341,7 +341,7 @@
 + (void)setImageView:(UIImageView *)imageView forUser:(PFUser *)user {
     //asyn to get image
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtitily facebookProfilePictureofUser:user]]];
+        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtility facebookProfilePictureofUser:user]]];
         dispatch_async(dispatch_get_main_queue(), ^{
             imageView.image = [UIImage imageWithData:profileImageData];
             imageView.highlightedImage = imageView.image;
@@ -351,5 +351,126 @@
     });
 }
 
+
+/**
+ * Set side menu navigation
+ **/
++ (void)navigateToMyProfileFrom:(UIViewController *)currentViewController{
+    //get main storyboard
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    
+    MyProfileViewController *myProfileViewController = [storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];
+    UINavigationController *centerViewController = [[UINavigationController alloc]initWithRootViewController:myProfileViewController];
+    
+    [currentViewController.menuContainerViewController setCenterViewController:centerViewController];
+    [currentViewController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+}
+
++ (void)navigateToHomeScreenFrom:(UIViewController*)currentViewController {
+    //get main storyboard
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    
+    MainViewController *mainViewController = [storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+    UINavigationController *mainNavigationController = [[UINavigationController alloc]initWithRootViewController:mainViewController];
+    
+    QuestionListViewController *questionListViewController = [storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
+    UINavigationController *questionListNavigationController = [[UINavigationController alloc]initWithRootViewController:questionListViewController];
+    
+    MyListViewController *myListViewController = [storyboard instantiateViewControllerWithIdentifier:@"myListViewController"];
+    UINavigationController *myListNavigationController = [[UINavigationController alloc]initWithRootViewController:myListViewController];
+    
+    NotificationListViewController *notificationListViewController = [storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
+    UINavigationController *notificationListNavigationController = [[UINavigationController alloc]initWithRootViewController:notificationListViewController];
+    
+    UITabBarController *homeTabBarController = [[UITabBarController alloc] init];
+    [homeTabBarController setViewControllers:[NSArray arrayWithObjects:mainNavigationController, questionListNavigationController, myListNavigationController, notificationListNavigationController, nil]];
+    [currentViewController.menuContainerViewController setCenterViewController:homeTabBarController];
+    
+    UINavigationController *navigationController = (UINavigationController *)homeTabBarController.selectedViewController;
+    NSArray *controllers = [NSArray arrayWithObject:mainViewController];
+    navigationController.viewControllers = controllers;
+    
+    [currentViewController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+}
+
++ (void)navigateToMessageScreenFrom:(UIViewController *)currentViewController{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    
+    MessageListViewController *messageListViewController = [storyboard instantiateViewControllerWithIdentifier:@"messageListViewController"];
+    UINavigationController *messageListNavigationController = [[UINavigationController alloc]initWithRootViewController:messageListViewController];
+    
+    FriendListViewController *friendListViewController = [storyboard instantiateViewControllerWithIdentifier:@"friendListViewController"];
+    UINavigationController *friendListNavigationController = [[UINavigationController alloc]initWithRootViewController:friendListViewController];
+    
+    UITabBarController *messageTabBarController = [[UITabBarController alloc] init];
+    [messageTabBarController setViewControllers:[NSArray arrayWithObjects:messageListNavigationController, friendListNavigationController, nil]];
+    [currentViewController.menuContainerViewController setCenterViewController:messageTabBarController];
+    UINavigationController *navigationController = (UINavigationController *)messageTabBarController.selectedViewController;
+    NSArray *controllers = [NSArray arrayWithObject:messageListViewController];
+    navigationController.viewControllers = controllers;
+    
+    [currentViewController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+}
+
++ (void)navigateToFindFriendsFrom:(UIViewController *)currentViewController{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    
+    //redirect to Find Friends View
+    FindFriendViewController *findFriendViewController = [storyboard instantiateViewControllerWithIdentifier:@"findFriendViewController"];
+    UINavigationController *findFriendNavigationController = [[UINavigationController alloc]initWithRootViewController:findFriendViewController];
+    
+    [currentViewController.menuContainerViewController setCenterViewController:findFriendNavigationController];
+    [currentViewController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+}
+
+
++ (void)instantiateHomeScreenFrom:(UIViewController *)currentViewController animated:(BOOL)animated completion:(void (^)(void))completion {
+    //get main storyboard
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    
+    //create side menu
+    MainViewController *mainViewController = [storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+    UINavigationController *mainNavigationController = [[UINavigationController alloc]initWithRootViewController:mainViewController];
+    
+    QuestionListViewController *questionListViewController = [storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
+    UINavigationController *questionListNavigationController = [[UINavigationController alloc]initWithRootViewController:questionListViewController];
+    
+    MyListViewController *myListViewController = [storyboard instantiateViewControllerWithIdentifier:@"myListViewController"];
+    UINavigationController *myListNavigationController = [[UINavigationController alloc]initWithRootViewController:myListViewController];
+    
+    NotificationListViewController *notificationListViewController = [storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
+    UINavigationController *notificationListNavigationController = [[UINavigationController alloc]initWithRootViewController:notificationListViewController];
+    
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    [tabBarController setViewControllers:[NSArray arrayWithObjects:mainNavigationController, questionListNavigationController, myListNavigationController, notificationListNavigationController, nil]];
+    
+    LeftSideMenuViewController *leftSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
+    RightSideMenuViewController *rightSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
+    
+    MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
+                                                    containerWithCenterViewController:tabBarController
+                                                    leftMenuViewController:leftSideMenuController
+                                                    rightMenuViewController:rightSideMenuController];
+    
+    [currentViewController.navigationController presentViewController:container animated:animated completion:completion];
+}
+
++ (void)instantiateFindFriendsFrom:(UIViewController *)currentViewController animated:(BOOL)animated completion:(void (^)(void))completion {
+    //get main storyboard
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    
+    //create side menu
+    FindFriendViewController *findFriendViewController = [storyboard instantiateViewControllerWithIdentifier:@"findFriendViewController"];
+    UINavigationController *findFriendNavigationController = [[UINavigationController alloc]initWithRootViewController:findFriendViewController];
+    
+    LeftSideMenuViewController *leftSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
+    RightSideMenuViewController *rightSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
+    MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
+                                                    containerWithCenterViewController:findFriendNavigationController
+                                                    leftMenuViewController:leftSideMenuController
+                                                    rightMenuViewController:rightSideMenuController];
+    
+    [currentViewController.navigationController presentViewController:container animated:animated completion:completion];
+}
 
 @end

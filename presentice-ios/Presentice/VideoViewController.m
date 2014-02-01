@@ -51,10 +51,10 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     //asyn to get profile picture
-    [PresenticeUtitily setImageView:self.userProfilePicture forUser:[self.answerVideoObj objectForKey:kVideoUserKey]];
+    [PresenticeUtility setImageView:self.userProfilePicture forUser:[self.answerVideoObj objectForKey:kVideoUserKey]];
     videoNameLabel.text = [self.answerVideoObj objectForKey:kVideoNameKey];
     postedUserLabel.text = [[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-    viewNumLabel.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:self.answerVideoObj];
+    viewNumLabel.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:self.answerVideoObj];
     noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
     [noteView boldSubstring:@"Note for viewer:"];
     
@@ -250,7 +250,7 @@
     userProfilePicture.image = [UIImage imageWithData:
                                 [NSData dataWithContentsOfURL:
                                  [NSURL URLWithString:
-                                  [PresenticeUtitily facebookProfilePictureofUser:
+                                  [PresenticeUtility facebookProfilePictureofUser:
                                    [object objectForKey:kActivityFromUserKey]]]]];
     userProfilePicture.layer.cornerRadius = userProfilePicture.frame.size.width / 2;
     userProfilePicture.layer.masksToBounds = YES;

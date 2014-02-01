@@ -58,7 +58,7 @@
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    [PresenticeUtitily setImageView:self.userProfilePicture forUser:[self.questionVideoObj objectForKey:kVideoUserKey]];
+    [PresenticeUtility setImageView:self.userProfilePicture forUser:[self.questionVideoObj objectForKey:kVideoUserKey]];
     postedUserLabel.text = [[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     videoNameLabel.text = [self.questionVideoObj objectForKey:kVideoNameKey];
     noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.questionVideoObj objectForKey:kVideoNoteKey]];
@@ -96,9 +96,9 @@
     // Initiate S3 bucket access
     if(self.tm == nil){
         if(![ACCESS_KEY_ID isEqualToString:@"CHANGE ME"]){
-            self.tm = [PresenticeUtitily getS3TransferManagerForDelegate:self withEndPoint:AP_NORTHEAST_1 andRegion:[S3Region APJapan]];
+            self.tm = [PresenticeUtility getS3TransferManagerForDelegate:self withEndPoint:AP_NORTHEAST_1 andRegion:[S3Region APJapan]];
         }else {
-            [PresenticeUtitily alertBucketCreatingError];
+            [PresenticeUtility alertBucketCreatingError];
         }
     }
     
@@ -245,7 +245,7 @@
     UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
     UILabel *reviewNum = (UILabel *)[cell viewWithTag:104];
     
-    [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kVideoUserKey]];
+    [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kVideoUserKey]];
     userName.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     videoName.text = [object objectForKey:kVideoNameKey];
     viewsNum.text = [NSString stringWithFormat:@"view: %@",[object objectForKey:kVideoViewsKey]];
@@ -271,7 +271,7 @@
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
         NSLog(@"sent object = %@", object);
-        destViewController.movieURL = [PresenticeUtitily s3URLForObject:object];
+        destViewController.movieURL = [PresenticeUtility s3URLForObject:object];
         destViewController.answerVideoObj = object;
     }
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
@@ -301,11 +301,11 @@
             if (buttonIndex == 1) {
                 NSLog(@"Upload from Library");
                 isUploadFromLibrary = true;
-                [PresenticeUtitily startImagePickerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
+                [PresenticeUtility startImagePickerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
             } else if (buttonIndex == 2) {
                 NSLog(@"Record from Camera");
                 isUploadFromLibrary = false;
-                [PresenticeUtitily startCameraControllerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
+                [PresenticeUtility startCameraControllerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
             }
         }
         NSLog(@"cancel, buttonIndex = %d", buttonIndex);

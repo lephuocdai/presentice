@@ -11,7 +11,7 @@
 #import <Parse/Parse.h>
 #import "MBProgressHUD.h"
 #import "Constants.h"
-#import "PresenticeUtitily.h"
+#import "PresenticeUtility.h"
 
 
 #import "PushPermissionViewController.h"

@@ -13,21 +13,18 @@
 - (void)onLoginFacebook:(QButtonElement *)buttonElement;
 - (void)onRequestPasswordReset:(QButtonElement *)buttonElement;
 - (void)sendPasswordResetEmail:(QButtonElement *)buttonElement;
-//- (void)onAbout;
 
 @property (assign, nonatomic) BOOL isResetingPassword;
 
 @end
 
 @implementation LoginViewController {
-//    BOOL isResetingPassword;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         
         self.root = [[QRootElement alloc] initWithJSONFile:@"loginform"];
-        
 //        self.root = [[QRootElement alloc] initWithJSONURL:[PresenticeUtitily s3URLWithFileName:@"loginform.json"] andData:nil];
         
         self.root.appearance = [self.root.appearance copy];
@@ -61,9 +58,6 @@
     //hide navigator if in login view
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     [super viewWillAppear:animated];
-    
-//    self.navigationController.navigationBar.tintColor = nil;
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"About" style:UIBarButtonItemStylePlain target:self action:@selector(onAbout)];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -81,8 +75,7 @@
     NSString *password = info.password;
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error) {
         if(!error){
-            
-            [self navigateToHomeScreen];
+            [PresenticeUtility instantiateHomeScreenFrom:self animated:NO completion:nil];
             
             // subscribe user default channel for notification.
             PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -150,7 +143,7 @@
                             //redirect using storyboard
                             //if user already login, redirect to MainViewController
                             if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]])
-                                [self navigateToHomeScreen];
+                                [PresenticeUtility instantiateHomeScreenFrom:self animated:NO completion:nil];
                             
                         } else {
                             //redirecto to register screen using storyboard
@@ -184,7 +177,7 @@
 }
 
 - (QRootElement *)createResetPasswordRequestForm {
-    QRootElement *details = [[QRootElement alloc] initWithJSONURL:[PresenticeUtitily s3URLWithFileName:@"requestResetPasswordForm.json"] andData:nil];
+    QRootElement *details = [[QRootElement alloc] initWithJSONURL:[PresenticeUtility s3URLWithFileName:@"requestResetPasswordForm.json"] andData:nil];
     return details;
 }
 
@@ -229,51 +222,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //if user already login, redirect to MainViewController
+    //if user already login, redirect to Home Screen
 	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]])
-        [self navigateToHomeScreen];
+        [PresenticeUtility instantiateHomeScreenFrom:self animated:NO completion:nil];
 }
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-/**
-* Set side menu navigation
-**/
-
-- (void)navigateToHomeScreen {
-    //get main storyboard
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    
-    //create side menu
-    MainViewController *mainViewController = [storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-    UINavigationController *mainNavigationController = [[UINavigationController alloc]initWithRootViewController:mainViewController];
-    
-    QuestionListViewController *questionListViewController = [storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
-    UINavigationController *questionListNavigationController = [[UINavigationController alloc]initWithRootViewController:questionListViewController];
-    
-    MyListViewController *myListViewController = [storyboard instantiateViewControllerWithIdentifier:@"myListViewController"];
-    UINavigationController *myListNavigationController = [[UINavigationController alloc]initWithRootViewController:myListViewController];
-    
-    NotificationListViewController *notificationListViewController = [storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
-    UINavigationController *notificationListNavigationController = [[UINavigationController alloc]initWithRootViewController:notificationListViewController];
-    
-    UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    [tabBarController setViewControllers:[NSArray arrayWithObjects:mainNavigationController, questionListNavigationController, myListNavigationController, notificationListNavigationController, nil]];
-    
-    LeftSideMenuViewController *leftSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
-    RightSideMenuViewController *rightSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
-    
-    MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
-                                                    containerWithCenterViewController:tabBarController
-                                                    leftMenuViewController:leftSideMenuController
-                                                    rightMenuViewController:rightSideMenuController];
-    
-    [self.navigationController presentViewController:container animated:NO completion:nil];
 }
 
 @end

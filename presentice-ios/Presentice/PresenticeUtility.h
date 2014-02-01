@@ -16,7 +16,18 @@
 #import "PresenticeCache.h"
 #import "UILabel+Boldify.h"
 
-@interface PresenticeUtitily : NSObject
+#import "LeftSideMenuViewController.h"
+#import "RightSideMenuViewController.h"
+#import "MyProfileViewController.h"
+#import "MainViewController.h"
+#import "QuestionListViewController.h"
+#import "MyListViewController.h"
+#import "NotificationListViewController.h"
+#import "MessageListViewController.h"
+#import "FriendListViewController.h"
+#import "FindFriendViewController.h"
+
+@interface PresenticeUtility : NSObject
 
 + (void)drawSideAndBottomDropShadowForRect:(CGRect)rect inContext:(CGContextRef)context;
 + (void)followUserEventually:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
@@ -61,5 +72,14 @@
 + (NSString *)nameOfVideo:(PFObject*)videoObj;
 + (void)setImageView:(UIImageView*)imageView forUser:(PFUser*)user;
 
+// Navigate to other view controller
++ (void)navigateToMyProfileFrom:(UIViewController *)currentViewController;
++ (void)navigateToHomeScreenFrom:(UIViewController*)currentViewController;
++ (void)navigateToMessageScreenFrom:(UIViewController*)currentViewController;
++ (void)navigateToFindFriendsFrom:(UIViewController*)currentViewController;
+
+// Instantiate View Controller
++ (void)instantiateHomeScreenFrom:(UIViewController*)currentViewController animated:(BOOL)animated completion:(void (^)(void))completion;
++ (void)instantiateFindFriendsFrom:(UIViewController*)currentViewController animated:(BOOL)animated completion:(void (^)(void))completion;
 
 @end

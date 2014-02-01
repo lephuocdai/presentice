@@ -12,7 +12,7 @@
 #import "MBProgressHUD.h"
 
 #import "PresenticeCache.h"
-#import "PresenticeUtitily.h"
+#import "PresenticeUtility.h"
 #import "FindFriendCell.h"
 
 #import "UserProfileViewController.h"

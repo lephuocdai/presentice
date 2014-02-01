@@ -80,12 +80,12 @@
 - (PFQuery *)queryForTable {
     
     // Query all followActivities where toUser is followed by the currentUser
-    PFQuery *followingFriendQuery = [PresenticeUtitily followingFriendsOfUser:[PFUser currentUser]];
+    PFQuery *followingFriendQuery = [PresenticeUtility followingFriendsOfUser:[PFUser currentUser]];
     
     // Get all videos that are viewable from the currentUser
-    PFQuery *visibleVideoQuery = [PresenticeUtitily videosCanBeViewedByUser:[PFUser currentUser]];
+    PFQuery *visibleVideoQuery = [PresenticeUtility videosCanBeViewedByUser:[PFUser currentUser]];
     
-    PFQuery *videoRelatedActivityQuery = [PresenticeUtitily activitiesRelatedToFriendsOfUser:[PFUser currentUser]];
+    PFQuery *videoRelatedActivityQuery = [PresenticeUtility activitiesRelatedToFriendsOfUser:[PFUser currentUser]];
     [videoRelatedActivityQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review", @"postQuestion"]];
     [videoRelatedActivityQuery whereKey:kActivityTargetVideoKey matchesQuery:visibleVideoQuery];
     
@@ -205,17 +205,17 @@
             UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
             UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
             
-            [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
+            [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
             description.text = [NSString stringWithFormat:@"%@ has posted %@",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                                 [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
             [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
             [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
             postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
-            viewsNum.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
+            viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
             
             
-            NSLog(@"can currentUser view this video = %hhd", [PresenticeUtitily canUser:[PFUser currentUser] viewVideo:object]);
+            NSLog(@"can currentUser view this video = %hhd", [PresenticeUtility canUser:[PFUser currentUser] viewVideo:object]);
             
             return cell;
         } else if ([[object objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
@@ -233,7 +233,7 @@
             UILabel *viewsNum = (UILabel *)[cell viewWithTag:104];
             
             
-            [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
+            [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
             description.text = [NSString stringWithFormat:@"%@ has reviewed %@'s %@",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                                 [[object objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey],
@@ -242,7 +242,7 @@
             [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey]]];
             [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
             postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
-            viewsNum.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
+            viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
             comment.text = [object objectForKey:kActivityDescriptionKey];
 
             return cell;
@@ -261,14 +261,14 @@
             UILabel *comment = (UILabel *)[cell viewWithTag:103];
             UILabel *viewsNum = (UILabel *)[cell viewWithTag:104];
             
-            [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
+            [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
             description.text = [NSString stringWithFormat:@"%@ has posted a new question %@",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                                 [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
             [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
             [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
             postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
-            viewsNum.text = [PresenticeUtitily stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
+            viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
             comment.text = [object objectForKey:kActivityDescriptionKey];
             
             return cell;
@@ -285,7 +285,7 @@
             UILabel *description = (UILabel *)[cell viewWithTag:101];
             UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
             
-            [PresenticeUtitily setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
+            [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
             description.text = [NSString stringWithFormat:@"%@ has joined Presentice",
                                 [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
             [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
@@ -308,50 +308,7 @@
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
-/**
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showAnswerfromAnswerDescription"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        VideoViewController *destViewController = segue.destinationViewController;
-        
-        PFObject *object = [self.objects objectAtIndex:indexPath.section];
-        PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
-        
-        destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
-        destViewController.answerVideoObj = videoObj;
-        
-    } else if ([segue.identifier isEqualToString:@"showAnswerFromReviewDescription"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        VideoViewController *destViewController = segue.destinationViewController;
-        
-        PFObject *object = [self.objects objectAtIndex:indexPath.section];
-        PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
-        
-        destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
-        destViewController.answerVideoObj = videoObj;
-        
-    } else if ([segue.identifier isEqualToString:@"showQuestionFromQuestionDescription"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        QuestionDetailViewController *destViewController = segue.destinationViewController;
-        
-        PFObject *object = [self.objects objectAtIndex:indexPath.section];
-        PFObject *videoObj = [object objectForKey:kActivityTargetVideoKey];
-        
-        destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
-        destViewController.questionVideoObj = videoObj;
-        
-    } else if ([segue.identifier isEqualToString:@"showUserFromRegisterDescription"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        UserProfileViewController *destViewController = segue.destinationViewController;
-        
-        PFObject *object = [self.objects objectAtIndex:indexPath.section];
-        PFUser *userObj = [object objectForKey:kActivityFromUserKey];
-        
-        NSLog(@"user object: %@", userObj);
-        destViewController.userObj = userObj;
-    }
-}
-**/
+
 /**
  * segue for table cell
  * click to direct to video play view
@@ -370,14 +327,14 @@
                 [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
             } else if ([[videoObj objectForKey:kVideoVisibilityKey] isEqualToString:@"open"]) {
                 VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
-                destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+                destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
                 destViewController.answerVideoObj = videoObj;
                 [self.navigationController pushViewController:destViewController animated:YES];
             }
         } else if ([[activityObject objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
             QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
             PFObject *videoObj = [activityObject objectForKey:kActivityTargetVideoKey];
-            destViewController.movieURL = [PresenticeUtitily s3URLForObject:videoObj];
+            destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
             destViewController.questionVideoObj = videoObj;
             [self.navigationController pushViewController:destViewController animated:YES];
         } else if ([[activityObject objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
