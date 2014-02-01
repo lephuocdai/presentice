@@ -296,7 +296,7 @@
     if(alertView.tag == 0){
         NSLog(@"clickedButton");
         NSLog(@"Text field 1: %@", [alertView textFieldAtIndex:0].text);
-        self.answerVideoName = [alertView textFieldAtIndex:0].text;
+        self.newAnswerVideoName = [alertView textFieldAtIndex:0].text;
         if (buttonIndex > 0) {
             if (buttonIndex == 1) {
                 NSLog(@"Upload from Library");
@@ -310,9 +310,8 @@
         }
         NSLog(@"cancel, buttonIndex = %d", buttonIndex);
     } else if (alertView.tag == 1) {
-        NSLog(@"clickedButton");
-        NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-        if ([title isEqualToString:@"YES"]) {
+        if (buttonIndex == 1) {
+            NSLog(@"clicked YES Button");
             NSLog(@"Wait to upload to server!");
             
             self.pathForFileFromLibrary = recordedVideoPath;
@@ -332,19 +331,19 @@
     } else if (alertView.tag == 2) {
         NSLog(@"alert = %@",[alertView buttonTitleAtIndex:buttonIndex]);
         if (buttonIndex == 0)
-            self.answerVideoVisibility = @"open";
+            self.newAnswerVideoVisibility = @"open";
         else if (buttonIndex == 1)
-            self.answerVideoVisibility = @"friendOnly";
+            self.newAnswerVideoVisibility = @"friendOnly";
         else
-            self.answerVideoVisibility = @"onlyMe";
-        NSLog(@"visibility = %@", self.answerVideoVisibility);
+            self.newAnswerVideoVisibility = @"onlyMe";
+        NSLog(@"visibility = %@", self.newAnswerVideoVisibility);
         [self saveToParse];
         
     } else if (alertView.tag == 3) {
         if (buttonIndex == 1) {
             EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
-            editNoteViewController.note = [self.answerVideoObj objectForKey:kVideoNoteKey];
-            editNoteViewController.videoObj = self.answerVideoObj;
+            editNoteViewController.note = [self.newAnswerVideoObj objectForKey:kVideoNoteKey];
+            editNoteViewController.videoObj = self.newAnswerVideoObj;
             
             [self.navigationController pushViewController:editNoteViewController animated:YES];
         }
@@ -389,7 +388,6 @@
                 UISaveVideoAtPathToSavedPhotosAlbum(moviePath, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
             }
             recordedVideoPath = moviePath;
-            // NSLog(moviePath);
         }
     }
 }
@@ -423,15 +421,15 @@
     [newVideo setObject:[PFUser currentUser] forKey:kVideoUserKey];
     [newVideo setObject:uploadFilename forKey:kVideoURLKey];
     [newVideo setObject:@"answer" forKey:kVideoTypeKey];
-    [newVideo setObject:self.answerVideoName forKey:kVideoNameKey];
-    [newVideo setObject:self.answerVideoVisibility forKey:kVideoVisibilityKey];
+    [newVideo setObject:self.newAnswerVideoName forKey:kVideoNameKey];
+    [newVideo setObject:self.newAnswerVideoVisibility forKey:kVideoVisibilityKey];
     [newVideo setObject:[NSNumber numberWithInt:0] forKey:kVideoViewsKey];
     [newVideo setObject:self.questionVideoObj forKey:kVideoAsAReplyTo];
     [newVideo setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kVideoToUserKey];
     [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             NSLog(@"saved to Parse");
-            self.answerVideoObj = newVideo;
+            self.newAnswerVideoObj = newVideo;
             
             // Send a notification to the device with channel contain video's userId
             NSLog(@"viewd push = %@", [[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"answered"]);

@@ -23,13 +23,13 @@
 
 
 // For adding more question
-- (IBAction)addQuestion:(id)sender
-;
+- (IBAction)addQuestion:(id)sender;
 @property (nonatomic, strong) S3TransferManager *tm;
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
 
-@property (strong, nonatomic) NSString *questionVideoName;
+@property (strong, nonatomic, getter = theNewQuestionVideoObj) PFObject *newQuestionVideoObj;
+@property (strong, nonatomic, getter = theNewQuestionVideoName) NSString *newQuestionVideoName;
 
 
 @end

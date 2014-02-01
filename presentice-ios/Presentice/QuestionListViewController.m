@@ -10,6 +10,7 @@
 
 @interface QuestionListViewController ()
 
+#pragma upload question video
 @property (nonatomic, strong) S3TransferOperation *uploadDidRecord;
 @property (nonatomic, strong) S3TransferOperation *uploadFromLibrary;
 @property (nonatomic, strong) NSString *pathForFileFromLibrary;
@@ -17,6 +18,8 @@
 @end
 
 @implementation QuestionListViewController {
+    
+#pragma upload question video
     NSString *uploadFilename;
     bool isUploadFromLibrary;
     NSString *recordedVideoPath;
@@ -159,7 +162,6 @@
 - (IBAction)addQuestion:(id)sender {
     NSNumber *canPostQuestion = [[PFUser currentUser] objectForKey:kUserCanPostQuestion];
     bool canPost = [canPostQuestion boolValue];
-//    NSLog(@"canPostQuestion = %hhd", canPost);
     
     if (canPost == true) {
         UIAlertView *postAlert = [[UIAlertView alloc] initWithTitle:@"Post a new challenge"
@@ -183,7 +185,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 0) {           // Post new question
         NSLog(@"postQuestion started");
-        self.questionVideoName = [alertView textFieldAtIndex:0].text;
+        self.newQuestionVideoName = [alertView textFieldAtIndex:0].text;
         if (buttonIndex == 1) {         // Upload from library
             NSLog(@"Upload from Library");
             isUploadFromLibrary = true;
@@ -205,24 +207,29 @@
     } else if (alertView.tag == 2) {
         if (buttonIndex == 1) {
             NSLog(@"clicked YES Button");
-            NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-            if ([title isEqualToString:@"YES"]) {
-                NSLog(@"Wait to upload to server!");
-                
-                self.pathForFileFromLibrary = recordedVideoPath;
-                // Format date to string
-                
-                NSDate *date = [NSDate date];
-                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-                [dateFormat setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
-                NSString *stringFromDate = [dateFormat stringFromDate:date];
-                
-                uploadFilename = [NSString stringWithFormat:@"%@_%@_question_%@.mov",[[PFUser currentUser] objectId],[[PFUser currentUser] objectForKey:kUserNameKey], stringFromDate];
-                
-                if(self.uploadFromLibrary == nil || (self.uploadFromLibrary.isFinished && !self.uploadFromLibrary.isPaused)){
-                    self.uploadFromLibrary = [self.tm uploadFile:self.pathForFileFromLibrary bucket:[Constants transferManagerBucket] key:uploadFilename];
-                }
+            NSLog(@"Wait to upload to server!");
+            
+            self.pathForFileFromLibrary = recordedVideoPath;
+            // Format date to string
+            
+            NSDate *date = [NSDate date];
+            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+            [dateFormat setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
+            NSString *stringFromDate = [dateFormat stringFromDate:date];
+            
+            uploadFilename = [NSString stringWithFormat:@"%@_%@_question_%@.mov",[[PFUser currentUser] objectId],[[PFUser currentUser] objectForKey:kUserNameKey], stringFromDate];
+            
+            if(self.uploadFromLibrary == nil || (self.uploadFromLibrary.isFinished && !self.uploadFromLibrary.isPaused)){
+                self.uploadFromLibrary = [self.tm uploadFile:self.pathForFileFromLibrary bucket:[Constants transferManagerBucket] key:uploadFilename];
             }
+        }
+    } else if (alertView.tag == 3) {
+        if (buttonIndex == 1) {
+            EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
+            editNoteViewController.note = [self.newQuestionVideoObj objectForKey:kVideoNoteKey];
+            editNoteViewController.videoObj = self.newQuestionVideoObj;
+            
+            [self.navigationController pushViewController:editNoteViewController animated:YES];
         }
     }
 }
@@ -268,7 +275,6 @@
                 UISaveVideoAtPathToSavedPhotosAlbum(moviePath, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
             }
             recordedVideoPath = moviePath;
-            // NSLog(moviePath);
         }
     }
 }
@@ -293,6 +299,52 @@
     }
 }
 
+- (void)saveToParse {
+    // Register to Parser DB
+    PFObject *newVideo = [PFObject objectWithClassName:kVideoClassKey];
+    [newVideo setObject:[PFUser currentUser] forKey:kVideoUserKey];
+    [newVideo setObject:uploadFilename forKey:kVideoURLKey];
+    [newVideo setObject:@"question" forKey:kVideoTypeKey];
+    [newVideo setObject:self.newQuestionVideoName forKey:kVideoNameKey];
+    [newVideo setObject:@"open" forKey:kVideoVisibilityKey];
+    [newVideo setObject:[NSNumber numberWithInt:0] forKey:kVideoViewsKey];
+    [newVideo setObject:[NSNumber numberWithInt:0] forKey:kVideoAnswersKey];
+    [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            NSLog(@"saved to Parse");
+            self.newQuestionVideoObj = newVideo;
+
+            /**
+             // Send a notification to the device with channel contain video's userId
+             NSLog(@"viewd push = %@", [[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"answered"]);
+             if ([[[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"answered"] isEqualToString:@"yes"]) {
+             NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+             [params setObject:[self.questionVideoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
+             [params setObject:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
+             [params setObject:@"answered" forKey:@"pushType"];
+             [PFCloud callFunction:@"sendPushNotification" withParameters:params];
+             }
+             **/
+            
+            // Register postQuestionActivity in to Activity Table
+            PFObject *postQuestionActivity = [PFObject objectWithClassName:kActivityClassKey];
+            [postQuestionActivity setObject:@"postQuestion" forKey:kActivityTypeKey];
+            [postQuestionActivity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
+            [postQuestionActivity setObject:newVideo forKey:kActivityTargetVideoKey];
+            [postQuestionActivity saveInBackground];
+            
+            // Add a note
+            UIAlertView *addNoteAlert = [[UIAlertView alloc] initWithTitle:@"Upload Success" message:@"Your video has been uploaded to Presentice successfully. Do you want to add a note for those who will view this video?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+            addNoteAlert.tag = 3;
+            [addNoteAlert show];
+            
+        } else {
+            UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Upload Error" message:@"Something went wrong. Please contact us at info@presentice.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [errorAlert show];
+        }
+    }];
+}
+
 #pragma mark - AmazonServiceRequestDelegate
 
 -(void)request:(AmazonServiceRequest *)request didReceiveResponse:(NSURLResponse *)response {
@@ -305,41 +357,10 @@
 }
 
 -(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response {
-    
+    NSLog(@"Upload done!");
     NSLog(@"upload file url: %@", response);
     
-    // Register to Parser DB
-    PFObject *newVideo = [PFObject objectWithClassName:kVideoClassKey];
-    [newVideo setObject:[PFUser currentUser] forKey:kVideoUserKey];
-    [newVideo setObject:uploadFilename forKey:kVideoURLKey];
-    [newVideo setObject:@"question" forKey:kVideoTypeKey];
-    [newVideo setObject:self.questionVideoName forKey:kVideoNameKey];
-    [newVideo setObject:@"open" forKey:kVideoVisibilityKey];
-    [newVideo setObject:[NSNumber numberWithInt:0] forKey:kVideoViewsKey];
-    [newVideo setObject:[NSNumber numberWithInt:0] forKey:kVideoAnswersKey];
-    [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        NSLog(@"saved to Parse");
-        UIAlertView *savedToParseSuccess = [[UIAlertView alloc] initWithTitle:@"Upload Success" message:@"Your video has been uploaded successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [savedToParseSuccess show];
-/**
-        // Send a notification to the device with channel contain video's userId
-        NSLog(@"viewd push = %@", [[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"answered"]);
-        if ([[[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"answered"] isEqualToString:@"yes"]) {
-            NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-            [params setObject:[self.questionVideoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
-            [params setObject:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
-            [params setObject:@"answered" forKey:@"pushType"];
-            [PFCloud callFunction:@"sendPushNotification" withParameters:params];
-        }
-**/
-        
-        // Register postQuestionActivity in to Activity Table
-        PFObject *postQuestionActivity = [PFObject objectWithClassName:kActivityClassKey];
-        [postQuestionActivity setObject:@"postQuestion" forKey:kActivityTypeKey];
-        [postQuestionActivity setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
-        [postQuestionActivity setObject:newVideo forKey:kActivityTargetVideoKey];
-        [postQuestionActivity saveInBackground];
-    }];
+    [self saveToParse];
 }
 
 -(void)request:(AmazonServiceRequest *)request didFailWithError:(NSError *)error {

@@ -38,8 +38,8 @@
 
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
 
-@property (strong, nonatomic) NSString *answerVideoName;
-@property (strong, nonatomic) NSString *answerVideoVisibility;
-@property (strong, nonatomic) PFObject *answerVideoObj;
+@property (strong, nonatomic, getter = theNewAnswerVideoName) NSString *newAnswerVideoName;
+@property (strong, nonatomic, getter = theNewAnswerVideoVisibility) NSString *newAnswerVideoVisibility;
+@property (strong, nonatomic, getter = theNewAnswerVideoObj) PFObject *newAnswerVideoObj;
 
 @end
