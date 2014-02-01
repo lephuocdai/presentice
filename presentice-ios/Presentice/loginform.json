@@ -3,7 +3,7 @@
 	"title": "Login",
     "controllerName": "LoginViewController",
 	"sections": [
-        { "headerImage":"facebook_icon", "footer":"Don't worry! We never post anything on your Facebook.", "elements":[
+        { "headerImage":"logo", "footer":"Don't worry! We never post anything on your Facebook.", "elements":[
                 { "type":"QLabelElement", "key":"facebookLoginLabel","title":"Login with Facebook", "controllerAction":"onLoginFacebook:"}
             ]
         },
