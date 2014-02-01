@@ -54,7 +54,6 @@
 		F0628D73188F605200E9C7A3 /* add_friends_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F0628D72188F605200E9C7A3 /* add_friends_icon.png */; };
 		F0628DA6188FF2E000E9C7A3 /* libQuickDialog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0628DA3188FF2BA00E9C7A3 /* libQuickDialog.a */; };
 		F0628DAA188FF5B800E9C7A3 /* LoginInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F0628DA9188FF5B800E9C7A3 /* LoginInfo.m */; };
-		F0628DAD188FF76E00E9C7A3 /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0628DAC188FF76E00E9C7A3 /* AboutController.m */; };
 		F0661E141898A41D004F28F6 /* NSDate+TimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = F0661E131898A41D004F28F6 /* NSDate+TimeAgo.m */; };
 		F0661E161898A834004F28F6 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F0661E151898A834004F28F6 /* NSDateTimeAgo.bundle */; };
 		F0661E1C1898E233004F28F6 /* EditNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0661E1B1898E233004F28F6 /* EditNoteViewController.m */; };
@@ -279,8 +278,6 @@
 		F0628D9B188FF2B900E9C7A3 /* QuickDialog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QuickDialog.xcodeproj; path = QuickDialog/QuickDialog.xcodeproj; sourceTree = "<group>"; };
 		F0628DA8188FF5B800E9C7A3 /* LoginInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginInfo.h; sourceTree = "<group>"; };
 		F0628DA9188FF5B800E9C7A3 /* LoginInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginInfo.m; sourceTree = "<group>"; };
-		F0628DAB188FF76E00E9C7A3 /* AboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutController.h; sourceTree = "<group>"; };
-		F0628DAC188FF76E00E9C7A3 /* AboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutController.m; sourceTree = "<group>"; };
 		F0661E121898A41D004F28F6 /* NSDate+TimeAgo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TimeAgo.h"; sourceTree = "<group>"; };
 		F0661E131898A41D004F28F6 /* NSDate+TimeAgo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TimeAgo.m"; sourceTree = "<group>"; };
 		F0661E151898A834004F28F6 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
@@ -513,12 +510,6 @@
 		A73D5A1118653BD700087F27 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				F0C9351A1894AE4300DE4EE9 /* reviewForm.json */,
-				F0B1EA5C1893C26A00D41B1D /* loginform.json */,
-				F0B1EA5D1893C26A00D41B1D /* registerForm.json */,
-				F0B1EA5E1893C26A00D41B1D /* requestResetPasswordForm.json */,
-				F0628DAB188FF76E00E9C7A3 /* AboutController.h */,
-				F0628DAC188FF76E00E9C7A3 /* AboutController.m */,
 				A73D5A1218653BF700087F27 /* LoginViewController.h */,
 				A73D5A1318653BF700087F27 /* LoginViewController.m */,
 				A7E995A31867D196009E48CA /* RegisterViewController.h */,
@@ -635,6 +626,17 @@
 				F00006A2186BA95A00E69027 /* Message */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		F03D53F1189CFAC400789BBE /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				F0C9351A1894AE4300DE4EE9 /* reviewForm.json */,
+				F0B1EA5C1893C26A00D41B1D /* loginform.json */,
+				F0B1EA5D1893C26A00D41B1D /* registerForm.json */,
+				F0B1EA5E1893C26A00D41B1D /* requestResetPasswordForm.json */,
+			);
+			name = JSON;
 			sourceTree = "<group>";
 		};
 		F04C775D188BD4E700F56126 /* Home */ = {
@@ -1122,6 +1124,7 @@
 		F4EECF18177C99F400778578 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F03D53F1189CFAC400789BBE /* JSON */,
 				F4EECF34177C9A1E00778578 /* Library */,
 				F4EECF53177F37CB00778578 /* Images */,
 				F4EECF19177C99F400778578 /* Presentice-Info.plist */,
@@ -1357,7 +1360,6 @@
 				F0DD71A718921FE50070DF95 /* JSMessageTextView.m in Sources */,
 				F06E4BF71886DC9D00FB9333 /* UserProfileViewController.m in Sources */,
 				A78E9D5B185DA16B00ACCC54 /* Reachability.m in Sources */,
-				F0628DAD188FF76E00E9C7A3 /* AboutController.m in Sources */,
 				F0DD71A318921FE50070DF95 /* JSMessageInputView.m in Sources */,
 				F0DD71A118921FE50070DF95 /* JSDismissiveTextView.m in Sources */,
 				F0718CBD185ACE27009014A0 /* Constants.m in Sources */,

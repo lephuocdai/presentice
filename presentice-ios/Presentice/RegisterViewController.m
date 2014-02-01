@@ -146,7 +146,8 @@ NSDictionary<FBGraphUser>  *fbInfo;
             [PFCloud callFunction:@"onRegistered" withParameters:params];
             
             //show succeeded alert
-            UIAlertView *succeedAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Succeeded" message:@"Click OK to go to main screen" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            UIAlertView *succeedAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Succeeded" message:@"Congratulations! Let's find some friends who are already on Presentice" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            succeedAlert.tag = 0;
             [succeedAlert show];
             
             // Register registerActivity to Actitivy Table
@@ -182,7 +183,9 @@ NSDictionary<FBGraphUser>  *fbInfo;
 #pragma alertDelegate
 // redirect to Login View Controller
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [self navigateToHomeScreen];
+    if (alertView.tag == 0) {
+        [self navigateToFindFriends];
+    }
 }
 
 - (void)navigateToHomeScreen {
@@ -210,6 +213,24 @@ NSDictionary<FBGraphUser>  *fbInfo;
     
     MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
                                                     containerWithCenterViewController:tabBarController
+                                                    leftMenuViewController:leftSideMenuController
+                                                    rightMenuViewController:rightSideMenuController];
+    
+    [self.navigationController presentViewController:container animated:NO completion:nil];
+}
+
+- (void)navigateToFindFriends {
+    //get main storyboard
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    
+    //create side menu
+    FindFriendViewController *findFriendViewController = [storyboard instantiateViewControllerWithIdentifier:@"findFriendViewController"];
+    UINavigationController *findFriendNavigationController = [[UINavigationController alloc]initWithRootViewController:findFriendViewController];
+    
+    LeftSideMenuViewController *leftSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
+    RightSideMenuViewController *rightSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
+    MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
+                                                    containerWithCenterViewController:findFriendNavigationController
                                                     leftMenuViewController:leftSideMenuController
                                                     rightMenuViewController:rightSideMenuController];
     
