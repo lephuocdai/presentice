@@ -17,7 +17,6 @@
 @implementation EditNoteViewController {
     Boolean keyboardIsShowing;
     CGRect keyboardBounds;
-
 }
 
 @synthesize noteView;

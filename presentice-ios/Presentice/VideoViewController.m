@@ -45,6 +45,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Prevent currentUser from edit the note
+    if ([[[self.answerVideoObj objectForKey:kVideoUserKey] objectId] isEqualToString:[[PFUser currentUser] objectId]]) {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
 
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -279,16 +284,8 @@
     }
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-    if ([identifier isEqualToString:@"toReviewView"]) {
-        if ([[[PFUser currentUser] objectId] isEqualToString:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId]]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"You can not review yourself" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alert show];
-            return NO;
-        }
-    }
-    return YES;
-}
+
+
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 1) {
