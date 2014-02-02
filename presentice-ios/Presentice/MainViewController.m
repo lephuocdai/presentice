@@ -259,7 +259,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-    if (indexPath.row < [self.objects count] ) {
+    if (indexPath.row < self.objects.count) {
         PFObject *activityObject = [self.objects objectAtIndex:indexPath.row];
         if ([@[@"answer", @"review"] containsObject:[activityObject objectForKey:kActivityTypeKey]]) {
             PFObject *videoObj = [activityObject objectForKey:kActivityTargetVideoKey];

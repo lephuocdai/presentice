@@ -128,7 +128,7 @@
     if (indexPath.row < [self.objects count] ) {
         UserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
         userProfileViewController.userObj = [[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityToUserKey];
-        UINavigationController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainNavigationController"];
+        UINavigationController *centerViewController = [[UINavigationController alloc] initWithRootViewController:userProfileViewController];
         [self.menuContainerViewController setCenterViewController:centerViewController];
         NSArray *controllers = [NSArray arrayWithObject:userProfileViewController];
         centerViewController.viewControllers = controllers;

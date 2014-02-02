@@ -86,11 +86,11 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *myListQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [myListQuery whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
+    [myListQuery includeKey:kVideoUserKey];
     [myListQuery includeKey:kVideoReviewsKey];
     [myListQuery includeKey:kVideoAsAReplyTo];
     [myListQuery includeKey:kVideoToUserKey];
-    [myListQuery whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
-    [myListQuery whereKey:kVideoTypeKey equalTo:@"answer"]; //only get list of answers
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
@@ -113,14 +113,22 @@
     // Configure the cell
     UILabel *videoName = (UILabel *)[cell viewWithTag:100];
     UILabel *postedTime = (UILabel *)[cell viewWithTag:101];
-    UILabel *reviewsNum = (UILabel *)[cell viewWithTag:102];
+    UILabel *reviews_answersNum = (UILabel *)[cell viewWithTag:102];
     UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
     UILabel *visibility = (UILabel *)[cell viewWithTag:104];
+    
+    if ([[object objectForKey:kVideoTypeKey] isEqualToString:@"answer"]) {
+        reviews_answersNum.text = [NSString stringWithFormat:@"reviews: %d", [[object objectForKey:kVideoReviewsKey] count]];
+    } else if ([[object objectForKey:kVideoTypeKey] isEqualToString:@"question"]) {
+        reviews_answersNum.text = [PresenticeUtility stringNumberOfKey:kVideoAnswersKey inObject:object];
+    }
     
     videoName.text = [PresenticeUtility nameOfVideo:object];
     postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
     viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:object];
-    reviewsNum.text = [NSString stringWithFormat:@"reviews: %d", [[object objectForKey:kVideoReviewsKey] count]];
+    
+    
+    
     visibility.text = [PresenticeUtility visibilityOfVideo:object];
     
     return cell;
@@ -131,18 +139,31 @@
     NSLog(@"error: %@", [error localizedDescription]);
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showAnswerDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        MyAnswerViewController *destViewController = segue.destinationViewController;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    if (indexPath.row < self.objects.count) {
+        //get main storyboard
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
-        destViewController.movieURL = [PresenticeUtility s3URLForObject:object];
-        destViewController.answerVideoObj = object;
-        destViewController.questionPostedUser = [object objectForKey:kVideoToUserKey];
-        destViewController.questionVideoObj = [object objectForKey:kVideoAsAReplyTo];
+        
+        if ([[object objectForKey:kVideoTypeKey] isEqualToString:@"answer"]) {
+            MyAnswerViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"myAnswerViewController"];
+            destViewController.movieURL = [PresenticeUtility s3URLForObject:object];
+            destViewController.answerVideoObj = object;
+            destViewController.questionPostedUser = [object objectForKey:kVideoToUserKey];
+            destViewController.questionVideoObj = [object objectForKey:kVideoAsAReplyTo];
+            [self.navigationController pushViewController:destViewController animated:YES];
+        } else if ([[object objectForKey:kVideoTypeKey] isEqualToString:@"question"]) {
+            QuestionDetailViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
+            destViewController.movieURL = [PresenticeUtility s3URLForObject:object];
+            destViewController.questionVideoObj = object;
+            [self.navigationController pushViewController:destViewController animated:YES];
+        }
     }
 }
+
+
 
 - (IBAction)showLeftMenu:(id)sender {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];

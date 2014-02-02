@@ -311,6 +311,31 @@
     [controller presentViewController:picker animated:YES completion:NULL];
 }
 
+/**
++ (void)startMovieController:(MPMoviePlayerController*)movieController inView:(UIView*)videoView withFrame:(CGRect)rect url:(NSURL*)url{
+    
+    // Set up movieController
+    movieController = [[MPMoviePlayerController alloc] init];
+    [movieController setContentURL:url];
+    [movieController.view setFrame:rect];
+    [videoView addSubview:movieController.view];
+    
+    movieController.controlStyle =  MPMovieControlStyleEmbedded;
+    movieController.shouldAutoplay = YES;
+    movieController.repeatMode = YES;
+    [movieController prepareToPlay];
+    [movieController play];
+}
+
++ (void)moviePlayBackDidFinish:(NSNotification *)notification observer:(id)observer{
+    [[NSNotificationCenter defaultCenter] removeObserver:observer name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+}
+
++ (void)willEnterFullScreen:(NSNotification *)notification{
+    NSLog(@"Enter full screen mode");
+}
+**/
+
 + (NSString*)stringNumberOfKey:(NSString *)key inObject:(PFObject *)object {
     if ([object objectForKey:key]) {
         return [NSString stringWithFormat:@"%@: %@", key, [object objectForKey:key]];
@@ -335,7 +360,10 @@
 }
 
 + (NSString*)nameOfVideo:(PFObject *)videoObj {
-    return [NSString stringWithFormat:@"Video name: %@", [videoObj objectForKey:kVideoNameKey]];
+    if ([[videoObj objectForKey:kVideoTypeKey] isEqualToString:@"question"])
+        return [NSString stringWithFormat:@"Question: %@", [videoObj objectForKey:kVideoNameKey]];
+    else
+        return [NSString stringWithFormat:@"Answer: %@", [videoObj objectForKey:kVideoNameKey]];
 }
 
 + (void)setImageView:(UIImageView *)imageView forUser:(PFUser *)user {
@@ -359,7 +387,7 @@
     //get main storyboard
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     
-    MyProfileViewController *myProfileViewController = [storyboard instantiateViewControllerWithIdentifier:@"settingViewController"];
+    MyProfileViewController *myProfileViewController = [storyboard instantiateViewControllerWithIdentifier:@"myProfileViewController"];
     UINavigationController *centerViewController = [[UINavigationController alloc]initWithRootViewController:myProfileViewController];
     
     [currentViewController.menuContainerViewController setCenterViewController:centerViewController];

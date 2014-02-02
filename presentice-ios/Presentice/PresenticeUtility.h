@@ -40,7 +40,6 @@
 + (void)unfollowUserEventually:(PFUser *)user;
 + (void)unfollowUsersEventually:(NSArray *)users;
 
-
 // Query all users that a user is following
 + (PFQuery *)followingFriendsOfUser:(PFUser*)aUser;
 + (PFQuery *)activitiesRelatedToFriendsOfUser:(PFUser*)aUser;
@@ -69,6 +68,13 @@
 + (BOOL)startCameraControllerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate withTimeLimit:(NSTimeInterval)timeLimit;
 + (void)startImagePickerFromViewController:(UIViewController *)controller usingDelegate:(id)delegate withTimeLimit:(NSTimeInterval)timeLimit;
 
+/**
+// Init and stop movie controller
+//+ (void)startMovieController:(MPMoviePlayerController*)movieController inView:(UIView*)videoView withFrame:(CGRect)rect url:(NSURL*)url ;
+//+ (void)moviePlayBackDidFinish:(NSNotification *)notification observer:(id)observer;
+//+ (void)willEnterFullScreen:(NSNotification *)notification;
+**/
+
 // Video information
 + (NSString *)stringNumberOfKey:(NSString*)key inObject:(PFObject*)object;
 + (NSString *)visibilityOfVideo:(PFObject*)videoObj;
@@ -87,5 +93,8 @@
 
 // Error message alert
 + (void) showErrorAlert:(NSError*)error;
+
+
+
 
 @end
