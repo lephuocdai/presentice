@@ -211,7 +211,7 @@
 }
 
 - (IBAction)editVideoInfo:(id)sender {
-    UIAlertView *editAlert = [[UIAlertView alloc] initWithTitle:@"Edit Video Information" message:@"Which information do you want to edit" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Note for viewer", @"Visibility status",nil];
+    UIAlertView *editAlert = [[UIAlertView alloc] initWithTitle:@"Edit Video Information" message:@"Which information do you want to edit?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Video Name", @"Note for viewer", @"Visibility status",nil];
     editAlert.tag = 0;
     [editAlert show];
 }
@@ -219,12 +219,18 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 0) {
         if (buttonIndex == 1) {
+            UIAlertView *titleEditAlert = [[UIAlertView alloc] initWithTitle:@"Edit video name" message:@"Choose a new name for this video" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Change it", nil];
+            titleEditAlert.tag = 3;
+            [titleEditAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+            [[titleEditAlert textFieldAtIndex:0] setPlaceholder:@"New video name"];
+            [titleEditAlert show];
+        } else if (buttonIndex == 2) {
             EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
             editNoteViewController.note = [self.answerVideoObj objectForKey:kVideoNoteKey];
             editNoteViewController.videoObj = self.answerVideoObj;
             
             [self.navigationController pushViewController:editNoteViewController animated:YES];
-        } else if (buttonIndex == 2) {
+        } else if (buttonIndex == 3) {
             UIAlertView *visibilityEditAlert = [[UIAlertView alloc] initWithTitle:@"Visibility Selection" message:@"Decide who can view this video" delegate:self cancelButtonTitle:@"Open inside Presentice" otherButtonTitles:@"Only friends who are following me", @"Only Me", nil];
             visibilityEditAlert.tag = 2;
             [visibilityEditAlert show];
@@ -255,6 +261,22 @@
                     [self.answerVideoObj setObject:answerVideoVisibility forKey:kVideoVisibilityKey];
                     self.visibilityLabel.text = [PresenticeUtility visibilityOfVideo:self.answerVideoObj];
                     UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Visibility change has been saved successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [successAlert show];
+                } else {
+                    [PresenticeUtility showErrorAlert:error];
+                }
+            }];
+        }
+    } else if (alertView.tag == 3) {
+        if (buttonIndex == 1) {
+            NSString *newName = [alertView textFieldAtIndex:0].text;
+            PFObject *editedVideo = [PFObject objectWithoutDataWithClassName:kVideoClassKey objectId:self.answerVideoObj.objectId];
+            [editedVideo setObject:newName forKey:kVideoNameKey];
+            [editedVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+                    [self.answerVideoObj setObject:newName forKey:kVideoNameKey];
+                    self.videoNameLabel.text = newName;
+                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Video name change has been saved successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                     [successAlert show];
                 } else {
                     [PresenticeUtility showErrorAlert:error];
