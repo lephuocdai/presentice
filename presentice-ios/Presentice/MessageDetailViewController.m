@@ -70,6 +70,7 @@
 #pragma mark - Messages view delegate: REQUIRED
 
 - (void)didSendMessage:(JSMessage *)message {
+    
     if ((self.messages.count - 1) % 2) {
         [JSMessageSoundEffect playMessageSentSound];
     }
@@ -105,7 +106,6 @@
     [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
     [messageACL setWriteAccess:YES forUser:self.toUser];
     self.messageObj.ACL = messageACL;
-    
     
     // Show HUD view
     [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];

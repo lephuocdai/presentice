@@ -241,9 +241,7 @@
         NSLog(@"ask send message");
         if (buttonIndex == 1) {
             NSLog(@"switch to message detail");
-            MessageDetailViewController *messageDetailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageDetailViewController"];
-            messageDetailViewController.toUser = self.userObj;
-            [self.navigationController pushViewController:messageDetailViewController animated:YES];
+            [PresenticeUtility instantiateMessageDetailWith:self.userObj from:self animated:YES];
         }
     } else if (alertView.tag == 1) {
         NSLog(@"ask report user");

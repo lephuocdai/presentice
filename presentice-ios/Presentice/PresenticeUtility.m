@@ -451,6 +451,7 @@
     [currentViewController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
 }
 
+// Instantiate View Controller
 
 + (void)instantiateHomeScreenFrom:(UIViewController *)currentViewController animated:(BOOL)animated completion:(void (^)(void))completion {
     //get main storyboard
@@ -499,6 +500,53 @@
                                                     rightMenuViewController:rightSideMenuController];
     
     [currentViewController.navigationController presentViewController:container animated:animated completion:completion];
+}
+
++ (void)instantiateMessageDetailWith:(PFUser*)aUser from:(UIViewController*)currentViewController animated:(BOOL)animated {
+    MessageDetailViewController *destViewController = [[MessageDetailViewController alloc] init];
+    
+    PFQuery *messageQuery = [PFQuery queryWithClassName:kMessageClassKey];
+    [messageQuery whereKey:kMessageUsersKey containsAllObjectsInArray:@[[PFUser currentUser], aUser]];
+    [messageQuery includeKey:kMessageUsersKey];
+    [messageQuery includeKey:kMessageFromUserKey];
+    [messageQuery includeKey:kMessageToUserKey];
+    
+    [messageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            if (objects.count == 0) {
+                PFObject *messageObj = [PFObject objectWithClassName:kMessageClassKey];
+                
+                NSMutableArray *users = [[NSMutableArray alloc] initWithArray:@[[PFUser currentUser],aUser]];    // Add two users to the "users" field
+                NSSortDescriptor *aSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"objectId" ascending:YES];
+                [users sortUsingDescriptors:[NSArray arrayWithObject:aSortDescriptor]];
+                
+                [messageObj setObject:users forKey:kMessageUsersKey];
+                [messageObj setObject:[PFUser currentUser] forKey:kMessageFromUserKey];
+                [messageObj setObject:aUser forKey:kMessageToUserKey];
+                
+                NSMutableArray *messages = [[NSMutableArray alloc] init];
+                [messageObj setObject:messages forKey:kMessageContentKey];
+                
+                PFACL *messageACL = [PFACL ACL];
+                [messageACL setReadAccess:YES forUser:[PFUser currentUser]];
+                [messageACL setReadAccess:YES forUser:aUser];
+                [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
+                [messageACL setWriteAccess:YES forUser:aUser];
+                messageObj.ACL = messageACL;
+                
+                destViewController.messageObj = messageObj;
+            } else {
+                destViewController.messageObj = [objects lastObject];
+            }
+            
+            destViewController.toUser = aUser;
+            
+            [currentViewController.navigationController pushViewController:destViewController animated:animated];
+        } else {
+            // Log details of the failure
+            NSLog(@"Could not find message Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
 + (void)showErrorAlert:(NSError*)error{
