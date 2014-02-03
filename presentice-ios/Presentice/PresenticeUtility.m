@@ -556,4 +556,15 @@
     [errorAlert show];
 }
 
++ (NSString*)generateMyCode {
+    NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
+    NSMutableString *code = [NSMutableString stringWithCapacity:20];
+    for (NSUInteger i = 0; i < 6; i++) {
+        u_int32_t r = arc4random() % [alphabet length];
+        unichar c = [alphabet characterAtIndex:r];
+        [code appendFormat:@"%C", c];
+    }
+    return code;
+}
+
 @end

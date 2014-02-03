@@ -20,7 +20,12 @@ NSDictionary<FBGraphUser>  *fbInfo;
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         self.root = [[QRootElement alloc] initWithJSONFile:@"registerForm"];
-//        self.root = [[QRootElement alloc] initWithJSONURL:[PresenticeUtitily s3URLWithFileName:@"registerForm.json"] andData:nil];
+        //        self.root = [[QRootElement alloc] initWithJSONURL:[PresenticeUtitily s3URLWithFileName:@"registerForm.json"] andData:nil];
+        
+        QAppearance *fieldsAppearance = [self.root.appearance copy];
+        fieldsAppearance.backgroundColorEnabled = [UIColor colorWithRed:0 green:125.0/255 blue:225.0/255 alpha:1];
+        [self.root elementWithKey:@"button"].appearance = fieldsAppearance;
+    
         self.resizeWhenKeyboardPresented = YES;
     }
     return self;
@@ -105,22 +110,21 @@ NSDictionary<FBGraphUser>  *fbInfo;
     [newUser setObject:[NSNumber numberWithBool:NO] forKey:kUserCanPostQuestion];
     [newUser setObject:[NSNumber numberWithBool:NO] forKey:kUserCanComment];
     
-    NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
-    NSMutableString *code = [NSMutableString stringWithCapacity:20];
-    for (NSUInteger i = 0; i < 6; i++) {
-        u_int32_t r = arc4random() % [alphabet length];
-        unichar c = [alphabet characterAtIndex:r];
-        [code appendFormat:@"%C", c];
-    }
     
     NSDictionary *pushPermission = [NSDictionary dictionaryWithObjectsAndKeys:@"yes", @"answered", @"yes",  @"reviewed", @"no", @"viewed", @"yes", @"messaged", @"yes", @"followed", @"yes", @"registered", nil];
     [newUser setObject:pushPermission forKey:kUserPushPermission];
+    
+    if (info.code != nil) {
+        [newUser setObject:info.code forKey:kUserReceiveCode];
+    } else {
+        [newUser setObject:@"noCode" forKey:kUserReceiveCode];
+    }
     
     [newUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             
             NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-            [params setObject:info.code forKey:@"receiveCode"];
+            [params setObject:[newUser objectForKey:kUserReceiveCode] forKey:@"receiveCode"];
             [PFCloud callFunction:@"onRegistered" withParameters:params];
             
             //show succeeded alert

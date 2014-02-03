@@ -92,11 +92,11 @@
 + (void)instantiateFindFriendsFrom:(UIViewController*)currentViewController animated:(BOOL)animated completion:(void (^)(void))completion;
 + (void)instantiateMessageDetailWith:(PFUser*)aUser from:(UIViewController*)currentViewController animated:(BOOL)animated;
 
-
 // Error message alert
 + (void) showErrorAlert:(NSError*)error;
 
-
+// Generate arbitrary code
++ (NSString*)generateMyCode;
 
 
 @end
