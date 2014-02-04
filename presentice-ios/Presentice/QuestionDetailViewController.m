@@ -62,7 +62,9 @@
     postedUserLabel.text = [[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     videoNameLabel.text = [self.questionVideoObj objectForKey:kVideoNameKey];
     noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.questionVideoObj objectForKey:kVideoNoteKey]];
-    [noteView boldSubstring:@"Note for viewer:"];
+    
+    // There is a bug with iOS 6
+    // [noteView boldSubstring:@"Note for viewer:"];
     
     // Set tap gesture on noteview
     UITapGestureRecognizer *singleTapForNote = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnNoteView)];

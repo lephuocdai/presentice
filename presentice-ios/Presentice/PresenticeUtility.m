@@ -418,7 +418,6 @@
     
     UITabBarController *homeTabBarController = [[UITabBarController alloc] init];
     [homeTabBarController setViewControllers:[NSArray arrayWithObjects:mainNavigationController, questionListNavigationController, myListNavigationController, notificationListNavigationController, nil]];
-    
     [currentViewController.menuContainerViewController setCenterViewController:homeTabBarController];
     
     UINavigationController *navigationController = (UINavigationController *)homeTabBarController.selectedViewController;

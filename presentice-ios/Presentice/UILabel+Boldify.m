@@ -21,6 +21,7 @@
     }
     [attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:self.font.pointSize]} range:range];
     self.attributedText = attributedText;
+//    self.textAlignment = NSTextAlignmentJustified;
 }
 
 - (void)boldSubstring:(NSString*)substring {

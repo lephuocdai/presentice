@@ -63,7 +63,9 @@
     
     
     questionVideoLabel.text = [NSString stringWithFormat:@"This is an answer of:\n%@", [[self.answerVideoObj objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]];
-    [questionVideoLabel boldSubstring:@"This is an answer of:"];
+    
+    // There is a bug with iOS 6
+//    [questionVideoLabel boldSubstring:@"This is an answer of:"];
     
     // Set tap gesture on questionVideoLabel when not pushed from Question Detail
     if (![[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2] isKindOfClass:NSClassFromString(@"QuestionDetailViewController")]) {
@@ -74,7 +76,8 @@
     }
     
     noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
-    [noteView boldSubstring:@"Note for viewer:"];
+    // There is a bug with iOS 6
+//    [noteView boldSubstring:@"Note for viewer:"];
     // Set tap gesture on noteview
     UITapGestureRecognizer *singleTapForNote = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnNoteView)];
     [singleTapForNote setNumberOfTapsRequired:1];
