@@ -98,11 +98,8 @@
     [activitiesQuery includeKey:@"targetVideo.toUser"];
     [activitiesQuery includeKey:@"targetVideo.reviews"];
     [activitiesQuery includeKey:kActivityToUserKey];
-    
-    // If no objects are loaded in memory, we look to the cache first to fill the table
-    // and then subsequently do a query against the network.
-    activitiesQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
-    
+
+    activitiesQuery.cachePolicy = kPFCachePolicyCacheElseNetwork;
     
     [activitiesQuery orderByDescending:kUpdatedAtKey];
     return activitiesQuery;

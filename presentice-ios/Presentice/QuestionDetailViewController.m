@@ -209,11 +209,12 @@
 #pragma query table objects
 
 - (PFQuery *)queryForTable {
-    PFQuery *answerListQuery = [PFQuery queryWithClassName:self.parseClassName];
-    [answerListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
+    
+    PFQuery *answerListQuery = [PresenticeUtility videosCanBeViewedByUser:[PFUser currentUser]];
     [answerListQuery whereKey:kVideoTypeKey equalTo:@"answer"];
     [answerListQuery whereKey:kVideoAsAReplyTo equalTo:self.questionVideoObj];
-    [answerListQuery whereKey:kVideoVisibilityKey containedIn:@[@"open"]];
+    [answerListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
+    [answerListQuery includeKey:kVideoAsAReplyTo];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
@@ -475,13 +476,6 @@
             PFRelation *answers = [self.questionVideoObj relationforKey:kVideoAnswersKey];
             [answers addObject:newVideo];
             [self.questionVideoObj saveInBackground];
-            
-//            PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
-//            [query getObjectInBackgroundWithId:[self.questionVideoObj objectId] block:^(PFObject *object, NSError *error) {
-//                PFRelation *answers = [object objectForKey:kVideoAnswersKey];
-//                [answers addObject:newVideo];
-//                [object saveInBackground];
-//            }];
             
             // Add a note
             UIAlertView *addNoteAlert = [[UIAlertView alloc] initWithTitle:@"Upload Success" message:@"Your video has been uploaded to Presentice successfully. Do you want to add a note for those who will view this video?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];

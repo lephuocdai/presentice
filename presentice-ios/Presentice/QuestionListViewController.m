@@ -95,13 +95,11 @@
 }
 
 - (PFQuery *)queryForTable {
-    PFQuery *questionListQuery = [PFQuery queryWithClassName:self.parseClassName];
-    [questionListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
+    PFQuery *questionListQuery = [PFQuery queryWithClassName:kVideoClassKey];
     [questionListQuery whereKey:kVideoTypeKey equalTo:@"question"];
-    
-    // If no objects are loaded in memory, we look to the cache first to fill the table
-    // and then subsequently do a query against the network.
-    questionListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [questionListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
+
+    questionListQuery.cachePolicy = kPFCachePolicyCacheElseNetwork;
     
     [questionListQuery orderByAscending:kUpdatedAtKey];
     return questionListQuery;

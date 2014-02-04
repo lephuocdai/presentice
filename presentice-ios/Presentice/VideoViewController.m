@@ -19,6 +19,7 @@
 @synthesize postedUserLabel;
 @synthesize viewNumLabel;
 @synthesize noteView;
+@synthesize questionVideoLabel;
 
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
@@ -59,9 +60,21 @@
     videoNameLabel.text = [self.answerVideoObj objectForKey:kVideoNameKey];
     postedUserLabel.text = [[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     viewNumLabel.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:self.answerVideoObj];
+    
+    
+    questionVideoLabel.text = [NSString stringWithFormat:@"This is an answer of:\n%@", [[self.answerVideoObj objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]];
+    [questionVideoLabel boldSubstring:@"This is an answer of:"];
+    
+    // Set tap gesture on questionVideoLabel when not pushed from Question Detail
+    if (![[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2] isKindOfClass:NSClassFromString(@"QuestionDetailViewController")]) {
+        UITapGestureRecognizer *singleTapForQuestion = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnQuestionView)];
+        [singleTapForQuestion setNumberOfTapsRequired:1];
+        questionVideoLabel.userInteractionEnabled = YES;
+        [questionVideoLabel addGestureRecognizer:singleTapForQuestion];
+    }
+    
     noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
     [noteView boldSubstring:@"Note for viewer:"];
-    
     // Set tap gesture on noteview
     UITapGestureRecognizer *singleTapForNote = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnNoteView)];
     [singleTapForNote setNumberOfTapsRequired:1];
@@ -85,8 +98,14 @@
                                                object:nil];
 }
 
+- (void)actionHandleTapOnQuestionView {
+    UIAlertView *noteDisplayAlert = [[UIAlertView alloc] initWithTitle:@"View question video" message:@"Do you want to view the question video which this video answered for?" delegate:self cancelButtonTitle:@"No, it's ok" otherButtonTitles:@"Yes, show me", nil];
+    noteDisplayAlert.tag = 0;
+    [noteDisplayAlert show];
+}
+
 - (void)actionHandleTapOnNoteView {
-    UIAlertView *noteDisplayAlert = [[UIAlertView alloc] initWithTitle:@"Fully display note" message:@"Do you want to view this note fully" delegate:self cancelButtonTitle:@"No, it's ok" otherButtonTitles:@"Yes, show me", nil];
+    UIAlertView *noteDisplayAlert = [[UIAlertView alloc] initWithTitle:@"Fully display note" message:@"Do you want to view this note fully?" delegate:self cancelButtonTitle:@"No, it's ok" otherButtonTitles:@"Yes, show me", nil];
     noteDisplayAlert.tag = 1;
     [noteDisplayAlert show];
 }
@@ -229,7 +248,7 @@
     if (section == 0) {
         return @"Reviews of this video";
     } else {
-        return @"";
+        return @"There is no review for this video. Be the first person to review it.";
     }
 }
 
@@ -285,15 +304,31 @@
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
-
-
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 1) {
+    if (alertView.tag == 0) {
+        if (buttonIndex == 1) {
+            QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
+            PFQuery *videoQuery = [PFQuery queryWithClassName:kVideoClassKey];
+            [videoQuery whereKey:kObjectIdKey equalTo:self.answerVideoObj.objectId];
+            [videoQuery includeKey:kVideoAsAReplyTo];
+            [videoQuery includeKey:@"asAReplyTo.user"];
+            [videoQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                if (!error) {
+                    PFObject *questionVideo = [object objectForKey:kVideoAsAReplyTo];
+                    NSLog(@"sent object = %@", questionVideo);
+                    destViewController.movieURL = [PresenticeUtility s3URLForObject:questionVideo];
+                    destViewController.questionVideoObj = questionVideo;
+                    [self.navigationController pushViewController:destViewController animated:YES];
+                } else {
+                    [PresenticeUtility showErrorAlert:error];
+                }
+            }];
+        }
+    } else if (alertView.tag == 1) {
         if (buttonIndex == 1) {
             EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
             editNoteViewController.note = [self.answerVideoObj objectForKey:kVideoNoteKey];
             editNoteViewController.videoObj = self.answerVideoObj;
-            
             [self.navigationController pushViewController:editNoteViewController animated:YES];
         }
     }
