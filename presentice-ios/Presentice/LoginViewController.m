@@ -221,8 +221,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //if user already login, redirect to Home Screen
-	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]])
+	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
         [PresenticeUtility instantiateHomeScreenFrom:self animated:NO completion:nil];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {

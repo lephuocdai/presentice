@@ -56,6 +56,7 @@ Parse.Cloud.define("sendPushNotification", function(request, response) {
 ** step1: save promotion information of user
 ** step2: save promotion information for user have myCode as code entered by registered user
 **/
+
 Parse.Cloud.define("onRegistered", function(request, response){
 	var user = request.user;
 	var receiveCode = request.params.receiveCode;
@@ -67,19 +68,61 @@ Parse.Cloud.define("onRegistered", function(request, response){
     promotion.set("points", INIT_POINT);   //set init point to user
     promotion.set("level", INIT_LEVEL);	//set init level to user
     promotion.set("receiveCode", receiveCode);
+    promotion.set("contribution", INIT_CONTRIBUTION);
     promotion.save();
-
-    //find promotion of users which have myCode as code entered by other user
+	
+    user.set("promotion", promotion);
+    user.save();
+    		
+   	//find promotion of users which have myCode as code entered by other user
     var query = new Parse.Query("Promotion");
+    query.include("user");
 	query.equalTo("myCode", receiveCode);
 	query.find({
 		success: function(results){
-			//increase points to each user
-			for(var i = 0; i < results.length; i++){
-				var promotion = results[i];
-				var points = promotion.get("points") + POINT_REGISTER_WITH_MYCODE
-				promotion.set("points", points);
-				promotion.save();
+			if (results.length == 0) {
+				var notification = new Parse.Object("Activity");
+	    		notification.set("type", "invalidCode");
+	    		notification.set("toUser",user);
+	    		notification.set("fromUser",user);
+	    		notification.set("description", "Your input code \"" + receiveCode + "\" does not match anyone's promotion code.");
+	    		notification.save();
+				Parse.Push.send({
+	  				channels: [user.id],
+	  				data: {
+						alert: "Your input code \"" + receiveCode + "\" does not match anyone's promotion code.",
+	    				badge: "Increment"
+	  				}
+				}, {
+	  				success: function() {
+	    				// Push was successful
+	  				},
+	  				error: function(error) {
+	    				console.error("Got an error " + error.code + " : " + error.message);
+	  				}
+				});
+			} else {
+				//increase points to each user
+				for (var i = 0; i < results.length; i++) {
+					var promotion2 = results[i];
+					var points = promotion2.get("points") + POINT_REGISTER_WITH_MYCODE;
+					promotion2.set("points", points);
+					promotion2.save();
+					Parse.Push.send({
+	  					channels: [promotion2.get("user").id],
+	  					data: {
+							alert: "Your friend \"" + user.get("displayName") + "\" has been register by your promotion code. You have been added " + POINT_REGISTER_WITH_MYCODE + " points. Cheers!",
+	    					badge: "Increment"
+	  					}
+					}, {
+	  					success: function() {
+	    					// Push was successful
+	  					},
+	  					error: function(error) {
+	    					console.error("Got an error " + error.code + " : " + error.message);
+	  					}
+					});
+				};
 			}
 		},
 		error: function(error){

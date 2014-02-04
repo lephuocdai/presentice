@@ -132,10 +132,11 @@ NSDictionary<FBGraphUser>  *fbInfo;
             succeedAlert.tag = 0;
             [succeedAlert show];
             
-            // Register registerActivity to Actitivy Table
+            // Register registerActivity to Activity Table
             PFObject *registerActivity = [PFObject objectWithClassName:kActivityClassKey];
             [registerActivity setObject:@"register" forKey:kActivityTypeKey];
             [registerActivity setObject:newUser forKey:kActivityFromUserKey];
+            [registerActivity setObject:newUser forKey:kActivityToUserKey];
             
             NSMutableDictionary *content = [[NSMutableDictionary alloc] init ];
             [content setObject:[newUser objectForKey:kUserFacebookIdKey] forKey:@"facebookId"];

@@ -92,7 +92,7 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *activitiesQuery = [PFQuery queryWithClassName:self.parseClassName];
-    [activitiesQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review", @"postQuestion", @"view", @"follow"]];
+    [activitiesQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review", @"postQuestion", @"view", @"follow", @"invalidCode"]];
     [activitiesQuery includeKey:kActivityFromUserKey];
     [activitiesQuery includeKey:kActivityTargetVideoKey];
     [activitiesQuery includeKey:@"targetVideo.user"];
@@ -129,7 +129,9 @@
     //asyn to get profile picture
     [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
     NSString *type = [object objectForKey:kActivityTypeKey];
-    if ([type isEqualToString:@"postQuestion"]) {
+    if ([type isEqualToString:@"invalidCode"]) {
+        description.text = [object objectForKey:kActivityDescriptionKey];
+    } else if ([type isEqualToString:@"postQuestion"]) {
         description.text = [NSString stringWithFormat:@"%@ has posted new question %@",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
@@ -211,6 +213,8 @@
             UserProfileViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
             destViewController.userObj = [notificationObj objectForKey:kActivityFromUserKey];
             [self.navigationController pushViewController:destViewController animated:YES];
+        } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"invalidCode"]) {
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         }
     }
 }
