@@ -272,6 +272,17 @@
                 destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
                 destViewController.answerVideoObj = videoObj;
                 [self.navigationController pushViewController:destViewController animated:YES];
+            } else if ([[videoObj objectForKey:kVideoVisibilityKey] isEqualToString:@"friendOnly"]) {
+                if ([PresenticeUtility isUser:[PFUser currentUser] followUser:[videoObj objectForKey:kVideoUserKey]]) {
+                    VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
+                    destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
+                    destViewController.answerVideoObj = videoObj;
+                    [self.navigationController pushViewController:destViewController animated:YES];
+                } else {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't view video" message:@"This video owner does not allow you to view it. Request her by sending a message" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [alert show];
+                    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+                }
             }
         } else if ([[activityObject objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
             QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];

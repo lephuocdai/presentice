@@ -337,10 +337,16 @@
 **/
 
 + (NSString*)stringNumberOfKey:(NSString *)key inObject:(PFObject *)object {
-    if ([object objectForKey:key]) {
-        return [NSString stringWithFormat:@"%@: %@", key, [object objectForKey:key]];
+    if ([key isEqualToString:kVideoAnswersKey]) {
+        PFRelation *relation = [object relationforKey:kVideoAnswersKey];
+        PFQuery *query = relation.query;
+        return [NSString stringWithFormat:@"%@: %ld", key, (long)[query countObjects]];
     } else {
-        return [NSString stringWithFormat:@"%@: 0", key];
+        if ([object objectForKey:key]) {
+            return [NSString stringWithFormat:@"%@: %@", key, [object objectForKey:key]];
+        } else {
+            return [NSString stringWithFormat:@"%@: 0", key];
+        }
     }
 }
 
@@ -593,5 +599,36 @@
     }
     return code;
 }
+
++ (void)updateQuestionVideo {
+    // Temporary
+    PFQuery *questionListQuery = [PFQuery queryWithClassName:kVideoClassKey];
+    [questionListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
+    [questionListQuery whereKey:kVideoTypeKey equalTo:@"question"];
+    [questionListQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error1) {
+        if (!error1) {
+            for (PFObject *object in objects) {
+                PFRelation *relation = [object relationforKey:kVideoAnswersKey];
+                PFQuery *answerQuery = [PFQuery queryWithClassName:kVideoClassKey];
+                [answerQuery whereKey:kVideoTypeKey equalTo:@"answer"];
+                [answerQuery whereKey:kVideoAsAReplyTo equalTo:object];
+                [answerQuery findObjectsInBackgroundWithBlock:^(NSArray *answers, NSError *error2) {
+                    if (!error2) {
+                        for (PFObject *answer in answers) {
+                            [relation addObject:answer];
+                            NSLog(@"%@ is an answer of %@", answer.objectId, object.objectId);
+                        }
+                    } else {
+                        [PresenticeUtility showErrorAlert:error2];
+                    }
+                    [object saveInBackground];
+                }];
+            }
+        } else {
+            [PresenticeUtility showErrorAlert:error1];
+        }
+    }];
+}
+
 
 @end

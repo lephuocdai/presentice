@@ -471,6 +471,18 @@
             [answerActivity setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
             [answerActivity saveInBackground];
             
+            // Increment answers
+            PFRelation *answers = [self.questionVideoObj relationforKey:kVideoAnswersKey];
+            [answers addObject:newVideo];
+            [self.questionVideoObj saveInBackground];
+            
+//            PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
+//            [query getObjectInBackgroundWithId:[self.questionVideoObj objectId] block:^(PFObject *object, NSError *error) {
+//                PFRelation *answers = [object objectForKey:kVideoAnswersKey];
+//                [answers addObject:newVideo];
+//                [object saveInBackground];
+//            }];
+            
             // Add a note
             UIAlertView *addNoteAlert = [[UIAlertView alloc] initWithTitle:@"Upload Success" message:@"Your video has been uploaded to Presentice successfully. Do you want to add a note for those who will view this video?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
             addNoteAlert.tag = 3;
@@ -484,16 +496,7 @@
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
     
-    // Increment answers
-    int viewsNum = [[self.questionVideoObj objectForKey:kVideoAnswersKey] intValue];
-    [self.questionVideoObj setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoAnswersKey];
-    PFQuery *query = [PFQuery queryWithClassName:kVideoClassKey];
-    [query getObjectInBackgroundWithId:[self.questionVideoObj objectId] block:^(PFObject *object, NSError *error) {
-        [object setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoAnswersKey];
-        [object saveInBackground];
-        [self.questionVideoObj saveInBackground];
-    }];
-    NSLog(@"after videoObj = %@", self.questionVideoObj);
+    
 }
 
 #pragma mark - AmazonServiceRequestDelegate

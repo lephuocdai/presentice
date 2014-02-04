@@ -101,7 +101,6 @@
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
-
     questionListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     
     [questionListQuery orderByAscending:kUpdatedAtKey];
@@ -123,15 +122,13 @@
     UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
     UILabel *videoName = (UILabel *)[cell viewWithTag:103];
     UILabel *viewsNum = (UILabel *)[cell viewWithTag:104];
-    UILabel *answersNum = (UILabel *)[cell viewWithTag:105];
     
     [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kVideoUserKey]];
     postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     videoName.text = [PresenticeUtility nameOfVideo:object];
     postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
     viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:object];
-    answersNum.text = [PresenticeUtility stringNumberOfKey:kVideoAnswersKey inObject:object];
-    
+
     return cell;
 }
 
