@@ -124,10 +124,6 @@
             } else {
                 content.text = [NSString stringWithFormat:@"%@: %@", [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"type"], [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"]];
             }
-            
-            [content setTextAlignment:NSTextAlignmentLeft];
-            content.lineBreakMode = NSLineBreakByWordWrapping;
-            [content setNumberOfLines:0];
             [content sizeToFit];
         }
         return cell;
@@ -135,42 +131,57 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
     NSString *cellType = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"type"];
     NSLog(@"cellType = %@", cellType);
+    
     if ([cellType isEqualToString:@"username"]) {
         [self.navigationController pushViewController:[PresenticeUtility facebookPageOfUser:[PFUser currentUser]] animated:YES];
     } else if ([cellType isEqual:@"pushPermission"] ) {
-        NSLog(@"get in side");
         PushPermissionViewController *destViewController = [[PushPermissionViewController alloc] initWithStyle:UITableViewStyleGrouped];
         if ([destViewController isKindOfClass:[PushPermissionViewController class]]) {
             destViewController.delegate = self;
         }
         destViewController.pushPermission = [[NSMutableDictionary alloc] initWithDictionary:[[PFUser currentUser] objectForKey:@"pushPermission"]];
         [self.navigationController pushViewController:destViewController animated:YES];
+    } else if ([cellType isEqualToString:@"changePassword"]) {
+        UIAlertView *resetPasswordAlert = [[UIAlertView alloc] initWithTitle:@"Reset Password" message:@"Do you want to reset password" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+        resetPasswordAlert.tag = 0;
+        [resetPasswordAlert show];
+    }
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 0) {
+        if (buttonIndex == 1) {
+            [PFUser requestPasswordResetForEmailInBackground:[PFUser currentUser].email block:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+                    NSString *alertMessage = [NSString stringWithFormat:@"An email from our provider Parse has been sent to you. Please check you email: %@", [PFUser currentUser].email];
+                    UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:@"Confirmation email sent" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    passwordResetAlert.tag = 1;
+                    [passwordResetAlert show];
+                    [PFUser logOut];
+                    
+                    //get main storyboard
+                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+                    LoginViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
+                    [self.navigationController pushViewController:destViewController animated:YES];
+                } else {
+                    [PresenticeUtility showErrorAlert:error];
+                }
+            }];
+        }
     }
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"toLoginView"]) {
         [PFUser logOut];
-    } else if ([segue.identifier isEqualToString:@"changePassword"]){
-        [PFUser requestPasswordResetForEmailInBackground:[PFUser currentUser].email block:^(BOOL succeeded, NSError *error) {
-            if (!error) {
-                NSString *alertMessage = [NSString stringWithFormat:@"An email from our provider Parse has been sent to you. Please check you email: %@", [PFUser currentUser].email];
-                UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:@"Confirmation email sent" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                passwordResetAlert.tag = 1;
-                [passwordResetAlert show];
-                [PFUser logOut];
-            } else {
-                [PresenticeUtility showErrorAlert:error];
-            }
-        }];
     }
 }
 
 - (void) setMenuItems {
-    
     if([[PFUser currentUser] objectForKey:kUserDisplayNameKey] != nil){
         NSMutableDictionary *username = [[NSMutableDictionary alloc] init];
         [username setObject:@"username" forKey:@"type"];

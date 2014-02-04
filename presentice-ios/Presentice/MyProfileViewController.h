@@ -15,6 +15,7 @@
 
 
 #import "PushPermissionViewController.h"
+#import "LoginViewController.h"
 
 @interface MyProfileViewController : UITableViewController <PushPermissionViewDataDelegate>
 @property (strong, nonatomic) NSString *photoFilename;

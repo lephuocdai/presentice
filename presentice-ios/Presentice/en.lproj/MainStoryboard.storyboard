@@ -49,9 +49,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="kcp-rS-XHE" kind="push" identifier="changePassword" id="cGE-Xc-B1N"/>
-                                </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="otherInfo" rowHeight="50" id="Gch-rb-0iy">
                                 <rect key="frame" x="0.0" y="186" width="320" height="50"/>
@@ -144,7 +141,7 @@
         <!--Login View Controller-->
         <scene sceneID="YnR-Qg-cSi">
             <objects>
-                <viewController id="kcp-rS-XHE" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kcp-rS-XHE" customClass="LoginViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="W2a-6T-rrO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
