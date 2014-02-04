@@ -84,6 +84,7 @@
 // Navigate to other view controller
 + (void)navigateToMyProfileFrom:(UIViewController *)currentViewController;
 + (void)navigateToHomeScreenFrom:(UIViewController*)currentViewController;
++ (void)navigateToMyLibraryFrom:(UIViewController*)currentViewController;
 + (void)navigateToMessageScreenFrom:(UIViewController*)currentViewController;
 + (void)navigateToFindFriendsFrom:(UIViewController*)currentViewController;
 

@@ -421,6 +421,33 @@
     [currentViewController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
 }
 
++ (void)navigateToMyLibraryFrom:(UIViewController *)currentViewController {
+    //get main storyboard
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    
+    MainViewController *mainViewController = [storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+    UINavigationController *mainNavigationController = [[UINavigationController alloc]initWithRootViewController:mainViewController];
+    
+    QuestionListViewController *questionListViewController = [storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
+    UINavigationController *questionListNavigationController = [[UINavigationController alloc]initWithRootViewController:questionListViewController];
+    
+    MyListViewController *myListViewController = [storyboard instantiateViewControllerWithIdentifier:@"myListViewController"];
+    UINavigationController *myListNavigationController = [[UINavigationController alloc]initWithRootViewController:myListViewController];
+    
+    NotificationListViewController *notificationListViewController = [storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
+    UINavigationController *notificationListNavigationController = [[UINavigationController alloc]initWithRootViewController:notificationListViewController];
+    
+    UITabBarController *homeTabBarController = [[UITabBarController alloc] init];
+    [homeTabBarController setViewControllers:[NSArray arrayWithObjects:mainNavigationController, questionListNavigationController, myListNavigationController, notificationListNavigationController, nil]];
+    [currentViewController.menuContainerViewController setCenterViewController:homeTabBarController];
+    
+    UINavigationController *navigationController = (UINavigationController *)homeTabBarController.selectedViewController;
+    NSArray *controllers = [NSArray arrayWithObject:myListViewController];
+    navigationController.viewControllers = controllers;
+    
+    [currentViewController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
+}
+
 + (void)navigateToMessageScreenFrom:(UIViewController *)currentViewController{
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     

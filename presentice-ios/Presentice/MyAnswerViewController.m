@@ -211,7 +211,7 @@
 }
 
 - (IBAction)editVideoInfo:(id)sender {
-    UIAlertView *editAlert = [[UIAlertView alloc] initWithTitle:@"Edit Video Information" message:@"Which information do you want to edit?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Video Name", @"Note for viewer", @"Visibility status",nil];
+    UIAlertView *editAlert = [[UIAlertView alloc] initWithTitle:@"Edit Video Information" message:@"Which information do you want to edit?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Video Name", @"Note for viewer", @"Visibility status", @"Delete",nil];
     editAlert.tag = 0;
     [editAlert show];
 }
@@ -234,6 +234,10 @@
             UIAlertView *visibilityEditAlert = [[UIAlertView alloc] initWithTitle:@"Visibility Selection" message:@"Decide who can view this video" delegate:self cancelButtonTitle:@"Open inside Presentice" otherButtonTitles:@"Only friends who are following me", @"Only Me", nil];
             visibilityEditAlert.tag = 2;
             [visibilityEditAlert show];
+        } else if (buttonIndex == 4) {
+            UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete video" message:@"Are you sure you want to delete this video. This action can not be undone." delegate:self cancelButtonTitle:@"No, stop it" otherButtonTitles:@"Yes, delete it", nil];
+            deleteAlert.tag = 4;
+            [deleteAlert show];
         }
     } else if (alertView.tag == 1) {
         if (buttonIndex == 1) {
@@ -278,6 +282,19 @@
                     self.videoNameLabel.text = newName;
                     UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Video name change has been saved successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                     [successAlert show];
+                } else {
+                    [PresenticeUtility showErrorAlert:error];
+                }
+            }];
+        }
+    } else if (alertView.tag == 4) {
+        if (buttonIndex == 1) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [self.answerVideoObj deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Video has ben deleted successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [successAlert show];
+                    [PresenticeUtility navigateToMyLibraryFrom:self];
                 } else {
                     [PresenticeUtility showErrorAlert:error];
                 }

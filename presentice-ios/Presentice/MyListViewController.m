@@ -96,7 +96,7 @@
     // and then subsequently do a query against the network.
     myListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     
-    [myListQuery orderByDescending:kVideoViewsKey];
+    [myListQuery orderByDescending:kCreatedAtKey];
     return myListQuery;
 }
 
