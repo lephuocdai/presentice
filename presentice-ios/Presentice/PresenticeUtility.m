@@ -552,7 +552,7 @@
 + (void)showErrorAlert:(NSError*)error{
     NSLog(@"error = %@", error);
     NSString *message = [NSString stringWithFormat:@"Error: %@.\nPlease contact us at info@presentice.com", error.description];
-    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Save Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [errorAlert show];
 }
 

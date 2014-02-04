@@ -12,15 +12,7 @@
 @end
 
 @implementation MyProfileViewController {
-//    NSString *profilePictureURL;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+    PFObject *currentUserPromotion;
 }
 
 - (void)viewDidLoad {
@@ -31,15 +23,25 @@
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    //load information in background
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // Set the menu's display
-        self.menuItems = [[NSMutableArray alloc] init];
-        [self setMenuItems];
-        [self.tableView reloadData];
-        // Hid all HUD after all objects appered
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    });
+    PFQuery *query = [PFQuery queryWithClassName:kPromotionClassKey];
+    [query whereKey:kPromotionUserKey equalTo:[PFUser currentUser]];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        NSLog(@"object = %@", object);
+        if (!error) {
+            currentUserPromotion = object;
+            //load information in background
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // Set the menu's display
+                self.menuItems = [[NSMutableArray alloc] init];
+                [self setMenuItems];
+                [self.tableView reloadData];
+                // Hid all HUD after all objects appered
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            });
+        } else {
+            [PresenticeUtility showErrorAlert:error];
+        }
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -94,6 +96,7 @@
             [info setNumberOfLines:0];
             [info sizeToFit];
         }
+        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         return cell;
         
     } else if (indexPath.row == 1) {
@@ -103,6 +106,7 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
+        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         return cell;
         
     } else {
@@ -112,13 +116,15 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
-        
-        UILabel *type = (UILabel *)[cell viewWithTag:300];
-        UILabel *content = (UILabel *)[cell viewWithTag:301];
-        
         if([[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"] != nil) {
-            type.text = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"type"];
-            content.text = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"];
+            UILabel *content = (UILabel *)[cell viewWithTag:301];
+            if ([@[@"pushPermission"] containsObject:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"type"]]) {
+                [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+                content.text = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"];
+            } else {
+                content.text = [NSString stringWithFormat:@"%@: %@", [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"type"], [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"]];
+            }
+            
             [content setTextAlignment:NSTextAlignmentLeft];
             content.lineBreakMode = NSLineBreakByWordWrapping;
             [content setNumberOfLines:0];
@@ -150,17 +156,14 @@
         [PFUser logOut];
     } else if ([segue.identifier isEqualToString:@"changePassword"]){
         [PFUser requestPasswordResetForEmailInBackground:[PFUser currentUser].email block:^(BOOL succeeded, NSError *error) {
-            if (error) {
-                NSString *alertMessage = @"Sorry for the inconvenience, please contact us at: info@presentice.com";
-                UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:@"Something went wrong" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                passwordResetAlert.tag = 0;
-                [passwordResetAlert show];
-            } else {
+            if (!error) {
                 NSString *alertMessage = [NSString stringWithFormat:@"An email from our provider Parse has been sent to you. Please check you email: %@", [PFUser currentUser].email];
                 UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:@"Confirmation email sent" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                 passwordResetAlert.tag = 1;
                 [passwordResetAlert show];
                 [PFUser logOut];
+            } else {
+                [PresenticeUtility showErrorAlert:error];
             }
         }];
     }
@@ -184,12 +187,12 @@
     
     if([[PFUser currentUser] objectForKey:kUserEmailKey]){
         NSMutableDictionary *email = [[NSMutableDictionary alloc] init];
-        [email setObject:@"email" forKey:@"type"];
+        [email setObject:[kUserEmailKey capitalizedString] forKey:@"type"];
         [email setObject:[[PFUser currentUser] objectForKey:kUserEmailKey] forKey:@"info"];
         [email setObject:@"email.jpeg" forKey:@"image"];
         [self.menuItems addObject:email];
     }
-
+/**
     if([[[PFUser currentUser] objectForKey:kUserProfileKey] objectForKey:@"location"]){
         NSMutableDictionary *location = [[NSMutableDictionary alloc] init];
         [location setObject:@"location" forKey:@"type"];
@@ -205,11 +208,12 @@
         [hometown setObject:@"map.png" forKey:@"image"];
         [self.menuItems addObject:hometown];
     }
-    
+**/    
     if([[PFUser currentUser] objectForKey:@"pushPermission"]){
-        NSDictionary *permission = [[PFUser currentUser] objectForKey:@"pushPermission"];
         NSMutableDictionary *pushPermission = [[NSMutableDictionary alloc] init];
         [pushPermission setObject:@"pushPermission" forKey:@"type"];
+/**
+        NSDictionary *permission = [[PFUser currentUser] objectForKey:@"pushPermission"];
         [pushPermission setObject:[NSString stringWithFormat:@"viewed:%@, reviewed:%@, answered:%@, messaged:%@, followed:%@, registered:%@",
                                    [permission objectForKey:@"viewed"],
                                    [permission objectForKey:@"reviewed"],
@@ -217,8 +221,47 @@
                                    [permission objectForKey:@"messaged"],
                                    [permission objectForKey:@"followed"],
                                    [permission objectForKey:@"registered"]] forKey:@"info"];
+**/
+        [pushPermission setObject:@"Permission for Push Notification" forKey:@"info"];
         [pushPermission setObject:@"map.png" forKey:@"image"];
         [self.menuItems addObject:pushPermission];
+    }
+    
+    if ([currentUserPromotion objectForKey:kPromotionLevelKey]) {
+        NSMutableDictionary *level = [[NSMutableDictionary alloc] init];
+        [level setObject:[kPromotionLevelKey capitalizedString] forKey:@"type"];
+        [level setObject:[currentUserPromotion objectForKey:kPromotionLevelKey] forKey:@"info"];
+        [level setObject:@"email.jpeg" forKey:@"image"];
+        [self.menuItems addObject:level];
+    }
+    
+    if ([currentUserPromotion objectForKey:kPromotionLevelKey]) {
+        NSMutableDictionary *contribution = [[NSMutableDictionary alloc] init];
+        [contribution setObject:[kPromotionContributionKey capitalizedString] forKey:@"type"];
+        [contribution setObject:[currentUserPromotion objectForKey:kPromotionContributionKey] forKey:@"info"];
+        [contribution setObject:@"email.jpeg" forKey:@"image"];
+        [self.menuItems addObject:contribution];
+    }
+    if ([currentUserPromotion objectForKey:kPromotionLevelKey]) {
+        NSMutableDictionary *points = [[NSMutableDictionary alloc] init];
+        [points setObject:[kPromotionPointsKey capitalizedString] forKey:@"type"];
+        [points setObject:[currentUserPromotion objectForKey:kPromotionPointsKey] forKey:@"info"];
+        [points setObject:@"email.jpeg" forKey:@"image"];
+        [self.menuItems addObject:points];
+    }
+    if ([currentUserPromotion objectForKey:kPromotionLevelKey]) {
+        NSMutableDictionary *myCode = [[NSMutableDictionary alloc] init];
+        [myCode setObject:@"My code" forKey:@"type"];
+        [myCode setObject:[currentUserPromotion objectForKey:kPromotionMyCodeKey] forKey:@"info"];
+        [myCode setObject:@"email.jpeg" forKey:@"image"];
+        [self.menuItems addObject:myCode];
+    }
+    if ([currentUserPromotion objectForKey:kPromotionLevelKey]) {
+        NSMutableDictionary *receiveCode = [[NSMutableDictionary alloc] init];
+        [receiveCode setObject:@"Receieved code" forKey:@"type"];
+        [receiveCode setObject:[currentUserPromotion objectForKey:kPromotionReceiveCodeKey] forKey:@"info"];
+        [receiveCode setObject:@"email.jpeg" forKey:@"image"];
+        [self.menuItems addObject:receiveCode];
     }
 }
 
@@ -227,19 +270,22 @@
 }
 
 - (void)receiveData:(NSMutableDictionary *)permission {
-    [self.menuItems removeObjectAtIndex:4];
+    [self.menuItems removeObjectAtIndex:3];
     
     NSMutableDictionary *pushPermission = [[NSMutableDictionary alloc] init];
     [pushPermission setObject:@"pushPermission" forKey:@"type"];
-    [pushPermission setObject:[NSString stringWithFormat:@"viewed:%@, reviewed:%@, answered:%@, messaged:%@, followed:%@, registered:%@",
-                               [permission objectForKey:@"viewed"],
-                               [permission objectForKey:@"reviewed"],
-                               [permission objectForKey:@"answered"],
-                               [permission objectForKey:@"messaged"],
-                               [permission objectForKey:@"followed"],
-                               [permission objectForKey:@"registered"]] forKey:@"info"];
+/**
+    //        [pushPermission setObject:[NSString stringWithFormat:@"viewed:%@, reviewed:%@, answered:%@, messaged:%@, followed:%@, registered:%@",
+    //                                   [permission objectForKey:@"viewed"],
+    //                                   [permission objectForKey:@"reviewed"],
+    //                                   [permission objectForKey:@"answered"],
+    //                                   [permission objectForKey:@"messaged"],
+    //                                   [permission objectForKey:@"followed"],
+    //                                   [permission objectForKey:@"registered"]] forKey:@"info"];
+**/
+    [pushPermission setObject:@"Permission for Push Notification" forKey:@"info"];
     [pushPermission setObject:@"map.png" forKey:@"image"];
-    [self.menuItems insertObject:pushPermission atIndex:4];    
+    [self.menuItems insertObject:pushPermission atIndex:3];
     [self.tableView reloadData];
 }
 

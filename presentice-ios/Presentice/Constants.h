@@ -50,6 +50,7 @@
 #define kUserCanComment @"canComment"
 #define kUserMyCode @"myCode"
 #define kUserReceiveCode @"receiveCode"
+#define kUserPromotionKey @"promotion"
 
 #pragma Table Video
 #define kVideoClassKey @"Video"
@@ -74,7 +75,6 @@
 #define kActivityDescriptionKey @"description" // The description of the activity if available
 #define kActivityContentKey @"content"  // The detail content if available
 #define kActivityTargetVideoKey @"targetVideo"  // Pointer to the video that this activity was taken on
-
 #define kActivityTypeFollow @"follow"   //type = follow
 
 #pragma Table Message
@@ -83,6 +83,15 @@
 #define kMessageFromUserKey @"fromUser"
 #define kMessageToUserKey @"toUser"
 #define kMessageContentKey @"content"
+
+#pragma Table Promotion
+#define kPromotionClassKey @"Promotion"
+#define kPromotionUserKey @"user"
+#define kPromotionPointsKey @"points"
+#define kPromotionLevelKey @"level"
+#define kPromotionMyCodeKey @"myCode"
+#define kPromotionReceiveCodeKey @"receiveCode"
+#define kPromotionContributionKey @"contribution"
 
 
 #define REVIEW_MAX_VALUE 5
