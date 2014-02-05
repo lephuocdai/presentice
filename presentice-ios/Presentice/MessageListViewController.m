@@ -76,6 +76,19 @@
 }
 
 - (void)refreshTable:(NSNotification *) notification {
+    
+//    for (PFObject *object in self.objects) {
+//        NSMutableArray *users = [[object objectForKey:kMessageUsersKey] mutableCopy];
+//        NSUInteger currentUserIndex = [self indexOfObjectwithKey:[[PFUser currentUser] objectId] inArray:users];
+//        [users removeObjectAtIndex:currentUserIndex];
+//        PFUser *toUser = [users lastObject];
+//        NSLog(@"toUser = %@", toUser);
+//        if (toUser == [NSNull null]) {
+//            PFObject *deleteMessage = [PFObject objectWithoutDataWithClassName:kMessageClassKey objectId:object.objectId];
+//            [deleteMessage deleteEventually];
+//        }
+//    }
+    
     // Reload the recipes
     [self loadObjects];
 }
@@ -121,12 +134,16 @@
     NSUInteger currentUserIndex = [self indexOfObjectwithKey:[[PFUser currentUser] objectId] inArray:users];
     [users removeObjectAtIndex:currentUserIndex];
     PFUser *toUser = [users lastObject];
-    [PresenticeUtility setImageView:userProfilePicture forUser:toUser];
-
-    userName.text = [toUser objectForKey:kUserDisplayNameKey];
+    NSLog(@"toUser = %@", toUser);
+    
+    if (toUser != (PFUser*)[NSNull null]) {
+        [PresenticeUtility setImageView:userProfilePicture forUser:toUser];
+        userName.text = [toUser objectForKey:kUserDisplayNameKey];
+    } else {
+        userName.text = @"Unknown user";
+    }
     description.text = [[[object objectForKey:kMessageContentKey] lastObject] objectForKey:@"text"];
     postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:[[[object objectForKey:kMessageContentKey] lastObject] objectForKey:@"date"]] dateTimeUntilNow]];
-    
     
     return cell;
 }
@@ -140,20 +157,26 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     PFObject *selectedObject = [self objectAtIndexPath:indexPath];
-    
-    MessageDetailViewController *destViewController = [[MessageDetailViewController alloc] init];
-    
     NSMutableArray *users = [[selectedObject objectForKey:kMessageUsersKey] mutableCopy];
     NSUInteger currentUserIndex = [self indexOfObjectwithKey:[[PFUser currentUser] objectId] inArray:users];
     [users removeObjectAtIndex:currentUserIndex];
     PFUser *toUser = [users lastObject];
-    destViewController.toUser = toUser;
-    destViewController.messageObj = selectedObject;
     
-    // Start loading HUD
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if (toUser != (PFUser*)[NSNull null]) {
+        MessageDetailViewController *destViewController = [[MessageDetailViewController alloc] init];
+        destViewController.toUser = toUser;
+        destViewController.messageObj = selectedObject;
+        
+        // Start loading HUD
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        [self.navigationController pushViewController:destViewController animated:YES];
+    } else {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        UIAlertView *noUserAlert = [[UIAlertView alloc] initWithTitle:@"Unknown user" message:@"This user has resigned or deactivated." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [noUserAlert show];
+    }
     
-    [self.navigationController pushViewController:destViewController animated:YES];
 }
 
 - (NSUInteger)indexOfObjectwithKey:(NSString*)key inArray: (NSArray*)array {
@@ -174,4 +197,5 @@
 - (IBAction)showRightMenu:(id)sender {
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
+    
 @end
