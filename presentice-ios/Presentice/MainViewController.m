@@ -43,7 +43,9 @@
     
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-
+    
+    [PresenticeUtility checkCurrentUserActivationIn:self];
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     

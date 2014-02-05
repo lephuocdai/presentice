@@ -118,7 +118,7 @@
         }
         if([[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"] != nil) {
             UILabel *content = (UILabel *)[cell viewWithTag:301];
-            if ([@[@"pushPermission"] containsObject:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"type"]]) {
+            if ([@[@"pushPermission", @"inquiry"] containsObject:[[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"type"]]) {
                 [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
                 content.text = [[self.menuItems objectAtIndex:indexPath.row] objectForKey:@"info"];
             } else {
@@ -148,6 +148,10 @@
         UIAlertView *resetPasswordAlert = [[UIAlertView alloc] initWithTitle:@"Reset Password" message:@"Do you want to reset password" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
         resetPasswordAlert.tag = 0;
         [resetPasswordAlert show];
+    } else if ([cellType isEqualToString:@"inquiry"]) {
+        UIAlertView *resetPasswordAlert = [[UIAlertView alloc] initWithTitle:@"Inquiry" message:@"Do you have an inquiry?\nSend us an email." delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+        resetPasswordAlert.tag = 1;
+        [resetPasswordAlert show];
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -172,7 +176,47 @@
                 }
             }];
         }
+    } else if (alertView.tag == 1) {
+        if (buttonIndex == 1) {
+            // Email Subject
+            NSString *emailTitle = [NSString stringWithFormat:@"[%@]Inquiry", [[PFUser currentUser] objectId]];
+            // Email Content
+            NSString *messageBody = @"Hi there, I have an inquiry.";
+            // To address
+            NSArray *toRecipents = [NSArray arrayWithObject:@"info@presentice.com"];
+            
+            MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+            mc.mailComposeDelegate = self;
+            [mc setSubject:emailTitle];
+            [mc setMessageBody:messageBody isHTML:NO];
+            [mc setToRecipients:toRecipents];
+            
+            // Present mail view controller on screen
+            [self presentViewController:mc animated:YES completion:NULL];
+        }
     }
+}
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    switch (result) {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent:
+            NSLog(@"Mail sent");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+    
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -189,11 +233,23 @@
         [username setObject:[PresenticeUtility facebookProfilePictureofUser:[PFUser currentUser]] forKey:@"image"];
         [self.menuItems addObject:username];
      
-        
         NSMutableDictionary *changePassword = [[NSMutableDictionary alloc] init];
         [changePassword setObject:@"changePassword" forKey:@"type"];
         [changePassword setObject:@"Change Password" forKey:@"info"];
         [self.menuItems addObject:changePassword];
+        
+        NSMutableDictionary *contactUs = [[NSMutableDictionary alloc] init];
+        [contactUs setObject:@"inquiry" forKey:@"type"];
+        [contactUs setObject:@"Have an inquiry? Contact us" forKey:@"info"];
+        [self.menuItems addObject:contactUs];
+    }
+    
+    if([[PFUser currentUser] objectForKey:@"pushPermission"]){
+        NSMutableDictionary *pushPermission = [[NSMutableDictionary alloc] init];
+        [pushPermission setObject:@"pushPermission" forKey:@"type"];
+        [pushPermission setObject:@"Permission for Push Notification" forKey:@"info"];
+        [pushPermission setObject:@"map.png" forKey:@"image"];
+        [self.menuItems addObject:pushPermission];
     }
     
     if([[PFUser currentUser] objectForKey:kUserEmailKey]){
@@ -202,40 +258,6 @@
         [email setObject:[[PFUser currentUser] objectForKey:kUserEmailKey] forKey:@"info"];
         [email setObject:@"email.jpeg" forKey:@"image"];
         [self.menuItems addObject:email];
-    }
-/**
-    if([[[PFUser currentUser] objectForKey:kUserProfileKey] objectForKey:@"location"]){
-        NSMutableDictionary *location = [[NSMutableDictionary alloc] init];
-        [location setObject:@"location" forKey:@"type"];
-        [location setObject:[[[[PFUser currentUser] objectForKey:kUserProfileKey] objectForKey:@"location"] objectForKey:@"name"]  forKey:@"info"];
-        [location setObject:@"map.png" forKey:@"image"];
-        [self.menuItems addObject:location];
-    }
-
-    if([[[PFUser currentUser] objectForKey:kUserProfileKey] objectForKey:@"hometown"]){
-        NSMutableDictionary *hometown = [[NSMutableDictionary alloc] init];
-        [hometown setObject:@"hometown" forKey:@"type"];
-        [hometown setObject:[[[[PFUser currentUser] objectForKey:kUserProfileKey] objectForKey:@"hometown"] objectForKey:@"name"]  forKey:@"info"];
-        [hometown setObject:@"map.png" forKey:@"image"];
-        [self.menuItems addObject:hometown];
-    }
-**/    
-    if([[PFUser currentUser] objectForKey:@"pushPermission"]){
-        NSMutableDictionary *pushPermission = [[NSMutableDictionary alloc] init];
-        [pushPermission setObject:@"pushPermission" forKey:@"type"];
-/**
-        NSDictionary *permission = [[PFUser currentUser] objectForKey:@"pushPermission"];
-        [pushPermission setObject:[NSString stringWithFormat:@"viewed:%@, reviewed:%@, answered:%@, messaged:%@, followed:%@, registered:%@",
-                                   [permission objectForKey:@"viewed"],
-                                   [permission objectForKey:@"reviewed"],
-                                   [permission objectForKey:@"answered"],
-                                   [permission objectForKey:@"messaged"],
-                                   [permission objectForKey:@"followed"],
-                                   [permission objectForKey:@"registered"]] forKey:@"info"];
-**/
-        [pushPermission setObject:@"Permission for Push Notification" forKey:@"info"];
-        [pushPermission setObject:@"map.png" forKey:@"image"];
-        [self.menuItems addObject:pushPermission];
     }
     
     if ([currentUserPromotion objectForKey:kPromotionLevelKey]) {

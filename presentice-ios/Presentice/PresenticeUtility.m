@@ -630,5 +630,15 @@
     }];
 }
 
+// Check user activation
++ (void)checkCurrentUserActivationIn:(UIViewController *)currentViewController {
+    if ([[[PFUser currentUser] objectForKey:kUserActivatedKey] boolValue] == false) {
+        UIAlertView *activatedAlert = [[UIAlertView alloc] initWithTitle:@"Action Denied" message:@"Your account has not been activated yet. Please wait or contact us at\ninfo@presentice.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        activatedAlert.tag = -1;
+        [activatedAlert show];
+        NSLog(@"navigate to Profile View");
+        [PresenticeUtility navigateToMyProfileFrom:currentViewController];
+    }
+}
 
 @end

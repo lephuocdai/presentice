@@ -55,6 +55,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [PresenticeUtility checkCurrentUserActivationIn:self];
+    
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     

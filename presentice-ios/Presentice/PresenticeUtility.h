@@ -99,5 +99,8 @@
 // Generate arbitrary code
 + (NSString*)generateMyCode;
 
+// Check user activation
++ (void)checkCurrentUserActivationIn:(UIViewController*)currentViewController;
+
 
 @end

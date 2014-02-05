@@ -47,6 +47,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [PresenticeUtility checkCurrentUserActivationIn:self];
+    
     // Prevent currentUser from edit the note
     if ([[[self.answerVideoObj objectForKey:kVideoUserKey] objectId] isEqualToString:[[PFUser currentUser] objectId]]) {
         self.navigationItem.rightBarButtonItem = nil;

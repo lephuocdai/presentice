@@ -12,12 +12,12 @@
 #import "MBProgressHUD.h"
 #import "Constants.h"
 #import "PresenticeUtility.h"
-
+#import <MessageUI/MessageUI.h>
 
 #import "PushPermissionViewController.h"
 #import "LoginViewController.h"
 
-@interface MyProfileViewController : UITableViewController <PushPermissionViewDataDelegate>
+@interface MyProfileViewController : UITableViewController <PushPermissionViewDataDelegate, MFMailComposeViewControllerDelegate>
 @property (strong, nonatomic) NSString *photoFilename;
 @property (nonatomic, strong) NSMutableArray *menuItems;
 - (IBAction)showLeftMenu:(id)sender;

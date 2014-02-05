@@ -44,6 +44,8 @@
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
+    [PresenticeUtility checkCurrentUserActivationIn:self];
+    
     self.videoNameLabel.text = [PresenticeUtility nameOfVideo:self.answerVideoObj];
     self.viewNumLabel.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:self.answerVideoObj];
     self.visibilityLabel.text = [PresenticeUtility visibilityOfVideo:self.answerVideoObj];
