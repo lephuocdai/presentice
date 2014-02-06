@@ -573,7 +573,7 @@
             }
             
             destViewController.toUser = aUser;
-            
+            destViewController.hidesBottomBarWhenPushed = YES;
             [currentViewController.navigationController pushViewController:destViewController animated:animated];
         } else {
             // Log details of the failure

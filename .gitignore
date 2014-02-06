@@ -19,6 +19,9 @@ DerivedData
 *.hmap
 *.ipa
 presentice-ios/Presentice/Credentials
+cloud-code
+presentice-web
+aws
 
 # CocoaPods
 Pods

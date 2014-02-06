@@ -66,19 +66,6 @@
 }
 
 - (void)refreshTable:(NSNotification *) notification {
-    
-//    for (PFObject *object in self.objects) {
-//        NSMutableArray *users = [[object objectForKey:kMessageUsersKey] mutableCopy];
-//        NSUInteger currentUserIndex = [self indexOfObjectwithKey:[[PFUser currentUser] objectId] inArray:users];
-//        [users removeObjectAtIndex:currentUserIndex];
-//        PFUser *toUser = [users lastObject];
-//        NSLog(@"toUser = %@", toUser);
-//        if (toUser == [NSNull null]) {
-//            PFObject *deleteMessage = [PFObject objectWithoutDataWithClassName:kMessageClassKey objectId:object.objectId];
-//            [deleteMessage deleteEventually];
-//        }
-//    }
-    
     // Reload the recipes
     [self loadObjects];
 }
@@ -153,6 +140,7 @@
     PFUser *toUser = [users lastObject];
     
     if (toUser != (PFUser*)[NSNull null]) {
+
         MessageDetailViewController *destViewController = [[MessageDetailViewController alloc] init];
         destViewController.toUser = toUser;
         destViewController.messageObj = selectedObject;
@@ -160,6 +148,7 @@
         // Start loading HUD
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
+        destViewController.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:destViewController animated:YES];
     } else {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
