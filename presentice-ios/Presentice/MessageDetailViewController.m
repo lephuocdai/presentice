@@ -158,10 +158,11 @@
 #pragma mark - Messages view delegate: OPTIONAL
 
 - (BOOL)shouldDisplayTimestampForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row % 3 == 0) {
-        return YES;
-    }
-    return NO;
+//    if (indexPath.row % 3 == 0) {
+//        return YES;
+//    }
+//    return NO;
+    return YES;
 }
 
 //  *** Implement to customize cell further
