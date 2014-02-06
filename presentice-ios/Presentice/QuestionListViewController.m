@@ -35,7 +35,6 @@
         self.textKey = kVideoURLKey;
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = NO;
-//        self.objectsPerPage = 5;
     }
     return self;
 }
@@ -93,7 +92,11 @@
     [questionListQuery whereKey:kVideoTypeKey equalTo:@"question"];
     [questionListQuery includeKey:kVideoUserKey];   // Important: Include "user" key in this query make receiving user info easier
 
-    questionListQuery.cachePolicy = kPFCachePolicyCacheElseNetwork;
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    if ([self.objects count] == 0) {
+        questionListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    }
     
     [questionListQuery orderByAscending:kUpdatedAtKey];
     return questionListQuery;
@@ -118,11 +121,6 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    if (tableView == self.searchDisplayController.searchResultsTableView) {
-//        return searchResults.count;
-//    } else {
-//        return self.objects.count;
-//    }
     return (tableView != self.searchDisplayController.searchResultsTableView) ? self.objects.count : searchResults.count;
 }
 
@@ -326,7 +324,7 @@
     [newVideo setObject:self.newQuestionVideoName forKey:kVideoNameKey];
     [newVideo setObject:@"open" forKey:kVideoVisibilityKey];
     [newVideo setObject:[NSNumber numberWithInt:0] forKey:kVideoViewsKey];
-    [newVideo setObject:[NSNumber numberWithInt:0] forKey:kVideoAnswersKey];
+//    [newVideo setObject:[NSNumber numberWithInt:0] forKey:kVideoAnswersKey];
     [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             NSLog(@"saved to Parse");

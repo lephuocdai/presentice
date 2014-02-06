@@ -223,6 +223,7 @@
     //if user already login, redirect to Home Screen
 	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
         [PresenticeUtility instantiateHomeScreenFrom:self animated:NO completion:nil];
+//        [PresenticeUtility navigateToHomeScreenFrom:self];
     }
     
 }
