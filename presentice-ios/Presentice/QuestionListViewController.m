@@ -19,6 +19,8 @@
 
 @implementation QuestionListViewController {
     
+    NSArray *searchResults;
+    
 #pragma upload question video
     NSString *uploadFilename;
     bool isUploadFromLibrary;
@@ -32,8 +34,8 @@
         self.parseClassName = kVideoClassKey;
         self.textKey = kVideoURLKey;
         self.pullToRefreshEnabled = YES;
-        self.paginationEnabled = YES;
-        self.objectsPerPage = 5;
+        self.paginationEnabled = NO;
+//        self.objectsPerPage = 5;
     }
     return self;
 }
@@ -96,31 +98,60 @@
     [questionListQuery orderByAscending:kUpdatedAtKey];
     return questionListQuery;
 }
+
+#pragma Search Display Controller
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
+    
+    NSPredicate *resultPredicate = ([scope isEqualToString:@"Video Name"]) ? [NSPredicate predicateWithFormat:@"videoName contains[c] %@", searchText] : [NSPredicate predicateWithFormat:@"user.displayName contains[c] %@", searchText];
+    
+    searchResults = [self.objects filteredArrayUsingPredicate:resultPredicate];
+}
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+    [self filterContentForSearchText:searchString
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles]
+                                      objectAtIndex:[self.searchDisplayController.searchBar
+                                                     selectedScopeButtonIndex]]];
+    
+    return YES;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    if (tableView == self.searchDisplayController.searchResultsTableView) {
+//        return searchResults.count;
+//    } else {
+//        return self.objects.count;
+//    }
+    return (tableView != self.searchDisplayController.searchResultsTableView) ? self.objects.count : searchResults.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 75;
+}
+
 // Override to customize the look of a cell representing an object. The default is to display
 // a UITableViewCellStyleDefault style cell with the label being the first key in the object.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
-    static NSString *simpleTableIdentifier = @"questionListIdentifier";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    PFObject *displayObject = (tableView != self.searchDisplayController.searchResultsTableView) ? object : [searchResults objectAtIndex:indexPath.row];
+    
+    static NSString *simpleTableIdentifier = @"questionListIdentifier";
+    QuestionListTableCell *cell = (QuestionListTableCell*)[self.tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        cell = [[QuestionListTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
     
-    // Configure the cell
-    UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
-    UILabel *postedUser = (UILabel *)[cell viewWithTag:101];
-    UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
-    UILabel *videoName = (UILabel *)[cell viewWithTag:103];
-    UILabel *viewsNum = (UILabel *)[cell viewWithTag:104];
+     // Configure the cell
+    [PresenticeUtility setImageView:cell.userProfilePicture forUser:[displayObject objectForKey:kVideoUserKey]];
+    cell.postedUser.text = [[displayObject objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
+    cell.videoName.text = [PresenticeUtility nameOfVideo:displayObject];
+    cell.postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:displayObject.createdAt] dateTimeUntilNow]];
+    cell.viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:displayObject];
     
-    [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kVideoUserKey]];
-    postedUser.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-    videoName.text = [PresenticeUtility nameOfVideo:object];
-    postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
-    viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:object];
-
     return cell;
 }
+
 
 - (void) objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];

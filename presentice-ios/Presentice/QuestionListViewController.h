@@ -11,6 +11,7 @@
 
 #import "UILabel+Boldify.h"
 #import "NSDate+TimeAgo.h"
+#import "QuestionListTableCell.h"
 
 #import "QuestionDetailViewController.h"
 

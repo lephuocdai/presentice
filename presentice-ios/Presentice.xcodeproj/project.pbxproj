@@ -45,6 +45,7 @@
 		F01ECFEB18850563000604C3 /* QuestionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F01ECFEA18850563000604C3 /* QuestionDetailViewController.m */; };
 		F01FD87D18A313DA001B620C /* icon57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = F01FD87B18A313DA001B620C /* icon57x57.png */; };
 		F01FD87E18A313DA001B620C /* icon120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = F01FD87C18A313DA001B620C /* icon120x120.png */; };
+		F01FD88418A3C688001B620C /* QuestionListTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F01FD88318A3C688001B620C /* QuestionListTableCell.m */; };
 		F027630F1890F18A001BEA6D /* EmailInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F027630E1890F18A001BEA6D /* EmailInfo.m */; };
 		F027631518910131001BEA6D /* RegisterInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F027631418910131001BEA6D /* RegisterInfo.m */; };
 		F03486BC187E337A001BE459 /* FriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486BB187E337A001BE459 /* FriendListViewController.m */; };
@@ -265,6 +266,8 @@
 		F01ECFEA18850563000604C3 /* QuestionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionDetailViewController.m; sourceTree = "<group>"; };
 		F01FD87B18A313DA001B620C /* icon57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon57x57.png; sourceTree = "<group>"; };
 		F01FD87C18A313DA001B620C /* icon120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon120x120.png; sourceTree = "<group>"; };
+		F01FD88218A3C688001B620C /* QuestionListTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionListTableCell.h; sourceTree = "<group>"; };
+		F01FD88318A3C688001B620C /* QuestionListTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionListTableCell.m; sourceTree = "<group>"; };
 		F027630D1890F18A001BEA6D /* EmailInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailInfo.h; sourceTree = "<group>"; };
 		F027630E1890F18A001BEA6D /* EmailInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailInfo.m; sourceTree = "<group>"; };
 		F027631318910131001BEA6D /* RegisterInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterInfo.h; sourceTree = "<group>"; };
@@ -589,6 +592,15 @@
 			name = Notification;
 			sourceTree = "<group>";
 		};
+		F01FD88118A3C659001B620C /* QuestionListTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				F01FD88218A3C688001B620C /* QuestionListTableCell.h */,
+				F01FD88318A3C688001B620C /* QuestionListTableCell.m */,
+			);
+			name = QuestionListTableCell;
+			sourceTree = "<group>";
+		};
 		F027630C1890F16D001BEA6D /* EmailInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -610,6 +622,7 @@
 		F03486CB187EEB60001BE459 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F01FD88118A3C659001B620C /* QuestionListTableCell */,
 				F0661E111898A3FE004F28F6 /* NSDate+TimeAgo */,
 				F0C9351F1894B14100DE4EE9 /* ReviewInfo */,
 				F02763121891011B001BEA6D /* RegisterInfo */,
@@ -1460,6 +1473,7 @@
 				F06E4BF418864EA100FB9333 /* ReviewDetailViewController.m in Sources */,
 				F0DD719E18921FE50070DF95 /* JSBubbleImageViewFactory.m in Sources */,
 				F0DD719F18921FE50070DF95 /* JSBubbleMessageCell.m in Sources */,
+				F01FD88418A3C688001B620C /* QuestionListTableCell.m in Sources */,
 				F03486C7187E8D80001BE459 /* PresenticeUtility.m in Sources */,
 				A72AB053188A876E00C12A74 /* FindFriendCell.m in Sources */,
 				F0DD719A18921FE50070DF95 /* NSString+JSMessagesView.m in Sources */,

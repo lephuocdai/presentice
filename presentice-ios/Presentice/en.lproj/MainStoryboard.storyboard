@@ -874,9 +874,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search" showsScopeBar="YES" id="hJJ-Ri-NfF">
+                            <rect key="frame" x="0.0" y="64" width="320" height="88"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <scopeButtonTitles>
+                                <string>Video Name</string>
+                                <string>User Name</string>
+                            </scopeButtonTitles>
+                            <connections>
+                                <outlet property="delegate" destination="pEw-m6-w8R" id="cdk-x8-IjK"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="questionListIdentifier" rowHeight="75" id="Rjs-2J-FVF">
-                                <rect key="frame" x="0.0" y="86" width="320" height="75"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="questionListIdentifier" rowHeight="75" id="Rjs-2J-FVF" customClass="QuestionListTableCell">
+                                <rect key="frame" x="0.0" y="174" width="320" height="75"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rjs-2J-FVF" id="5Bn-Cb-xnI">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="74"/>
@@ -915,6 +927,11 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="postedTime" destination="5yH-1e-Y3F" id="XLS-Gm-ghs"/>
+                                    <outlet property="postedUser" destination="2KB-Zj-bvF" id="wuk-ZP-e7H"/>
+                                    <outlet property="userProfilePicture" destination="72v-Pn-zOV" id="gYJ-it-WGf"/>
+                                    <outlet property="videoName" destination="KMa-W5-9y9" id="smW-oh-iyC"/>
+                                    <outlet property="viewsNum" destination="lrL-rQ-nQr" id="U32-ea-69C"/>
                                     <segue destination="sY4-KH-oYL" kind="push" identifier="showQuestionDetail" id="Dgk-9J-N99"/>
                                 </connections>
                             </tableViewCell>
@@ -941,10 +958,20 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="searchDisplayController" destination="URi-h2-QM6" id="8ze-wL-coq"/>
                         <outlet property="tableView" destination="GTT-jO-aKP" id="HEu-Mb-l6g"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8GA-kt-Dqk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="URi-h2-QM6">
+                    <connections>
+                        <outlet property="delegate" destination="pEw-m6-w8R" id="efD-bK-AZr"/>
+                        <outlet property="searchBar" destination="hJJ-Ri-NfF" id="kY5-Ds-fAC"/>
+                        <outlet property="searchContentsController" destination="pEw-m6-w8R" id="WPd-VR-Szw"/>
+                        <outlet property="searchResultsDataSource" destination="pEw-m6-w8R" id="bfz-pw-ulc"/>
+                        <outlet property="searchResultsDelegate" destination="pEw-m6-w8R" id="6JO-FN-dal"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="2777" y="-901"/>
         </scene>
