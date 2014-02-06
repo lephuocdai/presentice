@@ -37,7 +37,7 @@
 + (void)drawSideAndBottomDropShadowForRect:(CGRect)rect inContext:(CGContextRef)context;
 + (void)followUserEventually:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 + (void)followUsersEventually:(NSArray *)users block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
-+ (void)unfollowUserEventually:(PFUser *)user;
++ (void)unfollowUserEventually:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock;
 + (void)unfollowUsersEventually:(NSArray *)users;
 
 // Query all users that a user is following
@@ -98,6 +98,9 @@
 
 // Generate arbitrary code
 + (NSString*)generateMyCode;
+
+// Update question video's answers
++ (void)updateQuestionVideo;
 
 // Check user activation
 + (void)checkCurrentUserActivationIn:(UIViewController*)currentViewController;

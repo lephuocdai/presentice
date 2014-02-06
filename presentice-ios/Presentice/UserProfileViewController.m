@@ -53,10 +53,12 @@
     [singleTap setNumberOfTapsRequired:1];
     self.userProfilePicture.userInteractionEnabled = YES;
     [self.userProfilePicture addGestureRecognizer:singleTap];
+
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
 }
+
 
 - (void)actionHandleTapOnImageView {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -141,27 +143,26 @@
     [super objectsDidLoad:error];
     NSLog(@"objectsDidLoad error: %@", [error localizedDescription]);
     
+    [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
     // check if the currentUser is following this user
     PFQuery *queryIsFollowing = [PFQuery queryWithClassName:kActivityClassKey];
+    [queryIsFollowing whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
     [queryIsFollowing whereKey:kActivityTypeKey equalTo:kActivityTypeFollow];
     [queryIsFollowing whereKey:kActivityToUserKey equalTo:self.userObj];
-    [queryIsFollowing whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
     [queryIsFollowing countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
-        if (error) {
-            NSLog(@"Couldn't determine follow relationship: %@", error);
-            self.followBtn = nil;
-        } else {
+        if (!error) {
             if (number == 0) {
-                self.isFollowing = false;
-                NSLog(@"configureFollowButton");
                 [self configureFollowButton];
             } else {
-                self.isFollowing = true;
-                NSLog(@"configureUnfollowButton");
                 [self configureUnfollowButton];
             }
+            [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+        } else {
+            [PresenticeUtility showErrorAlert:error];
+            self.followBtn = nil;
         }
     }];
+    NSLog(@"self.isFollowing = %hhd", self.isFollowing);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -192,35 +193,48 @@
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
 
+
 - (void)doFollowAction:(id)sender {
-    //set to unfollow button
-    [self configureUnfollowButton];
+    [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    
     //save to parse.com
     [PresenticeUtility followUserEventually:self.userObj block:^(BOOL succeeded, NSError *error){
-        if(error){
-            //set back to follow button
-            [self configureFollowButton];
+        if(!error){
+            //set to unfollow button
+            [self configureUnfollowButton];
+            [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+        } else {
+            [PresenticeUtility showErrorAlert:error];
         }
     }];
 }
 - (void)doUnfollowAction:(id)sender {
-    //set to follow button
-    [self configureFollowButton];
+    [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    
     //delete from parse.com
-    [PresenticeUtility unfollowUserEventually:self.userObj];
+    [PresenticeUtility unfollowUserEventually:self.userObj block:^(BOOL succeeded, NSError *error) {
+        if(!error){
+            //set to follow button
+            [self configureFollowButton];
+            [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+        } else {
+            [PresenticeUtility showErrorAlert:error];
+        }
+    }];
 }
+
 - (void)configureFollowButton {
+    self.isFollowing = false;
     [self.followBtn setTitle:@"Follow" forState:UIControlStateNormal];
-    NSLog(@"self.followBtn.titleLabel.text before = %@", self.followBtn.titleLabel.text);
-    [self.followBtn addTarget:self action:@selector(doFollowAction:)forControlEvents:UIControlEventTouchDown];
-    NSLog(@"self.followBtn.titleLabel.text after = %@", self.followBtn.titleLabel.text);
+    [self.followBtn addTarget:self action:@selector(doFollowAction:)forControlEvents:UIControlEventTouchUpInside];
 }
+
 - (void)configureUnfollowButton {
-    [self.followBtn setTitle:@"Following" forState:UIControlStateSelected];
-    NSLog(@"self.followBtn.titleLabel.text before = %@", self.followBtn.titleLabel.text);
-    [self.followBtn addTarget:self action:@selector(doUnfollowAction:)forControlEvents:UIControlEventTouchDown];
-    NSLog(@"self.followBtn.titleLabel.text after = %@", self.followBtn.titleLabel.text);
+    self.isFollowing = true;
+    [self.followBtn setTitle:@"Following" forState:UIControlStateNormal];
+    [self.followBtn addTarget:self action:@selector(doUnfollowAction:)forControlEvents:UIControlEventTouchUpInside];
 }
+
 
 - (IBAction)sendMessage:(id)sender {
     UIAlertView *sendMessageAlert = [[UIAlertView alloc] initWithTitle:@"Send Private Message" message:@"Send to this user a private message" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];

@@ -19,15 +19,6 @@ typedef enum {
 @implementation FindFriendViewController
 @synthesize followStatus;
 
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 -(id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if(self){
@@ -45,14 +36,12 @@ typedef enum {
     }
     return self;
 }
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -74,6 +63,7 @@ typedef enum {
     
     return query;
 }
+
 - (void)objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
     
@@ -231,7 +221,11 @@ typedef enum {
     if ([cellView.followBtn isSelected]) {
         // Unfollow
         cellView.followBtn.selected = NO;
-        [PresenticeUtility unfollowUserEventually:cellUser];
+        [PresenticeUtility unfollowUserEventually:cellUser block:^(BOOL succeeded, NSError *error) {
+            if (error) {
+                [PresenticeUtility showErrorAlert:error];
+            }
+        }];
         //[[NSNotificationCenter defaultCenter] postNotificationName:PAPUtilityUserFollowingChangedNotification object:nil];
     } else {
         // Follow

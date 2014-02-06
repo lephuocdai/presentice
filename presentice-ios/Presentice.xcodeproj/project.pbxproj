@@ -43,6 +43,8 @@
 		F00006B8186EB9BF00E69027 /* icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = F00006B6186EB9BF00E69027 /* icon_1.png */; };
 		F00006B9186EB9BF00E69027 /* icon_2.png in Resources */ = {isa = PBXBuildFile; fileRef = F00006B7186EB9BF00E69027 /* icon_2.png */; };
 		F01ECFEB18850563000604C3 /* QuestionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F01ECFEA18850563000604C3 /* QuestionDetailViewController.m */; };
+		F01FD87D18A313DA001B620C /* icon57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = F01FD87B18A313DA001B620C /* icon57x57.png */; };
+		F01FD87E18A313DA001B620C /* icon120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = F01FD87C18A313DA001B620C /* icon120x120.png */; };
 		F027630F1890F18A001BEA6D /* EmailInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F027630E1890F18A001BEA6D /* EmailInfo.m */; };
 		F027631518910131001BEA6D /* RegisterInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F027631418910131001BEA6D /* RegisterInfo.m */; };
 		F03486BC187E337A001BE459 /* FriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486BB187E337A001BE459 /* FriendListViewController.m */; };
@@ -259,6 +261,8 @@
 		F00006B7186EB9BF00E69027 /* icon_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_2.png; sourceTree = "<group>"; };
 		F01ECFE918850563000604C3 /* QuestionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionDetailViewController.h; sourceTree = "<group>"; };
 		F01ECFEA18850563000604C3 /* QuestionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionDetailViewController.m; sourceTree = "<group>"; };
+		F01FD87B18A313DA001B620C /* icon57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon57x57.png; sourceTree = "<group>"; };
+		F01FD87C18A313DA001B620C /* icon120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon120x120.png; sourceTree = "<group>"; };
 		F027630D1890F18A001BEA6D /* EmailInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailInfo.h; sourceTree = "<group>"; };
 		F027630E1890F18A001BEA6D /* EmailInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailInfo.m; sourceTree = "<group>"; };
 		F027631318910131001BEA6D /* RegisterInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterInfo.h; sourceTree = "<group>"; };
@@ -1171,6 +1175,8 @@
 		F4EECF53177F37CB00778578 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F01FD87B18A313DA001B620C /* icon57x57.png */,
+				F01FD87C18A313DA001B620C /* icon120x120.png */,
 				F03D53EF189CE94600789BBE /* logo@2x.png */,
 				F0B1EA641893CA9F00D41B1D /* facebook_icon.png */,
 				F0628D69188F533400E9C7A3 /* homeMenu */,
@@ -1291,6 +1297,7 @@
 				F0B1EA5018936B8900D41B1D /* ico_challenges@2x.png in Resources */,
 				F0DD71BC18921FE60070DF95 /* bubble-min.png in Resources */,
 				F0AE3F7D188CCACD00B0E83E /* menu_messages_on.png in Resources */,
+				F01FD87E18A313DA001B620C /* icon120x120.png in Resources */,
 				F0718CB6185AC168009014A0 /* icon.png in Resources */,
 				F0AE3F6F188CCACD00B0E83E /* ico_home.png in Resources */,
 				F0DD71B418921FE50070DF95 /* bubble-classic-square-blue.png in Resources */,
@@ -1319,6 +1326,7 @@
 				F0AE3F7E188CCACD00B0E83E /* menu_profile_on.png in Resources */,
 				F00006B9186EB9BF00E69027 /* icon_2.png in Resources */,
 				F0DD71D118921FE60070DF95 /* input-bar-flat@2x.png in Resources */,
+				F01FD87D18A313DA001B620C /* icon57x57.png in Resources */,
 				F0DD71A818921FE50070DF95 /* avatar-placeholder.png in Resources */,
 				F0DD71C918921FE60070DF95 /* input-field-cover@2x.png in Resources */,
 				F0AE3F79188CCACD00B0E83E /* ico_profile_on.png in Resources */,
@@ -1484,7 +1492,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"/Users/phuongnq/startup/github/iOSsample/Presentice/External/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "6FFF1F59-56DD-44CC-8D8F-3071BD105391";
 				SDKROOT = iphoneos;
@@ -1515,7 +1523,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"/Users/phuongnq/startup/github/iOSsample/Presentice/External/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "6FFF1F59-56DD-44CC-8D8F-3071BD105391";
 				SDKROOT = iphoneos;
@@ -1533,14 +1541,12 @@
 					"$(SRCROOT)/Presentice/**",
 					"$(SRCROOT)/External/**",
 					"/Users/lephuocdai/Dropbox/Presentice/dev/Presentice/presentice-ios",
-					"/Users/phuongnq/startup/github/presentice/presentice-ios",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Presentice/Presentice-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/Users/phuongnq/startup/github/iOSsample/Presentice/**",
 				);
 				INFOPLIST_FILE = "Presentice/Presentice-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
@@ -1556,20 +1562,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Phuoc Dai Le (FYF5789L32)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Phuoc Dai Le (FYF5789L32)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Presentice/**",
 					"$(SRCROOT)/External/**",
 					"/Users/lephuocdai/Dropbox/Presentice/dev/Presentice/presentice-ios",
-					"/Users/phuongnq/startup/github/presentice/presentice-ios",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Presentice/Presentice-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/Users/phuongnq/startup/github/iOSsample/Presentice/**",
 				);
 				INFOPLIST_FILE = "Presentice/Presentice-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;

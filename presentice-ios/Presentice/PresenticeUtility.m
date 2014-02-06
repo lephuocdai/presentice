@@ -61,16 +61,16 @@
     }
 }
 
-+ (void)unfollowUserEventually:(PFUser *)user {
++ (void)unfollowUserEventually:(PFUser *)user block:(void (^)(BOOL succeeded, NSError *error))completionBlock{
     PFQuery *query = [PFQuery queryWithClassName:kActivityClassKey];
     [query whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
     [query whereKey:kActivityToUserKey equalTo:user];
     [query whereKey:kActivityTypeKey equalTo:kActivityTypeFollow];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *followActivities, NSError *error) {
+    [query findObjectsInBackgroundWithBlock:^(NSArray *followActivities, NSError *error1) {
         // While normally there should only be one follow activity returned, we can't guarantee that.
-        if (!error) {
+        if (!error1) {
             for (PFObject *followActivity in followActivities) {
-                [followActivity deleteEventually];
+                [followActivity deleteInBackgroundWithBlock:completionBlock];
             }
         }
     }];
