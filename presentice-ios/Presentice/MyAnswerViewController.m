@@ -19,20 +19,10 @@
     self = [super initWithCoder:aCoder];
     if (self) {
         // Custom the table
-        
-        // The className to query on
         self.parseClassName = kActivityClassKey;
-        
-        // The key of the PFObject to display in the label of the default cell style
         self.textKey = kActivityDescriptionKey;
-        
-        // Whether the built-in pull-to-refresh is enabled
         self.pullToRefreshEnabled = YES;
-        
-        // Whether the built-in pagination is enabled
         self.paginationEnabled = YES;
-        
-        // The number of objects to show per page
         self.objectsPerPage = 5;
     }
     return self;

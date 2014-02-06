@@ -21,8 +21,7 @@
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     kCurrentUser = [[PFUser currentUser] objectForKey:kUserDisplayNameKey];
     kToUser = [self.toUser objectForKey:kUserDisplayNameKey];
     

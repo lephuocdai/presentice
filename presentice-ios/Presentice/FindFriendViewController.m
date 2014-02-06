@@ -22,16 +22,10 @@ typedef enum {
 -(id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if(self){
-        // Whether the built-in pull-to-refresh is enabled
+        self.parseClassName = kUserClassKey;
         self.pullToRefreshEnabled = YES;
-        
-        // Whether the built-in pagination is enabled
         self.paginationEnabled = YES;
-        
-        // The number of objects to show per page
         self.objectsPerPage = 15;
-        
-        // Used to determine Follow/Unfollow All button status
         self.followStatus = FindFriendsFollowingSome;
     }
     return self;
@@ -226,13 +220,11 @@ typedef enum {
                 [PresenticeUtility showErrorAlert:error];
             }
         }];
-        //[[NSNotificationCenter defaultCenter] postNotificationName:PAPUtilityUserFollowingChangedNotification object:nil];
     } else {
         // Follow
         cellView.followBtn.selected = YES;
         [PresenticeUtility followUserEventually:cellUser block:^(BOOL succeeded, NSError *error) {
             if (!error) {
-                //[[NSNotificationCenter defaultCenter] postNotificationName:PAPUtilityUserFollowingChangedNotification object:nil];
             } else {
                 cellView.followBtn.selected = NO;
             }
