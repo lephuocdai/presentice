@@ -1,0 +1,306 @@
+
+/* Class = "IBUINavigationItem"; title = "Challenges"; ObjectID = "05Y-vt-brB"; */
+"05Y-vt-brB.title" = "質問集";
+
+/* Class = "IBUILabel"; text = "videoType"; ObjectID = "0Nu-dT-4Tf"; */
+"0Nu-dT-4Tf.text" = "videoType";
+
+/* Class = "IBUILabel"; text = "visibility"; ObjectID = "0ZE-y5-ub9"; */
+"0ZE-y5-ub9.text" = "visibility";
+
+/* Class = "IBUINavigationItem"; title = "Messages"; ObjectID = "0ob-bJ-EF9"; */
+"0ob-bJ-EF9.title" = "メッセージ";
+
+/* Class = "IBUILabel"; text = "visibility"; ObjectID = "1Os-CE-ix6"; */
+"1Os-CE-ix6.text" = "visibility";
+
+/* Class = "IBUILabel"; text = "videoName"; ObjectID = "1v0-FF-7ig"; */
+"1v0-FF-7ig.text" = "videoName";
+
+/* Class = "IBUILabel"; text = "reviewNum"; ObjectID = "1zU-ge-ntf"; */
+"1zU-ge-ntf.text" = "reviewNum";
+
+/* Class = "IBUILabel"; text = "videoName"; ObjectID = "27M-jT-98b"; */
+"27M-jT-98b.text" = "videoName";
+
+/* Class = "IBUILabel"; text = "viewNum"; ObjectID = "2I6-4P-MrT"; */
+"2I6-4P-MrT.text" = "viewNum";
+
+/* Class = "IBUILabel"; text = "postedUser"; ObjectID = "2KB-Zj-bvF"; */
+"2KB-Zj-bvF.text" = "postedUser";
+
+/* Class = "IBUINavigationItem"; title = "Notifications"; ObjectID = "2U9-1f-Mei"; */
+"2U9-1f-Mei.title" = "お知らせ";
+
+/* Class = "IBUILabel"; text = "userName"; ObjectID = "3Jj-y9-Xt3"; */
+"3Jj-y9-Xt3.text" = "userName";
+
+/* Class = "IBUILabel"; text = "Change Password"; ObjectID = "3Xn-bf-3We"; */
+"3Xn-bf-3We.text" = "パスワードの変更";
+
+/* Class = "IBUITableViewController"; title = "Notification List View Controller"; ObjectID = "3op-j9-1ht"; */
+"3op-j9-1ht.title" = "Notification List View Controller";
+
+/* Class = "IBUILabel"; text = "postedTime"; ObjectID = "5yH-1e-Y3F"; */
+"5yH-1e-Y3F.text" = "postedTime";
+
+/* Class = "IBUINavigationItem"; title = "Attempt"; ObjectID = "6JC-Mw-TfN"; */
+"6JC-Mw-TfN.title" = "回答";
+
+/* Class = "IBUILabel"; text = "userName"; ObjectID = "6fS-C8-RAn"; */
+"6fS-C8-RAn.text" = "userName";
+
+/* Class = "IBUILabel"; text = "postedTime"; ObjectID = "78P-xx-d9f"; */
+"78P-xx-d9f.text" = "postedTime";
+
+/* Class = "IBUITableViewController"; title = "PushPermissionView"; ObjectID = "9S1-mq-9hD"; */
+"9S1-mq-9hD.title" = "PushPermissionView";
+
+/* Class = "IBUITableViewController"; title = "Main View Controller"; ObjectID = "A0p-xX-VXc"; */
+"A0p-xX-VXc.title" = "Main View Controller";
+
+/* Class = "IBUINavigationItem"; title = "My Profile"; ObjectID = "AEE-Gf-cfg"; */
+"AEE-Gf-cfg.title" = "プロフィール";
+
+/* Class = "IBUILabel"; text = "reviewerName"; ObjectID = "ALL-ZG-wnw"; */
+"ALL-ZG-wnw.text" = "reviewerName";
+
+/* Class = "IBUINavigationItem"; title = "Push Permission"; ObjectID = "Bay-Tm-78K"; */
+"Bay-Tm-78K.title" = "Push Permission";
+
+/* Class = "IBUILabel"; text = "postedUser"; ObjectID = "D3D-Gg-ArZ"; */
+"D3D-Gg-ArZ.text" = "postedUser";
+
+/* Class = "IBUINavigationItem"; title = "Review Detail"; ObjectID = "D6c-gX-qUZ"; */
+"D6c-gX-qUZ.title" = "レビュー詳細";
+
+/* Class = "IBUILabel"; text = "postedTime"; ObjectID = "E1q-4g-NL0"; */
+"E1q-4g-NL0.text" = "postedTime";
+
+/* Class = "IBUINavigationItem"; title = "Review"; ObjectID = "ENl-uc-pWc"; */
+"ENl-uc-pWc.title" = "レビュー";
+
+/* Class = "IBUILabel"; text = "viewsNum"; ObjectID = "Edd-wQ-3QB"; */
+"Edd-wQ-3QB.text" = "viewsNum";
+
+/* Class = "IBUIButton"; normalTitle = "Message"; ObjectID = "G1T-U9-Bhg"; */
+"G1T-U9-Bhg.normalTitle" = "メッセージ";
+
+/* Class = "IBUINavigationItem"; title = "User Profile"; ObjectID = "GJk-Jh-aIO"; */
+"GJk-Jh-aIO.title" = "ユーザープロフィール";
+
+/* Class = "IBUILabel"; text = "videoName"; ObjectID = "GZX-gY-3sH"; */
+"GZX-gY-3sH.text" = "videoName";
+
+/* Class = "IBUIButton"; normalTitle = "Find Friends"; ObjectID = "HLT-O9-p3n"; */
+"HLT-O9-p3n.normalTitle" = "友達を検索";
+
+/* Class = "IBUILabel"; text = "viewsNum"; ObjectID = "IXi-co-IMi"; */
+"IXi-co-IMi.text" = "viewsNum";
+
+/* Class = "IBUINavigationItem"; title = "My Library"; ObjectID = "KC7-D0-XL9"; */
+"KC7-D0-XL9.title" = "ライブラリ";
+
+/* Class = "IBUILabel"; text = "videoName"; ObjectID = "KMa-W5-9y9"; */
+"KMa-W5-9y9.text" = "videoName";
+
+/* Class = "IBUINavigationItem"; title = "Find Friends"; ObjectID = "KPT-fX-qiz"; */
+"KPT-fX-qiz.title" = "友達を検索";
+
+/* Class = "IBUINavigationItem"; title = "Contacts List"; ObjectID = "KVs-r1-2ac"; */
+"KVs-r1-2ac.title" = "友達";
+
+/* Class = "IBUILabel"; text = "Description"; ObjectID = "Lf1-iF-Hyw"; */
+"Lf1-iF-Hyw.text" = "説明";
+
+/* Class = "IBUILabel"; text = "userName"; ObjectID = "Moq-Qo-Z8M"; */
+"Moq-Qo-Z8M.text" = "userName";
+
+/* Class = "IBUILabel"; text = "viewsNum"; ObjectID = "NWm-ID-tHI"; */
+"NWm-ID-tHI.text" = "viewsNum";
+
+/* Class = "IBUIButton"; normalTitle = "Invite friends"; ObjectID = "Nmw-dj-DNX"; */
+"Nmw-dj-DNX.normalTitle" = "友達を招待";
+
+/* Class = "IBUIButton"; normalTitle = "Following"; ObjectID = "Oxp-du-tI1"; */
+"Oxp-du-tI1.normalTitle" = "フォロー中";
+
+/* Class = "IBUILabel"; text = "userName"; ObjectID = "OzC-ae-VuP"; */
+"OzC-ae-VuP.text" = "userName";
+
+/* Class = "IBUIButton"; normalTitle = "Report this user!"; ObjectID = "P0F-A4-FTZ"; */
+"P0F-A4-FTZ.normalTitle" = "このユーザを通報する";
+
+/* Class = "IBUILabel"; text = "reviews_answersNum"; ObjectID = "PNm-or-8qK"; */
+"PNm-or-8qK.text" = "reviews_answersNum";
+
+/* Class = "IBUILabel"; text = "viewNum"; ObjectID = "PUZ-GT-apA"; */
+"PUZ-GT-apA.text" = "viewNum";
+
+/* Class = "IBUILabel"; text = "postedUser"; ObjectID = "PdE-YB-3cG"; */
+"PdE-YB-3cG.text" = "postedUser";
+
+/* Class = "IBUILabel"; text = "postedTime"; ObjectID = "QoQ-nA-Cka"; */
+"QoQ-nA-Cka.text" = "postedTime";
+
+/* Class = "IBUILabel"; text = "userName"; ObjectID = "R4t-OU-N5g"; */
+"R4t-OU-N5g.text" = "userName";
+
+/* Class = "IBUILabel"; text = "postedTime"; ObjectID = "Riy-Vs-GcF"; */
+"Riy-Vs-GcF.text" = "postedTime";
+
+/* Class = "IBUILabel"; text = "videoName"; ObjectID = "ShP-78-upk"; */
+"ShP-78-upk.text" = "videoName";
+
+/* Class = "IBUILabel"; text = "registerDescription"; ObjectID = "TC5-Ss-v8O"; */
+"TC5-Ss-v8O.text" = "registerDescription";
+
+/* Class = "IBUILabel"; text = "questionVideoName"; ObjectID = "Tia-YP-rVB"; */
+"Tia-YP-rVB.text" = "questionVideoName";
+
+/* Class = "IBUILabel"; text = "pointSum"; ObjectID = "Uab-fe-mKD"; */
+"Uab-fe-mKD.text" = "pointSum";
+
+/* Class = "IBUINavigationItem"; title = "Challenge Detail"; ObjectID = "V54-Es-twQ"; */
+"V54-Es-twQ.title" = "質問の詳細";
+
+/* Class = "IBUILabel"; text = "comment"; ObjectID = "VJz-T7-73o"; */
+"VJz-T7-73o.text" = "comment";
+
+/* Class = "IBUILabel"; text = "name"; ObjectID = "VWv-E7-ae3"; */
+"VWv-E7-ae3.text" = "name";
+
+/* Class = "IBUILabel"; text = "answerDescription"; ObjectID = "W88-iS-xEE"; */
+"W88-iS-xEE.text" = "answerDescription";
+
+/* Class = "IBUILabel"; text = "comment"; ObjectID = "WSn-k3-g7V"; */
+"WSn-k3-g7V.text" = "comment";
+
+/* Class = "IBUILabel"; text = "videoName"; ObjectID = "Wgh-gO-YB2"; */
+"Wgh-gO-YB2.text" = "videoName";
+
+/* Class = "IBUILabel"; text = "comment"; ObjectID = "Z7J-E9-Y49"; */
+"Z7J-E9-Y49.text" = "comment";
+
+/* Class = "IBUILabel"; text = "userName"; ObjectID = "abl-GR-dMl"; */
+"abl-GR-dMl.text" = "userName";
+
+/* Class = "IBUILabel"; text = "postedTime"; ObjectID = "awr-74-pzd"; */
+"awr-74-pzd.text" = "postedTime";
+
+/* Class = "IBUIButton"; normalTitle = "Take Answer"; ObjectID = "bKt-Dx-g2J"; */
+"bKt-Dx-g2J.normalTitle" = "回答してみる";
+
+/* Class = "IBUILabel"; text = "reviewDescription"; ObjectID = "cIF-6z-kuP"; */
+"cIF-6z-kuP.text" = "reviewDescription";
+
+/* Class = "IBUINavigationItem"; title = "News Feed"; ObjectID = "cOH-jQ-lZp"; */
+"cOH-jQ-lZp.title" = "タイムライン";
+
+/* Class = "IBUILabel"; text = "Content"; ObjectID = "cia-3m-Fxk"; */
+"cia-3m-Fxk.text" = "Content";
+
+/* Class = "IBUILabel"; text = "userName"; ObjectID = "d1P-cZ-elO"; */
+"d1P-cZ-elO.text" = "userName";
+
+/* Class = "IBUINavigationItem"; title = "Note for viewer"; ObjectID = "eXH-i8-0EG"; */
+"eXH-i8-0EG.title" = "メモ";
+
+/* Class = "IBUILabel"; text = "comment"; ObjectID = "ejq-WN-mtN"; */
+"ejq-WN-mtN.text" = "comment";
+
+/* Class = "IBUITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "fWQ-Mx-e6T"; */
+"fWQ-Mx-e6T.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "IBUILabel"; text = "answerVideoPostedUserName"; ObjectID = "fke-t9-Ig4"; */
+"fke-t9-Ig4.text" = "answerVideoPostedUserName";
+
+/* Class = "IBUILabel"; text = "userName"; ObjectID = "fxh-nw-K3F"; */
+"fxh-nw-K3F.text" = "userName";
+
+/* Class = "IBUITabBarItem"; title = "Challenges"; ObjectID = "gM6-6R-KPH"; */
+"gM6-6R-KPH.title" = "質問集";
+
+/* Class = "IBUILabel"; text = "viewsNum"; ObjectID = "hBc-KX-Yx3"; */
+"hBc-KX-Yx3.text" = "viewsNum";
+
+/* Class = "IBUITabBarItem"; title = "My Library"; ObjectID = "hDD-do-XHT"; */
+"hDD-do-XHT.title" = "ライブラリ";
+
+/* Class = "IBUISearchBar"; placeholder = "Search"; ObjectID = "hJJ-Ri-NfF"; */
+"hJJ-Ri-NfF.placeholder" = "検索";
+
+/* Class = "IBUISearchBar"; hJJ-Ri-NfF.scopeButtonTitles[0] = "Video Name"; ObjectID = "hJJ-Ri-NfF"; */
+"hJJ-Ri-NfF.scopeButtonTitles[0]" = "動画";
+
+/* Class = "IBUISearchBar"; hJJ-Ri-NfF.scopeButtonTitles[1] = "User Name"; ObjectID = "hJJ-Ri-NfF"; */
+"hJJ-Ri-NfF.scopeButtonTitles[1]" = "ユーザ";
+
+/* Class = "IBUILabel"; text = "postedTime"; ObjectID = "iil-NB-3zL"; */
+"iil-NB-3zL.text" = "postedTime";
+
+/* Class = "IBUILabel"; text = "postedTime"; ObjectID = "kSx-M1-ecO"; */
+"kSx-M1-ecO.text" = "postedTime";
+
+/* Class = "IBUILabel"; text = "answerVideoName"; ObjectID = "ky4-Rq-kUx"; */
+"ky4-Rq-kUx.text" = "answerVideoName";
+
+/* Class = "IBUIBarButtonItem"; title = "Logout"; ObjectID = "lQy-2s-yKW"; */
+"lQy-2s-yKW.title" = "ログアウト";
+
+/* Class = "IBUILabel"; text = "viewsNum"; ObjectID = "lrL-rQ-nQr"; */
+"lrL-rQ-nQr.text" = "viewsNum";
+
+/* Class = "IBUILabel"; text = "note of this video"; ObjectID = "mmr-Pm-S9J"; */
+"mmr-Pm-S9J.text" = "note of this video";
+
+/* Class = "IBUILabel"; text = "Description"; ObjectID = "mqr-Is-VlB"; */
+"mqr-Is-VlB.text" = "説明";
+
+/* Class = "IBUIButton"; normalTitle = "Review"; ObjectID = "np4-57-ndp"; */
+"np4-57-ndp.normalTitle" = "レビュー";
+
+/* Class = "IBUILabel"; text = "videoName"; ObjectID = "nyk-oR-AIg"; */
+"nyk-oR-AIg.text" = "videoName";
+
+/* Class = "IBUITableViewController"; title = "Quetion List View Controller"; ObjectID = "pEw-m6-w8R"; */
+"pEw-m6-w8R.title" = "Quetion List View Controller";
+
+/* Class = "IBUITabBarItem"; title = "Notifications"; ObjectID = "pa3-jl-nte"; */
+"pa3-jl-nte.title" = "お知らせ";
+
+/* Class = "IBUITableViewController"; title = "My List View Controller"; ObjectID = "pdo-2c-UBU"; */
+"pdo-2c-UBU.title" = "My List View Controller";
+
+/* Class = "IBUINavigationItem"; title = "Attempt Detail"; ObjectID = "q3D-vY-1VC"; */
+"q3D-vY-1VC.title" = "回答の詳細";
+
+/* Class = "IBUILabel"; text = "note of this video"; ObjectID = "rBb-uM-hg7"; */
+"rBb-uM-hg7.text" = "note of this video";
+
+/* Class = "IBUILabel"; text = "views"; ObjectID = "rr1-Wb-DnV"; */
+"rr1-Wb-DnV.text" = "views";
+
+/* Class = "IBUILabel"; text = "viewNum"; ObjectID = "sWn-Fg-cJ9"; */
+"sWn-Fg-cJ9.text" = "viewNum";
+
+/* Class = "IBUITabBarItem"; title = "News Feed"; ObjectID = "taZ-xU-Ea9"; */
+"taZ-xU-Ea9.title" = "タイムライン";
+
+/* Class = "IBUILabel"; text = "pointDetail"; ObjectID = "uEY-7l-tN5"; */
+"uEY-7l-tN5.text" = "pointDetail";
+
+/* Class = "IBUIButton"; normalTitle = "Unfollow All"; ObjectID = "uib-rL-ZEp"; */
+"uib-rL-ZEp.normalTitle" = "全てのフォローを解除";
+
+/* Class = "IBUINavigationItem"; title = "Presentice"; ObjectID = "vXL-Mh-fGk"; */
+"vXL-Mh-fGk.title" = "Presentice";
+
+/* Class = "IBUINavigationItem"; title = "Contact List"; ObjectID = "vc8-9C-SAz"; */
+"vc8-9C-SAz.title" = "友達";
+
+/* Class = "IBUILabel"; text = "questionDescription"; ObjectID = "xaK-pd-Zem"; */
+"xaK-pd-Zem.text" = "questionDescription";
+
+/* Class = "IBUILabel"; text = "note of this video"; ObjectID = "xmi-NI-UDJ"; */
+"xmi-NI-UDJ.text" = "note of this video";

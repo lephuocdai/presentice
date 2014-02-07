@@ -1,0 +1,42 @@
+/* 
+  Localizable.strings
+  Presentice
+
+  Created by レー フックダイ on 2/7/14.
+  Copyright (c) 2014 Presentice. All rights reserved.
+*/
+
+
+// My Profile View
+"Change Password" = "パスワードの変更";
+"Do you want to change password?" = "パスワードの変更で大丈夫でしょうか？";
+"NO" = "いいえ";
+"YES" = "はい";
+"Inquiry" = "お問い合わせ";
+"Do you have an inquiry?\nSend us an email." = "ご質問がございましたら、お気軽にメールでお問い合わせ下さい。";
+"An email from our provider Parse has been sent to you. Please check you email: %@" = "パスワード変更の確認メールを弊社のプロバイダーであるParse社から送られてきたと思います。あなたのメールアドレスをご確認ください: %@";
+"Confirmation email sent" = "確認メールを送信済み";
+"OK" = "了解";
+"[%@]Inquiry" = "[%@]お問い合わせ";
+"Hi there, I have an inquiry." = "今日は。お問い合わせがありますが、";
+"Have an inquiry? Contact us" = "お問い合わせする";
+"Notification center" = "通知センター";
+"Email" = "メール";
+"Level" = "レベル";
+"Contribution" = "貢献";
+"Point" = "ポイント";
+"My code" = "マイコード";
+"Received code" = "友達の紹介コード";
+
+// Login View
+"Login Failed" = "ログイン失敗";
+"Please check your login username and password!" = "アカウントとパスワードを再度チェックして下さい。";
+"Login error" = "ログインエラー";
+"You have just cancelled the Facebook register." = "あなたはフェースブックのログインをキャンセルしました。";
+"The email address %@ has not been registered." = "このメール%@は登録されていません。";
+"Email address error!" = "メールに関するエラー";
+"Confirmation email sent" = "確認メールを送信済み";
+
+
+
+

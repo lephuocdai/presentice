@@ -1587,9 +1587,9 @@
                             <outlet property="delegate" destination="A0p-xX-VXc" id="Rnu-jl-AQ6"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="News Feed" image="ico_newsfeed.png" id="taZ-xU-Ea9"/>
+                    <tabBarItem key="tabBarItem" title="Timeline" image="ico_newsfeed.png" id="taZ-xU-Ea9"/>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="News Feed" id="cOH-jQ-lZp">
+                    <navigationItem key="navigationItem" title="Timeline" id="cOH-jQ-lZp">
                         <barButtonItem key="leftBarButtonItem" image="ico_head_globalmenu.png" id="ljY-lK-RSK">
                             <connections>
                                 <action selector="showLeftMenu:" destination="A0p-xX-VXc" id="4GQ-kE-7dy"/>

@@ -44,7 +44,6 @@
         
         //hide navigator if in login view
         if (self.isResetingPassword == false) {
-            NSLog(@"fuck you reseting again %hhd", self.isResetingPassword);
             [self.navigationController setNavigationBarHidden:YES animated:YES];
         }
         self.resizeWhenKeyboardPresented = YES;
@@ -62,7 +61,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    NSLog(@"fuck you out of Login View Controller");
 }
 
 - (void)loginCompleted:(LoginInfo *)info {
@@ -83,7 +81,7 @@
             [currentInstallation saveInBackground];
             
         } else {
-            UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Please check your login username and password!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
+            UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Login Failed",nil) message:NSLocalizedString(@"Please check your login username and password!",nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil , nil];
             [errorAlert show];
         }
         //dismiss hub
@@ -113,7 +111,7 @@
         if (!user) {
             if (!error) {
                 NSLog(@"Uh oh. The user cancelled the Facebook login.");
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error" message:@"Uh oh. The user cancelled the Facebook login." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Login error",nil) message:NSLocalizedString(@"You have just cancelled the Facebook register.",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK",nil), nil];
                 [alert show];
             } else {
                 [PresenticeUtility showErrorAlert:error];
@@ -190,13 +188,13 @@
     NSString *email = info.email;
     [PFUser requestPasswordResetForEmailInBackground:email block:^(BOOL succeeded, NSError *error) {
         if (error) {
-            NSString *alertMessage = [NSString stringWithFormat:@"The email address %@ has not been registered.", email];
-            UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:@"Email address error!" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            NSString *alertMessage = [NSString stringWithFormat:NSLocalizedString(@"The email address %@ has not been registered.",nil), email];
+            UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Email address error!",nil) message:alertMessage delegate:nil cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles: nil];
             passwordResetAlert.tag = 0;
             [passwordResetAlert show];
         } else {
-            NSString *alertMessage = [NSString stringWithFormat:@"An email from our provider Parse has been sent to you. Please check you email: %@", email];
-            UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:@"Confirmation email sent" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            NSString *alertMessage = [NSString stringWithFormat:NSLocalizedString(@"An email from our provider Parse has been sent to you. Please check you email: %@",nil), email];
+            UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Confirmation email sent",nil) message:alertMessage delegate:nil cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles: nil];
             passwordResetAlert.tag = 1;
             [passwordResetAlert show];
         }
@@ -223,14 +221,12 @@
     //if user already login, redirect to Home Screen
 	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
         [PresenticeUtility instantiateHomeScreenFrom:self animated:NO completion:nil];
-//        [PresenticeUtility navigateToHomeScreenFrom:self];
     }
     
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

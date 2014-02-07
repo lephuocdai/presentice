@@ -145,11 +145,11 @@
         destViewController.pushPermission = [[NSMutableDictionary alloc] initWithDictionary:[[PFUser currentUser] objectForKey:@"pushPermission"]];
         [self.navigationController pushViewController:destViewController animated:YES];
     } else if ([cellType isEqualToString:@"changePassword"]) {
-        UIAlertView *resetPasswordAlert = [[UIAlertView alloc] initWithTitle:@"Reset Password" message:@"Do you want to reset password" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+        UIAlertView *resetPasswordAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Change Password", nil)  message:NSLocalizedString(@"Do you want to change password?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"NO", nil) otherButtonTitles:NSLocalizedString(@"YES", nil), nil];
         resetPasswordAlert.tag = 0;
         [resetPasswordAlert show];
     } else if ([cellType isEqualToString:@"inquiry"]) {
-        UIAlertView *resetPasswordAlert = [[UIAlertView alloc] initWithTitle:@"Inquiry" message:@"Do you have an inquiry?\nSend us an email." delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+        UIAlertView *resetPasswordAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Inquiry", nil) message:NSLocalizedString(@"Do you have an inquiry?\nSend us an email.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"NO", nil) otherButtonTitles:NSLocalizedString(@"YES", nil), nil];
         resetPasswordAlert.tag = 1;
         [resetPasswordAlert show];
     }
@@ -161,8 +161,8 @@
         if (buttonIndex == 1) {
             [PFUser requestPasswordResetForEmailInBackground:[PFUser currentUser].email block:^(BOOL succeeded, NSError *error) {
                 if (!error) {
-                    NSString *alertMessage = [NSString stringWithFormat:@"An email from our provider Parse has been sent to you. Please check you email: %@", [PFUser currentUser].email];
-                    UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:@"Confirmation email sent" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    NSString *alertMessage = [NSString stringWithFormat:NSLocalizedString(@"An email from our provider Parse has been sent to you. Please check you email: %@", nil), [PFUser currentUser].email];
+                    UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Confirmation email sent", nil) message:alertMessage delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
                     passwordResetAlert.tag = 1;
                     [passwordResetAlert show];
                     [PFUser logOut];
@@ -179,9 +179,9 @@
     } else if (alertView.tag == 1) {
         if (buttonIndex == 1) {
             // Email Subject
-            NSString *emailTitle = [NSString stringWithFormat:@"[%@]Inquiry", [[PFUser currentUser] objectId]];
+            NSString *emailTitle = [NSString stringWithFormat:NSLocalizedString(@"[%@]Inquiry", nil), [[PFUser currentUser] objectId]];
             // Email Content
-            NSString *messageBody = @"Hi there, I have an inquiry.";
+            NSString *messageBody = NSLocalizedString(@"Hi there, I have an inquiry.",nil);
             // To address
             NSArray *toRecipents = [NSArray arrayWithObject:@"info@presentice.com"];
             
@@ -235,26 +235,26 @@
      
         NSMutableDictionary *changePassword = [[NSMutableDictionary alloc] init];
         [changePassword setObject:@"changePassword" forKey:@"type"];
-        [changePassword setObject:@"Change Password" forKey:@"info"];
+        [changePassword setObject:NSLocalizedString(@"Change Password", nil) forKey:@"info"];
         [self.menuItems addObject:changePassword];
         
         NSMutableDictionary *contactUs = [[NSMutableDictionary alloc] init];
         [contactUs setObject:@"inquiry" forKey:@"type"];
-        [contactUs setObject:@"Have an inquiry? Contact us" forKey:@"info"];
+        [contactUs setObject:NSLocalizedString(@"Have an inquiry? Contact us",nil) forKey:@"info"];
         [self.menuItems addObject:contactUs];
     }
     
     if([[PFUser currentUser] objectForKey:@"pushPermission"]){
         NSMutableDictionary *pushPermission = [[NSMutableDictionary alloc] init];
         [pushPermission setObject:@"pushPermission" forKey:@"type"];
-        [pushPermission setObject:@"Permission for Push Notification" forKey:@"info"];
+        [pushPermission setObject:NSLocalizedString(@"Notification center",nil) forKey:@"info"];
         [pushPermission setObject:@"map.png" forKey:@"image"];
         [self.menuItems addObject:pushPermission];
     }
     
     if([[PFUser currentUser] objectForKey:kUserEmailKey]){
         NSMutableDictionary *email = [[NSMutableDictionary alloc] init];
-        [email setObject:[kUserEmailKey capitalizedString] forKey:@"type"];
+        [email setObject:NSLocalizedString(@"Email",nil) forKey:@"type"];
         [email setObject:[[PFUser currentUser] objectForKey:kUserEmailKey] forKey:@"info"];
         [email setObject:@"email.jpeg" forKey:@"image"];
         [self.menuItems addObject:email];
@@ -262,7 +262,7 @@
     
     if ([currentUserPromotion objectForKey:kPromotionLevelKey]) {
         NSMutableDictionary *level = [[NSMutableDictionary alloc] init];
-        [level setObject:[kPromotionLevelKey capitalizedString] forKey:@"type"];
+        [level setObject:NSLocalizedString(@"Level",nil) forKey:@"type"];
         [level setObject:[currentUserPromotion objectForKey:kPromotionLevelKey] forKey:@"info"];
         [level setObject:@"email.jpeg" forKey:@"image"];
         [self.menuItems addObject:level];
@@ -270,28 +270,28 @@
     
     if ([currentUserPromotion objectForKey:kPromotionLevelKey]) {
         NSMutableDictionary *contribution = [[NSMutableDictionary alloc] init];
-        [contribution setObject:[kPromotionContributionKey capitalizedString] forKey:@"type"];
+        [contribution setObject:NSLocalizedString(@"Contribution",nil) forKey:@"type"];
         [contribution setObject:[currentUserPromotion objectForKey:kPromotionContributionKey] forKey:@"info"];
         [contribution setObject:@"email.jpeg" forKey:@"image"];
         [self.menuItems addObject:contribution];
     }
     if ([currentUserPromotion objectForKey:kPromotionLevelKey]) {
         NSMutableDictionary *points = [[NSMutableDictionary alloc] init];
-        [points setObject:[kPromotionPointsKey capitalizedString] forKey:@"type"];
+        [points setObject:NSLocalizedString(@"Point",nil) forKey:@"type"];
         [points setObject:[currentUserPromotion objectForKey:kPromotionPointsKey] forKey:@"info"];
         [points setObject:@"email.jpeg" forKey:@"image"];
         [self.menuItems addObject:points];
     }
     if ([currentUserPromotion objectForKey:kPromotionLevelKey]) {
         NSMutableDictionary *myCode = [[NSMutableDictionary alloc] init];
-        [myCode setObject:@"My code" forKey:@"type"];
+        [myCode setObject:NSLocalizedString(@"My code",nil) forKey:@"type"];
         [myCode setObject:[currentUserPromotion objectForKey:kPromotionMyCodeKey] forKey:@"info"];
         [myCode setObject:@"email.jpeg" forKey:@"image"];
         [self.menuItems addObject:myCode];
     }
     if ([currentUserPromotion objectForKey:kPromotionLevelKey]) {
         NSMutableDictionary *receiveCode = [[NSMutableDictionary alloc] init];
-        [receiveCode setObject:@"Receieved code" forKey:@"type"];
+        [receiveCode setObject:NSLocalizedString(@"Received code",nil) forKey:@"type"];
         [receiveCode setObject:[currentUserPromotion objectForKey:kPromotionReceiveCodeKey] forKey:@"info"];
         [receiveCode setObject:@"email.jpeg" forKey:@"image"];
         [self.menuItems addObject:receiveCode];
@@ -307,16 +307,7 @@
     
     NSMutableDictionary *pushPermission = [[NSMutableDictionary alloc] init];
     [pushPermission setObject:@"pushPermission" forKey:@"type"];
-/**
-    //        [pushPermission setObject:[NSString stringWithFormat:@"viewed:%@, reviewed:%@, answered:%@, messaged:%@, followed:%@, registered:%@",
-    //                                   [permission objectForKey:@"viewed"],
-    //                                   [permission objectForKey:@"reviewed"],
-    //                                   [permission objectForKey:@"answered"],
-    //                                   [permission objectForKey:@"messaged"],
-    //                                   [permission objectForKey:@"followed"],
-    //                                   [permission objectForKey:@"registered"]] forKey:@"info"];
-**/
-    [pushPermission setObject:@"Permission for Push Notification" forKey:@"info"];
+    [pushPermission setObject:NSLocalizedString(@"Notification center",nil) forKey:@"info"];
     [pushPermission setObject:@"map.png" forKey:@"image"];
     [self.menuItems insertObject:pushPermission atIndex:3];
     [self.tableView reloadData];

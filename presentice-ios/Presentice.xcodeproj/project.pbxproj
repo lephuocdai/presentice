@@ -46,6 +46,7 @@
 		F01FD87D18A313DA001B620C /* icon57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = F01FD87B18A313DA001B620C /* icon57x57.png */; };
 		F01FD87E18A313DA001B620C /* icon120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = F01FD87C18A313DA001B620C /* icon120x120.png */; };
 		F01FD88418A3C688001B620C /* QuestionListTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F01FD88318A3C688001B620C /* QuestionListTableCell.m */; };
+		F01FD88E18A47CAE001B620C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F01FD89018A47CAE001B620C /* Localizable.strings */; };
 		F027630F1890F18A001BEA6D /* EmailInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F027630E1890F18A001BEA6D /* EmailInfo.m */; };
 		F027631518910131001BEA6D /* RegisterInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F027631418910131001BEA6D /* RegisterInfo.m */; };
 		F03486BC187E337A001BE459 /* FriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486BB187E337A001BE459 /* FriendListViewController.m */; };
@@ -268,6 +269,12 @@
 		F01FD87C18A313DA001B620C /* icon120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon120x120.png; sourceTree = "<group>"; };
 		F01FD88218A3C688001B620C /* QuestionListTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionListTableCell.h; sourceTree = "<group>"; };
 		F01FD88318A3C688001B620C /* QuestionListTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionListTableCell.m; sourceTree = "<group>"; };
+		F01FD88818A474F0001B620C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		F01FD88918A47546001B620C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/MainStoryboard.strings; sourceTree = "<group>"; };
+		F01FD88A18A47547001B620C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F01FD88F18A47CAE001B620C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F01FD89118A47CC8001B620C /* ja */ = {isa = PBXFileReference; lastKnownFileType = file; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F01FD89218A47CCB001B620C /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F027630D1890F18A001BEA6D /* EmailInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailInfo.h; sourceTree = "<group>"; };
 		F027630E1890F18A001BEA6D /* EmailInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailInfo.m; sourceTree = "<group>"; };
 		F027631318910131001BEA6D /* RegisterInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterInfo.h; sourceTree = "<group>"; };
@@ -456,7 +463,6 @@
 		F4EECF1F177C99F400778578 /* Presentice-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Presentice-Prefix.pch"; sourceTree = "<group>"; };
 		F4EECF20177C99F400778578 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F4EECF21177C99F400778578 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		F4EECF2A177C99F400778578 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		F4EECF6F177FE9B400778578 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F4EECF71177FE9BA00778578 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		F4EECF74177FF90600778578 /* MyProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyProfileViewController.m; sourceTree = "<group>"; };
@@ -1170,6 +1176,7 @@
 				F4EECF1F177C99F400778578 /* Presentice-Prefix.pch */,
 				F4EECF20177C99F400778578 /* AppDelegate.h */,
 				F4EECF21177C99F400778578 /* AppDelegate.m */,
+				F01FD89018A47CAE001B620C /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1255,6 +1262,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ja,
+				Base,
 			);
 			mainGroup = F4EECF05177C99F400778578;
 			productRefGroup = F4EECF0F177C99F400778578 /* Products */;
@@ -1288,6 +1297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0DD71BB18921FE60070DF95 /* bubble-min-tailless@2x.png in Resources */,
+				F01FD88E18A47CAE001B620C /* Localizable.strings in Resources */,
 				F0B1EA651893CA9F00D41B1D /* facebook_icon.png in Resources */,
 				F0B1EA45189367EF00D41B1D /* ico_mylibrary.png in Resources */,
 				F0DD71B818921FE50070DF95 /* bubble-classic-square-selected.png in Resources */,
@@ -1495,10 +1505,21 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		F01FD89018A47CAE001B620C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F01FD88F18A47CAE001B620C /* Base */,
+				F01FD89118A47CC8001B620C /* ja */,
+				F01FD89218A47CCB001B620C /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		F4EECF1A177C99F400778578 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				F4EECF1B177C99F400778578 /* en */,
+				F01FD88A18A47547001B620C /* ja */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1506,7 +1527,8 @@
 		F4EECF29177C99F400778578 /* MainStoryboard.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F4EECF2A177C99F400778578 /* en */,
+				F01FD88818A474F0001B620C /* Base */,
+				F01FD88918A47546001B620C /* ja */,
 			);
 			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";
