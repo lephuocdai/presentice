@@ -27,6 +27,14 @@
 "Point" = "ポイント";
 "My code" = "マイコード";
 "Received code" = "友達の紹介コード";
+"Success" = "成功";
+"Successfully sent report" = "管理者への通報送信が成功しました。";
+"Viewed" = "動画が見られたとき";
+"Reviewed" = "回答がレビューされたとき";
+"Answered" = "質問動画に答えられたとき";
+"Messaged" = "メッセージが来たとき";
+"Followed" = "フォローされたとき";
+"Registered" = "友達が登録したとき";
 
 // Login View
 "Login Failed" = "ログイン失敗";
@@ -36,6 +44,29 @@
 "The email address %@ has not been registered." = "このメール%@は登録されていません。";
 "Email address error!" = "メールに関するエラー";
 "Confirmation email sent" = "確認メールを送信済み";
+
+// Register View
+"Sign Up Error" = "登録エラー";
+"Email Invalid. Please check input email again!" = "適切なメールではありません。再度ご確認下さい。";
+"Password Invalid. Password must be more than 5 digits!" = "適切なパスワードではありません。パスワードは5桁以上でなければなりません。";
+"Password not matched. Please check input password again!" = "パスワードが一致していません。再度ご確認ください。";
+"Sign Up Succeeded" = "登録成功";
+"Congratulations! Let's find some friends who are already on Presentice" = "ご登録ありがとうございます。まず、友達を探しましょう。";
+
+// User Profile View
+"Videos of this user" = "このユーザの動画リスト";
+"Follow" = "フォロー";
+"Following" = "フォロー中";
+"Send Private Message" = "メッセージの送信"
+"Send a private message to this user?" = "このユーザにメッセージを送りたいでしょうか?";
+"Cancel" = "キャンセル";
+"Report this User" = "このユーザを通報する";
+"Did you find this user suspicious" = "このユーザが怪しいと思いますか?";
+"Reason this person is suspicious" = "このユーザが怪しいと思う理由";
+
+
+
+
 
 
 

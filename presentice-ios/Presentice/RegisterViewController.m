@@ -78,7 +78,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
     
     //check email
     if(![Validate NSStringIsValidEmail:info.email]){
-        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Error" message:@"Email Invalid. Please check input email again!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
+        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign Up Error", nil) message:NSLocalizedString(@"Email Invalid. Please check input email again!",nil) delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
         [errorAlert show];
         return;
     }
@@ -86,14 +86,14 @@ NSDictionary<FBGraphUser>  *fbInfo;
     
     //check password
     if(![Validate NSSTringISValidPassword:info.password]){
-        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Error" message:@"Password Invalid. Password must be more than 5 digits!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
+        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign Up Error", nil) message:NSLocalizedString(@"Password Invalid. Password must be more than 5 digits!",nil) delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
         [errorAlert show];
         return;
     }
 
     //check password
     if(![info.password isEqualToString:info.passwordConfirm]){
-        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Error" message:@"Password not matched. Please check input password again!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
+        UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign Up Error", nil) message:NSLocalizedString(@"Password not matched. Please check input password again!", nil) delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil , nil];
         [errorAlert show];
         return;
     }
@@ -128,7 +128,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
             [PFCloud callFunction:@"onRegistered" withParameters:params];
             
             //show succeeded alert
-            UIAlertView *succeedAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Succeeded" message:@"Congratulations! Let's find some friends who are already on Presentice" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            UIAlertView *succeedAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign Up Succeeded", nil) message:NSLocalizedString(@"Congratulations! Let's find some friends who are already on Presentice", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
             succeedAlert.tag = 0;
             [succeedAlert show];
             
@@ -151,7 +151,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
             NSString *errorString = [error userInfo][@"error"];
             
             //show errored alert
-            UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Sign Up Error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign Up Error", nil) message:errorString delegate:nil cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil, nil];
             [errorAlert show];
         }
     }];

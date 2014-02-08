@@ -105,7 +105,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return @"Videos of this user";
+        return NSLocalizedString(@"Videos of this user", nil);
     } else {
         return @"";
     }
@@ -160,13 +160,11 @@
     if (indexPath.row < [self.objects count] ) {
         PFObject *videoObj = [self.objects objectAtIndex:indexPath.row];
         if ([[videoObj objectForKey:kVideoTypeKey] isEqualToString:@"question"]) {
-            NSLog(@"selected question video = %@", videoObj);
             QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
             destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
             destViewController.questionVideoObj = videoObj;
             [self.navigationController pushViewController:destViewController animated:YES];
         } else if ([[videoObj objectForKey:kVideoTypeKey] isEqualToString:@"answer"]) {
-            NSLog(@"selected answer video = %@", videoObj);
             VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
             destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
             destViewController.answerVideoObj = videoObj;
@@ -215,36 +213,34 @@
 
 - (void)configureFollowButton {
     self.isFollowing = false;
-    [self.followBtn setTitle:@"Follow" forState:UIControlStateNormal];
+    [self.followBtn setTitle:NSLocalizedString(@"Follow", nil) forState:UIControlStateNormal];
     [self.followBtn addTarget:self action:@selector(doFollowAction:)forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)configureUnfollowButton {
     self.isFollowing = true;
-    [self.followBtn setTitle:@"Following" forState:UIControlStateNormal];
+    [self.followBtn setTitle:NSLocalizedString(@"Following", nil) forState:UIControlStateNormal];
     [self.followBtn addTarget:self action:@selector(doUnfollowAction:)forControlEvents:UIControlEventTouchUpInside];
 }
 
 
 - (IBAction)sendMessage:(id)sender {
-    UIAlertView *sendMessageAlert = [[UIAlertView alloc] initWithTitle:@"Send Private Message" message:@"Send to this user a private message" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    UIAlertView *sendMessageAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Send Private Message", nil) message:NSLocalizedString(@"Send a private message to this user?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:@"OK", nil];
     sendMessageAlert.tag = 0;
     [sendMessageAlert show];
 }
 
 - (IBAction)reportUser:(id)sender {
-    UIAlertView *reportUserAlert = [[UIAlertView alloc] initWithTitle:@"Report this User" message:@"Did you find this user suspicious" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    UIAlertView *reportUserAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Report this User", nil) message:NSLocalizedString(@"Did you find this user suspicious",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"NO", nil) otherButtonTitles:NSLocalizedString(@"YES", nil), nil];
     [reportUserAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-    [[reportUserAlert textFieldAtIndex:0] setPlaceholder:@"Reason this person is suspicious"];
+    [[reportUserAlert textFieldAtIndex:0] setPlaceholder:NSLocalizedString(@"Reason this person is suspicious", nil)];
     reportUserAlert.tag = 1;
     [reportUserAlert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 0) {
-        NSLog(@"ask send message");
         if (buttonIndex == 1) {
-            NSLog(@"switch to message detail");
             [PresenticeUtility instantiateMessageDetailWith:self.userObj from:self animated:YES];
         }
     } else if (alertView.tag == 1) {
@@ -258,7 +254,7 @@
             [reportActivity setObject:reportDescription forKey:kActivityDescriptionKey];
             [reportActivity saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
-                    UIAlertView *reportSuccessAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Successfully sent report" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    UIAlertView *reportSuccessAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", nil) message:NSLocalizedString(@"Successfully sent report", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
                     [reportSuccessAlert show];
 
                 } else {

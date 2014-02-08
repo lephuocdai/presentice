@@ -1043,7 +1043,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="P0F-A4-FTZ">
-                                    <rect key="frame" x="186" y="42" width="114" height="23"/>
+                                    <rect key="frame" x="140" y="42" width="160" height="23"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <state key="normal" title="Report this user!">
