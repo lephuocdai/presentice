@@ -21,6 +21,10 @@ PFObject *reviewObj;
     if ((self = [super initWithCoder:aDecoder])) {
 
         self.root = [[QRootElement alloc] initWithJSONFile:@"reviewForm"];
+        
+        QAppearance *fieldsAppearance = [self.root.appearance copy];
+        fieldsAppearance.backgroundColorEnabled = [UIColor colorWithRed:0 green:125.0/255 blue:225.0/255 alpha:1];
+        [self.root elementWithKey:@"sendReviewButton"].appearance = fieldsAppearance;
 
         self.resizeWhenKeyboardPresented = YES;
     }
@@ -90,11 +94,13 @@ PFObject *reviewObj;
         [reviewObj setObject:self.videoObj forKey:kActivityTargetVideoKey];
         [reviewObj setObject:[self.videoObj objectForKey:kVideoUserKey] forKey:kActivityToUserKey];
         
-        NSMutableDictionary *content = [[NSMutableDictionary alloc] init ];
+        NSMutableDictionary *criteria = [[NSMutableDictionary alloc] init ];
         for (QPickerElement *rating in ratings) {
-            [content setObject:rating.value forKey:rating.key];
+            [criteria setObject:rating.value forKey:rating.key];
             NSLog(@"Title: %@ - %@ = %@ \n", rating.title, rating.key, rating.value);
         }
+        NSDictionary *content = [[NSDictionary alloc] initWithObjectsAndKeys:criteria, kActivityReviewCriteriaKey, [NSNumber numberWithInteger:VIEW_REVIEW_WAITNG_TIME], kActivityReviewWaitingTime, nil];
+        
         [reviewObj setObject:content forKey:kActivityContentKey];
         
         NSLog(@"reviewObj before save = %@", reviewObj);
@@ -150,11 +156,13 @@ PFObject *reviewObj;
                 if (comment.textValue)
                     [object setObject:comment.textValue forKey:kActivityDescriptionKey];
                 
-                NSMutableDictionary *content = [[NSMutableDictionary alloc] init ];
+                NSMutableDictionary *criteria = [[NSMutableDictionary alloc] init ];
                 for (QPickerElement *rating in ratings) {
-                    [content setObject:rating.value forKey:rating.key];
+                    [criteria setObject:rating.value forKey:rating.key];
                     NSLog(@"Title: %@ - %@ = %@ \n", rating.title, rating.key, rating.value);
                 }
+                NSDictionary *content = [[NSDictionary alloc] initWithObjectsAndKeys:criteria, kActivityReviewCriteriaKey, [NSNumber numberWithInteger:VIEW_REVIEW_WAITNG_TIME], kActivityReviewWaitingTime, nil];
+                
                 [object setObject:content forKey:kActivityContentKey];
                 
                 [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -203,7 +211,7 @@ PFObject *reviewObj;
                 }
                 NSArray *ratings = [NSArray arrayWithArray:((QSection*)[self.root.sections firstObject]).elements];
                 for (QPickerElement *rating in ratings) {
-                    rating.value = [[review objectForKey:kActivityContentKey] objectForKey:rating.key];
+                    rating.value = [[[review objectForKey:kActivityContentKey] objectForKey:kActivityReviewCriteriaKey] objectForKey:rating.key];
                 }
             }
         }

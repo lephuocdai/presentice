@@ -156,7 +156,7 @@
         <!--Review Detail View Controller - Review Detail-->
         <scene sceneID="M5w-qD-zIu">
             <objects>
-                <tableViewController id="Hdg-CD-qcO" customClass="ReviewDetailViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="reviewDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Hdg-CD-qcO" customClass="ReviewDetailViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="31" sectionHeaderHeight="22" sectionFooterHeight="22" id="HhQ-G0-1PD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -716,9 +716,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="Hdg-CD-qcO" kind="push" identifier="showReviewDetail" id="hyQ-RK-lqM"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -744,7 +741,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KiW-aR-L2U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3837" y="-176"/>
+            <point key="canvasLocation" x="3817" y="-120"/>
         </scene>
         <!--Video View Controller - Attempt Detail-->
         <scene sceneID="y6e-tG-wo2">
@@ -826,9 +823,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="Hdg-CD-qcO" kind="push" identifier="showReviewDetail" id="6kH-cL-B2Y"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <sections/>
@@ -1638,7 +1632,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="6kH-cL-B2Y"/>
         <segue reference="caN-zf-xcd"/>
     </inferredMetricsTieBreakers>
 </document>

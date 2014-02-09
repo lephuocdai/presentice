@@ -641,4 +641,31 @@
     }
 }
 
+// Get waiting time
++ (NSInteger)waitingTimeToView:(PFObject*)anActivity {
+    PFObject* content = [anActivity objectForKey:kActivityContentKey];
+    return (NSInteger)[[content objectForKey:kActivityReviewWaitingTime] integerValue];
+}
+
+// Check waitingTime
++ (void)navigateToReviewDetail:(PFObject*)aReview from:(UIViewController *)currentViewController{
+    NSDate *createdDate = aReview.updatedAt;
+    if (-[createdDate timeIntervalSinceNow] < [PresenticeUtility waitingTimeToView:aReview]) {
+//        NSLog(@"not yet: %f < %d", -[createdDate timeIntervalSinceNow], [PresenticeUtility waitingTimeToView:aReview]);
+        NSDate *availableDate = [[NSDate alloc] initWithTimeInterval:[PresenticeUtility waitingTimeToView:aReview] sinceDate:aReview.createdAt];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"JST"]];
+        dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+        NSString *message = [NSString stringWithFormat:@"You have to wait until:\n%@", [dateFormatter stringFromDate:availableDate]];
+        UIAlertView *waitingAlert = [[UIAlertView alloc] initWithTitle:@"Can not view now" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [waitingAlert show];
+    } else {
+//        NSLog(@"it's ok: %f > %d", -[createdDate timeIntervalSinceNow], [PresenticeUtility waitingTimeToView:aReview]);
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        ReviewDetailViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"reviewDetailViewController"];
+        destViewController.reviewObject = aReview;
+        [currentViewController.navigationController pushViewController:destViewController animated:YES];
+    }
+}
+
 @end

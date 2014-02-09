@@ -168,11 +168,11 @@
     
     userName.text = [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey];
     
-    NSMutableDictionary *points = [object objectForKey:kActivityContentKey];
+    NSMutableDictionary *criteria = [[object objectForKey:kActivityContentKey] objectForKey:kActivityReviewCriteriaKey];
     pointDetail.text = [NSString stringWithFormat:@"app: %@, org: %@, und: %@",
-                        [points objectForKey:@"appearance"],
-                        [points objectForKey:@"organization"],
-                        [points objectForKey:@"understandability"]];
+                        [criteria objectForKey:@"appearance"],
+                        [criteria objectForKey:@"organization"],
+                        [criteria objectForKey:@"understandability"]];
     
     pointSum.text = @"undefined";
     
@@ -180,26 +180,18 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    if (indexPath.row < self.objects.count) {
+        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        [PresenticeUtility navigateToReviewDetail:object from:self];
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+}
+
 - (void) objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
     NSLog(@"error: %@", [error localizedDescription]);
-}
-
-/**
- * segue for table cell
- * click to direct to video review
- * pass video object
- */
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showReviewDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        ReviewDetailViewController *destViewController = segue.destinationViewController;
-        PFObject *object = [self.objects objectAtIndex:indexPath.row];
-        NSLog(@"sent object = %@", object);
-        destViewController.reviewObject = object;
-    }
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (IBAction)editVideoInfo:(id)sender {

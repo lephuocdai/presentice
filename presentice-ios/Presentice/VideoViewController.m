@@ -275,6 +275,15 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    if (indexPath.row < self.objects.count) {
+        PFObject *object = [self.objects objectAtIndex:indexPath.row];
+        [PresenticeUtility navigateToReviewDetail:object from:self];
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+}
+
 - (void) objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
     NSLog(@"error: %@", [error localizedDescription]);
@@ -291,11 +300,6 @@
         TakeReviewViewController *destViewController = segue.destinationViewController;
         destViewController.videoObj = self.answerVideoObj;
         NSLog(@"sent videoObject = %@", destViewController.videoObj);
-    } else if ([segue.identifier isEqualToString:@"showReviewDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        ReviewDetailViewController *destViewController = segue.destinationViewController;
-        PFObject *object = [self.objects objectAtIndex:indexPath.row];
-        destViewController.reviewObject = object;
     }
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }

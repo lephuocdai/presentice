@@ -76,6 +76,8 @@
 #define kActivityContentKey @"content"  // The detail content if available
 #define kActivityTargetVideoKey @"targetVideo"  // Pointer to the video that this activity was taken on
 #define kActivityTypeFollow @"follow"   //type = follow
+#define kActivityReviewCriteriaKey @"criteria"
+#define kActivityReviewWaitingTime @"waitingTime"
 
 #pragma Table Message
 #define kMessageClassKey @"Message"
@@ -98,6 +100,8 @@
 #define REVIEW_MIN_VALUE 1
 
 #define VIDEO_TIME_LIMIT 120.0f     // 2 minutes
+
+#define VIEW_REVIEW_WAITNG_TIME 3600           // Wait at least 1 hour = 3600 seconds
 
 @interface Constants : NSObject
 

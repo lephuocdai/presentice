@@ -105,5 +105,10 @@
 // Check user activation
 + (void)checkCurrentUserActivationIn:(UIViewController*)currentViewController;
 
+// Get waiting time
++ (NSInteger)waitingTimeToView:(PFObject*)anActivity;
+
+// Check waiting time
++ (void)navigateToReviewDetail:(PFObject*)aReview from:(UIViewController *)currentViewController;
 
 @end
