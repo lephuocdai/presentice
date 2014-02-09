@@ -251,6 +251,7 @@
  */
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     if (indexPath.row < self.objects.count) {
         PFObject *activityObject = [self.objects objectAtIndex:indexPath.row];
@@ -288,6 +289,8 @@
             destViewController.userObj = [activityObject objectForKey:kActivityFromUserKey];
             [self.navigationController pushViewController:destViewController animated:YES];
         }
+    } else {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }
 }
 

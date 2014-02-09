@@ -340,7 +340,15 @@
     if ([key isEqualToString:kVideoAnswersKey]) {
         PFRelation *relation = [object relationforKey:kVideoAnswersKey];
         PFQuery *query = relation.query;
-        return [NSString stringWithFormat:@"%@: %ld", key, (long)[query countObjects]];
+        __block int count = 0;
+        [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+            if (!error) {
+                 count = number;
+            } else {
+                [PresenticeUtility showErrorAlert:error];
+            }
+        }];
+        return [NSString stringWithFormat:@"%@: %d", key, count];
     } else {
         if ([object objectForKey:key]) {
             return [NSString stringWithFormat:@"%@: %@", key, [object objectForKey:key]];

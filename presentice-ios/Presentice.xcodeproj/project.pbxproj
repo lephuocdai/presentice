@@ -684,6 +684,8 @@
 		F04C775D188BD4E700F56126 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				F0980E2518A795920028DC74 /* EditNote */,
+				F0980E2418A7957F0028DC74 /* VideoView */,
 				F09EBCE818695566009C2BC9 /* NewsFeed */,
 				F09EBCD018691D0C009C2BC9 /* Question */,
 				F09EBCCF18691CF6009C2BC9 /* MyList */,
@@ -779,13 +781,31 @@
 			name = SideMenu;
 			sourceTree = "<group>";
 		};
+		F0980E2418A7957F0028DC74 /* VideoView */ = {
+			isa = PBXGroup;
+			children = (
+				F01ECFE918850563000604C3 /* QuestionDetailViewController.h */,
+				F01ECFEA18850563000604C3 /* QuestionDetailViewController.m */,
+				F0DDAB82187BD460002BDC67 /* VideoViewController.h */,
+				F0DDAB83187BD460002BDC67 /* VideoViewController.m */,
+			);
+			name = VideoView;
+			sourceTree = "<group>";
+		};
+		F0980E2518A795920028DC74 /* EditNote */ = {
+			isa = PBXGroup;
+			children = (
+				F0661E1A1898E233004F28F6 /* EditNoteViewController.h */,
+				F0661E1B1898E233004F28F6 /* EditNoteViewController.m */,
+			);
+			name = EditNote;
+			sourceTree = "<group>";
+		};
 		F09EBCCF18691CF6009C2BC9 /* MyList */ = {
 			isa = PBXGroup;
 			children = (
 				F0A5A74B187276CD004E24A3 /* MyListViewController.h */,
 				F0A5A74C187276CD004E24A3 /* MyListViewController.m */,
-				F0661E1A1898E233004F28F6 /* EditNoteViewController.h */,
-				F0661E1B1898E233004F28F6 /* EditNoteViewController.m */,
 			);
 			name = MyList;
 			sourceTree = "<group>";
@@ -795,8 +815,6 @@
 			children = (
 				F0A5A7481871D9DF004E24A3 /* QuestionListViewController.h */,
 				F0A5A7491871D9DF004E24A3 /* QuestionListViewController.m */,
-				F01ECFE918850563000604C3 /* QuestionDetailViewController.h */,
-				F01ECFEA18850563000604C3 /* QuestionDetailViewController.m */,
 			);
 			name = Question;
 			sourceTree = "<group>";
@@ -819,8 +837,6 @@
 			children = (
 				F0A5A75018729E01004E24A3 /* MainViewController.h */,
 				F0A5A75118729E01004E24A3 /* MainViewController.m */,
-				F0DDAB82187BD460002BDC67 /* VideoViewController.h */,
-				F0DDAB83187BD460002BDC67 /* VideoViewController.m */,
 			);
 			name = NewsFeed;
 			sourceTree = "<group>";

@@ -134,6 +134,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     if (indexPath.row < self.objects.count) {
         //get main storyboard
@@ -142,10 +143,7 @@
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
         
         if ([[object objectForKey:kVideoTypeKey] isEqualToString:@"answer"]) {
-            
-//            MyAnswerViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"myAnswerViewController"];
             VideoViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
-            
             destViewController.movieURL = [PresenticeUtility s3URLForObject:object];
             destViewController.answerVideoObj = object;
             [self.navigationController pushViewController:destViewController animated:YES];
@@ -156,10 +154,10 @@
             destViewController.questionVideoObj = object;
             [self.navigationController pushViewController:destViewController animated:YES];
         }
+    } else {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }
 }
-
-
 
 - (IBAction)showLeftMenu:(id)sender {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
