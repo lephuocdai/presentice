@@ -120,6 +120,7 @@
             [params setObject:[self.answerVideoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
             [params setObject:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId] forKey:@"toUser"];
             [params setObject:@"viewed" forKey:@"pushType"];
+            NSLog(@"Send viewed push notification to %@", [[self.answerVideoObj objectForKey:kVideoUserKey] objectId]);
             [PFCloud callFunction:@"sendPushNotification" withParameters:params];
         }
         

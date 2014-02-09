@@ -64,7 +64,7 @@
     
     // Configure the cell...
     NSString *type = [pushType objectAtIndex:indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ :%@", NSLocalizedString([type capitalizedString], nil), NSLocalizedString([self.pushPermission objectForKey:type], nil)];
+    cell.textLabel.text = NSLocalizedString([type capitalizedString], nil);
     
     // Add a switch
     UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectZero];

@@ -30,7 +30,7 @@
 "2KB-Zj-bvF.text" = "postedUser";
 
 /* Class = "IBUINavigationItem"; title = "Notifications"; ObjectID = "2U9-1f-Mei"; */
-"2U9-1f-Mei.title" = "お知らせ";
+"2U9-1f-Mei.title" = "通知";
 
 /* Class = "IBUILabel"; text = "userName"; ObjectID = "3Jj-y9-Xt3"; */
 "3Jj-y9-Xt3.text" = "userName";
@@ -267,7 +267,7 @@
 "pEw-m6-w8R.title" = "Quetion List View Controller";
 
 /* Class = "IBUITabBarItem"; title = "Notifications"; ObjectID = "pa3-jl-nte"; */
-"pa3-jl-nte.title" = "お知らせ";
+"pa3-jl-nte.title" = "通知";
 
 /* Class = "IBUITableViewController"; title = "My List View Controller"; ObjectID = "pdo-2c-UBU"; */
 "pdo-2c-UBU.title" = "My List View Controller";
