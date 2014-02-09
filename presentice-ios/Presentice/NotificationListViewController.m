@@ -84,7 +84,7 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *activitiesQuery = [PFQuery queryWithClassName:self.parseClassName];
-    [activitiesQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review", @"postQuestion", @"view", @"follow", @"invalidCode"]];
+    [activitiesQuery whereKey:kActivityTypeKey containedIn:@[@"answer", @"review", @"postQuestion", @"view", @"follow", @"invalidCode", @"suggestReview"]];
     [activitiesQuery includeKey:kActivityFromUserKey];
     [activitiesQuery includeKey:kActivityTargetVideoKey];
     [activitiesQuery includeKey:@"targetVideo.user"];
@@ -108,6 +108,16 @@
 
 #pragma mark - UITableViewDataSource
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    PFObject *activity = [self.objects objectAtIndex:indexPath.row];
+    if ([[activity objectForKey:kActivityTypeKey] isEqualToString:@"suggestReview"]) {
+        return 55;
+    } else {
+        return 50;
+    }
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *simpleTableIdentifier = @"notificationListIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
@@ -121,6 +131,7 @@
     UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
     //asyn to get profile picture
     [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
+    
     NSString *type = [object objectForKey:kActivityTypeKey];
     if ([type isEqualToString:@"invalidCode"]) {
         description.text = [object objectForKey:kActivityDescriptionKey];
@@ -134,6 +145,16 @@
         description.text = [NSString stringWithFormat:@"%@ has followed you",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
+    }else if ([type isEqualToString:@"suggestReview"]) {
+        description.frame = CGRectMake(50, 5, 185, 45);
+        NSString *suggester = ([object objectForKey:kActivityFromUserKey] == nil) ? @"Presentice" : [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey];
+        description.text = [NSString stringWithFormat:@"Recommendation from %@: Would you like to review %@'s %@",
+                            suggester,
+                            [[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoToUserKey] objectForKey:kUserDisplayNameKey],
+                            [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
+        [description boldSubstring:[NSString stringWithFormat:@"%@",suggester]];
+        [description boldSubstring:[NSString stringWithFormat:@"%@",[[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoToUserKey] objectForKey:kUserDisplayNameKey]]];
+        [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
     } else {
         description.text = [NSString stringWithFormat:@"%@ has %@ed your %@",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],

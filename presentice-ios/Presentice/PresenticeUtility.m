@@ -381,15 +381,19 @@
 
 + (void)setImageView:(UIImageView *)imageView forUser:(PFUser *)user {
     //asyn to get image
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtility facebookProfilePictureofUser:user]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            imageView.image = [UIImage imageWithData:profileImageData];
-            imageView.highlightedImage = imageView.image;
-            imageView.layer.cornerRadius = imageView.frame.size.width / 2;
-            imageView.layer.masksToBounds = YES;
+    if ([user objectForKey:kUserFacebookIdKey]) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSData *profileImageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[PresenticeUtility facebookProfilePictureofUser:user]]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                imageView.image = [UIImage imageWithData:profileImageData];
+                imageView.highlightedImage = imageView.image;
+                imageView.layer.cornerRadius = imageView.frame.size.width / 2;
+                imageView.layer.masksToBounds = YES;
+            });
         });
-    });
+    } else {
+        imageView.image = [UIImage imageNamed:@"ico_profile_on.png"];
+    }
 }
 
 
