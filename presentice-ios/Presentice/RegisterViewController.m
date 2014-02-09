@@ -158,7 +158,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
     
     // subscribe user default channel for notification.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-    [currentInstallation addUniqueObject:[newUser objectId] forKey:@"channels"];
+    [currentInstallation addUniqueObject:[NSString stringWithFormat:@"user_%@",[newUser objectId]] forKey:@"channels"];
     [currentInstallation saveInBackground];
     
 }

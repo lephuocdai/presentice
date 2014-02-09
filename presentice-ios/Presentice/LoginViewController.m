@@ -77,7 +77,7 @@
             
             // subscribe user default channel for notification.
             PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-            [currentInstallation addUniqueObject:[user objectId] forKey:@"channels"];
+            [currentInstallation addUniqueObject:[NSString stringWithFormat:@"user_%@",[user objectId]] forKey:@"channels"];
             [currentInstallation saveInBackground];
             
         } else {
@@ -150,7 +150,7 @@
                         
                         // subscribe user default channel for notification.
                         PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-                        [currentInstallation addUniqueObject:[user objectId] forKey:@"channels"];
+                        [currentInstallation addUniqueObject:[NSString stringWithFormat:@"user_%@",[user objectId]] forKey:@"channels"];
                         [currentInstallation saveInBackground];
                         
                         NSLog(@"currentInstallation: %@", currentInstallation);
