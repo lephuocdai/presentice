@@ -251,7 +251,6 @@
  */
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     if (indexPath.row < self.objects.count) {
         PFObject *activityObject = [self.objects objectAtIndex:indexPath.row];
@@ -262,16 +261,12 @@
                 [alert show];
                 [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
             } else if ([[videoObj objectForKey:kVideoVisibilityKey] isEqualToString:@"open"]) {
-                VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
-                destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
-                destViewController.answerVideoObj = videoObj;
-                [self.navigationController pushViewController:destViewController animated:YES];
+                
+                [PresenticeUtility navigateToVideoView:videoObj from:self];
+
             } else if ([[videoObj objectForKey:kVideoVisibilityKey] isEqualToString:@"friendOnly"]) {
                 if ([PresenticeUtility isUser:[PFUser currentUser] followUser:[videoObj objectForKey:kVideoUserKey]]) {
-                    VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
-                    destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
-                    destViewController.answerVideoObj = videoObj;
-                    [self.navigationController pushViewController:destViewController animated:YES];
+                    [PresenticeUtility navigateToVideoView:videoObj from:self];
                 } else {
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't view video" message:@"This video owner does not allow you to view it. Request her by sending a message" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                     [alert show];
@@ -279,18 +274,17 @@
                 }
             }
         } else if ([[activityObject objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
-            QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
-            PFObject *videoObj = [activityObject objectForKey:kActivityTargetVideoKey];
-            destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
-            destViewController.questionVideoObj = videoObj;
-            [self.navigationController pushViewController:destViewController animated:YES];
+
+            [PresenticeUtility navigateToVideoView:[activityObject objectForKey:kActivityTargetVideoKey] from:self];
+
         } else if ([[activityObject objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
-            UserProfileViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
-            destViewController.userObj = [activityObject objectForKey:kActivityFromUserKey];
-            [self.navigationController pushViewController:destViewController animated:YES];
+            
+            [PresenticeUtility navigateToUserProfile:[activityObject objectForKey:kActivityFromUserKey] from:self];
+            
         }
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     } else {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
 }
 

@@ -134,28 +134,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     if (indexPath.row < self.objects.count) {
-        //get main storyboard
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         
-        PFObject *object = [self.objects objectAtIndex:indexPath.row];
-        
-        if ([[object objectForKey:kVideoTypeKey] isEqualToString:@"answer"]) {
-            VideoViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
-            destViewController.movieURL = [PresenticeUtility s3URLForObject:object];
-            destViewController.answerVideoObj = object;
-            [self.navigationController pushViewController:destViewController animated:YES];
-            
-        } else if ([[object objectForKey:kVideoTypeKey] isEqualToString:@"question"]) {
-            QuestionDetailViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
-            destViewController.movieURL = [PresenticeUtility s3URLForObject:object];
-            destViewController.questionVideoObj = object;
-            [self.navigationController pushViewController:destViewController animated:YES];
-        }
+        [PresenticeUtility navigateToVideoView:[self.objects objectAtIndex:indexPath.row] from:self];
+
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     } else {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
 }
 

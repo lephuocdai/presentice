@@ -324,7 +324,6 @@
     [newVideo setObject:self.newQuestionVideoName forKey:kVideoNameKey];
     [newVideo setObject:@"open" forKey:kVideoVisibilityKey];
     [newVideo setObject:[NSNumber numberWithInt:0] forKey:kVideoViewsKey];
-//    [newVideo setObject:[NSNumber numberWithInt:0] forKey:kVideoAnswersKey];
     [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             NSLog(@"saved to Parse");

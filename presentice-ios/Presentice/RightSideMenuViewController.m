@@ -25,7 +25,7 @@
         self.textKey = kActivityTypeKey;
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
-        self.objectsPerPage = 3;
+        self.objectsPerPage = 10;
     }
     return self;
 }
@@ -82,6 +82,12 @@
     
     // Query all followActivities where toUser is followed by the currentUser
     PFQuery *followingFriendQuery = [PresenticeUtility followingFriendsOfUser:[PFUser currentUser]];
+    
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    if ([self.objects count] == 0) {
+        followingFriendQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    }
     
     [followingFriendQuery orderByAscending:kUpdatedAtKey];
     return followingFriendQuery;

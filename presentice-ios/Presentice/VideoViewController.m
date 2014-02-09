@@ -294,6 +294,8 @@
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
         [PresenticeUtility navigateToReviewDetail:object from:self];
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    } else {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
 }
 
@@ -344,12 +346,10 @@
             [self.navigationController pushViewController:editNoteViewController animated:YES];
         } else if (buttonIndex == 3) {
             UIAlertView *visibilityEditAlert = [[UIAlertView alloc] initWithTitle:@"Visibility Selection" message:@"Decide who can view this video" delegate:self cancelButtonTitle:@"Open inside Presentice" otherButtonTitles:@"Only friends who are following me", @"Only Me", nil];
-//            visibilityEditAlert.tag = 2;
             visibilityEditAlert.tag = 4;
             [visibilityEditAlert show];
         } else if (buttonIndex == 4) {
             UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete video" message:@"Are you sure you want to delete this video. This action can not be undone." delegate:self cancelButtonTitle:@"No, stop it" otherButtonTitles:@"Yes, delete it", nil];
-//            deleteAlert.tag = 4;
             deleteAlert.tag = 5;
             [deleteAlert show];
         }

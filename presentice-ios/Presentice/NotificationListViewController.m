@@ -160,58 +160,38 @@
  */
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     if (indexPath.row < [self.objects count] ) {
         PFObject *notificationObj = [self.objects objectAtIndex:indexPath.row];
         if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"answer"]) {
-            VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
-            PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
             
-            destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
-            destViewController.answerVideoObj = videoObj;
-            
-            [self.navigationController pushViewController:destViewController animated:YES];
+            [PresenticeUtility navigateToVideoView:[notificationObj objectForKey:kActivityTargetVideoKey] from:self];
             
         } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
-            VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
-            PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
             
-            destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
-            destViewController.answerVideoObj = videoObj;
-            
-            [self.navigationController pushViewController:destViewController animated:YES];
+            [PresenticeUtility navigateToVideoView:[notificationObj objectForKey:kActivityTargetVideoKey] from:self];
             
         } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
-            QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
-            PFObject *videoObj = [notificationObj objectForKey:kActivityTargetVideoKey];
             
-            destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
-            destViewController.questionVideoObj = videoObj;
-            
-            [self.navigationController pushViewController:destViewController animated:YES];
+            [PresenticeUtility navigateToVideoView:[notificationObj objectForKey:kActivityTargetVideoKey] from:self];
             
         } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
-            UserProfileViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
-            destViewController.userObj = [notificationObj objectForKey:kActivityFromUserKey];
             
-            [self.navigationController pushViewController:destViewController animated:YES];
+            [PresenticeUtility navigateToUserProfile:[notificationObj objectForKey:kActivityFromUserKey] from:self];
             
         } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"follow"]) {
-            UserProfileViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
-            destViewController.userObj = [notificationObj objectForKey:kActivityFromUserKey];
             
-            [self.navigationController pushViewController:destViewController animated:YES];
+            [PresenticeUtility navigateToUserProfile:[notificationObj objectForKey:kActivityFromUserKey] from:self];
             
         } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"view"]) {
-            UserProfileViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
-            destViewController.userObj = [notificationObj objectForKey:kActivityFromUserKey];
-            [self.navigationController pushViewController:destViewController animated:YES];
+            
+            [PresenticeUtility navigateToUserProfile:[notificationObj objectForKey:kActivityFromUserKey] from:self];
+            
         } else if ([[notificationObj objectForKey:kActivityTypeKey] isEqualToString:@"invalidCode"]) {
-            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         }
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     } else {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
 }
 

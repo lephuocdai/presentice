@@ -133,7 +133,7 @@
     [super objectsDidLoad:error];
     NSLog(@"objectsDidLoad error: %@", [error localizedDescription]);
     
-    [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     // check if the currentUser is following this user
     PFQuery *queryIsFollowing = [PFQuery queryWithClassName:kActivityClassKey];
     [queryIsFollowing whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
@@ -146,7 +146,7 @@
             } else {
                 [self configureUnfollowButton];
             }
-            [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         } else {
             [PresenticeUtility showErrorAlert:error];
             self.followBtn = nil;
@@ -156,20 +156,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     if (indexPath.row < [self.objects count] ) {
         PFObject *videoObj = [self.objects objectAtIndex:indexPath.row];
-        if ([[videoObj objectForKey:kVideoTypeKey] isEqualToString:@"question"]) {
-            QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
-            destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
-            destViewController.questionVideoObj = videoObj;
-            [self.navigationController pushViewController:destViewController animated:YES];
-        } else if ([[videoObj objectForKey:kVideoTypeKey] isEqualToString:@"answer"]) {
-            VideoViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
-            destViewController.movieURL = [PresenticeUtility s3URLForObject:videoObj];
-            destViewController.answerVideoObj = videoObj;
-            [self.navigationController pushViewController:destViewController animated:YES];
-        }
+        [PresenticeUtility navigateToVideoView:videoObj from:self];
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    } else {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
 }
 

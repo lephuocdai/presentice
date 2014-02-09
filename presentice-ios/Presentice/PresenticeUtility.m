@@ -94,7 +94,6 @@
     [followingFriendQuery whereKey:kActivityTypeKey equalTo:kActivityTypeFollow];
     [followingFriendQuery whereKey:kActivityFromUserKey equalTo:aUser];
     [followingFriendQuery includeKey:kActivityToUserKey];
-    followingFriendQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [followingFriendQuery orderByDescending:kUpdatedAtKey];
     followingFriendQuery.limit = 1000;
     return followingFriendQuery;
@@ -408,6 +407,21 @@
     [currentViewController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
 }
 
++ (void)navigateToUserProfile:(PFUser *)aUser from:(UIViewController *)currentViewController {
+    if (aUser == nil) {
+        UIAlertView *noObjectAlert = [[UIAlertView alloc] initWithTitle:@"User profile not found" message:@"This user has been deleted or set to private. Please contact us at info@presentice.com for further information." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [noObjectAlert show];
+        [MBProgressHUD hideAllHUDsForView:currentViewController.view animated:YES];
+    } else {
+        //get main storyboard
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        UserProfileViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"userProfileViewController"];
+        destViewController.userObj = aUser;
+        [currentViewController.navigationController pushViewController:destViewController animated:YES];
+    }
+}
+
+
 + (void)navigateToHomeScreenFrom:(UIViewController*)currentViewController {
     //get main storyboard
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
@@ -492,8 +506,54 @@
     [currentViewController.menuContainerViewController setMenuState:MFSideMenuStateClosed];
 }
 
-// Instantiate View Controller
++ (void)navigateToReviewDetail:(PFObject*)aReview from:(UIViewController *)currentViewController{
+    if (aReview == nil) {
+        UIAlertView *noObjectAlert = [[UIAlertView alloc] initWithTitle:@"Review not found" message:@"This review has been deleted set to private. Please ask its owner for view permission." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [noObjectAlert show];
+        [MBProgressHUD hideAllHUDsForView:currentViewController.view animated:YES];
+    } else {
+        NSDate *createdDate = aReview.createdAt;
+        if (-[createdDate timeIntervalSinceNow] < [PresenticeUtility waitingTimeToView:aReview]) {
+            //        NSLog(@"not yet: %f < %d", -[createdDate timeIntervalSinceNow], [PresenticeUtility waitingTimeToView:aReview]);
+            NSDate *availableDate = [[NSDate alloc] initWithTimeInterval:[PresenticeUtility waitingTimeToView:aReview] sinceDate:aReview.createdAt];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"JST"]];
+            dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+            NSString *message = [NSString stringWithFormat:@"You have to wait until:\n%@", [dateFormatter stringFromDate:availableDate]];
+            UIAlertView *waitingAlert = [[UIAlertView alloc] initWithTitle:@"Can not view now" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [waitingAlert show];
+        } else {
+            //        NSLog(@"it's ok: %f > %d", -[createdDate timeIntervalSinceNow], [PresenticeUtility waitingTimeToView:aReview]);
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+            ReviewDetailViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"reviewDetailViewController"];
+            destViewController.reviewObject = aReview;
+            [currentViewController.navigationController pushViewController:destViewController animated:YES];
+        }
+    }
+}
 
++ (void)navigateToVideoView:(PFObject *)aVideo from:(UIViewController *)currentViewController {
+    if (aVideo == nil) {
+        UIAlertView *noObjectAlert = [[UIAlertView alloc] initWithTitle:@"Video not found" message:@"This video has been deleted set to private. Please ask its owner for view permission." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [noObjectAlert show];
+        [MBProgressHUD hideAllHUDsForView:currentViewController.view animated:YES];
+    } else {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        if ([[aVideo objectForKey:kVideoTypeKey] isEqualToString:@"answer"]) {
+            VideoViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
+            destViewController.movieURL = [PresenticeUtility s3URLForObject:aVideo];
+            destViewController.answerVideoObj = aVideo;
+            [currentViewController.navigationController pushViewController:destViewController animated:YES];
+        } else if ([[aVideo objectForKey:kVideoTypeKey] isEqualToString:@"question"]) {
+            QuestionDetailViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
+            destViewController.movieURL = [PresenticeUtility s3URLForObject:aVideo];
+            destViewController.questionVideoObj = aVideo;
+            [currentViewController.navigationController pushViewController:destViewController animated:YES];
+        }
+    }
+}
+
+// Instantiate View Controller
 + (void)instantiateHomeScreenFrom:(UIViewController *)currentViewController animated:(BOOL)animated completion:(void (^)(void))completion {
     //get main storyboard
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
@@ -655,25 +715,6 @@
     return (NSInteger)[[content objectForKey:kActivityReviewWaitingTime] integerValue];
 }
 
-// Check waitingTime
-+ (void)navigateToReviewDetail:(PFObject*)aReview from:(UIViewController *)currentViewController{
-    NSDate *createdDate = aReview.createdAt;
-    if (-[createdDate timeIntervalSinceNow] < [PresenticeUtility waitingTimeToView:aReview]) {
-//        NSLog(@"not yet: %f < %d", -[createdDate timeIntervalSinceNow], [PresenticeUtility waitingTimeToView:aReview]);
-        NSDate *availableDate = [[NSDate alloc] initWithTimeInterval:[PresenticeUtility waitingTimeToView:aReview] sinceDate:aReview.createdAt];
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"JST"]];
-        dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-        NSString *message = [NSString stringWithFormat:@"You have to wait until:\n%@", [dateFormatter stringFromDate:availableDate]];
-        UIAlertView *waitingAlert = [[UIAlertView alloc] initWithTitle:@"Can not view now" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [waitingAlert show];
-    } else {
-//        NSLog(@"it's ok: %f > %d", -[createdDate timeIntervalSinceNow], [PresenticeUtility waitingTimeToView:aReview]);
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-        ReviewDetailViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"reviewDetailViewController"];
-        destViewController.reviewObject = aReview;
-        [currentViewController.navigationController pushViewController:destViewController animated:YES];
-    }
-}
+
 
 @end

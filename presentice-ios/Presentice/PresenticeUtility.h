@@ -83,10 +83,13 @@
 
 // Navigate to other view controller
 + (void)navigateToMyProfileFrom:(UIViewController *)currentViewController;
++ (void)navigateToUserProfile:(PFUser*)aUser from:(UIViewController *)currentViewController;
 + (void)navigateToHomeScreenFrom:(UIViewController*)currentViewController;
 + (void)navigateToMyLibraryFrom:(UIViewController*)currentViewController;
 + (void)navigateToMessageScreenFrom:(UIViewController*)currentViewController;
 + (void)navigateToFindFriendsFrom:(UIViewController*)currentViewController;
++ (void)navigateToReviewDetail:(PFObject*)aReview from:(UIViewController *)currentViewController;
++ (void)navigateToVideoView:(PFObject*)aVideo from:(UIViewController *)currentViewController;
 
 // Instantiate View Controller
 + (void)instantiateHomeScreenFrom:(UIViewController*)currentViewController animated:(BOOL)animated completion:(void (^)(void))completion;
@@ -107,8 +110,5 @@
 
 // Get waiting time
 + (NSInteger)waitingTimeToView:(PFObject*)anActivity;
-
-// Check waiting time
-+ (void)navigateToReviewDetail:(PFObject*)aReview from:(UIViewController *)currentViewController;
 
 @end
