@@ -78,6 +78,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [self.view.window endEditing: YES];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
@@ -92,17 +93,21 @@
     if (alertView.tag == 0) {
         if (buttonIndex == 1) {
             PFObject *editedVideo = [PFObject objectWithoutDataWithClassName:kVideoClassKey objectId:self.videoObj.objectId];
-            [editedVideo setObject:self.noteView.text forKey:kVideoNoteKey];
+            [editedVideo setObject:noteView.text forKey:kVideoNoteKey];
             [editedVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
-                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Note saved successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [self.view endEditing:YES];
+                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Note saved successfully? Back to Video View?" delegate:self cancelButtonTitle:NSLocalizedString(@"NO", nil) otherButtonTitles:NSLocalizedString(@"YES", nil), nil];
                     successAlert.tag = 1;
                     [successAlert show];
                 } else {
                     [PresenticeUtility showErrorAlert:error];
                 }
             }];
-            
+        }
+    } else if (alertView.tag == 1) {
+        if (buttonIndex == 1) {
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }
 }

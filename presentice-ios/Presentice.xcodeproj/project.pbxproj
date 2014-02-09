@@ -54,7 +54,6 @@
 		F03486C7187E8D80001BE459 /* PresenticeUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486C6187E8D80001BE459 /* PresenticeUtility.m */; };
 		F03486CF1880166D001BE459 /* PushPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F03486CE1880166D001BE459 /* PushPermissionViewController.m */; };
 		F03D53F0189CE94600789BBE /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F03D53EF189CE94600789BBE /* logo@2x.png */; };
-		F0578ED0187A723400573CD2 /* MyAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0578ECF187A723400573CD2 /* MyAnswerViewController.m */; };
 		F0628D73188F605200E9C7A3 /* add_friends_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F0628D72188F605200E9C7A3 /* add_friends_icon.png */; };
 		F0628DA6188FF2E000E9C7A3 /* libQuickDialog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0628DA3188FF2BA00E9C7A3 /* libQuickDialog.a */; };
 		F0628DAA188FF5B800E9C7A3 /* LoginInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F0628DA9188FF5B800E9C7A3 /* LoginInfo.m */; };
@@ -288,8 +287,6 @@
 		F03486CD1880166D001BE459 /* PushPermissionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushPermissionViewController.h; sourceTree = "<group>"; };
 		F03486CE1880166D001BE459 /* PushPermissionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushPermissionViewController.m; sourceTree = "<group>"; };
 		F03D53EF189CE94600789BBE /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
-		F0578ECE187A723400573CD2 /* MyAnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnswerViewController.h; sourceTree = "<group>"; };
-		F0578ECF187A723400573CD2 /* MyAnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnswerViewController.m; sourceTree = "<group>"; };
 		F0628D72188F605200E9C7A3 /* add_friends_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_friends_icon.png; sourceTree = "<group>"; };
 		F0628D9B188FF2B900E9C7A3 /* QuickDialog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QuickDialog.xcodeproj; path = QuickDialog/QuickDialog.xcodeproj; sourceTree = "<group>"; };
 		F0628DA8188FF5B800E9C7A3 /* LoginInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginInfo.h; sourceTree = "<group>"; };
@@ -787,8 +784,6 @@
 			children = (
 				F0A5A74B187276CD004E24A3 /* MyListViewController.h */,
 				F0A5A74C187276CD004E24A3 /* MyListViewController.m */,
-				F0578ECE187A723400573CD2 /* MyAnswerViewController.h */,
-				F0578ECF187A723400573CD2 /* MyAnswerViewController.m */,
 				F0661E1A1898E233004F28F6 /* EditNoteViewController.h */,
 				F0661E1B1898E233004F28F6 /* EditNoteViewController.m */,
 			);
@@ -1455,7 +1450,6 @@
 				F03486C4187E8C69001BE459 /* MessageFooterView.m in Sources */,
 				A72C52C518700B1B00DE8BEC /* TakeReviewViewController.m in Sources */,
 				F0DD71A618921FE50070DF95 /* JSMessageTableView.m in Sources */,
-				F0578ED0187A723400573CD2 /* MyAnswerViewController.m in Sources */,
 				A72C52C2186FF56D00DE8BEC /* Validate.m in Sources */,
 				F0A5A75218729E01004E24A3 /* MainViewController.m in Sources */,
 				F0661E141898A41D004F28F6 /* NSDate+TimeAgo.m in Sources */,

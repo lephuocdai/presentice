@@ -11,7 +11,7 @@
 
 #import "NSDate+TimeAgo.h"
 
-#import "MyAnswerViewController.h"
+#import "VideoViewController.h"
 
 
 @interface MyListViewController : PFQueryTableViewController < UINavigationControllerDelegate, AmazonServiceRequestDelegate, UITableViewDelegate, UITableViewDataSource>

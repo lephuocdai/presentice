@@ -20,6 +20,7 @@
 @synthesize viewNumLabel;
 @synthesize noteView;
 @synthesize questionVideoLabel;
+@synthesize visibilityLabel;
 
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
@@ -40,9 +41,10 @@
     [PresenticeUtility checkCurrentUserActivationIn:self];
     
     // Prevent currentUser from edit the note
-    if ([[[self.answerVideoObj objectForKey:kVideoUserKey] objectId] isEqualToString:[[PFUser currentUser] objectId]]) {
-        self.navigationItem.rightBarButtonItem = nil;
-    }
+    if ([[[self.answerVideoObj objectForKey:kVideoUserKey] objectId] isEqualToString:[[PFUser currentUser] objectId]])
+        self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Edit", nil);
+    else
+        self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Review", nil);
 
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -52,9 +54,9 @@
     videoNameLabel.text = [self.answerVideoObj objectForKey:kVideoNameKey];
     postedUserLabel.text = [[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     viewNumLabel.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:self.answerVideoObj];
+    visibilityLabel.text = [PresenticeUtility visibilityOfVideo:self.answerVideoObj];
     
-    
-    questionVideoLabel.text = [NSString stringWithFormat:@"This is an answer of:\n%@", [[self.answerVideoObj objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]];
+    questionVideoLabel.text = [NSString stringWithFormat:@"This is an answer of: %@", [[self.answerVideoObj objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]];
     
     // There is a bug with iOS 6
 //    [questionVideoLabel boldSubstring:@"This is an answer of:"];
@@ -168,7 +170,7 @@
     // Set up movieController
     self.movieController = [[MPMoviePlayerController alloc] init];
     [self.movieController setContentURL:self.movieURL];
-    [self.movieController.view setFrame:CGRectMake(0, 0, 320, 380)];
+    [self.movieController.view setFrame:CGRectMake(0, 0, 320, 405)];
     [self.videoView addSubview:self.movieController.view];
     
     // Using the Movie Player Notifications
@@ -207,6 +209,13 @@
 - (void)refreshTable:(NSNotification *) notification {
     // Reload the recipes
     [self loadObjects];
+    noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
 }
 
 
@@ -244,7 +253,11 @@
     if (section == 0) {
         return @"Reviews of this video";
     } else {
+        if (![[[PFUser currentUser] objectId] isEqualToString:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId]]) {
         return @"There is no review for this video. Be the first person to review it.";
+        } else {
+            return @"There is no review for this video. Request some of your friends to review it.";
+        }
     }
 }
 
@@ -289,21 +302,6 @@
     NSLog(@"error: %@", [error localizedDescription]);
 }
 
-/**
- * segue for table cell
- * click to direct to video review
- * pass video object
- */
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"toReviewView"]) {
-        TakeReviewViewController *destViewController = segue.destinationViewController;
-        destViewController.videoObj = self.answerVideoObj;
-        NSLog(@"sent videoObject = %@", destViewController.videoObj);
-    }
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-}
-
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 0) {
         if (buttonIndex == 1) {
@@ -331,7 +329,98 @@
             editNoteViewController.videoObj = self.answerVideoObj;
             [self.navigationController pushViewController:editNoteViewController animated:YES];
         }
+    } else if (alertView.tag == 2) {
+        if (buttonIndex == 1) {
+            UIAlertView *titleEditAlert = [[UIAlertView alloc] initWithTitle:@"Edit video name" message:@"Choose a new name for this video" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Change it", nil];
+            titleEditAlert.tag = 3;
+            [titleEditAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+            [[titleEditAlert textFieldAtIndex:0] setPlaceholder:@"New video name"];
+            [titleEditAlert show];
+        } else if (buttonIndex == 2) {
+            EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
+            editNoteViewController.note = [self.answerVideoObj objectForKey:kVideoNoteKey];
+            editNoteViewController.videoObj = self.answerVideoObj;
+            
+            [self.navigationController pushViewController:editNoteViewController animated:YES];
+        } else if (buttonIndex == 3) {
+            UIAlertView *visibilityEditAlert = [[UIAlertView alloc] initWithTitle:@"Visibility Selection" message:@"Decide who can view this video" delegate:self cancelButtonTitle:@"Open inside Presentice" otherButtonTitles:@"Only friends who are following me", @"Only Me", nil];
+//            visibilityEditAlert.tag = 2;
+            visibilityEditAlert.tag = 4;
+            [visibilityEditAlert show];
+        } else if (buttonIndex == 4) {
+            UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete video" message:@"Are you sure you want to delete this video. This action can not be undone." delegate:self cancelButtonTitle:@"No, stop it" otherButtonTitles:@"Yes, delete it", nil];
+//            deleteAlert.tag = 4;
+            deleteAlert.tag = 5;
+            [deleteAlert show];
+        }
+    } else if (alertView.tag == 3) {
+        if (buttonIndex == 1) {
+            NSString *newName = [alertView textFieldAtIndex:0].text;
+            PFObject *editedVideo = [PFObject objectWithoutDataWithClassName:kVideoClassKey objectId:self.answerVideoObj.objectId];
+            [editedVideo setObject:newName forKey:kVideoNameKey];
+            [editedVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+                    [self.answerVideoObj setObject:newName forKey:kVideoNameKey];
+                    self.videoNameLabel.text = newName;
+                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Video name change has been saved successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [successAlert show];
+                } else {
+                    [PresenticeUtility showErrorAlert:error];
+                }
+            }];
+        }
+    } else if (alertView.tag == 4) {
+        NSLog(@"alert = %@",[alertView buttonTitleAtIndex:buttonIndex]);
+        NSString *answerVideoVisibility = [[NSString alloc] init];
+        if (buttonIndex == 0)
+            answerVideoVisibility = @"open";
+        else if (buttonIndex == 1)
+            answerVideoVisibility = @"friendOnly";
+        else
+            answerVideoVisibility = @"onlyMe";
+        NSLog(@"visibility = %@", answerVideoVisibility);
+        if (![[self.answerVideoObj objectForKey:kVideoVisibilityKey] isEqualToString:answerVideoVisibility]) {
+            PFObject *editedVideo = [PFObject objectWithoutDataWithClassName:kVideoClassKey objectId:self.answerVideoObj.objectId];
+            [editedVideo setObject:answerVideoVisibility forKey:kVideoVisibilityKey];
+            [editedVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+                    [self.answerVideoObj setObject:answerVideoVisibility forKey:kVideoVisibilityKey];
+                    self.visibilityLabel.text = [PresenticeUtility visibilityOfVideo:self.answerVideoObj];
+                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Visibility change has been saved successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [successAlert show];
+                } else {
+                    [PresenticeUtility showErrorAlert:error];
+                }
+            }];
+        }
+    } else if (alertView.tag == 5) {
+        if (buttonIndex == 1) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [self.answerVideoObj deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Video has ben deleted successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [successAlert show];
+                    [PresenticeUtility navigateToMyLibraryFrom:self];
+                } else {
+                    [PresenticeUtility showErrorAlert:error];
+                }
+            }];
+        }
     }
 }
 
+- (IBAction)rightMenuButtonPressed:(id)sender {
+    if (![[[PFUser currentUser] objectId] isEqualToString:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId]]) { // If currentUser is not the video's owner, navigate to TakeReview
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        TakeReviewViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"takeReviewViewController"];
+        
+        destViewController.videoObj = self.answerVideoObj;
+        [self.navigationController pushViewController:destViewController animated:YES];
+    } else { // If currentUser is the video's owner, let her edit the video
+        UIAlertView *editAlert = [[UIAlertView alloc] initWithTitle:@"Edit Video Information" message:@"Which information do you want to edit?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Video Name", @"Note for viewer", @"Visibility status", @"Delete",nil];
+        editAlert.tag = 2;
+        [editAlert show];
+    }
+}
 @end

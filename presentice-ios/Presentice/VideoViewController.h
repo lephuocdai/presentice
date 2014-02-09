@@ -19,9 +19,10 @@
 // For display answerVideo
 @property (strong, nonatomic) IBOutlet UIImageView *userProfilePicture;
 @property (strong, nonatomic) IBOutlet UILabel *postedUserLabel;
-@property (strong, nonatomic) IBOutlet UILabel *videoNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *questionVideoLabel;
+@property (strong, nonatomic) IBOutlet UILabel *videoNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *viewNumLabel;
+@property (strong, nonatomic) IBOutlet UILabel *visibilityLabel;
 @property (strong, nonatomic) IBOutlet UIView *videoView;
 @property (strong, nonatomic) IBOutlet UILabel *noteView;
 
@@ -30,5 +31,8 @@
 @property (strong, nonatomic)MPMoviePlayerController *movieController;
 
 @property BOOL isFromQuestionDetail;
+
+- (IBAction)rightMenuButtonPressed:(id)sender;
+
 
 @end

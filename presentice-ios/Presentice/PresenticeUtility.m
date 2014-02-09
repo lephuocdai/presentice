@@ -649,7 +649,7 @@
 
 // Check waitingTime
 + (void)navigateToReviewDetail:(PFObject*)aReview from:(UIViewController *)currentViewController{
-    NSDate *createdDate = aReview.updatedAt;
+    NSDate *createdDate = aReview.createdAt;
     if (-[createdDate timeIntervalSinceNow] < [PresenticeUtility waitingTimeToView:aReview]) {
 //        NSLog(@"not yet: %f < %d", -[createdDate timeIntervalSinceNow], [PresenticeUtility waitingTimeToView:aReview]);
         NSDate *availableDate = [[NSDate alloc] initWithTimeInterval:[PresenticeUtility waitingTimeToView:aReview] sinceDate:aReview.createdAt];

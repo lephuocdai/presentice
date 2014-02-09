@@ -258,7 +258,7 @@
 "mqr-Is-VlB.text" = "説明";
 
 /* Class = "IBUIButton"; normalTitle = "Review"; ObjectID = "np4-57-ndp"; */
-"np4-57-ndp.normalTitle" = "レビュー";
+//"np4-57-ndp.normalTitle" = "レビュー";
 
 /* Class = "IBUILabel"; text = "videoName"; ObjectID = "nyk-oR-AIg"; */
 "nyk-oR-AIg.text" = "videoName";

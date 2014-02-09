@@ -142,12 +142,14 @@
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
         
         if ([[object objectForKey:kVideoTypeKey] isEqualToString:@"answer"]) {
-            MyAnswerViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"myAnswerViewController"];
+            
+//            MyAnswerViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"myAnswerViewController"];
+            VideoViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"videoViewController"];
+            
             destViewController.movieURL = [PresenticeUtility s3URLForObject:object];
             destViewController.answerVideoObj = object;
-            destViewController.questionPostedUser = [object objectForKey:kVideoToUserKey];
-            destViewController.questionVideoObj = [object objectForKey:kVideoAsAReplyTo];
             [self.navigationController pushViewController:destViewController animated:YES];
+            
         } else if ([[object objectForKey:kVideoTypeKey] isEqualToString:@"question"]) {
             QuestionDetailViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
             destViewController.movieURL = [PresenticeUtility s3URLForObject:object];
