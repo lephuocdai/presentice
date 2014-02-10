@@ -109,14 +109,16 @@
 #pragma mark - UITableViewDataSource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    PFObject *activity = [self.objects objectAtIndex:indexPath.row];
-    if ([[activity objectForKey:kActivityTypeKey] isEqualToString:@"suggestReview"]) {
-        return 55;
-    } else {
+    if (indexPath.row == self.objects.count) {
         return 50;
+    } else {
+        PFObject *activity = [self.objects objectAtIndex:indexPath.row];
+        if ([[activity objectForKey:kActivityTypeKey] isEqualToString:@"suggestReview"])
+            return 55;
+        else
+            return 50;
     }
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     static NSString *simpleTableIdentifier = @"notificationListIdentifier";
@@ -163,7 +165,7 @@
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
     }
-    postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
+    postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.updatedAt] dateTimeUntilNow]];
     
     return cell;
 }

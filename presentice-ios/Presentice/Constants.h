@@ -95,6 +95,12 @@
 #define kPromotionReceiveCodeKey @"receiveCode"
 #define kPromotionContributionKey @"contribution"
 
+#pragma View Controller
+#define kmainViewController @"mainViewController"
+#define kquestionListViewController @"questionListViewController"
+#define kmyListViewController @"myListViewController"
+#define knotificationListViewController @"notificationListViewController"
+
 
 #define REVIEW_MAX_VALUE 5
 #define REVIEW_MIN_VALUE 1

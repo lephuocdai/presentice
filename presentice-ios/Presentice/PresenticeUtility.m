@@ -607,6 +607,45 @@
     [currentViewController.navigationController presentViewController:container animated:animated completion:completion];
 }
 
++ (void)instantiateViewController:(NSString*)controllerName inWindow:(UIWindow*)window {
+    //get main storyboard
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    
+    //create side menu
+    MainViewController *mainViewController = [storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+    UINavigationController *mainNavigationController = [[UINavigationController alloc]initWithRootViewController:mainViewController];
+    
+    QuestionListViewController *questionListViewController = [storyboard instantiateViewControllerWithIdentifier:@"questionListViewController"];
+    UINavigationController *questionListNavigationController = [[UINavigationController alloc]initWithRootViewController:questionListViewController];
+    
+    MyListViewController *myListViewController = [storyboard instantiateViewControllerWithIdentifier:@"myListViewController"];
+    UINavigationController *myListNavigationController = [[UINavigationController alloc]initWithRootViewController:myListViewController];
+    
+    NotificationListViewController *notificationListViewController = [storyboard instantiateViewControllerWithIdentifier:@"notificationListViewController"];
+    UINavigationController *notificationListNavigationController = [[UINavigationController alloc]initWithRootViewController:notificationListViewController];
+    
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    [tabBarController setViewControllers:[NSArray arrayWithObjects:mainNavigationController, questionListNavigationController, myListNavigationController, notificationListNavigationController, nil]];
+    if ([controllerName isEqualToString:kquestionListViewController])
+        [tabBarController setSelectedIndex:1];
+    else if ([controllerName isEqualToString:kmyListViewController])
+        [tabBarController setSelectedIndex:2];
+    else if ([controllerName isEqualToString:knotificationListViewController])
+        [tabBarController setSelectedIndex:3];
+    else
+        [tabBarController setSelectedIndex:0];
+    
+    LeftSideMenuViewController *leftSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
+    RightSideMenuViewController *rightSideMenuController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
+    
+    MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController
+                                                    containerWithCenterViewController:tabBarController
+                                                    leftMenuViewController:leftSideMenuController
+                                                    rightMenuViewController:rightSideMenuController];
+    
+    window.rootViewController = container;
+}
+
 + (void)instantiateMessageDetailWith:(PFUser*)aUser from:(UIViewController*)currentViewController animated:(BOOL)animated {
     MessageDetailViewController *destViewController = [[MessageDetailViewController alloc] init];
     

@@ -31,6 +31,7 @@
     
     // Extract the notification data
 //    NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    
     if (application.applicationState != UIApplicationStateBackground) {
         // Track an app open here if we launch with a push, unless
         // "content_available" was used to trigger a background push (introduced
@@ -43,7 +44,6 @@
             [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
         }
     }
-    
     
     [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
                                                            [UIColor colorWithRed:0.0/255.0 green:125.0/255.0 blue:225.0/255.0 alpha:1.0], UITextAttributeTextColor,
@@ -84,15 +84,7 @@
         [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
         //redirect to Notification View
         //todo: redirect to view depending on notification
-        //get main storyboard
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-        //create side menu
-        UINavigationController *centerViewController = [storyboard instantiateViewControllerWithIdentifier:@"notificationListNavigationController"];
-        UIViewController *leftSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"leftSideMenuViewController"];
-        UIViewController *rightSideMenuViewController = [storyboard instantiateViewControllerWithIdentifier:@"rightSideMenuViewController"];
-        MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController containerWithCenterViewController:centerViewController
-                                                                                                     leftMenuViewController:leftSideMenuViewController rightMenuViewController:rightSideMenuViewController];
-        self.window.rootViewController = container;
+        [PresenticeUtility instantiateViewController:knotificationListViewController inWindow:self.window];
     }
 }
 

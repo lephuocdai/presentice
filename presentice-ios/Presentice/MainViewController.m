@@ -147,7 +147,7 @@
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
-        postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
+        postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.updatedAt] dateTimeUntilNow]];
         viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
         
         
@@ -177,7 +177,7 @@
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
-        postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
+        postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.updatedAt] dateTimeUntilNow]];
         viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
         comment.text = [object objectForKey:kActivityDescriptionKey];
 
@@ -203,7 +203,7 @@
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
-        postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
+        postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.updatedAt] dateTimeUntilNow]];
         viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
         comment.text = [object objectForKey:kActivityDescriptionKey];
         
@@ -225,7 +225,7 @@
         description.text = [NSString stringWithFormat:@"%@ has joined Presentice",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
-        postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
+        postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.updatedAt] dateTimeUntilNow]];
         
         return cell;
     } else {
