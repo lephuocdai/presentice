@@ -23,7 +23,7 @@
         self.textKey = kCreatedAtKey;   // Need to be modified
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
-        self.objectsPerPage = 3;
+        self.objectsPerPage = 10;
     }
     self.tabBarController.hidesBottomBarWhenPushed = YES;
     return self;
