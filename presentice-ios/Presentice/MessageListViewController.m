@@ -23,7 +23,7 @@
         self.textKey = kCreatedAtKey;   // Need to be modified
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
-        self.objectsPerPage = 5;
+        self.objectsPerPage = 3;
     }
     self.tabBarController.hidesBottomBarWhenPushed = YES;
     return self;
@@ -129,33 +129,38 @@
 - (void) objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
     NSLog(@"objectsDidLoad message list error: %@", [error localizedDescription]);
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    PFObject *selectedObject = [self objectAtIndexPath:indexPath];
-    NSMutableArray *users = [[selectedObject objectForKey:kMessageUsersKey] mutableCopy];
-    NSUInteger currentUserIndex = [self indexOfObjectwithKey:[[PFUser currentUser] objectId] inArray:users];
-    [users removeObjectAtIndex:currentUserIndex];
-    PFUser *toUser = [users lastObject];
-    
-    if (toUser != (PFUser*)[NSNull null]) {
-
-        MessageDetailViewController *destViewController = [[MessageDetailViewController alloc] init];
-        destViewController.toUser = toUser;
-        destViewController.messageObj = selectedObject;
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    if (indexPath.row < self.objects.count) {
+        PFObject *selectedObject = [self objectAtIndexPath:indexPath];
+        NSMutableArray *users = [[selectedObject objectForKey:kMessageUsersKey] mutableCopy];
+        NSUInteger currentUserIndex = [self indexOfObjectwithKey:[[PFUser currentUser] objectId] inArray:users];
+        [users removeObjectAtIndex:currentUserIndex];
+        PFUser *toUser = [users lastObject];
         
-        // Start loading HUD
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        
-        destViewController.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:destViewController animated:YES];
+        if (toUser != (PFUser*)[NSNull null]) {
+            
+            MessageDetailViewController *destViewController = [[MessageDetailViewController alloc] init];
+            destViewController.toUser = toUser;
+            destViewController.messageObj = selectedObject;
+            
+            // Start loading HUD
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            
+            destViewController.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:destViewController animated:YES];
+        } else {
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+            UIAlertView *noUserAlert = [[UIAlertView alloc] initWithTitle:@"Unknown user" message:@"This user has resigned or deactivated." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [noUserAlert show];
+        }
     } else {
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        UIAlertView *noUserAlert = [[UIAlertView alloc] initWithTitle:@"Unknown user" message:@"This user has resigned or deactivated." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [noUserAlert show];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
-    
 }
 
 - (NSUInteger)indexOfObjectwithKey:(NSString*)key inArray: (NSArray*)array {

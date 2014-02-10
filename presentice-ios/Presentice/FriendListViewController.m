@@ -23,7 +23,7 @@
         self.textKey = kActivityTypeKey;
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = YES;
-        self.objectsPerPage = 5;
+        self.objectsPerPage = 3;
     }
     self.tabBarController.hidesBottomBarWhenPushed = YES;
     return self;
@@ -108,11 +108,18 @@
 - (void) objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
     NSLog(@"objectsDidLoad message list error: %@", [error localizedDescription]);
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    PFUser *toUser = [[self objectAtIndexPath:indexPath] objectForKey:kActivityToUserKey];
-    [PresenticeUtility instantiateMessageDetailWith:toUser from:self animated:YES];
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    if (indexPath.row < self.objects.count) {
+        PFUser *toUser = [[self objectAtIndexPath:indexPath] objectForKey:kActivityToUserKey];
+        [PresenticeUtility instantiateMessageDetailWith:toUser from:self animated:YES];
+    } else {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    }
 }
 
 - (IBAction)showLeftMenu:(id)sender {
