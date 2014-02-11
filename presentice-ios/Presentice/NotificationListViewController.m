@@ -137,16 +137,19 @@
     NSString *type = [object objectForKey:kActivityTypeKey];
     if ([type isEqualToString:@"invalidCode"]) {
         description.text = [object objectForKey:kActivityDescriptionKey];
+        
     } else if ([type isEqualToString:@"postQuestion"]) {
         description.text = [NSString stringWithFormat:@"%@ has posted new question %@",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
+        
     } else if ([type isEqualToString:@"follow"]) {
         description.text = [NSString stringWithFormat:@"%@ has followed you",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
+        
     }else if ([type isEqualToString:@"suggestReview"]) {
         description.frame = CGRectMake(50, 5, 185, 45);
         NSString *suggester = ([object objectForKey:kActivityFromUserKey] == nil) ? @"Presentice" : [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey];
@@ -157,6 +160,14 @@
         [description boldSubstring:[NSString stringWithFormat:@"%@",suggester]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoToUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
+        
+    } else if ([type isEqualToString:@"answer"]) {
+        description.text = [NSString stringWithFormat:@"%@ has answered your %@",
+                            [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
+                            [[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]];
+        [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
+        [description boldSubstring:[NSString stringWithFormat:@"%@",[[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]]];
+    
     } else {
         description.text = [NSString stringWithFormat:@"%@ has %@ed your %@",
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
