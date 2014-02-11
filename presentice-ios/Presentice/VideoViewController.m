@@ -56,8 +56,8 @@
     postedUserLabel.text = [[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     viewNumLabel.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:self.answerVideoObj];
     visibilityLabel.text = [PresenticeUtility visibilityOfVideo:self.answerVideoObj];
-    averagePoint.text = [NSString stringWithFormat:@"Average review: %.1f", [PresenticeUtility getAverageReviewOfVideo:self.answerVideoObj]];
-    questionVideoLabel.text = [NSString stringWithFormat:@"This is an answer of:\n%@", [[self.answerVideoObj objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]];
+    averagePoint.text = [NSString stringWithFormat:NSLocalizedString(@"Average review: %.1f", nil), [PresenticeUtility getAverageReviewOfVideo:self.answerVideoObj]];
+    questionVideoLabel.text = [NSString stringWithFormat:NSLocalizedString(@"This is an answer of:\n%@", nil), [[self.answerVideoObj objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]];
     [questionVideoLabel sizeToFit];
     // There is a bug with iOS 6
 //    [questionVideoLabel boldSubstring:@"This is an answer of:"];
@@ -70,7 +70,7 @@
         [questionVideoLabel addGestureRecognizer:singleTapForQuestion];
     }
     
-    noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
+    noteView.text = [NSString stringWithFormat:NSLocalizedString(@"Note for viewer:\n%@", nil), [self.answerVideoObj objectForKey:kVideoNoteKey]];
     // There is a bug with iOS 6
 //    [noteView boldSubstring:@"Note for viewer:"];
     // Set tap gesture on noteview
@@ -169,7 +169,7 @@
     // Set up movieController
     self.movieController = [[MPMoviePlayerController alloc] init];
     [self.movieController setContentURL:self.movieURL];
-    [self.movieController.view setFrame:CGRectMake(0, 0, 320, 405)];
+    [self.movieController.view setFrame:CGRectMake(0, 0, 320, 420)];
     [self.videoView addSubview:self.movieController.view];
     
     // Using the Movie Player Notifications
@@ -177,10 +177,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterFullScreen:) name:MPMoviePlayerWillEnterFullscreenNotification object:nil];
     
     self.movieController.controlStyle =  MPMovieControlStyleEmbedded;
-    self.movieController.shouldAutoplay = YES;
+    self.movieController.shouldAutoplay = NO;
     self.movieController.repeatMode = NO;
     [self.movieController prepareToPlay];
-    [self.movieController play];
+//    [self.movieController play];
     
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -208,7 +208,7 @@
 - (void)refreshTable:(NSNotification *) notification {
     // Reload the recipes
     [self loadObjects];
-    noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.answerVideoObj objectForKey:kVideoNoteKey]];
+    noteView.text = [NSString stringWithFormat:NSLocalizedString(@"Note for viewer:\n%@", nil), [self.answerVideoObj objectForKey:kVideoNoteKey]];
 }
 
 - (void)viewDidUnload {
@@ -251,12 +251,12 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return @"Comments about this video";
+        return NSLocalizedString(@"Comments about this video", nil);
     } else {
         if (![[[PFUser currentUser] objectId] isEqualToString:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId]]) {
-        return @"There is no review for this video. Be the first person to review it.";
+        return NSLocalizedString(@"There is no comment for this video. Be the first person to review it.", nil);
         } else {
-            return @"There is no review for this video. Request some of your friends to review it.";
+            return NSLocalizedString(@"There is no comment for this video. Request some of your friends to review it.", nil);
         }
     }
 }
@@ -317,7 +317,6 @@
             [videoQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
                 if (!error) {
                     PFObject *questionVideo = [object objectForKey:kVideoAsAReplyTo];
-                    NSLog(@"sent object = %@", questionVideo);
                     destViewController.movieURL = [PresenticeUtility s3URLForObject:questionVideo];
                     destViewController.questionVideoObj = questionVideo;
                     [self.navigationController pushViewController:destViewController animated:YES];
@@ -359,7 +358,7 @@
                 if (!error) {
                     [self.answerVideoObj setObject:newName forKey:kVideoNameKey];
                     self.videoNameLabel.text = newName;
-                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Video name change has been saved successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", nil) message:NSLocalizedString(@"Video name change has been saved successfully", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
                     [successAlert show];
                 } else {
                     [PresenticeUtility showErrorAlert:error];
@@ -383,7 +382,7 @@
                 if (!error) {
                     [self.answerVideoObj setObject:answerVideoVisibility forKey:kVideoVisibilityKey];
                     self.visibilityLabel.text = [PresenticeUtility visibilityOfVideo:self.answerVideoObj];
-                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Visibility change has been saved successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", nil) message:NSLocalizedString(@"Visibility change has been saved successfully", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
                     [successAlert show];
                 } else {
                     [PresenticeUtility showErrorAlert:error];
@@ -395,7 +394,7 @@
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [self.answerVideoObj deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
-                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Video has ben deleted successfully" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", nil) message:NSLocalizedString(@"Video has ben deleted successfully", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
                     [successAlert show];
                     [PresenticeUtility navigateToMyLibraryFrom:self];
                 } else {

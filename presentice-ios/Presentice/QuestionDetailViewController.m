@@ -28,6 +28,7 @@
 @synthesize videoNameLabel;
 @synthesize postedUserLabel;
 @synthesize noteView;
+@synthesize postedTime;
 
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
@@ -53,7 +54,9 @@
     [PresenticeUtility setImageView:self.userProfilePicture forUser:[self.questionVideoObj objectForKey:kVideoUserKey]];
     postedUserLabel.text = [[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     videoNameLabel.text = [self.questionVideoObj objectForKey:kVideoNameKey];
-    noteView.text = [NSString stringWithFormat:@"Note for viewer: \n%@",[self.questionVideoObj objectForKey:kVideoNoteKey]];
+    postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:self.questionVideoObj.updatedAt] dateTimeUntilNow]];
+    
+    noteView.text = [NSString stringWithFormat:NSLocalizedString(@"Note for viewer:\n%@", nil),[self.questionVideoObj objectForKey:kVideoNoteKey]];
     
     // There is a bug with iOS 6
     // [noteView boldSubstring:@"Note for viewer:"];
@@ -77,7 +80,7 @@
     // Set up movieController
     self.movieController = [[MPMoviePlayerController alloc] init];
     [self.movieController setContentURL:self.movieURL];
-    [self.movieController.view setFrame:CGRectMake(0, 0, 320, 380)];
+    [self.movieController.view setFrame:CGRectMake(0, 0, 320, 420)];
     [self.videoView addSubview:self.movieController.view];
     
     // Using the Movie Player Notifications
@@ -85,10 +88,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterFullScreen:) name:MPMoviePlayerWillEnterFullscreenNotification object:nil];
     
     self.movieController.controlStyle =  MPMovieControlStyleEmbedded;
-    self.movieController.shouldAutoplay = YES;
+    self.movieController.shouldAutoplay = NO;
     self.movieController.repeatMode = NO;
     [self.movieController prepareToPlay];
-    [self.movieController play];
+//    [self.movieController play];
 
     
 #pragma upload answer video
@@ -122,7 +125,6 @@
     // If currentUser is not the video's owner
     if (![[[PFUser currentUser] objectId] isEqualToString:[[self.questionVideoObj objectForKey:kVideoUserKey] objectId]]) {
         // Send a notification to the device with channel contain questionVideo's userId
-        NSLog(@"viewd push = %@", [[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"]);
         if ([[[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"viewed"] isEqualToString:@"yes"]) {
             NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
             [params setObject:[self.questionVideoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];
@@ -231,7 +233,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return @"Answers of this challenge";
+        return NSLocalizedString(@"Answers of this challenge", nil);
     } else {
         return @"";
     }
@@ -255,8 +257,8 @@
     [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kVideoUserKey]];
     userName.text = [[object objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     videoName.text = [object objectForKey:kVideoNameKey];
-    viewsNum.text = [NSString stringWithFormat:@"view: %@",[object objectForKey:kVideoViewsKey]];
-    reviewNum.text = [NSString stringWithFormat:@"reviews: %d",[[object objectForKey:kVideoReviewsKey] count]];
+    viewsNum.text = [NSString stringWithFormat:NSLocalizedString(@"view: %@", nil),[object objectForKey:kVideoViewsKey]];
+    reviewNum.text = [NSString stringWithFormat:NSLocalizedString(@"reviews: %d", nil),[[object objectForKey:kVideoReviewsKey] count]];
     return cell;
 }
 
@@ -277,7 +279,6 @@
         VideoViewController *destViewController = segue.destinationViewController;
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
-        NSLog(@"sent object = %@", object);
         destViewController.movieURL = [PresenticeUtility s3URLForObject:object];
         destViewController.answerVideoObj = object;
     }
@@ -287,31 +288,23 @@
 #pragma upload answer video
 
 - (IBAction)takeAnswer:(id)sender {
-    NSLog(@"push Take Answer");
     [PresenticeUtility callAlert:alertWillTakeAnswer withDelegate:self];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(alertView.tag == tagWillTakeAnswer){
-        NSLog(@"clickedButton");
-        NSLog(@"Text field 1: %@", [alertView textFieldAtIndex:0].text);
         self.newAnswerVideoName = [alertView textFieldAtIndex:0].text;
         if (buttonIndex > 0) {
             if (buttonIndex == 1) {
-                NSLog(@"Upload from Library");
                 isUploadFromLibrary = true;
                 [PresenticeUtility startImagePickerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
             } else if (buttonIndex == 2) {
-                NSLog(@"Record from Camera");
                 isUploadFromLibrary = false;
                 [PresenticeUtility startCameraControllerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
             }
         }
-        NSLog(@"cancel, buttonIndex = %d", buttonIndex);
     } else if (alertView.tag == tagDidSaveVideo) {
         if (buttonIndex == 1) {
-            NSLog(@"clicked YES Button");
-            NSLog(@"Wait to upload to server!");
             
             self.pathForFileFromLibrary = recordedVideoPath;
             // Format date to string
@@ -405,8 +398,8 @@
 
 -(void)video:(NSString*)videoPath didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo {
     if (error) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Video Saving Failed"
-                                                       delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:NSLocalizedString(@"Video Saving Failed", nil)
+                                                       delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];
         [alert show];
     } else {
         [PresenticeUtility callAlert:alertDidSaveVideo withDelegate:self];
@@ -429,11 +422,9 @@
     [newVideo setObject:[self.questionVideoObj objectForKey:kVideoUserKey] forKey:kVideoToUserKey];
     [newVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
-            NSLog(@"saved to Parse");
             self.newAnswerVideoObj = newVideo;
             
             // Send a notification to the device with channel contain video's userId
-            NSLog(@"viewd push = %@", [[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"answered"]);
             if ([[[[self.questionVideoObj objectForKey:kVideoUserKey] objectForKey:kUserPushPermission] objectForKey:@"answered"] isEqualToString:@"yes"]) {
                 NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
                 [params setObject:[self.questionVideoObj objectForKey:kVideoNameKey] forKey:@"targetVideo"];

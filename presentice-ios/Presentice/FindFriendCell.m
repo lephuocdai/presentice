@@ -25,8 +25,8 @@
 -(void)layoutSubviews
 {
 
-    [self.followBtn setTitle:@"Follow  " forState:UIControlStateNormal]; // space added for centering
-    [self.followBtn setTitle:@"Following" forState:UIControlStateSelected];
+    [self.followBtn setTitle:NSLocalizedString(@"Follow",nil) forState:UIControlStateNormal]; // space added for centering
+    [self.followBtn setTitle:NSLocalizedString(@"Following",nil) forState:UIControlStateSelected];
     [self.followBtn addTarget:self action:@selector(didTapFollowButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 
 }
@@ -45,7 +45,7 @@
 /* Inform delegate that the follow button was tapped */
 - (void)didTapFollowButtonAction:(id)sender {
     if (self.delegate && [self.delegate respondsToSelector:@selector(cell:didTapFollowButton:)]) {
-        NSLog(@"self.deleaget");
+        NSLog(@"self.delegate");
         [self.delegate cell:self didTapFollowButton:self.user];
     }
 }

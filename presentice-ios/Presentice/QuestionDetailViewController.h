@@ -22,6 +22,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *userProfilePicture;
 @property (strong, nonatomic) IBOutlet UILabel *postedUserLabel;
 @property (strong, nonatomic) IBOutlet UILabel *videoNameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *postedTime;
 @property (strong, nonatomic) IBOutlet UILabel *noteView;
 @property (strong, nonatomic) IBOutlet UIView *videoView;
 

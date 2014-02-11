@@ -164,12 +164,12 @@ typedef enum {
     }
 }
 - (void)configureFollowAllButton {
-    [self.followAllBtn setTitle:@"Follow All" forState:UIControlStateNormal];
+    [self.followAllBtn setTitle:NSLocalizedString(@"Follow All",nil) forState:UIControlStateNormal];
     [self.followAllBtn addTarget:self action:@selector(doFollowAllAction:)forControlEvents:UIControlEventTouchDown];
 }
 
 - (void)configureUnfollowAllButton {
-    [self.followAllBtn setTitle:@"Unfollow All" forState:UIControlStateNormal];
+    [self.followAllBtn setTitle:NSLocalizedString(@"Unfollow All", nil) forState:UIControlStateNormal];
     [self.followAllBtn addTarget:self action:@selector(doUnfollowAllAction:)forControlEvents:UIControlEventTouchDown];
 }
 - (void)doFollowAllAction:(id)sender {

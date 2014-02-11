@@ -112,7 +112,7 @@
     UILabel *visibility = (UILabel *)[cell viewWithTag:104];
     
     if ([[object objectForKey:kVideoTypeKey] isEqualToString:@"answer"]) {
-        reviews_answersNum.text = [NSString stringWithFormat:@"reviews: %d", [[object objectForKey:kVideoReviewsKey] count]];
+        reviews_answersNum.text = [NSString stringWithFormat:NSLocalizedString(@"Reviews: %d", nil) , [[object objectForKey:kVideoReviewsKey] count]];
     } else if ([[object objectForKey:kVideoTypeKey] isEqualToString:@"question"]) {
         reviews_answersNum.text = [PresenticeUtility stringNumberOfKey:kVideoAnswersKey inObject:object];
     }

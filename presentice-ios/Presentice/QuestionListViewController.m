@@ -163,7 +163,7 @@
         QuestionDetailViewController *destViewController = segue.destinationViewController;
         
         PFObject *object = [self.objects objectAtIndex:indexPath.row];
-        NSLog(@"sent object = %@", object);
+
         destViewController.movieURL = [PresenticeUtility s3URLForObject:object];
         destViewController.questionVideoObj = object;
     }
@@ -188,20 +188,19 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == tagWillPostQuestion) {           // Post new question
-        NSLog(@"postQuestion started");
+
         self.newQuestionVideoName = [alertView textFieldAtIndex:0].text;
         if (buttonIndex == 1) {         // Upload from library
-            NSLog(@"Upload from Library");
             isUploadFromLibrary = true;
             [PresenticeUtility startImagePickerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
+            
         } else if (buttonIndex == 2) {  // Record from camera
-            NSLog(@"Record from Camera");
             isUploadFromLibrary = false;
             [PresenticeUtility startCameraControllerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
+            
         }
     } else if (alertView.tag == tagWillSuggestQuestion) {
         if (buttonIndex == 1) {
-            NSLog(@"clicked Post Button");
             PFObject *newSuggest = [PFObject objectWithClassName:kActivityClassKey];
             [newSuggest setObject:@"suggestQuestion" forKey:kActivityTypeKey];
             [newSuggest setObject:[PFUser currentUser] forKey:kActivityFromUserKey];
@@ -210,12 +209,10 @@
         }
     } else if (alertView.tag == tagDidSaveVideo) {
         if (buttonIndex == 1) {
-            NSLog(@"clicked YES Button");
-            NSLog(@"Wait to upload to server!");
             
             self.pathForFileFromLibrary = recordedVideoPath;
-            // Format date to string
             
+            // Format date to string
             NSDate *date = [NSDate date];
             NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
             [dateFormat setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
@@ -241,7 +238,6 @@
 #pragma mark - Image Picker Controller delegate methods
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (isUploadFromLibrary) {  //upload file from Library
-        NSLog(@"upload from library");
         NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
         if ([mediaType isEqualToString:(NSString *)kUTTypeMovie]) {
             NSURL *urlVideo = [info objectForKey:UIImagePickerControllerMediaURL];
@@ -289,8 +285,8 @@
 
 -(void)video:(NSString*)videoPath didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo {
     if (error) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Video Saving Failed"
-                                                       delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:NSLocalizedString(@"Video Saving Failed", nil)
+                                                       delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];
         [alert show];
     } else {
         [PresenticeUtility callAlert:alertDidSaveVideo withDelegate:self];

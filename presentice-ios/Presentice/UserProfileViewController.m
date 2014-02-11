@@ -123,7 +123,8 @@
     UILabel *videoType = (UILabel *)[cell viewWithTag:100];
     UILabel *videoName = (UILabel *)[cell viewWithTag:101];
     UILabel *viewsNumLabel = (UILabel *)[cell viewWithTag:102];
-    videoType.text = [[object objectForKey:kVideoTypeKey] capitalizedString];
+    
+    videoType.text = NSLocalizedString([[object objectForKey:kVideoTypeKey] capitalizedString], nil);
     videoName.text = [[object objectForKey:kVideoNameKey] capitalizedString];
     viewsNumLabel.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:object];
     return cell;

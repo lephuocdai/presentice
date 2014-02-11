@@ -142,7 +142,7 @@
         UILabel *viewsNum = (UILabel *)[cell viewWithTag:103];
         
         [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
-        description.text = [NSString stringWithFormat:@"%@ has posted %@",
+        description.text = [NSString stringWithFormat:NSLocalizedString(@"%@ has posted %@", nil) ,
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
@@ -170,7 +170,7 @@
         
         
         [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
-        description.text = [NSString stringWithFormat:@"%@ has reviewed %@'s %@",
+        description.text = [NSString stringWithFormat:NSLocalizedString(@"%@ has reviewed %@'s %@", nil),
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                             [[object objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey],
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
@@ -198,7 +198,7 @@
         UILabel *viewsNum = (UILabel *)[cell viewWithTag:104];
         
         [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
-        description.text = [NSString stringWithFormat:@"%@ has posted a new question %@",
+        description.text = [NSString stringWithFormat:NSLocalizedString(@"%@ has posted a new question %@", nil),
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
@@ -222,7 +222,7 @@
         UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
         
         [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
-        description.text = [NSString stringWithFormat:@"%@ has joined Presentice",
+        description.text = [NSString stringWithFormat:NSLocalizedString(@"%@ has joined Presentice", nil),
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
         postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.updatedAt] dateTimeUntilNow]];
@@ -257,18 +257,18 @@
         if ([@[@"answer", @"review"] containsObject:[activityObject objectForKey:kActivityTypeKey]]) {
             PFObject *videoObj = [activityObject objectForKey:kActivityTargetVideoKey];
             if ([[videoObj objectForKey:kVideoVisibilityKey] isEqualToString:@"onlyMe"]) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't view video" message:@"This video owner does not allow you to view it. Request her by sending a message" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Can't view video", nil) message:NSLocalizedString(@"This video owner does not allow you to view it. Request her by sending a message", nil) delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                 [alert show];
                 [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-            } else if ([[videoObj objectForKey:kVideoVisibilityKey] isEqualToString:@"open"]) {
                 
+            } else if ([[videoObj objectForKey:kVideoVisibilityKey] isEqualToString:@"open"]) {
                 [PresenticeUtility navigateToVideoView:videoObj from:self];
 
             } else if ([[videoObj objectForKey:kVideoVisibilityKey] isEqualToString:@"friendOnly"]) {
                 if ([PresenticeUtility isUser:[PFUser currentUser] followUser:[videoObj objectForKey:kVideoUserKey]]) {
                     [PresenticeUtility navigateToVideoView:videoObj from:self];
                 } else {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't view video" message:@"This video owner does not allow you to view it. Request her by sending a message" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Can't view video", nil) message:NSLocalizedString(@"This video owner does not allow you to view it. Request her by sending a message", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
                     [alert show];
                     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
                 }
