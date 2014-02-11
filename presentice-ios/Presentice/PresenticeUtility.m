@@ -785,15 +785,176 @@
 
 // Call alertView for action
 + (void)callAlert:(NSString*)action withDelegate:(id)delegate {
+    
     if ([action isEqualToString:alertSayThanks]) {
         UIAlertView *thanksAlert = [[UIAlertView alloc] initWithTitle:@"Say thank you" message:@"Do you want to say thank you to this person and ask more question" delegate:delegate cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
         thanksAlert.tag = tagSayThanks;
         [thanksAlert show];
+        
     } else if ([action isEqualToString:alertRateComment]) {
-        UIAlertView *replyAlert = [[UIAlertView alloc] initWithTitle:@"Rate this comment" message:@"Do you find this comment useful for you?" delegate:self cancelButtonTitle:@"Decide later" otherButtonTitles:@"YES", @"NO", nil];
+        UIAlertView *replyAlert = [[UIAlertView alloc] initWithTitle:@"Rate this comment" message:@"Do you find this comment useful for you?" delegate:delegate cancelButtonTitle:@"Decide later" otherButtonTitles:@"YES", @"NO", nil];
         replyAlert.tag = tagRateComment;
         [replyAlert show];
+        
+    } else if ([action isEqualToString:alertSignupSucceeded]) {
+        UIAlertView *succeedAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign Up Succeeded", nil) message:NSLocalizedString(@"Congratulations! Let's find some friends who are already on Presentice", nil) delegate:delegate cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
+        succeedAlert.tag = tagSignupSucceeded;
+        [succeedAlert show];
+        
+    } else if ([action isEqualToString:alertWillSendMessage]) {
+        UIAlertView *sendMessageAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Send Private Message", nil) message:NSLocalizedString(@"Send a private message to this user?", nil) delegate:delegate cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:@"OK", nil];
+        sendMessageAlert.tag = tagWillSendMessage;
+        [sendMessageAlert show];
+        
+    } else if ([action isEqualToString:alertWillReportUser]) {
+        UIAlertView *reportUserAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Report this User", nil) message:NSLocalizedString(@"Did you find this user suspicious",nil) delegate:delegate cancelButtonTitle:NSLocalizedString(@"NO", nil) otherButtonTitles:NSLocalizedString(@"YES", nil), nil];
+        [reportUserAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        [[reportUserAlert textFieldAtIndex:0] setPlaceholder:NSLocalizedString(@"Reason this person is suspicious", nil)];
+        reportUserAlert.tag = tagWillReportUser;
+        [reportUserAlert show];
+        
+    } else if ([action isEqualToString:alertWillChangePassword]) {
+        UIAlertView *resetPasswordAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Change Password", nil)  message:NSLocalizedString(@"Do you want to change password?", nil) delegate:delegate cancelButtonTitle:NSLocalizedString(@"NO", nil) otherButtonTitles:NSLocalizedString(@"YES", nil), nil];
+        resetPasswordAlert.tag = tagWillChangePassword;
+        [resetPasswordAlert show];
+        
+    } else if ([action isEqualToString:alertWillInquire]) {
+        UIAlertView *resetPasswordAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Inquiry", nil) message:NSLocalizedString(@"Do you have an inquiry?\nSend us an email.", nil) delegate:delegate cancelButtonTitle:NSLocalizedString(@"NO", nil) otherButtonTitles:NSLocalizedString(@"YES", nil), nil];
+        resetPasswordAlert.tag = tagWillInquire;
+        [resetPasswordAlert show];
+        
+    } else if ([action isEqualToString:alertWillPostQuestion]) {
+        UIAlertView *postAlert = [[UIAlertView alloc] initWithTitle:@"Post a new challenge"
+                                                            message:@"You can add new challenge by the following options."
+                                                           delegate:delegate
+                                                  cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:@"Upload from Library", @"Record from Camera", nil];
+        postAlert.tag = tagWillPostQuestion;      // Set alert tag is important in case of existence of many alerts
+        [postAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        [[postAlert textFieldAtIndex:0] setPlaceholder:@"Title of the challenge"];
+        [postAlert show];
+        
+    } else if ([action isEqualToString:alertWillSuggestQuestion]) {
+        UIAlertView *suggestAlert = [[UIAlertView alloc] initWithTitle:@"Suggest new challenge!"
+                                                               message:@"Suggest a challenge and we will consider making it"
+                                                              delegate:delegate
+                                                     cancelButtonTitle:@"Cancel"
+                                                     otherButtonTitles:@"Post", nil];
+        suggestAlert.tag = tagWillSuggestQuestion;
+        [suggestAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        [[suggestAlert textFieldAtIndex:0] setPlaceholder:@"Details"];
+        [suggestAlert show];
+        
+    } else if ([action isEqualToString:alertDidSaveVideo]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Video Saved"
+                                                        message:@"Saved To Photo Album! Upload Answer to Server?"
+                                                       delegate:delegate
+                                              cancelButtonTitle:@"NO"
+                                              otherButtonTitles:@"YES", nil];
+        alert.tag = tagDidSaveVideo;      // Set alert tag is important in case of existence of many alerts
+        [alert show];
+        
+    } else if ([action isEqualToString:alertWillAddNote]) {
+        UIAlertView *addNoteAlert = [[UIAlertView alloc] initWithTitle:@"Upload Success"
+                                                               message:@"Your video has been uploaded to Presentice successfully. Do you want to add a note for those who will view this video?"
+                                                              delegate:delegate
+                                                     cancelButtonTitle:@"No"
+                                                     otherButtonTitles:@"Yes", nil];
+        addNoteAlert.tag = tagWillAddNote;
+        [addNoteAlert show];
+        
+    } else if ([action isEqualToString:alertSelectVisibility]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Visibility Selection"
+                                                        message:@"Decide who can view this video.\n※You can change it later."
+                                                       delegate:delegate
+                                              cancelButtonTitle:@"Open inside Presentice"
+                                              otherButtonTitles:@"Only friends who are following me", @"Only Me", nil];
+        alert.tag = tagSelectVisibility;
+        [alert show];
+        
+    } else if ([action isEqualToString:alertWillDisplayNote]) {
+        UIAlertView *noteDisplayAlert = [[UIAlertView alloc] initWithTitle:@"Fully display note"
+                                                                   message:@"Do you want to view this note fully"
+                                                                  delegate:delegate
+                                                         cancelButtonTitle:@"No, it's ok"
+                                                         otherButtonTitles:@"Yes, show me", nil];
+        noteDisplayAlert.tag = tagWillDisplayNote;
+        [noteDisplayAlert show];
+        
+    } else if ([action isEqualToString:alertWillTakeAnswer]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Answer this question!"
+                                                        message:@"After viewing the question, you can answer it by the following options."
+                                                       delegate:delegate
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Upload from Library", @"Record from Camera", nil];
+        alert.tag = tagWillTakeAnswer;      // Set alert tag is important in case of existence of many alerts
+        [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        [[alert textFieldAtIndex:0] setPlaceholder:@"Video Name"];
+        [alert show];
+        
+    } else if ([action isEqualToString:alertWillDisplayQuestionVideo]) {
+        UIAlertView *noteDisplayAlert = [[UIAlertView alloc] initWithTitle:@"View question video"
+                                                                   message:@"Do you want to view the question video which this video answered for?"
+                                                                  delegate:delegate
+                                                         cancelButtonTitle:@"No, it's ok"
+                                                         otherButtonTitles:@"Yes, show me", nil];
+        noteDisplayAlert.tag = tagWillDisplayQuestionVideo;
+        [noteDisplayAlert show];
+        
+    } else if ([action isEqualToString:alertChangeVideoName]) {
+        UIAlertView *titleEditAlert = [[UIAlertView alloc] initWithTitle:@"Edit video name"
+                                                                 message:@"Choose a new name for this video"
+                                                                delegate:delegate
+                                                       cancelButtonTitle:@"Cancel"
+                                                       otherButtonTitles:@"Change it", nil];
+        titleEditAlert.tag = tagChangeVideoName;
+        [titleEditAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        [[titleEditAlert textFieldAtIndex:0] setPlaceholder:@"New video name"];
+        [titleEditAlert show];
+        
+    } else if ([action isEqualToString:alertWillDeleteVideo]) {
+        UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete video"
+                                                              message:@"Are you sure you want to delete this video. This action can not be undone."
+                                                             delegate:delegate
+                                                    cancelButtonTitle:@"No, stop it"
+                                                    otherButtonTitles:@"Yes, delete it", nil];
+        deleteAlert.tag = tagWillDeleteVideo;
+        [deleteAlert show];
+        
+    } else if ([action isEqualToString:alertWillEditVideo]) {
+        UIAlertView *editAlert = [[UIAlertView alloc] initWithTitle:@"Edit Video Information"
+                                                            message:@"Which information do you want to edit?"
+                                                           delegate:delegate
+                                                  cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:@"Video Name", @"Note for viewer", @"Visibility status", @"Delete",nil];
+        editAlert.tag = tagWillEditVideo;
+        [editAlert show];
+        
+    } else if ([action isEqualToString:alertWillSaveNote]) {
+        UIAlertView *saveAlert = [[UIAlertView alloc] initWithTitle:@"Save Changes"
+                                                            message:@"Do you want to save this note?"
+                                                           delegate:delegate
+                                                  cancelButtonTitle:@"NO"
+                                                  otherButtonTitles:@"YES", nil];
+        saveAlert.tag = tagWillSaveNote;
+        [saveAlert show];
+        
+    } else if ([action isEqualToString:alertWillBackToVideoView]) {
+        UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success"
+                                                               message:@"Note saved successfully? Back to Video View?"
+                                                              delegate:delegate
+                                                     cancelButtonTitle:NSLocalizedString(@"NO", nil)
+                                                     otherButtonTitles:NSLocalizedString(@"YES", nil), nil];
+        successAlert.tag = tagWillBackToVideoView;
+        [successAlert show];
+        
     }
+    
 }
 
 @end
+
+
+
+
+

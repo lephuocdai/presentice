@@ -219,25 +219,18 @@
 
 
 - (IBAction)sendMessage:(id)sender {
-    UIAlertView *sendMessageAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Send Private Message", nil) message:NSLocalizedString(@"Send a private message to this user?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:@"OK", nil];
-    sendMessageAlert.tag = 0;
-    [sendMessageAlert show];
+    [PresenticeUtility callAlert:alertWillSendMessage withDelegate:self];
 }
 
 - (IBAction)reportUser:(id)sender {
-    UIAlertView *reportUserAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Report this User", nil) message:NSLocalizedString(@"Did you find this user suspicious",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"NO", nil) otherButtonTitles:NSLocalizedString(@"YES", nil), nil];
-    [reportUserAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-    [[reportUserAlert textFieldAtIndex:0] setPlaceholder:NSLocalizedString(@"Reason this person is suspicious", nil)];
-    reportUserAlert.tag = 1;
-    [reportUserAlert show];
+    [PresenticeUtility callAlert:alertWillReportUser withDelegate:self];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 0) {
-        if (buttonIndex == 1) {
+    if (alertView.tag == tagWillSendMessage) {
+        if (buttonIndex == 1)
             [PresenticeUtility instantiateMessageDetailWith:self.userObj from:self animated:YES];
-        }
-    } else if (alertView.tag == 1) {
+    } else if (alertView.tag == tagWillReportUser) {
         NSLog(@"ask report user");
         if (buttonIndex == 1) {
             NSString *reportDescription = [alertView textFieldAtIndex:0].text;

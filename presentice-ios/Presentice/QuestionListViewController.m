@@ -180,26 +180,14 @@
     bool canPost = [canPostQuestion boolValue];
     
     if (canPost == true) {
-        UIAlertView *postAlert = [[UIAlertView alloc] initWithTitle:@"Post a new challenge"
-                                                        message:@"You can add new challenge by the following options."
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"Upload from Library", @"Record from Camera", nil];
-        postAlert.tag = 0;      // Set alert tag is important in case of existence of many alerts
-        [postAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-        [[postAlert textFieldAtIndex:0] setPlaceholder:@"Title of the challenge"];
-        [postAlert show];
+        [PresenticeUtility callAlert:alertWillPostQuestion withDelegate:self];
     } else {
-        UIAlertView *suggestAlert = [[UIAlertView alloc] initWithTitle:@"Suggest new challenge!" message:@"Suggest a challenge and we will consider making it" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Post", nil];
-        suggestAlert.tag = 1;
-        [suggestAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-        [[suggestAlert textFieldAtIndex:0] setPlaceholder:@"Details"];
-        [suggestAlert show];
+        [PresenticeUtility callAlert:alertWillSuggestQuestion withDelegate:self];
     }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 0) {           // Post new question
+    if (alertView.tag == tagWillPostQuestion) {           // Post new question
         NSLog(@"postQuestion started");
         self.newQuestionVideoName = [alertView textFieldAtIndex:0].text;
         if (buttonIndex == 1) {         // Upload from library
@@ -211,7 +199,7 @@
             isUploadFromLibrary = false;
             [PresenticeUtility startCameraControllerFromViewController:self usingDelegate:self withTimeLimit:VIDEO_TIME_LIMIT];
         }
-    } else if (alertView.tag == 1) {
+    } else if (alertView.tag == tagWillSuggestQuestion) {
         if (buttonIndex == 1) {
             NSLog(@"clicked Post Button");
             PFObject *newSuggest = [PFObject objectWithClassName:kActivityClassKey];
@@ -220,7 +208,7 @@
             [newSuggest setObject:[alertView textFieldAtIndex:0].text forKey:kActivityDescriptionKey];
             [newSuggest saveInBackground];
         }
-    } else if (alertView.tag == 2) {
+    } else if (alertView.tag == tagDidSaveVideo) {
         if (buttonIndex == 1) {
             NSLog(@"clicked YES Button");
             NSLog(@"Wait to upload to server!");
@@ -239,7 +227,7 @@
                 self.uploadFromLibrary = [self.tm uploadFile:self.pathForFileFromLibrary bucket:[Constants transferManagerBucket] key:uploadFilename];
             }
         }
-    } else if (alertView.tag == 3) {
+    } else if (alertView.tag == tagWillAddNote) {
         if (buttonIndex == 1) {
             EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
             editNoteViewController.note = [self.newQuestionVideoObj objectForKey:kVideoNoteKey];
@@ -305,13 +293,7 @@
                                                        delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Video Saved"
-                                                        message:@"Saved To Photo Album! Upload Answer to Server?"
-                                                       delegate:self
-                                              cancelButtonTitle:@"NO"
-                                              otherButtonTitles:@"YES", nil];
-        alert.tag = 2;      // Set alert tag is important in case of existence of many alerts
-        [alert show];
+        [PresenticeUtility callAlert:alertDidSaveVideo withDelegate:self];
     }
 }
 
@@ -349,10 +331,7 @@
             [postQuestionActivity saveInBackground];
             
             // Add a note
-            UIAlertView *addNoteAlert = [[UIAlertView alloc] initWithTitle:@"Upload Success" message:@"Your video has been uploaded to Presentice successfully. Do you want to add a note for those who will view this video?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-            addNoteAlert.tag = 3;
-            [addNoteAlert show];
-            
+            [PresenticeUtility callAlert:alertWillAddNote withDelegate:self];
         } else {
             [PresenticeUtility showErrorAlert:error];
         }

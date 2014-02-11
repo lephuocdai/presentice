@@ -137,6 +137,7 @@
     
     if ([cellType isEqualToString:@"username"]) {
         [self.navigationController pushViewController:[PresenticeUtility facebookPageOfUser:[PFUser currentUser]] animated:YES];
+        
     } else if ([cellType isEqual:@"pushPermission"] ) {
         PushPermissionViewController *destViewController = [[PushPermissionViewController alloc] initWithStyle:UITableViewStyleGrouped];
         if ([destViewController isKindOfClass:[PushPermissionViewController class]]) {
@@ -144,20 +145,19 @@
         }
         destViewController.pushPermission = [[NSMutableDictionary alloc] initWithDictionary:[[PFUser currentUser] objectForKey:@"pushPermission"]];
         [self.navigationController pushViewController:destViewController animated:YES];
+        
     } else if ([cellType isEqualToString:@"changePassword"]) {
-        UIAlertView *resetPasswordAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Change Password", nil)  message:NSLocalizedString(@"Do you want to change password?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"NO", nil) otherButtonTitles:NSLocalizedString(@"YES", nil), nil];
-        resetPasswordAlert.tag = 0;
-        [resetPasswordAlert show];
+        [PresenticeUtility callAlert:alertWillChangePassword withDelegate:self];
+        
     } else if ([cellType isEqualToString:@"inquiry"]) {
-        UIAlertView *resetPasswordAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Inquiry", nil) message:NSLocalizedString(@"Do you have an inquiry?\nSend us an email.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"NO", nil) otherButtonTitles:NSLocalizedString(@"YES", nil), nil];
-        resetPasswordAlert.tag = 1;
-        [resetPasswordAlert show];
+        [PresenticeUtility callAlert:alertWillInquire withDelegate:self];
+        
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 0) {
+    if (alertView.tag == tagWillChangePassword) {
         if (buttonIndex == 1) {
             [PFUser requestPasswordResetForEmailInBackground:[PFUser currentUser].email block:^(BOOL succeeded, NSError *error) {
                 if (!error) {
@@ -176,7 +176,7 @@
                 }
             }];
         }
-    } else if (alertView.tag == 1) {
+    } else if (alertView.tag == tagWillInquire) {
         if (buttonIndex == 1) {
             // Email Subject
             NSString *emailTitle = [NSString stringWithFormat:NSLocalizedString(@"[%@]Inquiry", nil), [[PFUser currentUser] objectId]];

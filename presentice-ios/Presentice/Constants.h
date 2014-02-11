@@ -114,6 +114,61 @@
 #define alertRateComment @"rateComment"
 #define tagRateComment 2
 
+#define alertSignupSucceeded @"signupSucceeded"
+#define tagSignupSucceeded 3
+
+#define alertWillSendMessage @"willSendMessage"
+#define tagWillSendMessage 4
+
+#define alertWillReportUser @"willReportUser"
+#define tagWillReportUser 5
+
+#define alertWillChangePassword @"willChangePassword"
+#define tagWillChangePassword 6
+
+#define alertWillInquire @"willInquire"
+#define tagWillInquire 7
+
+#define alertWillPostQuestion @"willPostQuestion"
+#define tagWillPostQuestion 8
+
+#define alertWillSuggestQuestion @"willSuggestQuestion"
+#define tagWillSuggestQuestion 9
+
+#define alertDidSaveVideo @"didSaveVideo"
+#define tagDidSaveVideo 10
+
+#define alertWillAddNote @"willAddNote"
+#define tagWillAddNote 11
+
+#define alertSelectVisibility @"selectVisibility"
+#define tagSelectVisibility 12
+
+#define alertWillDisplayNote @"willDisplayNote"
+#define tagWillDisplayNote 13
+
+#define alertWillTakeAnswer @"willTakeAnswer"
+#define tagWillTakeAnswer 14
+
+#define alertWillDisplayQuestionVideo @"willDisplayQuestionVideo"
+#define tagWillDisplayQuestionVideo 15
+
+#define alertChangeVideoName @"changetVideoName"
+#define tagChangeVideoName 16
+
+#define alertWillDeleteVideo @"willDeleteVideo"
+#define tagWillDeleteVideo 17
+
+#define alertWillEditVideo @"willEditVideo"
+#define tagWillEditVideo 18
+
+#define alertWillSaveNote @"willSaveNote"
+#define tagWillSaveNote 19
+
+#define alertWillBackToVideoView @"willBackToVideoView"
+#define tagWillBackToVideoView 20
+
+
 
 
 

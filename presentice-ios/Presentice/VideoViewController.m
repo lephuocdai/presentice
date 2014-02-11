@@ -97,15 +97,13 @@
 }
 
 - (void)actionHandleTapOnQuestionView {
-    UIAlertView *noteDisplayAlert = [[UIAlertView alloc] initWithTitle:@"View question video" message:@"Do you want to view the question video which this video answered for?" delegate:self cancelButtonTitle:@"No, it's ok" otherButtonTitles:@"Yes, show me", nil];
-    noteDisplayAlert.tag = 0;
-    [noteDisplayAlert show];
+    [PresenticeUtility callAlert:alertWillDisplayQuestionVideo withDelegate:self];
+
 }
 
 - (void)actionHandleTapOnNoteView {
-    UIAlertView *noteDisplayAlert = [[UIAlertView alloc] initWithTitle:@"Fully display note" message:@"Do you want to view this note fully?" delegate:self cancelButtonTitle:@"No, it's ok" otherButtonTitles:@"Yes, show me", nil];
-    noteDisplayAlert.tag = 1;
-    [noteDisplayAlert show];
+    [PresenticeUtility callAlert:alertWillDisplayNote withDelegate:self];
+
 }
 
 - (void)actionHandleTapOnImageView {
@@ -309,7 +307,7 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 0) {
+    if (alertView.tag == tagWillDisplayQuestionVideo) {
         if (buttonIndex == 1) {
             QuestionDetailViewController *destViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"questionDetailViewController"];
             PFQuery *videoQuery = [PFQuery queryWithClassName:kVideoClassKey];
@@ -328,20 +326,17 @@
                 }
             }];
         }
-    } else if (alertView.tag == 1) {
+    } else if (alertView.tag == tagWillDisplayNote) {
         if (buttonIndex == 1) {
             EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
             editNoteViewController.note = [self.answerVideoObj objectForKey:kVideoNoteKey];
             editNoteViewController.videoObj = self.answerVideoObj;
             [self.navigationController pushViewController:editNoteViewController animated:YES];
         }
-    } else if (alertView.tag == 2) {
+    } else if (alertView.tag == tagWillEditVideo) {
         if (buttonIndex == 1) {
-            UIAlertView *titleEditAlert = [[UIAlertView alloc] initWithTitle:@"Edit video name" message:@"Choose a new name for this video" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Change it", nil];
-            titleEditAlert.tag = 3;
-            [titleEditAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-            [[titleEditAlert textFieldAtIndex:0] setPlaceholder:@"New video name"];
-            [titleEditAlert show];
+            [PresenticeUtility callAlert:alertChangeVideoName withDelegate:self];
+
         } else if (buttonIndex == 2) {
             EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
             editNoteViewController.note = [self.answerVideoObj objectForKey:kVideoNoteKey];
@@ -349,15 +344,13 @@
             
             [self.navigationController pushViewController:editNoteViewController animated:YES];
         } else if (buttonIndex == 3) {
-            UIAlertView *visibilityEditAlert = [[UIAlertView alloc] initWithTitle:@"Visibility Selection" message:@"Decide who can view this video" delegate:self cancelButtonTitle:@"Open inside Presentice" otherButtonTitles:@"Only friends who are following me", @"Only Me", nil];
-            visibilityEditAlert.tag = 4;
-            [visibilityEditAlert show];
+            [PresenticeUtility callAlert:alertSelectVisibility withDelegate:self];
+
         } else if (buttonIndex == 4) {
-            UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete video" message:@"Are you sure you want to delete this video. This action can not be undone." delegate:self cancelButtonTitle:@"No, stop it" otherButtonTitles:@"Yes, delete it", nil];
-            deleteAlert.tag = 5;
-            [deleteAlert show];
+            [PresenticeUtility callAlert:alertWillDeleteVideo withDelegate:self];
+
         }
-    } else if (alertView.tag == 3) {
+    } else if (alertView.tag == tagChangeVideoName) {
         if (buttonIndex == 1) {
             NSString *newName = [alertView textFieldAtIndex:0].text;
             PFObject *editedVideo = [PFObject objectWithoutDataWithClassName:kVideoClassKey objectId:self.answerVideoObj.objectId];
@@ -373,7 +366,7 @@
                 }
             }];
         }
-    } else if (alertView.tag == 4) {
+    } else if (alertView.tag == tagSelectVisibility) {
         NSLog(@"alert = %@",[alertView buttonTitleAtIndex:buttonIndex]);
         NSString *answerVideoVisibility = [[NSString alloc] init];
         if (buttonIndex == 0)
@@ -397,7 +390,7 @@
                 }
             }];
         }
-    } else if (alertView.tag == 5) {
+    } else if (alertView.tag == tagWillDeleteVideo) {
         if (buttonIndex == 1) {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [self.answerVideoObj deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -422,9 +415,8 @@
         destViewController.videoObj = self.answerVideoObj;
         [self.navigationController pushViewController:destViewController animated:YES];
     } else { // If currentUser is the video's owner, let her edit the video
-        UIAlertView *editAlert = [[UIAlertView alloc] initWithTitle:@"Edit Video Information" message:@"Which information do you want to edit?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Video Name", @"Note for viewer", @"Visibility status", @"Delete",nil];
-        editAlert.tag = 2;
-        [editAlert show];
+        [PresenticeUtility callAlert:alertWillEditVideo withDelegate:self];
+
     }
 }
 @end

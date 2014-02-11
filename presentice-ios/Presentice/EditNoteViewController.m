@@ -84,28 +84,26 @@
 }
 
 - (IBAction)save:(id)sender {
-    UIAlertView *saveAlert = [[UIAlertView alloc] initWithTitle:@"Save Changes" message:@"Do you want to save this note?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-    saveAlert.tag = 0;
-    [saveAlert show];
+    [PresenticeUtility callAlert:alertWillSaveNote withDelegate:self];
+    
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 0) {
+    if (alertView.tag == tagWillSaveNote) {
         if (buttonIndex == 1) {
             PFObject *editedVideo = [PFObject objectWithoutDataWithClassName:kVideoClassKey objectId:self.videoObj.objectId];
             [editedVideo setObject:noteView.text forKey:kVideoNoteKey];
             [editedVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
                     [self.view endEditing:YES];
-                    UIAlertView *successAlert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Note saved successfully? Back to Video View?" delegate:self cancelButtonTitle:NSLocalizedString(@"NO", nil) otherButtonTitles:NSLocalizedString(@"YES", nil), nil];
-                    successAlert.tag = 1;
-                    [successAlert show];
+                    [PresenticeUtility callAlert:alertWillBackToVideoView withDelegate:self];
+
                 } else {
                     [PresenticeUtility showErrorAlert:error];
                 }
             }];
         }
-    } else if (alertView.tag == 1) {
+    } else if (alertView.tag == tagWillBackToVideoView) {
         if (buttonIndex == 1) {
             [self.navigationController popViewControllerAnimated:YES];
         }

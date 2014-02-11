@@ -109,9 +109,7 @@
 }
 
 - (void)actionHandleTapOnNoteView {
-    UIAlertView *noteDisplayAlert = [[UIAlertView alloc] initWithTitle:@"Fully display note" message:@"Do you want to view this note fully" delegate:self cancelButtonTitle:@"No, it's ok" otherButtonTitles:@"Yes, show me", nil];
-    noteDisplayAlert.tag = 4;
-    [noteDisplayAlert show];
+    [PresenticeUtility callAlert:alertWillDisplayNote withDelegate:self];
 }
 
 - (void)actionHandleTapOnImageView {
@@ -290,19 +288,11 @@
 
 - (IBAction)takeAnswer:(id)sender {
     NSLog(@"push Take Answer");
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Answer this question!"
-                                                    message:@"After viewing the question, you can answer it by the following options."
-                                                   delegate:self
-                                          cancelButtonTitle:@"Cancel"
-                                          otherButtonTitles:@"Upload from Library", @"Record from Camera", nil];
-    alert.tag = 0;      // Set alert tag is important in case of existence of many alerts
-    [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-    [[alert textFieldAtIndex:0] setPlaceholder:@"Video Name"];
-    [alert show];
+    [PresenticeUtility callAlert:alertWillTakeAnswer withDelegate:self];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(alertView.tag == 0){
+    if(alertView.tag == tagWillTakeAnswer){
         NSLog(@"clickedButton");
         NSLog(@"Text field 1: %@", [alertView textFieldAtIndex:0].text);
         self.newAnswerVideoName = [alertView textFieldAtIndex:0].text;
@@ -318,7 +308,7 @@
             }
         }
         NSLog(@"cancel, buttonIndex = %d", buttonIndex);
-    } else if (alertView.tag == 1) {
+    } else if (alertView.tag == tagDidSaveVideo) {
         if (buttonIndex == 1) {
             NSLog(@"clicked YES Button");
             NSLog(@"Wait to upload to server!");
@@ -337,7 +327,7 @@
                 self.uploadFromLibrary = [self.tm uploadFile:self.pathForFileFromLibrary bucket: [Constants transferManagerBucket] key: uploadFilename];
             }
         }
-    } else if (alertView.tag == 2) {
+    } else if (alertView.tag == tagSelectVisibility) {
         NSLog(@"alert = %@",[alertView buttonTitleAtIndex:buttonIndex]);
         if (buttonIndex == 0)
             self.newAnswerVideoVisibility = @"open";
@@ -348,7 +338,7 @@
         NSLog(@"visibility = %@", self.newAnswerVideoVisibility);
         [self saveToParse];
         
-    } else if (alertView.tag == 3) {
+    } else if (alertView.tag == tagWillAddNote) {
         if (buttonIndex == 1) {
             EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
             editNoteViewController.note = [self.newAnswerVideoObj objectForKey:kVideoNoteKey];
@@ -356,7 +346,7 @@
             
             [self.navigationController pushViewController:editNoteViewController animated:YES];
         }
-    } else if (alertView.tag == 4) {
+    } else if (alertView.tag == tagWillDisplayNote) {
         if (buttonIndex == 1) {
             EditNoteViewController *editNoteViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editNoteViewController"];
             editNoteViewController.note = [self.questionVideoObj objectForKey:kVideoNoteKey];
@@ -419,13 +409,7 @@
                                                        delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Video Saved"
-                                                        message:@"Saved To Photo Album! Upload Answer to Presentice Server?"
-                                                       delegate:self
-                                              cancelButtonTitle:@"NO"
-                                              otherButtonTitles:@"YES", nil];
-        alert.tag = 1;      // Set alert tag is important in case of existence of many alerts
-        [alert show];
+        [PresenticeUtility callAlert:alertDidSaveVideo withDelegate:self];
     }
 }
 
@@ -472,9 +456,7 @@
             [self.questionVideoObj saveInBackground];
             
             // Add a note
-            UIAlertView *addNoteAlert = [[UIAlertView alloc] initWithTitle:@"Upload Success" message:@"Your video has been uploaded to Presentice successfully. Do you want to add a note for those who will view this video?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-            addNoteAlert.tag = 3;
-            [addNoteAlert show];
+            [PresenticeUtility callAlert:alertWillAddNote withDelegate:self];
 
         } else {
             [PresenticeUtility showErrorAlert:error];
@@ -501,14 +483,7 @@
 -(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response {
     NSLog(@"Upload done!");
     NSLog(@"upload file url: %@", response);
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Visibility Selection"
-                                                    message:@"Decide who can view this video.\n※You can change it later."
-                                                   delegate:self
-                                          cancelButtonTitle:@"Open inside Presentice"
-                                          otherButtonTitles:@"Only friends who are following me", @"Only Me", nil];
-    alert.tag = 2;
-    [alert show];
+    [PresenticeUtility callAlert:alertSelectVisibility withDelegate:self];
 }
 
 -(void)request:(AmazonServiceRequest *)request didFailWithError:(NSError *)error {

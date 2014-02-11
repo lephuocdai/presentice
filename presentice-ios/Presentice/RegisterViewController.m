@@ -128,9 +128,10 @@ NSDictionary<FBGraphUser>  *fbInfo;
             [PFCloud callFunction:@"onRegistered" withParameters:params];
             
             //show succeeded alert
-            UIAlertView *succeedAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign Up Succeeded", nil) message:NSLocalizedString(@"Congratulations! Let's find some friends who are already on Presentice", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
-            succeedAlert.tag = 0;
-            [succeedAlert show];
+//            UIAlertView *succeedAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign Up Succeeded", nil) message:NSLocalizedString(@"Congratulations! Let's find some friends who are already on Presentice", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
+//            succeedAlert.tag = 0;
+//            [succeedAlert show];
+            [PresenticeUtility callAlert:alertSignupSucceeded withDelegate:self];
             
             // Register registerActivity to Activity Table
             PFObject *registerActivity = [PFObject objectWithClassName:kActivityClassKey];
@@ -166,7 +167,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
 #pragma alertDelegate
 // redirect to Login View Controller
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 0) {
+    if (alertView.tag == tagSignupSucceeded) {
         [PresenticeUtility instantiateFindFriendsFrom:self animated:NO completion:nil];
     }
 }
