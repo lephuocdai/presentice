@@ -78,6 +78,10 @@
 #define kActivityTypeFollow @"follow"   //type = follow
 #define kActivityReviewCriteriaKey @"criteria"
 #define kActivityReviewWaitingTime @"waitingTime"
+#define kActivityReviewRateComment @"rateComment"
+#define kActivityReviewRateCommentSatisfied @"satisfied"
+#define kActivityReviewRateCommentUnsatisfied @"unsatisfied"
+
 
 #pragma Table Message
 #define kMessageClassKey @"Message"
@@ -100,6 +104,17 @@
 #define kquestionListViewController @"questionListViewController"
 #define kmyListViewController @"myListViewController"
 #define knotificationListViewController @"notificationListViewController"
+
+
+
+#pragma Alert View
+#define alertSayThanks @"sayThanks"
+#define tagSayThanks 1
+
+#define alertRateComment @"rateComment"
+#define tagRateComment 2
+
+
 
 
 #define REVIEW_MAX_VALUE 5

@@ -131,6 +131,9 @@
 - (void) objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
     NSLog(@"error: %@", [error localizedDescription]);
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

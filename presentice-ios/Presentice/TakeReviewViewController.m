@@ -96,7 +96,16 @@ PFObject *reviewObj;
         
         NSMutableDictionary *criteria = [[NSMutableDictionary alloc] init ];
         for (QPickerElement *rating in ratings) {
-            [criteria setObject:rating.value forKey:rating.key];
+            NSNumber *value;
+            NSLog(@"value class = %@", [rating.value class]);
+            if ([rating.value isKindOfClass:[NSString class]]) {
+                NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+                [f setNumberStyle:NSNumberFormatterDecimalStyle];
+                value = [f numberFromString:rating.value];
+            } else {
+                value = rating.value;
+            }
+            [criteria setObject:value forKey:rating.key];
             NSLog(@"Title: %@ - %@ = %@ \n", rating.title, rating.key, rating.value);
         }
         NSDictionary *content = [[NSDictionary alloc] initWithObjectsAndKeys:criteria, kActivityReviewCriteriaKey, [NSNumber numberWithInteger:VIEW_REVIEW_WAITNG_TIME], kActivityReviewWaitingTime, nil];
@@ -158,7 +167,16 @@ PFObject *reviewObj;
                 
                 NSMutableDictionary *criteria = [[NSMutableDictionary alloc] init ];
                 for (QPickerElement *rating in ratings) {
-                    [criteria setObject:rating.value forKey:rating.key];
+                    NSNumber *value;
+                    NSLog(@"value class = %@", [rating.value class]);
+                    if ([rating.value isKindOfClass:[NSString class]]) {
+                        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+                        [f setNumberStyle:NSNumberFormatterDecimalStyle];
+                        value = [f numberFromString:rating.value];
+                    } else {
+                        value = rating.value;
+                    }
+                    [criteria setObject:value forKey:rating.key];
                     NSLog(@"Title: %@ - %@ = %@ \n", rating.title, rating.key, rating.value);
                 }
                 NSDictionary *content = [[NSDictionary alloc] initWithObjectsAndKeys:criteria, kActivityReviewCriteriaKey, [NSNumber numberWithInteger:VIEW_REVIEW_WAITNG_TIME], kActivityReviewWaitingTime, nil];

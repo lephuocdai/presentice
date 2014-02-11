@@ -339,14 +339,15 @@
     if ([key isEqualToString:kVideoAnswersKey]) {
         PFRelation *relation = [object relationforKey:kVideoAnswersKey];
         PFQuery *query = relation.query;
-        __block int count = 0;
-        [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
-            if (!error) {
-                 count = number;
-            } else {
-                [PresenticeUtility showErrorAlert:error];
-            }
-        }];
+//        __block int count = 0;
+//        [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+//            if (!error) {
+//                 count = number;
+//            } else {
+//                [PresenticeUtility showErrorAlert:error];
+//            }
+//        }];
+        int count = [query countObjects];
         return [NSString stringWithFormat:@"%@: %d", key, count];
     } else {
         if ([object objectForKey:key]) {
@@ -695,7 +696,7 @@
 
 + (void)showErrorAlert:(NSError*)error{
     NSLog(@"error = %@", error);
-    NSString *message = [NSString stringWithFormat:@"Error: %@.\nPlease contact us at info@presentice.com", error.description];
+    NSString *message = [NSString stringWithFormat:@"Error: %@.\nPlease contact us at info@presentice.com", [error localizedDescription]];
     UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [errorAlert show];
 }
@@ -758,6 +759,41 @@
     return (NSInteger)[[content objectForKey:kActivityReviewWaitingTime] integerValue];
 }
 
+// Get average review of an video
++ (float)getAverageReviewOfVideo:(PFObject*)aVideo {
+    PFQuery *pointQuery = [PFQuery queryWithClassName:kActivityClassKey];
+    [pointQuery whereKey:kActivityTypeKey equalTo:@"review"];
+    [pointQuery whereKey:kActivityTargetVideoKey equalTo:aVideo];
+    pointQuery.limit = 1000;
+    float sum = 0.0;
+    NSArray *objects = [pointQuery findObjects];
+    if (objects.count == 0)
+        return 0;
+    for (PFObject *object in objects) {
+        NSDictionary *content = [object objectForKey:kActivityContentKey];
+        NSDictionary *points = [content objectForKey:kActivityReviewCriteriaKey];
+        NSArray *criteria = [[NSArray alloc] initWithArray:[points allKeys]];
+        float average = 0.0;
+        for (NSString *criterium in criteria)
+            average += [[points objectForKey:criterium] floatValue];
+        average /= criteria.count;
+        sum += average;
+    }
+    sum /= objects.count;
+    return sum;
+}
 
+// Call alertView for action
++ (void)callAlert:(NSString*)action withDelegate:(id)delegate {
+    if ([action isEqualToString:alertSayThanks]) {
+        UIAlertView *thanksAlert = [[UIAlertView alloc] initWithTitle:@"Say thank you" message:@"Do you want to say thank you to this person and ask more question" delegate:delegate cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+        thanksAlert.tag = tagSayThanks;
+        [thanksAlert show];
+    } else if ([action isEqualToString:alertRateComment]) {
+        UIAlertView *replyAlert = [[UIAlertView alloc] initWithTitle:@"Rate this comment" message:@"Do you find this comment useful for you?" delegate:self cancelButtonTitle:@"Decide later" otherButtonTitles:@"YES", @"NO", nil];
+        replyAlert.tag = tagRateComment;
+        [replyAlert show];
+    }
+}
 
 @end

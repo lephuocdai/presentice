@@ -23,6 +23,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *videoNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *viewNumLabel;
 @property (strong, nonatomic) IBOutlet UILabel *visibilityLabel;
+@property (strong, nonatomic) IBOutlet UILabel *averagePoint;
 @property (strong, nonatomic) IBOutlet UIView *videoView;
 @property (strong, nonatomic) IBOutlet UILabel *noteView;
 

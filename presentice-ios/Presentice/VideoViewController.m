@@ -21,6 +21,7 @@
 @synthesize noteView;
 @synthesize questionVideoLabel;
 @synthesize visibilityLabel;
+@synthesize averagePoint;
 
 - (id)initWithCoder:(NSCoder *)aCoder {
     self = [super initWithCoder:aCoder];
@@ -55,9 +56,9 @@
     postedUserLabel.text = [[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     viewNumLabel.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:self.answerVideoObj];
     visibilityLabel.text = [PresenticeUtility visibilityOfVideo:self.answerVideoObj];
-    
-    questionVideoLabel.text = [NSString stringWithFormat:@"This is an answer of: %@", [[self.answerVideoObj objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]];
-    
+    averagePoint.text = [NSString stringWithFormat:@"Average review: %.1f", [PresenticeUtility getAverageReviewOfVideo:self.answerVideoObj]];
+    questionVideoLabel.text = [NSString stringWithFormat:@"This is an answer of:\n%@", [[self.answerVideoObj objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]];
+    [questionVideoLabel sizeToFit];
     // There is a bug with iOS 6
 //    [questionVideoLabel boldSubstring:@"This is an answer of:"];
     
@@ -223,11 +224,12 @@
 
 - (PFQuery *)queryForTable {
     PFQuery *reviewListQuery = [PFQuery queryWithClassName:self.parseClassName];
+    [reviewListQuery whereKey:kActivityTypeKey equalTo:@"review"];
+    [reviewListQuery whereKey:kActivityTargetVideoKey equalTo:self.answerVideoObj];
+    [reviewListQuery whereKey:kActivityDescriptionKey notEqualTo:@""];
     [reviewListQuery includeKey:kActivityFromUserKey];   // Important: Include "fromUser" key in this query make receiving user info easier
     [reviewListQuery includeKey:kActivityToUserKey];
     [reviewListQuery includeKey:kActivityTargetVideoKey];
-    [reviewListQuery whereKey:kActivityTypeKey equalTo:@"review"];
-    [reviewListQuery whereKey:kActivityTargetVideoKey equalTo:self.answerVideoObj];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
@@ -251,7 +253,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return @"Reviews of this video";
+        return @"Comments about this video";
     } else {
         if (![[[PFUser currentUser] objectId] isEqualToString:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId]]) {
         return @"There is no review for this video. Be the first person to review it.";
@@ -272,6 +274,7 @@
     // Configure the cell
     UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
     UILabel *userName = (UILabel *)[cell viewWithTag:101];
+    UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
     UILabel *comment = (UILabel *)[cell viewWithTag:104];
     
     userProfilePicture.image = [UIImage imageWithData:
@@ -283,6 +286,7 @@
     userProfilePicture.layer.masksToBounds = YES;
     
     userName.text = [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey];
+    postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.updatedAt] dateTimeUntilNow]];
     comment.text = [object objectForKey:kActivityDescriptionKey];
     
     return cell;

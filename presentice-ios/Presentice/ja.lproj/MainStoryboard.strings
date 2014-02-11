@@ -71,8 +71,8 @@
 /* Class = "IBUILabel"; text = "postedUser"; ObjectID = "D3D-Gg-ArZ"; */
 "D3D-Gg-ArZ.text" = "postedUser";
 
-/* Class = "IBUINavigationItem"; title = "Review Detail"; ObjectID = "D6c-gX-qUZ"; */
-"D6c-gX-qUZ.title" = "レビュー詳細";
+/* Class = "IBUINavigationItem"; title = "Comment Detail"; ObjectID = "D6c-gX-qUZ"; */
+"D6c-gX-qUZ.title" = "コメントの詳細";
 
 /* Class = "IBUILabel"; text = "postedTime"; ObjectID = "E1q-4g-NL0"; */
 "E1q-4g-NL0.text" = "postedTime";

@@ -153,7 +153,7 @@
             </objects>
             <point key="canvasLocation" x="3843" y="-2356"/>
         </scene>
-        <!--Review Detail View Controller - Review Detail-->
+        <!--Review Detail View Controller - Comment Detail-->
         <scene sceneID="M5w-qD-zIu">
             <objects>
                 <tableViewController storyboardIdentifier="reviewDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Hdg-CD-qcO" customClass="ReviewDetailViewController" sceneMemberID="viewController">
@@ -172,7 +172,7 @@
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="reviewerName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ALL-ZG-wnw">
                                     <rect key="frame" x="74" y="6" width="226" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="answerVideoName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ky4-Rq-kUx">
@@ -210,8 +210,12 @@
                             <outlet property="delegate" destination="Hdg-CD-qcO" id="A3I-aF-NgD"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Review Detail" id="D6c-gX-qUZ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="reply" id="WWL-h6-wzs"/>
+                    <navigationItem key="navigationItem" title="Comment Detail" id="D6c-gX-qUZ">
+                        <barButtonItem key="rightBarButtonItem" systemItem="reply" id="WWL-h6-wzs">
+                            <connections>
+                                <action selector="reply:" destination="Hdg-CD-qcO" id="q6c-LA-G6k"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
@@ -643,7 +647,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="TLK-QF-csM">
-                            <rect key="frame" x="0.0" y="64" width="320" height="525"/>
+                            <rect key="frame" x="0.0" y="64" width="320" height="535"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="nTX-oD-lhj">
@@ -673,14 +677,14 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="note of this video" lineBreakMode="headTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" id="xmi-NI-UDJ">
-                                    <rect key="frame" x="50" y="475" width="265" height="45"/>
+                                <label autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="note of this video" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" id="xmi-NI-UDJ">
+                                    <rect key="frame" x="5" y="485" width="310" height="45"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="questionVideoName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tia-YP-rVB">
-                                    <rect key="frame" x="50" y="450" width="265" height="25"/>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="questionVideoName" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tia-YP-rVB">
+                                    <rect key="frame" x="5" y="455" width="210" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <nil key="highlightedColor"/>
@@ -691,12 +695,18 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="averagePoint" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9H4-Wd-IP9">
+                                    <rect key="frame" x="205" y="455" width="110" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="reviewListIdentifier" rowHeight="80" id="gik-wA-zYO">
-                                <rect key="frame" x="0.0" y="644" width="320" height="80"/>
+                                <rect key="frame" x="0.0" y="654" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gik-wA-zYO" id="qdc-O9-ajj">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
@@ -718,6 +728,13 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="postedTime" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eTh-vU-mZW">
+                                            <rect key="frame" x="205" y="5" width="110" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -736,6 +753,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="averagePoint" destination="9H4-Wd-IP9" id="PCi-JF-RuY"/>
                         <outlet property="noteView" destination="xmi-NI-UDJ" id="p0e-In-lZv"/>
                         <outlet property="postedUserLabel" destination="D3D-Gg-ArZ" id="cF2-5t-FOs"/>
                         <outlet property="questionVideoLabel" destination="Tia-YP-rVB" id="GcJ-V7-az3"/>

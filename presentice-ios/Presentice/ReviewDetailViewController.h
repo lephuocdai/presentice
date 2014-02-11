@@ -21,5 +21,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *answerVideoPosterUserNameLabel;
 
 @property (strong, nonatomic) IBOutlet UIView *commentView;
+- (IBAction)reply:(id)sender;
 
 @end

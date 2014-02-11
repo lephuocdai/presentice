@@ -37,11 +37,16 @@
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    [PresenticeUtility setImageView:self.userProfilePicture forUser:[self.reviewObject objectForKey:kActivityFromUserKey]];
+    if (![[[self.reviewObject objectForKey:kActivityToUserKey] objectId] isEqualToString:[[PFUser currentUser] objectId]])
+        self.navigationItem.rightBarButtonItem = nil;
     
-    reviewerNameLabel.text = [[self.reviewObject objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey];
-    answerVideoNameLabel.text = [[self.reviewObject objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey];
-    answerVideoPosterUserNameLabel.text = [[self.reviewObject objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey];
+    [PresenticeUtility setImageView:self.userProfilePicture forUser:[self.reviewObject objectForKey:kActivityFromUserKey]];
+    reviewerNameLabel.text = [NSString stringWithFormat:@"Reviewer: %@", [[self.reviewObject objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
+    [reviewerNameLabel boldSubstring:@"Reviewer:"];
+    answerVideoNameLabel.text = [NSString stringWithFormat:@"To video: %@", [[self.reviewObject objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
+    [answerVideoNameLabel boldSubstring:@"To video:"];
+    answerVideoPosterUserNameLabel.text = [NSString stringWithFormat:@"Of user: %@", [[self.reviewObject objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey]];
+    [answerVideoPosterUserNameLabel boldSubstring:@"Of user:"];
     UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, 200)];
     commentLabel.text = [self.reviewObject objectForKey:kActivityDescriptionKey];
     commentLabel.numberOfLines = 0;
@@ -85,7 +90,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return [criteria count];
+//    return [criteria count];
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -100,6 +106,30 @@
     return cell;
 }
 
-- (IBAction)sayThankyou:(id)sender {
+- (IBAction)reply:(id)sender {
+    if ([[self.reviewObject objectForKey:kActivityContentKey] objectForKey:kActivityReviewRateComment] == nil)
+        [PresenticeUtility callAlert:alertRateComment withDelegate:self];
+    else
+        [PresenticeUtility callAlert:alertSayThanks withDelegate:self];
 }
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == tagRateComment) {
+        if (buttonIndex != 0) {
+            NSMutableDictionary *content = [[NSMutableDictionary alloc] initWithDictionary:[self.reviewObject objectForKey:kActivityContentKey]];
+            if (buttonIndex == 1) {
+                [content setValue:kActivityReviewRateCommentSatisfied forKey:kActivityReviewRateComment];
+                [PresenticeUtility callAlert:alertSayThanks withDelegate:self];
+            } else {
+                [content setValue:kActivityReviewRateCommentUnsatisfied forKey:kActivityReviewRateComment];
+            }
+            [self.reviewObject setObject:content forKey:kActivityContentKey];
+            [self.reviewObject saveInBackground];
+        }
+    } else if (alertView.tag == tagSayThanks) {
+        if (buttonIndex == 1) {
+            [PresenticeUtility instantiateMessageDetailWith:[self.reviewObject objectForKey:kActivityFromUserKey] from:self animated:YES];
+        }
+    }
+}
+
 @end

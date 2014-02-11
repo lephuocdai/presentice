@@ -97,10 +97,7 @@
 + (void)instantiateHomeScreenFrom:(UIViewController*)currentViewController animated:(BOOL)animated completion:(void (^)(void))completion;
 + (void)instantiateFindFriendsFrom:(UIViewController*)currentViewController animated:(BOOL)animated completion:(void (^)(void))completion;
 
-
-
 + (void)instantiateMessageDetailWith:(PFUser*)aUser from:(UIViewController*)currentViewController animated:(BOOL)animated;
-
 
 // Error message alert
 + (void) showErrorAlert:(NSError*)error;
@@ -116,5 +113,11 @@
 
 // Get waiting time
 + (NSInteger)waitingTimeToView:(PFObject*)anActivity;
+
+// Get average review of an video
++ (float)getAverageReviewOfVideo:(PFObject*)aVideo;
+
+// Call alertView for action
++ (void)callAlert:(NSString*)action withDelegate:(id)delegate;
 
 @end
