@@ -66,8 +66,12 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+    
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
+    [PresenticeUtility checkCurrentUserActivationIn:self];
 }
 
 - (void)actionHandleTapOnImageView {

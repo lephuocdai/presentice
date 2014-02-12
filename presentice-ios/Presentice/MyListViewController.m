@@ -43,8 +43,6 @@
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    [PresenticeUtility checkCurrentUserActivationIn:self];
-    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
@@ -53,11 +51,6 @@
                                              selector:@selector(refreshTable:)
                                                  name:@"refreshTable"
                                                object:nil];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    // Hid all HUD after all objects appered
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -74,6 +67,15 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+    
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
+    [PresenticeUtility checkCurrentUserActivationIn:self];
 }
 
 - (PFQuery *)queryForTable {

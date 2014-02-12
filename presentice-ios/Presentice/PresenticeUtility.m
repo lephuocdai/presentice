@@ -736,12 +736,16 @@
 
 // Check user activation
 + (void)checkCurrentUserActivationIn:(UIViewController *)currentViewController {
-    if ([[[PFUser currentUser] objectForKey:kUserActivatedKey] boolValue] == false) {
-        UIAlertView *activatedAlert = [[UIAlertView alloc] initWithTitle:@"Action Denied" message:@"Your account has not been activated yet. Please wait or contact us at\ninfo@presentice.com" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        activatedAlert.tag = -1;
-        [activatedAlert show];
-        NSLog(@"navigate to Profile View");
-        [PresenticeUtility navigateToMyProfileFrom:currentViewController];
+    NSLog(@"user = %@", [PFUser currentUser]);
+
+    if ([[[[PFUser currentUser] objectForKey:kUserPromotionKey] fetchIfNeeded] objectForKey:kPromotionActivatedKey] == nil || [[[[[PFUser currentUser] objectForKey:kUserPromotionKey] fetchIfNeeded] objectForKey:kPromotionActivatedKey] boolValue] == false) {
+        
+        [PresenticeUtility callAlert:alertDidDenyAction withDelegate:nil];
+        
+//        [PFUser logOut];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        WaitingListViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"waitingListViewController"];
+        [currentViewController.navigationController pushViewController:destViewController animated:YES];
     }
 }
 
@@ -948,6 +952,14 @@
         successAlert.tag = tagWillBackToVideoView;
         [successAlert show];
         
+    } else if ([action isEqualToString:alertDidDenyAction]) {
+        UIAlertView *activatedAlert = [[UIAlertView alloc] initWithTitle:@"Action Denied"
+                                                                 message:@"Your account has not been activated yet. If you have waited for more than a week, please contact us at\ninfo@presentice.com"
+                                                                delegate:delegate
+                                                       cancelButtonTitle:@"OK"
+                                                       otherButtonTitles:nil];
+        activatedAlert.tag = tagDidDenyAction;
+        [activatedAlert show];
     }
     
 }

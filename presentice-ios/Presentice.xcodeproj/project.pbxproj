@@ -72,6 +72,7 @@
 		F0718CCE185ACEFC009014A0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0718CCD185ACEFC009014A0 /* AssetsLibrary.framework */; };
 		F0718CD1185ACF36009014A0 /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0718CCF185ACF36009014A0 /* AWSRuntime.framework */; };
 		F0718CD2185ACF36009014A0 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0718CD0185ACF36009014A0 /* AWSS3.framework */; };
+		F07371B218ABD04700CF126F /* WaitingListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F07371B118ABD04700CF126F /* WaitingListViewController.m */; };
 		F0759ABC1881C6310077D387 /* MFSideMenuContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0759AB71881C6310077D387 /* MFSideMenuContainerViewController.m */; };
 		F0759ABD1881C6310077D387 /* MFSideMenuShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = F0759AB91881C6310077D387 /* MFSideMenuShadow.m */; };
 		F0759ABE1881C6310077D387 /* UIViewController+MFSideMenuAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F0759ABB1881C6310077D387 /* UIViewController+MFSideMenuAdditions.m */; };
@@ -311,6 +312,8 @@
 		F0718CCD185ACEFC009014A0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		F0718CCF185ACF36009014A0 /* AWSRuntime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSRuntime.framework; path = External/AWSRuntime.framework; sourceTree = "<group>"; };
 		F0718CD0185ACF36009014A0 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = External/AWSS3.framework; sourceTree = "<group>"; };
+		F07371B018ABD04600CF126F /* WaitingListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingListViewController.h; sourceTree = "<group>"; };
+		F07371B118ABD04700CF126F /* WaitingListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitingListViewController.m; sourceTree = "<group>"; };
 		F0759AB51881C6310077D387 /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
 		F0759AB61881C6310077D387 /* MFSideMenuContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenuContainerViewController.h; sourceTree = "<group>"; };
 		F0759AB71881C6310077D387 /* MFSideMenuContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFSideMenuContainerViewController.m; sourceTree = "<group>"; };
@@ -526,6 +529,8 @@
 				A73D5A1318653BF700087F27 /* LoginViewController.m */,
 				A7E995A31867D196009E48CA /* RegisterViewController.h */,
 				A7E995A41867D197009E48CA /* RegisterViewController.m */,
+				F07371B018ABD04600CF126F /* WaitingListViewController.h */,
+				F07371B118ABD04700CF126F /* WaitingListViewController.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -1490,6 +1495,7 @@
 				A78E9D5A185DA16B00ACCC54 /* MBProgressHUD.m in Sources */,
 				A72AB04D188A4D8100C12A74 /* Credentials.m in Sources */,
 				F027630F1890F18A001BEA6D /* EmailInfo.m in Sources */,
+				F07371B218ABD04700CF126F /* WaitingListViewController.m in Sources */,
 				F06E4BF418864EA100FB9333 /* ReviewDetailViewController.m in Sources */,
 				F0DD719E18921FE50070DF95 /* JSBubbleImageViewFactory.m in Sources */,
 				F0DD719F18921FE50070DF95 /* JSBubbleMessageCell.m in Sources */,
@@ -1579,7 +1585,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "6FFF1F59-56DD-44CC-8D8F-3071BD105391";
+				PROVISIONING_PROFILE = "61A3AFF4-B48B-41AA-A9AE-07BB2E938DA8";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1610,7 +1616,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "6FFF1F59-56DD-44CC-8D8F-3071BD105391";
+				PROVISIONING_PROFILE = "61A3AFF4-B48B-41AA-A9AE-07BB2E938DA8";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1638,7 +1644,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Presentice;
-				PROVISIONING_PROFILE = "FD204863-2632-467E-9516-F1BDEAC3E8B9";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/QuickDialog\"/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1649,8 +1655,8 @@
 			baseConfigurationReference = 399769DC72A9447595207301 /* Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Phuoc Dai Le (FYF5789L32)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Phuoc Dai Le (FYF5789L32)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/Presentice/**",
 					"$(SRCROOT)/External/**",
@@ -1666,7 +1672,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Presentice;
-				PROVISIONING_PROFILE = "FD204863-2632-467E-9516-F1BDEAC3E8B9";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/QuickDialog\"/**";
 				WRAPPER_EXTENSION = app;
 			};

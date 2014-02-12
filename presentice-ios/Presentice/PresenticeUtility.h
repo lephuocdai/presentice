@@ -31,6 +31,7 @@
 #import "MessageListViewController.h"
 #import "FriendListViewController.h"
 #import "FindFriendViewController.h"
+#import "WaitingListViewController.h"
 
 @interface PresenticeUtility : NSObject
 

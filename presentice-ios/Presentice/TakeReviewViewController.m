@@ -40,6 +40,14 @@ PFObject *reviewObj;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+    
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
+    [PresenticeUtility checkCurrentUserActivationIn:self];
+}
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];

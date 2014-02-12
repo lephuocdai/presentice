@@ -39,8 +39,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [PresenticeUtility checkCurrentUserActivationIn:self];
-    
     // Prevent currentUser from edit the note
     if ([[[self.answerVideoObj objectForKey:kVideoUserKey] objectId] isEqualToString:[[PFUser currentUser] objectId]])
         self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Edit", nil);
@@ -125,7 +123,6 @@
             [PFCloud callFunction:@"sendPushNotification" withParameters:params];
         }
         
-        
         // Register view activity in to Acitivity Table
         PFQuery *activityQuery = [PFQuery queryWithClassName:kActivityClassKey];
         [activityQuery whereKey:kActivityTypeKey equalTo:@"view"];
@@ -165,6 +162,8 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+    
 #pragma play movie
     // Set up movieController
     self.movieController = [[MPMoviePlayerController alloc] init];
@@ -184,6 +183,8 @@
     
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
+    [PresenticeUtility checkCurrentUserActivationIn:self];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {

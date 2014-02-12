@@ -41,13 +41,12 @@
 #define kUserEmailKey @"email"
 #define kUserEmailVerifiedKey @"emailVerified"
 #define kUserTypeKey @"type"
-#define kUserActivatedKey @"activated"
+
 #define kUserDisplayNameKey @"displayName"
 #define kUserFacebookIdKey @"facebookId"
 #define kUserProfileKey @"profile"
 #define kUserPushPermission @"pushPermission"
-#define kUserCanPostQuestion @"canPostQuestion"
-#define kUserCanComment @"canComment"
+
 #define kUserMyCode @"myCode"
 #define kUserReceiveCode @"receiveCode"
 #define kUserPromotionKey @"promotion"
@@ -98,14 +97,16 @@
 #define kPromotionMyCodeKey @"myCode"
 #define kPromotionReceiveCodeKey @"receiveCode"
 #define kPromotionContributionKey @"contribution"
+#define kPromotionActivatedKey @"activated"
+#define kPromotionCanPostQuestion @"canPostQuestion"
+#define kPromotionCanComment @"canComment"
+
 
 #pragma View Controller
 #define kmainViewController @"mainViewController"
 #define kquestionListViewController @"questionListViewController"
 #define kmyListViewController @"myListViewController"
 #define knotificationListViewController @"notificationListViewController"
-
-
 
 #pragma Alert View
 #define alertSayThanks @"sayThanks"
@@ -168,7 +169,8 @@
 #define alertWillBackToVideoView @"willBackToVideoView"
 #define tagWillBackToVideoView 20
 
-
+#define alertDidDenyAction @"didDenyAction"
+#define tagDidDenyAction 21
 
 
 

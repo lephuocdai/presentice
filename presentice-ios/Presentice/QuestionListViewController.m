@@ -45,8 +45,6 @@
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    [PresenticeUtility checkCurrentUserActivationIn:self];
-    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
@@ -67,8 +65,12 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+    
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
+    [PresenticeUtility checkCurrentUserActivationIn:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -176,7 +178,7 @@
 }
 
 - (IBAction)addQuestion:(id)sender {
-    NSNumber *canPostQuestion = [[PFUser currentUser] objectForKey:kUserCanPostQuestion];
+    NSNumber *canPostQuestion = [[PFUser currentUser] objectForKey:kPromotionCanPostQuestion];
     bool canPost = [canPostQuestion boolValue];
     
     if (canPost == true) {

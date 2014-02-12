@@ -304,3 +304,6 @@
 
 /* Class = "IBUILabel"; text = "note of this video"; ObjectID = "xmi-NI-UDJ"; */
 "xmi-NI-UDJ.text" = "note of this video";
+
+/* Class = "IBUIViewController"; title = "Waiting List View Controller"; ObjectID = "3ZX-Dt-EYc"; */
+"3ZX-Dt-EYc.text" = "Waiting List";

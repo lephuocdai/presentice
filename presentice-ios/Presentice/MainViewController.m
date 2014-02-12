@@ -33,8 +33,6 @@
     
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    [PresenticeUtility checkCurrentUserActivationIn:self];
 
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -62,6 +60,14 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshTable" object:nil];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+    
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
+    [PresenticeUtility checkCurrentUserActivationIn:self];
+}
 
 #pragma query table objects
 

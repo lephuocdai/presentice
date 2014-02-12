@@ -45,9 +45,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [PresenticeUtility checkCurrentUserActivationIn:self];
-    
+
     // Start loading HUD
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
@@ -157,7 +155,6 @@
             }
         }];
         
-        
         // Increment views: need to be revised
         int viewsNum = [[self.questionVideoObj objectForKey:kVideoViewsKey] intValue];
         [self.questionVideoObj setObject:[NSNumber numberWithInt:viewsNum+1] forKey:kVideoViewsKey];
@@ -172,8 +169,12 @@
 
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+    
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
+    [PresenticeUtility checkCurrentUserActivationIn:self];
 }
 
 -(void) viewWillDisappear:(BOOL)animated {

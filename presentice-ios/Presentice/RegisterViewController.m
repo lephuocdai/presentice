@@ -103,12 +103,12 @@ NSDictionary<FBGraphUser>  *fbInfo;
     newUser.password = info.password;
     newUser.email = info.email;
     
-    [newUser setObject:[NSNumber numberWithBool:NO] forKey:kUserActivatedKey];
+//    [newUser setObject:[NSNumber numberWithBool:NO] forKey:kUserActivatedKey];
     [newUser setObject:fbInfo.id forKey:kUserFacebookIdKey];
     [newUser setObject:fbInfo.name forKey:kUserDisplayNameKey];
     [newUser setObject:fbInfo forKey:kUserProfileKey];
-    [newUser setObject:[NSNumber numberWithBool:NO] forKey:kUserCanPostQuestion];
-    [newUser setObject:[NSNumber numberWithBool:NO] forKey:kUserCanComment];
+//    [newUser setObject:[NSNumber numberWithBool:NO] forKey:kUserCanPostQuestion];
+//    [newUser setObject:[NSNumber numberWithBool:NO] forKey:kUserCanComment];
     
     
     NSDictionary *pushPermission = [NSDictionary dictionaryWithObjectsAndKeys:@"yes", @"answered", @"yes",  @"reviewed", @"no", @"viewed", @"yes", @"messaged", @"yes", @"followed", @"yes", @"registered", nil];
@@ -127,10 +127,6 @@ NSDictionary<FBGraphUser>  *fbInfo;
             [params setObject:[newUser objectForKey:kUserReceiveCode] forKey:@"receiveCode"];
             [PFCloud callFunction:@"onRegistered" withParameters:params];
             
-            //show succeeded alert
-//            UIAlertView *succeedAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sign Up Succeeded", nil) message:NSLocalizedString(@"Congratulations! Let's find some friends who are already on Presentice", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
-//            succeedAlert.tag = 0;
-//            [succeedAlert show];
             [PresenticeUtility callAlert:alertSignupSucceeded withDelegate:self];
             
             // Register registerActivity to Activity Table
@@ -141,7 +137,7 @@ NSDictionary<FBGraphUser>  *fbInfo;
             
             NSMutableDictionary *content = [[NSMutableDictionary alloc] init ];
             [content setObject:[newUser objectForKey:kUserFacebookIdKey] forKey:@"facebookId"];
-            [content setObject:[newUser objectForKey:kUserActivatedKey] forKey:@"activated"];
+//            [content setObject:[newUser objectForKey:kUserActivatedKey] forKey:@"activated"];
             [registerActivity setObject:content forKey:kActivityContentKey];
             
             NSLog(@"registerActivity = %@", registerActivity);

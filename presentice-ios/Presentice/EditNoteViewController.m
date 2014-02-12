@@ -43,6 +43,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+    
+    // Hid all HUD after all objects appered
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
+    [PresenticeUtility checkCurrentUserActivationIn:self];
+}
+
 #pragma mark -
 #pragma mark Keyboard Handling
 
