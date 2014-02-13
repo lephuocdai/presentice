@@ -100,13 +100,14 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == tagWillSaveNote) {
         if (buttonIndex == 1) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             PFObject *editedVideo = [PFObject objectWithoutDataWithClassName:kVideoClassKey objectId:self.videoObj.objectId];
             [editedVideo setObject:noteView.text forKey:kVideoNoteKey];
             [editedVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error) {
                     [self.view endEditing:YES];
+                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                     [PresenticeUtility callAlert:alertWillBackToVideoView withDelegate:self];
-
                 } else {
                     [PresenticeUtility showErrorAlert:error];
                 }

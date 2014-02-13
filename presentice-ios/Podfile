@@ -1,5 +1,5 @@
 platform :ios
 pod 'JSONKit', podspec:'../presentice-ios/Pods/JSONKit/JSONKit.podspec'
-pod 'Reachability',  '~> 3.0.0'
+pod 'Reachability', podspec:'../presentice-ios/Pods/Reachability/Reachability.podspec'
 pod "Bolts"
 

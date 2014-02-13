@@ -1,20 +1,22 @@
 PODS:
   - Bolts (1.0.0)
   - JSONKit (1.5pre)
-  - Reachability (3.0.0)
+  - Reachability (3.1.1)
 
 DEPENDENCIES:
   - Bolts
   - JSONKit (from `../presentice-ios/Pods/JSONKit/JSONKit.podspec`)
-  - Reachability (~> 3.0.0)
+  - Reachability (from `../presentice-ios/Pods/Reachability/Reachability.podspec`)
 
 EXTERNAL SOURCES:
   JSONKit:
     :podspec: ../presentice-ios/Pods/JSONKit/JSONKit.podspec
+  Reachability:
+    :podspec: ../presentice-ios/Pods/Reachability/Reachability.podspec
 
 SPEC CHECKSUMS:
   Bolts: 45bceb8be6243d242caf74308563bba02c2af2a3
   JSONKit: 0e771281de49d7019c0bfc883e544549528a328b
-  Reachability: 500bd76bf6cd8ff2c6fb715fc5f44ef6e4c024f2
+  Reachability: 2be6bc2fd2bd31d97f5db33e75e4b29c79e95883
 
 COCOAPODS: 0.29.0

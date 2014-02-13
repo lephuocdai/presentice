@@ -737,7 +737,7 @@
 
 // Check user activation
 + (void)checkCurrentUserActivationIn:(UIViewController *)currentViewController {
-    NSLog(@"user = %@", [PFUser currentUser]);
+    NSLog(@"check user %@", [[PFUser currentUser] objectForKey:kUserNameKey]);
 
     if ([[[[PFUser currentUser] objectForKey:kUserPromotionKey] fetchIfNeeded] objectForKey:kPromotionActivatedKey] == nil || [[[[[PFUser currentUser] objectForKey:kUserPromotionKey] fetchIfNeeded] objectForKey:kPromotionActivatedKey] boolValue] == false) {
         

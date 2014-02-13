@@ -304,7 +304,7 @@
 
 - (void) objectsDidLoad:(NSError *)error {
     [super objectsDidLoad:error];
-    NSLog(@"error: %@", [error localizedDescription]);
+    NSLog(@"objectsDidLoad: %@", [error localizedDescription]);
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -407,6 +407,8 @@
 }
 
 - (IBAction)rightMenuButtonPressed:(id)sender {
+    [self.movieController pause];
+    
     if (![[[PFUser currentUser] objectId] isEqualToString:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId]]) { // If currentUser is not the video's owner, navigate to TakeReview
         
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];

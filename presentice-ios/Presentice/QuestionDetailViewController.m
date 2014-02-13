@@ -289,6 +289,8 @@
 #pragma upload answer video
 
 - (IBAction)takeAnswer:(id)sender {
+    [self.movieController pause];
+
     [PresenticeUtility callAlert:alertWillTakeAnswer withDelegate:self];
 }
 
@@ -306,7 +308,7 @@
         }
     } else if (alertView.tag == tagDidSaveVideo) {
         if (buttonIndex == 1) {
-            
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             self.pathForFileFromLibrary = recordedVideoPath;
             // Format date to string
             
@@ -356,6 +358,7 @@
     if (isUploadFromLibrary) {  //upload file from Library
         NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
         if ([mediaType isEqualToString:(NSString *)kUTTypeMovie]) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             NSURL *urlVideo = [info objectForKey:UIImagePickerControllerMediaURL];
             
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
@@ -380,6 +383,7 @@
             }
         }
     } else {    //capture a video
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
         [self dismissViewControllerAnimated:NO completion:nil];
         // Handle a movie capture
@@ -398,6 +402,7 @@
 }
 
 -(void)video:(NSString*)videoPath didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo {
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     if (error) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:NSLocalizedString(@"Video Saving Failed", nil)
                                                        delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];
@@ -410,6 +415,7 @@
 #pragma mark - Helpers
 
 - (void)saveToParse {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     // Register to Parser DB
     PFObject *newVideo = [PFObject objectWithClassName:kVideoClassKey];
@@ -447,6 +453,8 @@
             [answers addObject:newVideo];
             [self.questionVideoObj saveInBackground];
             
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            
             // Add a note
             [PresenticeUtility callAlert:alertWillAddNote withDelegate:self];
 
@@ -468,11 +476,15 @@
 }
 
 -(void)request:(AmazonServiceRequest *)request didSendData:(long long) bytesWritten totalBytesWritten:(long long)totalBytesWritten totalBytesExpectedToWrite:(long long)totalBytesExpectedToWrite {
+    if ([MBProgressHUD allHUDsForView:self.view].count == 0)
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     double percent = ((double)totalBytesWritten/(double)totalBytesExpectedToWrite)*100;
     NSLog(@"percent = %.2f%%", percent);
 }
 
 -(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response {
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     NSLog(@"Upload done!");
     NSLog(@"upload file url: %@", response);
     [PresenticeUtility callAlert:alertSelectVisibility withDelegate:self];
