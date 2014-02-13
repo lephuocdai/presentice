@@ -285,6 +285,7 @@
     [cameraUI setVideoMaximumDuration:timeLimit];
     
     cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
+    cameraUI.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     
     // Display a controller that allows user to choose movie capture
     cameraUI.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *) kUTTypeMovie, nil];
