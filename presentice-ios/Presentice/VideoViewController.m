@@ -176,10 +176,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterFullScreen:) name:MPMoviePlayerWillEnterFullscreenNotification object:nil];
     
     self.movieController.controlStyle =  MPMovieControlStyleEmbedded;
-    self.movieController.shouldAutoplay = NO;
+    self.movieController.shouldAutoplay = YES;
     self.movieController.repeatMode = NO;
     [self.movieController prepareToPlay];
-//    [self.movieController play];
+    [self.movieController play];
     
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
