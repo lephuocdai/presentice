@@ -178,7 +178,7 @@
 }
 
 - (IBAction)addQuestion:(id)sender {
-    NSNumber *canPostQuestion = [[PFUser currentUser] objectForKey:kPromotionCanPostQuestion];
+    NSNumber *canPostQuestion = [[[[PFUser currentUser] objectForKey:kUserPromotionKey] fetchIfNeeded] objectForKey:kPromotionCanPostQuestion];
     bool canPost = [canPostQuestion boolValue];
     
     if (canPost == true) {
