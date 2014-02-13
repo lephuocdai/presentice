@@ -22,6 +22,14 @@ PFObject *reviewObj;
 
         self.root = [[QRootElement alloc] initWithJSONFile:@"reviewForm"];
         
+        QMultilineElement *comment = (QMultilineElement*)[self.root elementWithKey:@"comment"];
+        NSNumber *canPostQuestion = [[[[PFUser currentUser] objectForKey:kUserPromotionKey] fetchIfNeeded] objectForKey:kPromotionCanComment];
+        bool canPost = [canPostQuestion boolValue];
+        if (canPost == false) {
+            comment.enabled = NO;
+            comment.title = @"Comment not available";
+            
+        }
         QAppearance *fieldsAppearance = [self.root.appearance copy];
         fieldsAppearance.backgroundColorEnabled = [UIColor colorWithRed:0 green:125.0/255 blue:225.0/255 alpha:1];
         [self.root elementWithKey:@"sendReviewButton"].appearance = fieldsAppearance;
