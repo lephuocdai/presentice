@@ -52,9 +52,9 @@
     [PresenticeUtility setImageView:self.userProfilePicture forUser:[self.answerVideoObj objectForKey:kVideoUserKey]];
     videoNameLabel.text = [self.answerVideoObj objectForKey:kVideoNameKey];
     postedUserLabel.text = [[self.answerVideoObj objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
-    viewNumLabel.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:self.answerVideoObj];
+    [PresenticeUtility setLabel:viewNumLabel withKey:kVideoViewsKey forObject:self.answerVideoObj];
     visibilityLabel.text = [PresenticeUtility visibilityOfVideo:self.answerVideoObj];
-    averagePoint.text = [NSString stringWithFormat:NSLocalizedString(@"Average review: %.1f", nil), [PresenticeUtility getAverageReviewOfVideo:self.answerVideoObj]];
+    [PresenticeUtility setLabel:averagePoint withKey:kVideoAveragePoint forObject:self.answerVideoObj];
     questionVideoLabel.text = [NSString stringWithFormat:NSLocalizedString(@"This is an answer of:\n%@", nil), [[self.answerVideoObj objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]];
     [questionVideoLabel sizeToFit];
     // There is a bug with iOS 6
@@ -434,11 +434,6 @@
     
     if (![[[PFUser currentUser] objectId] isEqualToString:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId]]) { // If currentUser is not the video's owner, navigate to TakeReview
         [PresenticeUtility navigateToTakeReviewOfVideo:self.answerVideoObj from:self];
-//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-//        TakeReviewViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"takeReviewViewController"];
-//        
-//        destViewController.videoObj = self.answerVideoObj;
-//        [self.navigationController pushViewController:destViewController animated:YES];
     } else { // If currentUser is the video's owner, let her edit the video
         [PresenticeUtility callAlert:alertWillEditVideo withDelegate:self];
 

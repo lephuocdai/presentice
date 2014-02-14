@@ -65,6 +65,7 @@
 #define kVideoAnswersKey @"answers"
 #define kVideoVisibilityKey @"visibility"
 #define kVideoNoteKey @"note"
+#define kVideoAveragePoint @"averagePoint"
 
 #pragma Table Activity
 #define kActivityClassKey @"Activity"

@@ -77,10 +77,10 @@
 **/
 
 // Video information
-+ (NSString *)stringNumberOfKey:(NSString*)key inObject:(PFObject*)object;
 + (NSString *)visibilityOfVideo:(PFObject*)videoObj;
 + (NSString *)nameOfVideo:(PFObject*)videoObj;
 + (void)setImageView:(UIImageView*)imageView forUser:(PFUser*)user;
++ (void)setLabel:(UILabel*)aLabel withKey:(NSString*)key forObject:(PFObject*)anObject;
 
 // Navigate to other view controller
 + (void)navigateToMyProfileFrom:(UIViewController *)currentViewController;
@@ -116,9 +116,6 @@
 
 // Get waiting time
 + (NSInteger)waitingTimeToView:(PFObject*)anActivity;
-
-// Get average review of an video
-+ (float)getAverageReviewOfVideo:(PFObject*)aVideo;
 
 // Call alertView for action
 + (void)callAlert:(NSString*)action withDelegate:(id)delegate;

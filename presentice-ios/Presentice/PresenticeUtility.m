@@ -311,20 +311,22 @@
     [controller presentViewController:picker animated:YES completion:NULL];
 }
 
-+ (NSString*)stringNumberOfKey:(NSString *)key inObject:(PFObject *)object {
-    if ([key isEqualToString:kVideoAnswersKey]) {
-        PFRelation *relation = [object relationforKey:kVideoAnswersKey];
-        PFQuery *query = relation.query;
-        int count = [query countObjects];
-        return [NSString stringWithFormat:@"%@: %d", NSLocalizedString([key capitalizedString], nil) , count];
-    } else {
-        if ([object objectForKey:key]) {
-            return [NSString stringWithFormat:@"%@: %@", NSLocalizedString([key capitalizedString], nil), [object objectForKey:key]];
-        } else {
-            return [NSString stringWithFormat:@"%@: 0", NSLocalizedString([key capitalizedString], nil)];
-        }
-    }
-}
+
+
+//+ (NSString*)stringNumberOfKey:(NSString *)key inObject:(PFObject *)object {
+//    if ([key isEqualToString:kVideoAnswersKey]) {
+//        PFRelation *relation = [object relationforKey:kVideoAnswersKey];
+//        PFQuery *query = relation.query;
+//        int count = [query countObjects];
+//        return [NSString stringWithFormat:@"%@: %d", NSLocalizedString([key capitalizedString], nil) , count];
+//    } else {
+//        if ([object objectForKey:key]) {
+//            return [NSString stringWithFormat:@"%@: %@", NSLocalizedString([key capitalizedString], nil), [object objectForKey:key]];
+//        } else {
+//            return [NSString stringWithFormat:@"%@: 0", NSLocalizedString([key capitalizedString], nil)];
+//        }
+//    }
+//}
 
 + (NSString*)visibilityOfVideo:(PFObject *)videoObj {
     NSString *visibility = [videoObj objectForKey:kVideoVisibilityKey];
@@ -365,6 +367,49 @@
     }
 }
 
++ (void)setLabel:(UILabel*)aLabel withKey:(NSString*)key forObject:(PFObject*)anObject {
+    if ([key isEqualToString:kVideoAveragePoint]) {
+        PFQuery *pointQuery = [PFQuery queryWithClassName:kActivityClassKey];
+        [pointQuery whereKey:kActivityTypeKey equalTo:@"review"];
+        [pointQuery whereKey:kActivityTargetVideoKey equalTo:anObject];
+        pointQuery.limit = 1000;
+        [pointQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            float sum = 0.0;
+            if (!error) {
+                if (objects.count == 0)
+                    sum = 0;
+                for (PFObject *object in objects) {
+                    NSDictionary *content = [object objectForKey:kActivityContentKey];
+                    NSDictionary *points = [content objectForKey:kActivityReviewCriteriaKey];
+                    NSArray *criteria = [[NSArray alloc] initWithArray:[points allKeys]];
+                    float average = 0.0;
+                    for (NSString *criterium in criteria)
+                        average += [[points objectForKey:criterium] floatValue];
+                    average /= criteria.count;
+                    sum += average;
+                }
+                sum /= objects.count;
+                aLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Average review: %.1f", nil), sum];
+                
+            }
+        }];
+    } else if ([key isEqualToString:kVideoAnswersKey]) {
+        PFRelation *relation = [anObject relationforKey:kVideoAnswersKey];
+        PFQuery *query = relation.query;
+        [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+            if (!error) {
+                aLabel.text = [NSString stringWithFormat:@"%@: %d", NSLocalizedString([key capitalizedString], nil) , number];
+            } else {
+                [PresenticeUtility showErrorAlert:error];
+            }
+        }];
+    } else { // key = "review" or "view"
+        if ([anObject objectForKey:key])
+            aLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString([key capitalizedString], nil), [anObject objectForKey:key]];
+        else
+            aLabel.text = [NSString stringWithFormat:@"%@: 0", NSLocalizedString([key capitalizedString], nil)];
+    }
+}
 
 /**
  * Set side menu navigation
@@ -725,46 +770,24 @@
 // Check user activation
 + (void)checkCurrentUserActivationIn:(UIViewController *)currentViewController {
     NSLog(@"check user %@", [[PFUser currentUser] objectForKey:kUserNameKey]);
-
-    if ([[[[PFUser currentUser] objectForKey:kUserPromotionKey] fetchIfNeeded] objectForKey:kPromotionActivatedKey] == nil || [[[[[PFUser currentUser] objectForKey:kUserPromotionKey] fetchIfNeeded] objectForKey:kPromotionActivatedKey] boolValue] == false) {
-        
-        [PresenticeUtility callAlert:alertDidDenyAction withDelegate:nil];
-        
-//        [PFUser logOut];
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-        WaitingListViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"waitingListViewController"];
-        [currentViewController.navigationController pushViewController:destViewController animated:YES];
-    }
+    [[[PFUser currentUser] objectForKey:kUserPromotionKey] fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error) {
+            if ([object objectForKey:kPromotionActivatedKey] == nil || [[object objectForKey:kPromotionActivatedKey] boolValue] == false) {
+                [PresenticeUtility callAlert:alertDidDenyAction withDelegate:nil];
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+                WaitingListViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"waitingListViewController"];
+                [currentViewController.navigationController pushViewController:destViewController animated:YES];
+            }
+        } else {
+            [PresenticeUtility showErrorAlert:error];
+        }
+    }];
 }
 
 // Get waiting time
 + (NSInteger)waitingTimeToView:(PFObject*)anActivity {
     PFObject* content = [anActivity objectForKey:kActivityContentKey];
     return (NSInteger)[[content objectForKey:kActivityReviewWaitingTime] integerValue];
-}
-
-// Get average review of an video
-+ (float)getAverageReviewOfVideo:(PFObject*)aVideo {
-    PFQuery *pointQuery = [PFQuery queryWithClassName:kActivityClassKey];
-    [pointQuery whereKey:kActivityTypeKey equalTo:@"review"];
-    [pointQuery whereKey:kActivityTargetVideoKey equalTo:aVideo];
-    pointQuery.limit = 1000;
-    float sum = 0.0;
-    NSArray *objects = [pointQuery findObjects];
-    if (objects.count == 0)
-        return 0;
-    for (PFObject *object in objects) {
-        NSDictionary *content = [object objectForKey:kActivityContentKey];
-        NSDictionary *points = [content objectForKey:kActivityReviewCriteriaKey];
-        NSArray *criteria = [[NSArray alloc] initWithArray:[points allKeys]];
-        float average = 0.0;
-        for (NSString *criterium in criteria)
-            average += [[points objectForKey:criterium] floatValue];
-        average /= criteria.count;
-        sum += average;
-    }
-    sum /= objects.count;
-    return sum;
 }
 
 // Call alertView for action

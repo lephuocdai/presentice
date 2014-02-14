@@ -148,8 +148,7 @@
     cell.postedUser.text = [[displayObject objectForKey:kVideoUserKey] objectForKey:kUserDisplayNameKey];
     cell.videoName.text = [PresenticeUtility nameOfVideo:displayObject];
     cell.postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:displayObject.createdAt] dateTimeUntilNow]];
-    cell.viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:displayObject];
-    
+    [PresenticeUtility setLabel:cell.viewsNum withKey:kVideoViewsKey forObject:displayObject];
     return cell;
 }
 

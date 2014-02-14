@@ -126,7 +126,7 @@
     
     videoType.text = NSLocalizedString([[object objectForKey:kVideoTypeKey] capitalizedString], nil);
     videoName.text = [[object objectForKey:kVideoNameKey] capitalizedString];
-    viewsNumLabel.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:object];
+    [PresenticeUtility setLabel:viewsNumLabel withKey:kVideoViewsKey forObject:object];
     return cell;
 }
 

@@ -154,12 +154,10 @@
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
         postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.updatedAt] dateTimeUntilNow]];
-        viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
-        
-        
+        [PresenticeUtility setLabel:viewsNum withKey:kVideoViewsKey forObject:[object objectForKey:kActivityTargetVideoKey]];
         NSLog(@"can currentUser view this video = %hhd", [PresenticeUtility canUser:[PFUser currentUser] viewVideo:object]);
-        
         return cell;
+        
     } else if ([type isEqualToString:@"review"]) {
         NSString *simpleTableIdentifier = @"reviewListIdentifier";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier forIndexPath:indexPath];
@@ -184,10 +182,11 @@
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityToUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
         postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.updatedAt] dateTimeUntilNow]];
-        viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
+        [PresenticeUtility setLabel:viewsNum withKey:kVideoViewsKey forObject:[object objectForKey:kActivityTargetVideoKey]];
         comment.text = [NSString stringWithFormat:NSLocalizedString(@"Comment: %@", nil),[object objectForKey:kActivityDescriptionKey]];
 
         return cell;
+        
     } else if ([type isEqualToString:@"postQuestion"]) {
         NSString *simpleTableIdentifier = @"postQuestionListIdentifier";
         
@@ -200,7 +199,6 @@
         UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
         UILabel *description = (UILabel *)[cell viewWithTag:101];
         UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
-//        UILabel *comment = (UILabel *)[cell viewWithTag:103];
         UILabel *viewsNum = (UILabel *)[cell viewWithTag:104];
         
         [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
@@ -210,10 +208,9 @@
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
         postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.updatedAt] dateTimeUntilNow]];
-        viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
-//        comment.text = [object objectForKey:kActivityDescriptionKey];
-        
+        [PresenticeUtility setLabel:viewsNum withKey:kVideoViewsKey forObject:[object objectForKey:kActivityTargetVideoKey]];
         return cell;
+        
     } else if ([type isEqualToString:@"register"]) {
         NSString *simpleTableIdentifier = @"registerListIdentifier";
         

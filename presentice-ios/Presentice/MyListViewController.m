@@ -116,17 +116,13 @@
     if ([[object objectForKey:kVideoTypeKey] isEqualToString:@"answer"]) {
         reviews_answersNum.text = [NSString stringWithFormat:NSLocalizedString(@"Reviews: %d", nil) , [[object objectForKey:kVideoReviewsKey] count]];
     } else if ([[object objectForKey:kVideoTypeKey] isEqualToString:@"question"]) {
-        reviews_answersNum.text = [PresenticeUtility stringNumberOfKey:kVideoAnswersKey inObject:object];
+        [PresenticeUtility setLabel:reviews_answersNum withKey:kVideoAnswersKey forObject:object];
     }
     
     videoName.text = [PresenticeUtility nameOfVideo:object];
     postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
-    viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:object];
-    
-    
-    
+    [PresenticeUtility setLabel:viewsNum withKey:kVideoViewsKey forObject:object];
     visibility.text = [PresenticeUtility visibilityOfVideo:object];
-    
     return cell;
 }
 
