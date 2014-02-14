@@ -78,6 +78,15 @@
 "%@ has joined Presentice" = "%@がプレゼンティスに参加しました。";
 "Can't view video" = "動画見ることが出来ません";
 "This video owner does not allow you to view it. Request her by sending a message" = "この動画を見る権限がありません。メッセージでオーナーにリクエストしてみて下さい。";
+"Comment: %@" = "コメント: %@";
+
+// Notification List
+"%@ has followed you" = "%@があなたをフォローしています。";
+"Recommendation from %@: Would you like to review %@'s %@" = "%@からのお勧め:%@の%@をレビューしてあげませんか。";
+"%@ has answered your %@" = "%@があなたの%@を回答しました。";
+"%@ has reviewed your %@" = "%@が%@をレビューしました。";
+"%@ has viewed your %@" = "%@が%@を見ました。";
+
 
 // Question List View
 "Error" = "エラー";
@@ -140,10 +149,10 @@
 "Save Changes" = "変更の保存";
 "Do you want to save this note?" = "このメモを更新しますがよろしいでしょうか";
 "Note saved successfully? Back to Video View?" = "メモの保存が出来ました。先の画面に戻りますか?";
-"Answer this question" = "質問の回答";
-"After viewing the question, you can answer it by the following options." = "この質問を回答してみますか?";
-"Upload from Library" = "iPhoneのアルバムからアプロードする";
-"Record from Camera" = "カメラからリコードする";
+"Name your answer" = "回答のタイトルを決める";
+"Please choose a short title (less than 10 words) then select how to post video from the following options." = "10文字以内のタイトルを決めてから以下のオプションで回答動画を投稿して下さい。";
+"Upload from Library" = "アルバムからアプロードする";
+"Record from Camera" = "カメラから録画する";
 "Visibility Selection" = "プライバシーステータスの選択";
 "Decide who can view this video.\n※You can change it later." = "この動画を閲覧できる対象を選択して下さい。\n※後で変更が可能です。";
 "Open inside Presentice" = "プレゼンティス内で公開";
@@ -157,18 +166,29 @@
 "Send" = "送信";
 "Details" = "詳細";
 "Post a new challenge" = "新しい質問の投稿";
-"You can add new challenge by the following options." = "新しい質問投稿するには以下のアプションの中から選択して下さい。";
-"Title of the challenge" = "質問のタイトル";
+//"You can add new challenge by the following options." = "新しい質問投稿するには以下のアプションの中から選択して下さい。";
+//"Title of the challenge" = "質問のタイトル";
 "Say thank you" = "お礼を送る";
 "Do you want to say thank you to this person and ask more question?" = "コメントをしてくれた人にお礼を送りましょう。また質問とかがございましたら、合わせて聞いてみても良いかもしれません。";
 "Rate this comment" = "コメントの評価";
 "Do you find this comment useful for you?" = "このコメントは自分にとって役に立つと思いますか?";
 "Decide later" = "未定。後ほど決める";
 
-
-
-
-
-
-
+"User profile not found" = "ユーザプロフィルが見つかりません";
+"This user has been deleted or set to private. Please contact us at info@presentice.com for further information." = "このユーザは退会されたか非活動になったようです。詳しくはお問い合わせ下さい: info@presentice.com";
+"Review not found" = "レビューが見つかりません";
+"This review has been deleted set to private. Please ask its owner for view permission." = "このレビューは削除されたか非公開されたようです。オーナーのユーザに問合せしてみて下さい。";
+"You have to wait until:\n%@" = "%@\nまで待ち下さい。";
+"Can not view now" = "閲覧不可";
+"Video not found" = "動画が見つかりません。";
+"This video has been deleted set to private. Please ask its owner for view permission." = "この動画は削除されたか非公開されたようです。オーナーのユーザに問合せしてみて下さい。";
+"Error: %@.\nPlease contact us at info@presentice.com" = "エラー: %@.\n詳しくはお問い合わせ下さい: info@presentice.com";
+"Access denied" = "アクセス拒否";
+"Your account has not been activated yet. If you have waited for more than a week, please contact us at\ninfo@presentice.com" = "あなたのアカウントはまだ承認されていません。一週間以上お待ちになっているようでしたら、お問い合わせ下さい:\ninfo@presentice.com";
+"Answer this question" = "質問を回答してみる";
+"Why not give it a try on this one?" = "この質問を回答してみませんか？";
+"Later" = "後でやる";
+"Yeah, go ahead" = "やってみる";
+"Review this answer" = "回答をレビューする";
+"Let's give it a review. It only takes 10 seconds." = "この回答をレビューしてあげましょう。10秒もかかりません。";
 

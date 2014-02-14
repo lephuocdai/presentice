@@ -146,21 +146,21 @@
         description.text = [object objectForKey:kActivityDescriptionKey];
         
     } else if ([type isEqualToString:@"postQuestion"]) {
-        description.text = [NSString stringWithFormat:@"%@ has posted new question %@",
+        description.text = [NSString stringWithFormat:NSLocalizedString(@"%@ has posted a new question %@", nil),
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
         
     } else if ([type isEqualToString:@"follow"]) {
-        description.text = [NSString stringWithFormat:@"%@ has followed you",
+        description.text = [NSString stringWithFormat:NSLocalizedString(@"%@ has followed you", nil),
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
         
     }else if ([type isEqualToString:@"suggestReview"]) {
         description.frame = CGRectMake(50, 5, 185, 45);
         NSString *suggester = ([object objectForKey:kActivityFromUserKey] == nil) ? @"Presentice" : [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey];
-        description.text = [NSString stringWithFormat:@"Recommendation from %@: Would you like to review %@'s %@",
+        description.text = [NSString stringWithFormat:NSLocalizedString(@"Recommendation from %@: Would you like to review %@'s %@", nil),
                             suggester,
                             [[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoToUserKey] objectForKey:kUserDisplayNameKey],
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
@@ -169,20 +169,27 @@
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
         
     } else if ([type isEqualToString:@"answer"]) {
-        description.text = [NSString stringWithFormat:@"%@ has answered your %@",
+        description.text = [NSString stringWithFormat:NSLocalizedString(@"%@ has answered your %@", nil),
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                             [[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]]];
     
-    } else {
-        description.text = [NSString stringWithFormat:@"%@ has %@ed your %@",
+    } else if ([type isEqualToString:@"review"]){
+        description.text = [NSString stringWithFormat:NSLocalizedString(@"%@ has reviewed your %@", nil),
                             [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
-                            [object objectForKey:kActivityTypeKey],
+                            [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
+        [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
+        [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
+    } else if ([type isEqualToString:@"view"]) {
+        description.text = [NSString stringWithFormat:NSLocalizedString(@"%@ has viewed your %@", nil),
+                            [[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey],
                             [[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityFromUserKey] objectForKey:kUserDisplayNameKey]]];
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
     }
+    
+    
     postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.updatedAt] dateTimeUntilNow]];
     
     return cell;

@@ -307,3 +307,22 @@
 
 /* Class = "IBUIViewController"; title = "Waiting List View Controller"; ObjectID = "3ZX-Dt-EYc"; */
 "3ZX-Dt-EYc.text" = "Waiting List";
+
+
+
+/* Class = "IBUILabel"; title = "You're on your way to a whole new experience"; ObjectID = "UB6-Pa-tfy"; */
+"UB6-Pa-tfy.text" = "全く新しい体験をして頂けるまでに後少しです。";
+
+/* Class = "IBUILabel"; title = "People in waiting list"; ObjectID = "yTp-xE-ZFS"; */
+"yTp-xE-ZFS.text" = "人が承認待ちリストにいます。";
+
+/* Class = "IBUILabel"; title = "We are working night and day to bring new users in, please stay tuned. However, now you can go around connecting with your friends."; ObjectID = "cuu-59-NXj"; */
+"cuu-59-NXj.text" = "私たちは新しいユーザの方に一日も早くサービスをご体験頂けるように全力を尽くしておりますので、見守りながら暫くお待ち下さいませ。またサービスのご体験の前に友達探したり作ったりして頂けますので、どうぞ気軽に色々覗いて下さい。";
+/* Class = "IBUIButton"; normalTitle = "About us"; ObjectID = "Y2t-Fw-axL"; */
+"Y2t-Fw-axL.normalTitle" = "概要";
+/* Class = "IBUIButton"; normalTitle = "Check status"; ObjectID = "DST-zb-HM4"; */
+"DST-zb-HM4.normalTitle" = "ステータス確認";
+/* Class = "IBUIButton"; normalTitle = "Inquire"; ObjectID = "X7T-Ln-X2H"; */
+"X7T-Ln-X2H.normalTitle" = "お問合せ";
+
+

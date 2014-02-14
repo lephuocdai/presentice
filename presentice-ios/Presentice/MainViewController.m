@@ -121,7 +121,7 @@
         } else if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"review"]) {
             return 85;
         } else if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"postQuestion"]) {
-            return 85;
+            return 60;
         } else if ([[[self.objects objectAtIndex:indexPath.row] objectForKey:kActivityTypeKey] isEqualToString:@"register"]) {
             return 50;
         } else {
@@ -185,7 +185,7 @@
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
         postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.updatedAt] dateTimeUntilNow]];
         viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
-        comment.text = [object objectForKey:kActivityDescriptionKey];
+        comment.text = [NSString stringWithFormat:NSLocalizedString(@"Comment: %@", nil),[object objectForKey:kActivityDescriptionKey]];
 
         return cell;
     } else if ([type isEqualToString:@"postQuestion"]) {
@@ -200,7 +200,7 @@
         UIImageView *userProfilePicture = (UIImageView *)[cell viewWithTag:100];
         UILabel *description = (UILabel *)[cell viewWithTag:101];
         UILabel *postedTime = (UILabel *)[cell viewWithTag:102];
-        UILabel *comment = (UILabel *)[cell viewWithTag:103];
+//        UILabel *comment = (UILabel *)[cell viewWithTag:103];
         UILabel *viewsNum = (UILabel *)[cell viewWithTag:104];
         
         [PresenticeUtility setImageView:userProfilePicture forUser:[object objectForKey:kActivityFromUserKey]];
@@ -211,7 +211,7 @@
         [description boldSubstring:[NSString stringWithFormat:@"%@",[[object objectForKey:kActivityTargetVideoKey] objectForKey:kVideoNameKey]]];
         postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.updatedAt] dateTimeUntilNow]];
         viewsNum.text = [PresenticeUtility stringNumberOfKey:kVideoViewsKey inObject:[object objectForKey:kActivityTargetVideoKey]];
-        comment.text = [object objectForKey:kActivityDescriptionKey];
+//        comment.text = [object objectForKey:kActivityDescriptionKey];
         
         return cell;
     } else if ([type isEqualToString:@"register"]) {

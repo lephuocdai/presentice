@@ -382,7 +382,7 @@
 
 + (void)navigateToUserProfile:(PFUser *)aUser from:(UIViewController *)currentViewController {
     if (aUser == nil) {
-        UIAlertView *noObjectAlert = [[UIAlertView alloc] initWithTitle:@"User profile not found" message:@"This user has been deleted or set to private. Please contact us at info@presentice.com for further information." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        UIAlertView *noObjectAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"User profile not found",nil) message:NSLocalizedString(@"This user has been deleted or set to private. Please contact us at info@presentice.com for further information.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
         [noObjectAlert show];
         [MBProgressHUD hideAllHUDsForView:currentViewController.view animated:YES];
     } else {
@@ -481,7 +481,7 @@
 
 + (void)navigateToReviewDetail:(PFObject*)aReview from:(UIViewController *)currentViewController{
     if (aReview == nil) {
-        UIAlertView *noObjectAlert = [[UIAlertView alloc] initWithTitle:@"Review not found" message:@"This review has been deleted set to private. Please ask its owner for view permission." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        UIAlertView *noObjectAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Review not found", nil) message:NSLocalizedString(@"This review has been deleted set to private. Please ask its owner for view permission.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
         [noObjectAlert show];
         [MBProgressHUD hideAllHUDsForView:currentViewController.view animated:YES];
     } else {
@@ -492,8 +492,8 @@
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"JST"]];
             dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-            NSString *message = [NSString stringWithFormat:@"You have to wait until:\n%@", [dateFormatter stringFromDate:availableDate]];
-            UIAlertView *waitingAlert = [[UIAlertView alloc] initWithTitle:@"Can not view now" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            NSString *message = [NSString stringWithFormat:NSLocalizedString(@"You have to wait until:\n%@", nil), [dateFormatter stringFromDate:availableDate]];
+            UIAlertView *waitingAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Can not view now", nil) message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
             [waitingAlert show];
         } else {
             //        NSLog(@"it's ok: %f > %d", -[createdDate timeIntervalSinceNow], [PresenticeUtility waitingTimeToView:aReview]);
@@ -507,7 +507,7 @@
 
 + (void)navigateToVideoView:(PFObject *)aVideo from:(UIViewController *)currentViewController {
     if (aVideo == nil) {
-        UIAlertView *noObjectAlert = [[UIAlertView alloc] initWithTitle:@"Video not found" message:@"This video has been deleted set to private. Please ask its owner for view permission." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        UIAlertView *noObjectAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Video not found", nil) message:NSLocalizedString(@"This video has been deleted set to private. Please ask its owner for view permission.", nil) delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [noObjectAlert show];
         [MBProgressHUD hideAllHUDsForView:currentViewController.view animated:YES];
     } else {
@@ -672,8 +672,12 @@
 
 + (void)showErrorAlert:(NSError*)error{
     NSLog(@"error = %@", error);
-    NSString *message = [NSString stringWithFormat:@"Error: %@.\nPlease contact us at info@presentice.com", [error localizedDescription]];
-    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Error: %@.\nPlease contact us at info@presentice.com", nil), [error localizedDescription]];
+    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                         message:message
+                                                        delegate:nil
+                                               cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                               otherButtonTitles: nil];
     [errorAlert show];
 }
 
@@ -813,13 +817,13 @@
         
     } else if ([action isEqualToString:alertWillPostQuestion]) {
         UIAlertView *postAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Post a new challenge", nil)
-                                                            message:NSLocalizedString(@"You can add new challenge by the following options.", nil)
+                                                            message:NSLocalizedString(@"Please choose a short title (less than 10 words) then select how to post video from the following options.", nil)
                                                            delegate:delegate
                                                   cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
                                                   otherButtonTitles:NSLocalizedString(@"Upload from Library", nil), NSLocalizedString(@"Record from Camera", nil), nil];
         postAlert.tag = tagWillPostQuestion;      // Set alert tag is important in case of existence of many alerts
         [postAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-        [[postAlert textFieldAtIndex:0] setPlaceholder:NSLocalizedString(@"Title of the challenge", nil)];
+        [[postAlert textFieldAtIndex:0] setPlaceholder:NSLocalizedString(@"Video Name", nil)];
         [postAlert show];
         
     } else if ([action isEqualToString:alertWillSuggestQuestion]) {
@@ -870,14 +874,14 @@
         [noteDisplayAlert show];
         
     } else if ([action isEqualToString:alertWillTakeAnswer]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Answer this question", nil)
-                                                        message:NSLocalizedString(@"After viewing the question, you can answer it by the following options.", nil)
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Name your answer", nil)
+                                                        message:NSLocalizedString(@"Please choose a short title (less than 10 words) then select how to post video from the following options.", nil)
                                                        delegate:delegate
                                               cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
                                               otherButtonTitles:NSLocalizedString(@"Upload from Library", nil), NSLocalizedString(@"Record from Camera", nil), nil];
         alert.tag = tagWillTakeAnswer;      // Set alert tag is important in case of existence of many alerts
         [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-        [[alert textFieldAtIndex:0] setPlaceholder:@"Video Name"];
+        [[alert textFieldAtIndex:0] setPlaceholder:NSLocalizedString(@"Video Name", nil)];
         [alert show];
         
     } else if ([action isEqualToString:alertWillDisplayQuestionVideo]) {
@@ -937,29 +941,29 @@
         [successAlert show];
         
     } else if ([action isEqualToString:alertDidDenyAction]) {
-        UIAlertView *activatedAlert = [[UIAlertView alloc] initWithTitle:@"Action Denied"
-                                                                 message:@"Your account has not been activated yet. If you have waited for more than a week, please contact us at\ninfo@presentice.com"
+        UIAlertView *activatedAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Access denied", nil)
+                                                                 message:NSLocalizedString(@"Your account has not been activated yet. If you have waited for more than a week, please contact us at\ninfo@presentice.com", nil)
                                                                 delegate:delegate
-                                                       cancelButtonTitle:@"OK"
+                                                       cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                                        otherButtonTitles:nil];
         activatedAlert.tag = tagDidDenyAction;
         [activatedAlert show];
         
     } else if ([action isEqualToString:alertLetsAnswer]) {
-        UIAlertView *letsAnswerAlert = [[UIAlertView alloc] initWithTitle:@"Answer this question"
-                                                                  message:@"Why not give it a try on this one?"
+        UIAlertView *letsAnswerAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Answer this question", nil)
+                                                                  message:NSLocalizedString(@"Why not give it a try on this one?", nil)
                                                                  delegate:delegate
-                                                        cancelButtonTitle:@"Later"
-                                                        otherButtonTitles:@"Yeah, go ahead", nil];
+                                                        cancelButtonTitle:NSLocalizedString(@"Later", nil)
+                                                        otherButtonTitles:NSLocalizedString(@"Yeah, go ahead", nil), nil];
         letsAnswerAlert.tag = tagLetsAnswer;
         [letsAnswerAlert show];
         
     } else if ([action isEqualToString:alertLetsReview]) {
-        UIAlertView *letsReviewAlert = [[UIAlertView alloc] initWithTitle:@"Review this answer"
-                                                                  message:@"Let's give it a review. It only takes 10 seconds."
+        UIAlertView *letsReviewAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Review this answer", nil)
+                                                                  message:NSLocalizedString(@"Let's give it a review. It only takes 10 seconds.", nil)
                                                                  delegate:delegate
-                                                        cancelButtonTitle:@"Later"
-                                                        otherButtonTitles:@"Yeah, go ahead", nil];
+                                                        cancelButtonTitle:NSLocalizedString(@"Later", nil)
+                                                        otherButtonTitles:NSLocalizedString(@"Yeah, go ahead", nil), nil];
         letsReviewAlert.tag = tagLetsReview;
         [letsReviewAlert show];
     }
