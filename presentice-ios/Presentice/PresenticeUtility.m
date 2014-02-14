@@ -969,6 +969,78 @@
     }
 }
 
+// Login via Facebook
++ (void)loginViaFacebookIn:(UIViewController *)currentViewController {
+    // Set permissions required from the facebook user account
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
+    
+    //start loading hub
+    [MBProgressHUD showHUDAddedTo:currentViewController.view animated:YES];
+    
+    // Login PFUser using facebook
+    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
+        if (!user) {
+            if (!error) {
+                NSLog(@"Uh oh. The user cancelled the Facebook login.");
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Login error",nil)
+                                                                message:NSLocalizedString(@"You have just cancelled the Facebook register.",nil)
+                                                               delegate:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"OK",nil)
+                                                      otherButtonTitles:nil];
+                [alert show];
+            } else {
+                [PresenticeUtility showErrorAlert:error];
+            }
+        } else {
+            // check if user already registered with facebook
+            [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                if(!error){
+                    //get email from facebook
+                    NSDictionary<FBGraphUser> *me = (NSDictionary<FBGraphUser> *)result;
+                    NSLog(@"%@", me);
+                    NSString *email = [me objectForKey:@"email"];
+                    NSString *facebookId = [me objectForKey:@"id"];
+                    //query User with email
+                    PFQuery *queryUser = [PFUser query];
+                    
+                    if(email != nil && ![email isEqual:@""]){
+                        [queryUser whereKey:kUserNameKey equalTo:email];
+                    } else {
+                        [queryUser whereKey:kUserFacebookIdKey equalTo:facebookId];
+                    }
+                    [queryUser findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                        //if email/facebookId already registered, redirect to main view
+                        if (!error && [objects count] != 0) {
+                            //redirect using storyboard
+                            //if user already login, redirect to MainViewController
+                            if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]])
+                                [PresenticeUtility instantiateHomeScreenFrom:currentViewController animated:NO completion:nil];
+                            
+                        } else {
+                            //redirecto to register screen using storyboard
+                            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+                            RegisterViewController *destViewController = (RegisterViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RegisterViewController"];
+                            [currentViewController.navigationController pushViewController:destViewController animated:YES];
+                        }
+                        
+                        // subscribe user default channel for notification.
+                        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                        [currentInstallation addUniqueObject:[NSString stringWithFormat:@"user_%@",[user objectId]] forKey:@"channels"];
+                        [currentInstallation saveInBackground];
+                        
+                        NSLog(@"currentInstallation: %@", currentInstallation);
+                        
+                        // dismiss hub
+                        [MBProgressHUD hideHUDForView:currentViewController.view animated:YES];
+                    }];
+                    
+                }
+            }];
+        }
+    }];
+}
+
+
 @end
 
 

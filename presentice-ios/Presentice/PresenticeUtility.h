@@ -123,4 +123,7 @@
 // Call alertView for action
 + (void)callAlert:(NSString*)action withDelegate:(id)delegate;
 
+// Login via Facebook
++ (void)loginViaFacebookIn:(UIViewController*)currentViewController;
+
 @end

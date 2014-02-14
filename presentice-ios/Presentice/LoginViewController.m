@@ -51,8 +51,6 @@
     return self;
 }
 
-
-
 - (void)viewWillAppear:(BOOL)animated {
     //hide navigator if in login view
     [self.navigationController setNavigationBarHidden:YES animated:YES];
@@ -100,69 +98,7 @@
 }
 
 - (void)onLoginFacebook:(QButtonElement *)buttonElement {
-    // Set permissions required from the facebook user account
-    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
-    
-    //start loading hub
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    // Login PFUser using facebook
-    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
-        if (!user) {
-            if (!error) {
-                NSLog(@"Uh oh. The user cancelled the Facebook login.");
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Login error",nil) message:NSLocalizedString(@"You have just cancelled the Facebook register.",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK",nil), nil];
-                [alert show];
-            } else {
-                [PresenticeUtility showErrorAlert:error];
-            }
-        } else {
-            // check if user already registered with facebook
-            [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                if(!error){
-                    //get email from facebook
-                    NSDictionary<FBGraphUser> *me = (NSDictionary<FBGraphUser> *)result;
-                    NSLog(@"%@", me);
-                    NSString *email = [me objectForKey:@"email"];
-                    NSString *facebookId = [me objectForKey:@"id"];
-                    //query User with email
-                    PFQuery *queryUser = [PFUser query];
-                    
-                    if(email != nil && ![email isEqual:@""]){
-                        [queryUser whereKey:kUserNameKey equalTo:email];
-                    } else {
-                        [queryUser whereKey:kUserFacebookIdKey equalTo:facebookId];
-                    }
-                    [queryUser findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                        //if email/facebookId already registered, redirect to main view
-                        if (!error && [objects count] != 0) {
-                            //redirect using storyboard
-                            //if user already login, redirect to MainViewController
-                            if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]])
-                                [PresenticeUtility instantiateHomeScreenFrom:self animated:NO completion:nil];
-                            
-                        } else {
-                            //redirecto to register screen using storyboard
-                            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-                            RegisterViewController *destViewController = (RegisterViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RegisterViewController"];
-                            [self.navigationController pushViewController:destViewController animated:YES];
-                        }
-                        
-                        // subscribe user default channel for notification.
-                        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-                        [currentInstallation addUniqueObject:[NSString stringWithFormat:@"user_%@",[user objectId]] forKey:@"channels"];
-                        [currentInstallation saveInBackground];
-                        
-                        NSLog(@"currentInstallation: %@", currentInstallation);
-                        
-                        // dismiss hub
-                        [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    }];
-                    
-                }
-            }];
-        }
-    }];
+    [PresenticeUtility loginViaFacebookIn:self];
 }
 
 - (void)onRequestPasswordReset:(QButtonElement *)buttonElement {
@@ -189,13 +125,18 @@
     [PFUser requestPasswordResetForEmailInBackground:email block:^(BOOL succeeded, NSError *error) {
         if (error) {
             NSString *alertMessage = [NSString stringWithFormat:NSLocalizedString(@"The email address %@ has not been registered.",nil), email];
-            UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Email address error!",nil) message:alertMessage delegate:nil cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles: nil];
-            passwordResetAlert.tag = 0;
+            UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Email address error!",nil)
+                                                                         message:alertMessage
+                                                                        delegate:nil
+                                                               cancelButtonTitle:NSLocalizedString(@"OK",nil)
+                                                               otherButtonTitles:nil];
             [passwordResetAlert show];
         } else {
             NSString *alertMessage = [NSString stringWithFormat:NSLocalizedString(@"An email from our provider Parse has been sent to you. Please check you email: %@",nil), email];
-            UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Confirmation email sent",nil) message:alertMessage delegate:nil cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles: nil];
-            passwordResetAlert.tag = 1;
+            UIAlertView *passwordResetAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Confirmation email sent",nil)
+                                                                         message:alertMessage delegate:nil
+                                                               cancelButtonTitle:NSLocalizedString(@"OK",nil)
+                                                               otherButtonTitles:nil];
             [passwordResetAlert show];
         }
     }];
@@ -222,7 +163,6 @@
 	if([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
         [PresenticeUtility instantiateHomeScreenFrom:self animated:NO completion:nil];
     }
-    
 }
 
 - (void)didReceiveMemoryWarning {

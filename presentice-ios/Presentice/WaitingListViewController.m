@@ -65,10 +65,7 @@
 }
 
 - (IBAction)checkStatus:(id)sender {
-    if ([[[[PFUser currentUser] objectForKey:kUserPromotionKey] fetchIfNeeded] objectForKey:kPromotionActivatedKey] == nil || [[[[[PFUser currentUser] objectForKey:kUserPromotionKey] fetchIfNeeded] objectForKey:kPromotionActivatedKey] boolValue] == false) {
-        
-        [PresenticeUtility callAlert:alertDidDenyAction withDelegate:nil];
-    }
+    [PresenticeUtility loginViaFacebookIn:self];
 }
 
 - (IBAction)inquire:(id)sender {
