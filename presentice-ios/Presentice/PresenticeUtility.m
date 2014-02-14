@@ -551,6 +551,14 @@
     }
 }
 
++ (void)navigateToTakeReviewOfVideo:(PFObject *)aVideo from:(UIViewController *)currentViewController {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    TakeReviewViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"takeReviewViewController"];
+    
+    destViewController.videoObj = aVideo;
+    [currentViewController.navigationController pushViewController:destViewController animated:YES];
+}
+
 // Instantiate View Controller
 + (void)instantiateHomeScreenFrom:(UIViewController *)currentViewController animated:(BOOL)animated completion:(void (^)(void))completion {
     //get main storyboard
@@ -961,8 +969,25 @@
                                                        otherButtonTitles:nil];
         activatedAlert.tag = tagDidDenyAction;
         [activatedAlert show];
+        
+    } else if ([action isEqualToString:alertLetsAnswer]) {
+        UIAlertView *letsAnswerAlert = [[UIAlertView alloc] initWithTitle:@"Answer this question"
+                                                                  message:@"Why not give it a try on this one?"
+                                                                 delegate:delegate
+                                                        cancelButtonTitle:@"Later"
+                                                        otherButtonTitles:@"Yeah, go ahead", nil];
+        letsAnswerAlert.tag = tagLetsAnswer;
+        [letsAnswerAlert show];
+        
+    } else if ([action isEqualToString:alertLetsReview]) {
+        UIAlertView *letsReviewAlert = [[UIAlertView alloc] initWithTitle:@"Review this answer"
+                                                                  message:@"Let's give it a review. It only takes 10 seconds."
+                                                                 delegate:delegate
+                                                        cancelButtonTitle:@"Later"
+                                                        otherButtonTitles:@"Yeah, go ahead", nil];
+        letsReviewAlert.tag = tagLetsReview;
+        [letsReviewAlert show];
     }
-    
 }
 
 @end

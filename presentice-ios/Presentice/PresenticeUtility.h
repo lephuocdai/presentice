@@ -91,6 +91,8 @@
 + (void)navigateToFindFriendsFrom:(UIViewController*)currentViewController;
 + (void)navigateToReviewDetail:(PFObject*)aReview from:(UIViewController *)currentViewController;
 + (void)navigateToVideoView:(PFObject*)aVideo from:(UIViewController *)currentViewController;
++ (void)navigateToTakeReviewOfVideo:(PFObject*)aVideo from:(UIViewController *)currentViewController;
+
 
 // Instantiate View Controller
 + (void)instantiateViewController:(NSString*)controllerName inWindow:(UIWindow*)window;

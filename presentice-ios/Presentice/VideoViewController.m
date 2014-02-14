@@ -242,6 +242,25 @@
 
 - (void)moviePlayBackDidFinish:(NSNotification *)notification {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+    
+    if (!([self isBeingDismissed] || [self isMovingFromParentViewController] || [[PFUser currentUser].objectId isEqualToString:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId]])) {
+        PFQuery *checkDidReviewQuery = [PFQuery queryWithClassName:kActivityClassKey];
+        [checkDidReviewQuery whereKey:kActivityTypeKey equalTo:@"review"];
+        [checkDidReviewQuery whereKey:kActivityFromUserKey equalTo:[PFUser currentUser]];
+        [checkDidReviewQuery whereKey:kActivityTargetVideoKey equalTo:self.answerVideoObj];
+        [checkDidReviewQuery countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+            if (!error) {
+                if (number == 0) {
+                    [PresenticeUtility callAlert:alertLetsReview withDelegate:self];
+                } else {
+                    NSLog(@"Already reviewed");
+                }
+            } else {
+                [PresenticeUtility showErrorAlert:error];
+            }
+        }];
+    } else
+        NSLog(@"Should not ask for reviewing");
 }
 - (void)willEnterFullScreen:(NSNotification *)notification {
     NSLog(@"Enter full screen mode");
@@ -403,6 +422,10 @@
                 }
             }];
         }
+    } else if (alertView.tag == tagLetsReview) {
+        if (buttonIndex == 1) {
+            [PresenticeUtility navigateToTakeReviewOfVideo:self.answerVideoObj from:self];
+        }
     }
 }
 
@@ -410,12 +433,12 @@
     [self.movieController pause];
     
     if (![[[PFUser currentUser] objectId] isEqualToString:[[self.answerVideoObj objectForKey:kVideoUserKey] objectId]]) { // If currentUser is not the video's owner, navigate to TakeReview
-        
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-        TakeReviewViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"takeReviewViewController"];
-        
-        destViewController.videoObj = self.answerVideoObj;
-        [self.navigationController pushViewController:destViewController animated:YES];
+        [PresenticeUtility navigateToTakeReviewOfVideo:self.answerVideoObj from:self];
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+//        TakeReviewViewController *destViewController = [storyboard instantiateViewControllerWithIdentifier:@"takeReviewViewController"];
+//        
+//        destViewController.videoObj = self.answerVideoObj;
+//        [self.navigationController pushViewController:destViewController animated:YES];
     } else { // If currentUser is the video's owner, let her edit the video
         [PresenticeUtility callAlert:alertWillEditVideo withDelegate:self];
 

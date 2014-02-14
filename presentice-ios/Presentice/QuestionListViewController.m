@@ -66,6 +66,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:YES];
+    NSLog(@"question list self = %@", self);
     
     // Hid all HUD after all objects appered
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];

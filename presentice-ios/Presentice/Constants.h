@@ -172,6 +172,12 @@
 #define alertDidDenyAction @"didDenyAction"
 #define tagDidDenyAction 21
 
+#define alertLetsAnswer @"letsAnswer"
+#define tagLetsAnswer 22
+
+#define alertLetsReview @"letsReview"
+#define tagLetsReview 23
+
 
 
 #define REVIEW_MAX_VALUE 5

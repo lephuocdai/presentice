@@ -224,6 +224,24 @@
 
 - (void)moviePlayBackDidFinish:(NSNotification *)notification {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+    if (!([self isBeingDismissed] || [self isMovingFromParentViewController])) {
+        PFQuery *checkDidAnswerQuery = [PFQuery queryWithClassName:kVideoClassKey];
+        [checkDidAnswerQuery whereKey:kVideoUserKey equalTo:[PFUser currentUser]];
+        [checkDidAnswerQuery whereKey:kVideoAsAReplyTo equalTo:self.questionVideoObj];
+        [checkDidAnswerQuery countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+            if (!error) {
+                if (number == 0) {
+                    [PresenticeUtility callAlert:alertLetsAnswer withDelegate:self];
+                    NSLog(@"moviePlayBackDidFinish self = %@", self);
+                } else {
+                    NSLog(@"Already answered");
+                }
+            } else {
+                [PresenticeUtility showErrorAlert:error];
+            }
+        }];
+    } else
+        NSLog(@"Should not ask for answering");	
 }
 
 - (void)willEnterFullScreen:(NSNotification *)notification {
@@ -296,6 +314,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(alertView.tag == tagWillTakeAnswer){
+        NSLog(@"take answer self = %@", self);
         self.newAnswerVideoName = [alertView textFieldAtIndex:0].text;
         if (buttonIndex > 0) {
             if (buttonIndex == 1) {
@@ -349,6 +368,11 @@
             editNoteViewController.videoObj = self.questionVideoObj;
             
             [self.navigationController pushViewController:editNoteViewController animated:YES];
+        }
+    } else if (alertView.tag == tagLetsAnswer) {
+        if (buttonIndex == 1) {
+            NSLog(@"call alertWillTakeAnswer self = %@", self);
+            [PresenticeUtility callAlert:alertWillTakeAnswer withDelegate:self];
         }
     }
 }
