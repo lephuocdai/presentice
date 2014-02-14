@@ -8,15 +8,18 @@
 
 #import "PresenticeUtility.h"
 #import "PresenticeCache.h"
+#import <MessageUI/MessageUI.h>
 
 #import "FindFriendCell.h"
 
 #import "UserProfileViewController.h"
 
 
-@interface FindFriendViewController : PFQueryTableViewController <FindFriendCellDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface FindFriendViewController : PFQueryTableViewController <FindFriendCellDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
+
 - (IBAction)showLeftMenu:(id)sender;
 - (IBAction)showRightMenu:(id)sender;
+- (IBAction)inviteFriends:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *followAllBtn;
 
 @end

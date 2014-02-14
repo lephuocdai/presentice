@@ -27,7 +27,7 @@
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
     
-//    [NewRelicAgent startWithApplicationToken:NEWRELIC_APPLICATION_ID];
+    [NewRelicAgent startWithApplicationToken:NEWRELIC_APPLICATION_ID];
     
     // Extract the notification data
 //    NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];

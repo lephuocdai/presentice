@@ -311,31 +311,6 @@
     [controller presentViewController:picker animated:YES completion:NULL];
 }
 
-/**
-+ (void)startMovieController:(MPMoviePlayerController*)movieController inView:(UIView*)videoView withFrame:(CGRect)rect url:(NSURL*)url{
-    
-    // Set up movieController
-    movieController = [[MPMoviePlayerController alloc] init];
-    [movieController setContentURL:url];
-    [movieController.view setFrame:rect];
-    [videoView addSubview:movieController.view];
-    
-    movieController.controlStyle =  MPMovieControlStyleEmbedded;
-    movieController.shouldAutoplay = YES;
-    movieController.repeatMode = YES;
-    [movieController prepareToPlay];
-    [movieController play];
-}
-
-+ (void)moviePlayBackDidFinish:(NSNotification *)notification observer:(id)observer{
-    [[NSNotificationCenter defaultCenter] removeObserver:observer name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
-}
-
-+ (void)willEnterFullScreen:(NSNotification *)notification{
-    NSLog(@"Enter full screen mode");
-}
-**/
-
 + (NSString*)stringNumberOfKey:(NSString *)key inObject:(PFObject *)object {
     if ([key isEqualToString:kVideoAnswersKey]) {
         PFRelation *relation = [object relationforKey:kVideoAnswersKey];

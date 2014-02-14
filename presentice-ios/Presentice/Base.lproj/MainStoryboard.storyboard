@@ -352,6 +352,9 @@
                                     <state key="normal" title="Invite friends">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="inviteFriends:" destination="UQd-Wk-Q35" eventType="touchUpInside" id="9P2-pj-irH"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="uib-rL-ZEp">
                                     <rect key="frame" x="158" y="7" width="152" height="30"/>

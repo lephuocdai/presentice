@@ -238,4 +238,43 @@ typedef enum {
 - (IBAction)showRightMenu:(id)sender {
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
+- (IBAction)inviteFriends:(id)sender {
+    // Email Subject
+    NSString *emailTitle = [NSString stringWithFormat:NSLocalizedString(@"Invitation to Presentice [%@]", nil), [[PFUser currentUser] objectId]];
+    // Email Content
+    NSString *myCode = [[[[PFUser currentUser] objectForKey:kUserPromotionKey] fetchIfNeeded] objectForKey:kPromotionMyCodeKey];
+    NSString *messageBody = [NSString stringWithFormat:NSLocalizedString(@"Hi there, I'm using Presentice and have found it awesome.\nCheck it out if you wanna improve your interview performance: www.presentice.com/?utm_source=Invitation&utm_medium=Email&utm_inviteUser=%@ \nUse this invitation code for registration: %@",nil), [PFUser currentUser].objectId,myCode];
+    // To address
+    NSArray *toRecipents = [NSArray arrayWithObject:@"info@presentice.com"];
+    
+    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+    mc.mailComposeDelegate = self;
+    [mc setSubject:emailTitle];
+    [mc setMessageBody:messageBody isHTML:NO];
+    [mc setCcRecipients:toRecipents];
+    
+    // Present mail view controller on screen
+    [self presentViewController:mc animated:YES completion:NULL];
+}
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    switch (result) {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent:
+            NSLog(@"Mail sent");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+    
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
 @end

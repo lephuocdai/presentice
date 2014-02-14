@@ -17,8 +17,8 @@
 "An email from our provider Parse has been sent to you. Please check you email: %@" = "パスワード変更の確認メールを弊社のプロバイダーであるParse社から送られてきたと思います。あなたのメールアドレスをご確認ください: %@";
 "Confirmation email sent" = "確認メールを送信済み";
 "OK" = "了解";
-"[%@]Inquiry" = "[%@]お問い合わせ";
-"Hi there, I have an inquiry." = "今日は。お問い合わせがありますが、";
+"Inquiry [%@]" = "お問い合わせ [%@]";
+"Hi there, I have an inquiry." = "お問い合わせの内容:";
 "Have an inquiry? Contact us" = "お問い合わせする";
 "Notification center" = "通知センター";
 "Email" = "メール";
@@ -105,6 +105,9 @@
 // My List View
 "Reviews: %d" = "レビュー数: %d";
 
+// Find Friends View
+"Invitation to Presentice [%@]" = "プレゼンティスへのご招待 [%@]";
+"Hi there, I'm using Presentice and have found it awesome.\nCheck it out if you wanna improve your interview performance: www.presentice.com/?utm_source=Invitation&utm_medium=Email&utm_inviteUser=%@ \nUse this invitation code for registration: %@" = "面接の練習でプレゼンティスを使っています。すごく役に立ちます。\n面接で圧勝するならこれを要チェック: www.presentice.com/?utm_source=Invitation&utm_medium=Email&utm_inviteUser=%@ \n登録の際に私の招待コードを使って下さい: %@";
 
 
 // PresenticeUtitily

@@ -179,7 +179,7 @@
     } else if (alertView.tag == tagWillInquire) {
         if (buttonIndex == 1) {
             // Email Subject
-            NSString *emailTitle = [NSString stringWithFormat:NSLocalizedString(@"[%@]Inquiry", nil), [[PFUser currentUser] objectId]];
+            NSString *emailTitle = [NSString stringWithFormat:NSLocalizedString(@"Inquiry [%@]", nil), [[PFUser currentUser] objectId]];
             // Email Content
             NSString *messageBody = NSLocalizedString(@"Hi there, I have an inquiry.",nil);
             // To address
