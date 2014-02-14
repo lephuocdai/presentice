@@ -773,7 +773,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="note of this video" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" id="xmi-NI-UDJ">
-                                    <rect key="frame" x="5" y="500" width="310" height="45"/>
+                                    <rect key="frame" x="5" y="505" width="310" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <nil key="highlightedColor"/>
@@ -790,8 +790,8 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="averagePoint" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9H4-Wd-IP9">
-                                    <rect key="frame" x="205" y="470" width="110" height="21"/>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="averagePoint" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9H4-Wd-IP9">
+                                    <rect key="frame" x="205" y="470" width="110" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <nil key="highlightedColor"/>
@@ -1159,7 +1159,7 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="103" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="postedTime" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kSx-M1-ecO">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="103" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="postedTime" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kSx-M1-ecO">
                                             <rect key="frame" x="245" y="5" width="70" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -1600,24 +1600,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kKX-vo-i3R" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2777" y="-1626"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Ga0-lt-qcm">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Xc4-lE-ERR" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Z6w-Ay-YRY">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="fAV-9g-ZVl" kind="relationship" relationship="rootViewController" id="zWa-sh-34F"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aqr-wK-EP7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3843" y="-3100"/>
         </scene>
     </scenes>
     <resources>

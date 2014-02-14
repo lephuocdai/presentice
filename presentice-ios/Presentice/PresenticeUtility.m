@@ -311,23 +311,6 @@
     [controller presentViewController:picker animated:YES completion:NULL];
 }
 
-
-
-//+ (NSString*)stringNumberOfKey:(NSString *)key inObject:(PFObject *)object {
-//    if ([key isEqualToString:kVideoAnswersKey]) {
-//        PFRelation *relation = [object relationforKey:kVideoAnswersKey];
-//        PFQuery *query = relation.query;
-//        int count = [query countObjects];
-//        return [NSString stringWithFormat:@"%@: %d", NSLocalizedString([key capitalizedString], nil) , count];
-//    } else {
-//        if ([object objectForKey:key]) {
-//            return [NSString stringWithFormat:@"%@: %@", NSLocalizedString([key capitalizedString], nil), [object objectForKey:key]];
-//        } else {
-//            return [NSString stringWithFormat:@"%@: 0", NSLocalizedString([key capitalizedString], nil)];
-//        }
-//    }
-//}
-
 + (NSString*)visibilityOfVideo:(PFObject *)videoObj {
     NSString *visibility = [videoObj objectForKey:kVideoVisibilityKey];
     
@@ -374,23 +357,26 @@
         [pointQuery whereKey:kActivityTargetVideoKey equalTo:anObject];
         pointQuery.limit = 1000;
         [pointQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            float sum = 0.0;
             if (!error) {
-                if (objects.count == 0)
-                    sum = 0;
-                for (PFObject *object in objects) {
-                    NSDictionary *content = [object objectForKey:kActivityContentKey];
-                    NSDictionary *points = [content objectForKey:kActivityReviewCriteriaKey];
-                    NSArray *criteria = [[NSArray alloc] initWithArray:[points allKeys]];
-                    float average = 0.0;
-                    for (NSString *criterium in criteria)
-                        average += [[points objectForKey:criterium] floatValue];
-                    average /= criteria.count;
-                    sum += average;
+                if (objects.count == 0) {
+                    aLabel.text = @"No reviews";
+                } else {
+                    float sum = 0.0;
+                    for (PFObject *object in objects) {
+                        NSDictionary *content = [object objectForKey:kActivityContentKey];
+                        NSDictionary *points = [content objectForKey:kActivityReviewCriteriaKey];
+                        NSArray *criteria = [[NSArray alloc] initWithArray:[points allKeys]];
+                        float average = 0.0;
+                        for (NSString *criterium in criteria)
+                            average += [[points objectForKey:criterium] floatValue];
+                        average /= criteria.count;
+                        sum += average;
+                    }
+                    sum /= objects.count;
+                    aLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Reviews: %d\nAverage: %.1f", nil), objects.count, sum];
                 }
-                sum /= objects.count;
-                aLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Average review: %.1f", nil), sum];
-                
+            } else {
+                [PresenticeUtility showErrorAlert:error];
             }
         }];
     } else if ([key isEqualToString:kVideoAnswersKey]) {

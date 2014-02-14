@@ -93,7 +93,7 @@
 "Video Saving Failed" = "動画保存エラー";
 
 // Question Detail View
-"Note for viewer:\n%@" = "閲覧用のメモ:\n%@";
+"Note for viewer:%@" = "閲覧用のメモ:%@";
 "Answers of this challenge" = "この質問の回答一覧";
 "view: %@" = "閲覧数: %@";
 "reviews: %d" = "レニュー数: %d";
@@ -101,8 +101,9 @@
 // Video View
 "Edit" = "編集";
 "Review" = "レビュー";
-"Average review: %.1f" = "平均点: %.1f";
-"This is an answer of:\n%@" = "質問動画:\n%@";
+"Reviews: %d\nAverage: %.1f" = "レビュー数: %d\n平均点: %.1f";
+"This is an answer of:%@" = "質問動画:%@";
+"This is an answer of" = "質問動画";
 "Comments about this video" = "この動画についてのコメント一覧";
 "There is no commet for this video. Be the first person to review it." = "この動画についてのコメントはありません。レビューしてあげませんか？";
 "There is no comment for this video. Request some of your friends to review it." = "この動画についてのコメントはありません。誰かにレビューしてもらうようにリクエストしてみませんか？";

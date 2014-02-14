@@ -54,10 +54,10 @@
     videoNameLabel.text = [self.questionVideoObj objectForKey:kVideoNameKey];
     postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:self.questionVideoObj.updatedAt] dateTimeUntilNow]];
     
-    noteView.text = [NSString stringWithFormat:NSLocalizedString(@"Note for viewer:\n%@", nil),[self.questionVideoObj objectForKey:kVideoNoteKey]];
+    noteView.text = [NSString stringWithFormat:NSLocalizedString(@"Note for viewer:%@", nil),[self.questionVideoObj objectForKey:kVideoNoteKey]];
     
     // There is a bug with iOS 6
-    // [noteView boldSubstring:@"Note for viewer:"];
+    [noteView boldSubstring:NSLocalizedString(@"Note for viewer", nil)];
     
     // Set tap gesture on noteview
     UITapGestureRecognizer *singleTapForNote = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnNoteView)];
@@ -216,7 +216,7 @@
     if ([self.objects count] == 0) {
         answerListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
-    [answerListQuery orderByAscending:kUpdatedAtKey];
+    [answerListQuery orderByAscending:kVideoViewsKey];
     return answerListQuery;
 }
 

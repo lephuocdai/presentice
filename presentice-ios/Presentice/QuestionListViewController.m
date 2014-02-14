@@ -101,7 +101,7 @@
         questionListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
     
-    [questionListQuery orderByAscending:kUpdatedAtKey];
+    [questionListQuery orderByAscending:kVideoViewsKey];
     return questionListQuery;
 }
 

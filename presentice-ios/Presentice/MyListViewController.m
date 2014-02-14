@@ -92,7 +92,7 @@
         myListQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
     
-    [myListQuery orderByDescending:kCreatedAtKey];
+    [myListQuery orderByAscending:kVideoViewsKey];
     return myListQuery;
 }
 
@@ -120,6 +120,7 @@
     }
     
     videoName.text = [PresenticeUtility nameOfVideo:object];
+    
     postedTime.text = [NSString stringWithFormat:@"%@", [[[NSDate alloc] initWithTimeInterval:0 sinceDate:object.createdAt] dateTimeUntilNow]];
     [PresenticeUtility setLabel:viewsNum withKey:kVideoViewsKey forObject:object];
     visibility.text = [PresenticeUtility visibilityOfVideo:object];

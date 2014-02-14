@@ -55,10 +55,10 @@
     [PresenticeUtility setLabel:viewNumLabel withKey:kVideoViewsKey forObject:self.answerVideoObj];
     visibilityLabel.text = [PresenticeUtility visibilityOfVideo:self.answerVideoObj];
     [PresenticeUtility setLabel:averagePoint withKey:kVideoAveragePoint forObject:self.answerVideoObj];
-    questionVideoLabel.text = [NSString stringWithFormat:NSLocalizedString(@"This is an answer of:\n%@", nil), [[self.answerVideoObj objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]];
+    questionVideoLabel.text = [NSString stringWithFormat:NSLocalizedString(@"This is an answer of:%@", nil), [[self.answerVideoObj objectForKey:kVideoAsAReplyTo] objectForKey:kVideoNameKey]];
     [questionVideoLabel sizeToFit];
     // There is a bug with iOS 6
-//    [questionVideoLabel boldSubstring:@"This is an answer of:"];
+    [questionVideoLabel boldSubstring:NSLocalizedString(@"This is an answer of", nil)];
     
     // Set tap gesture on questionVideoLabel when not pushed from Question Detail
     if (![[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2] isKindOfClass:NSClassFromString(@"QuestionDetailViewController")]) {
@@ -68,9 +68,10 @@
         [questionVideoLabel addGestureRecognizer:singleTapForQuestion];
     }
     
-    noteView.text = [NSString stringWithFormat:NSLocalizedString(@"Note for viewer:\n%@", nil), [self.answerVideoObj objectForKey:kVideoNoteKey]];
+    noteView.text = [NSString stringWithFormat:NSLocalizedString(@"Note for viewer:%@", nil), [self.answerVideoObj objectForKey:kVideoNoteKey]];
     // There is a bug with iOS 6
-//    [noteView boldSubstring:@"Note for viewer:"];
+    [noteView boldSubstring:NSLocalizedString(@"Note for viewer", nil)];
+    
     // Set tap gesture on noteview
     UITapGestureRecognizer *singleTapForNote = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionHandleTapOnNoteView)];
     [singleTapForNote setNumberOfTapsRequired:1];
