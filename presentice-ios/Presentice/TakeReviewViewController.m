@@ -136,7 +136,10 @@ PFObject *reviewObj;
                 //call cloud code and set Promotion
                 NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
                 [params setObject:[[self.videoObj objectForKey:kVideoToUserKey] objectId] forKey:@"toUser"];
-                [params setObject:comment.textValue forKey:@"comment"];
+                if (comment.textValue)
+                    [params setObject:comment.textValue forKey:@"comment"];
+                else
+                    [params setObject:@"" forKey:@"comment"];
                 NSLog(@"params: %@", params);
                 [PFCloud callFunction:@"onReviewed" withParameters:params];
 

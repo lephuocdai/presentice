@@ -226,7 +226,7 @@
     PFQuery *reviewListQuery = [PFQuery queryWithClassName:self.parseClassName];
     [reviewListQuery whereKey:kActivityTypeKey equalTo:@"review"];
     [reviewListQuery whereKey:kActivityTargetVideoKey equalTo:self.answerVideoObj];
-    [reviewListQuery whereKey:kActivityDescriptionKey notEqualTo:@""];
+    [reviewListQuery whereKey:kActivityDescriptionKey notEqualTo:[NSNull null]];
     [reviewListQuery includeKey:kActivityFromUserKey];   // Important: Include "fromUser" key in this query make receiving user info easier
     [reviewListQuery includeKey:kActivityToUserKey];
     [reviewListQuery includeKey:kActivityTargetVideoKey];
